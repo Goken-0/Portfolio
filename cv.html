@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <!--ENCODAGE HTML POUR EMOJIS ETC-->
+    <meta charset="UTF-8">
+
+    <!-- Permet au site de s’adapter aux écrans (PC, mobile, tablette) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Icônes en haut de l'onglet -->
+    <link rel="icon" href="assets/icons/icon.ico" type="image/x-icon">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/icon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/icon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+    <link rel="manifest" href="assets/icons/site.webmanifest">
+
+    <!--RELIER LA BIBLIOTHEQUE D'ICONES EXTERNE (FONT AWESOME)-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <!--RELIER LE FICHIER CSS EXTERNE-->
+    <link rel="stylesheet" href="css/style.css">
+    <!--TITRE DE L'ONGLET-->
+    <title>Portfolio Léo - CV</title>
+</head>
+
+<body>
+    <!-- Librairie Three.js pour gérer le canvas 3D -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- Script qui gère les étoiles -->
+    <script src="js/stars.js"></script>
+    <!-- Script qui gère le menu "hamburger" sur mobile -->
+    <script src="js/menu.js"></script>
+    <!-- Script qui gère l'animation du cv et de la lettre de motivation -->
+    <script src="js/animation-cv.js"></script>
+
+    <!-- HEADER / NAV -->
+    <header>
+        <nav>
+            <a href="index.html">Accueil</a>
+            <a href="cv.html" class="active">CV</a>
+            <a href="lettremotivation.html">Lettre de motivation</a>
+
+            <!-- Menu déroulant Réalisations -->
+            <div class="dropdown">
+                <a>Réalisations</a>
+                <div class="dropdown-content">
+                    <a href="tps.html">TPs</a>
+                    <a href="projets.html">Projets</a>
+                    <a href="stages.html">Stages</a>
+                </div>
+            </div>
+			<a href="competences.html">Compétences</a>
+            <a href="veille.html">Veille</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
+
+<main>
+    <!--IMAGE DU CV-->
+    <div class="cv-container">
+        <div class="cv-content">
+            <img src="assets/images/cv.jpg" class="cv-img">
+            <a href="assets/pdf/cv.pdf" class="btn-cv" download="CV_METGY_LEO">Télécharger</a>
+        </div>
+    </div>
+</main>
+
+<!--CREDIT-->
+<footer class="credit">Fait par Léo avec ❤️ - © Tous droits réservés</footer>
+</body>
+
+</html>

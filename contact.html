@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <!--ENCODAGE HTML POUR EMOJIS ETC-->
+    <meta charset="UTF-8">
+
+    <!-- Permet au site de s’adapter aux écrans (PC, mobile, tablette) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Icônes en haut de l'onglet -->
+    <link rel="icon" href="assets/icons/icon.ico" type="image/x-icon">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/icon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/icon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+    <link rel="manifest" href="assets/icons/site.webmanifest">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Portfolio Léo - Contact</title>
+</head>
+
+<body>
+    <!-- Librairie Three.js pour gérer le canvas 3D -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- Script qui gère les étoiles -->
+    <script src="js/stars.js"></script>
+    <!-- Script qui gère le menu "hamburger" sur mobile -->
+    <script src="js/menu.js"></script>
+
+    <!-- HEADER / NAV -->
+    <header>
+        <nav>
+            <a href="index.html">Accueil</a>
+            <a href="cv.html">CV</a>
+            <a href="lettremotivation.html">Lettre de motivation</a>
+
+            <!-- Menu déroulant Réalisations -->
+            <div class="dropdown">
+                <a>Réalisations</a>
+                <div class="dropdown-content">
+                    <a href="tps.html">TPs</a>
+                    <a href="projets.html">Projets</a>
+                    <a href="stages.html">Stages</a>
+                </div>
+            </div>
+			<a href="competences.html">Compétences</a>
+            <a href="veille.html">Veille</a>
+            <a href="contact.html" class="active">Contact</a>
+        </nav>
+    </header>
+
+    <!-- CONTENU PRINCIPAL -->
+    <main>
+        <div class="contact-wrapper">
+
+            <!-- FORMULAIRE CONTACT -->
+            <main>
+                <div class="contact-wrapper">
+                    <h2 class="contact-title">Contactez <span>Moi</span></h2>
+                    <div class="formulaire-container">
+                        <form action="https://formspree.io/f/mpwjegye" method="post">
+                            <input type="text" id="name" name="name" placeholder="Nom" required>
+                            <input type="text" id="firstname" name="firstname" placeholder="Prénom" required>
+                            <input type="email" id="email" name="email" placeholder="Email" required>
+                            <textarea id="message" name="message" placeholder="Votre message" rows="5"
+                                required></textarea>
+                            <button type="submit">Envoyer</button>
+                        </form>
+                    </div>
+                </div>
+            </main>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="credit">Fait par Léo avec ❤️ - © Tous droits réservés</footer>
+
+</body>
+
+</html>

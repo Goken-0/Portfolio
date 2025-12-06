@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <!--ENCODAGE HTML POUR EMOJIS ETC-->
+    <meta charset="UTF-8">
+
+    <!-- Permet au site de s’adapter aux écrans (PC, mobile, tablette) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Icônes en haut de l'onglet -->
+    <link rel="icon" href="assets/icons/icon.ico" type="image/x-icon">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/icon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/icon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+    <link rel="manifest" href="assets/icons/site.webmanifest">
+
+    <!--RELIER LA BIBLIOTHEQUE D'ICONES EXTERNE (FONT AWESOME)-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <!--RELIER LE FICHIER CSS EXTERNE-->
+    <link rel="stylesheet" href="css/style.css">
+    <!--TITRE DE L'ONGLET-->
+    <title>Portfolio Léo - Projets</title>
+</head>
+
+<body class="projets-page">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="js/stars.js"></script>
+    <script src="js/menu.js"></script>
+
+    <header>
+        <nav>
+            <a href="index.html">Accueil</a>
+            <a href="cv.html">CV</a>
+            <a href="lettremotivation.html">Lettre de motivation</a>
+            <div class="dropdown">
+                <a>Réalisations</a>
+                <div class="dropdown-content">
+                    <a href="tps.html">TPs</a>
+                    <a href="projets.html" class="active">Projets</a>
+                    <a href="stages.html">Stages</a>
+                </div>
+            </div>
+			<a href="competences.html">Compétences</a>
+            <a href="veille.html">Veille</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="projets-container">
+            <!-- Hero Section -->
+            <div class="projets-hero">
+                <h1>Mes <span>Projets</span></h1>
+                <p class="subtitle">Créations personnelles et réalisations techniques</p>
+            </div>
+
+            <!-- Filtres -->
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all">
+                    <i class="fas fa-th"></i> Tous
+                </button>
+                <button class="filter-btn" data-filter="web">
+                    <i class="fas fa-globe"></i> Web
+                </button>
+                <button class="filter-btn" data-filter="reseau">
+                    <i class="fas fa-network-wired"></i> Réseau
+                </button>
+                <button class="filter-btn" data-filter="systeme">
+                    <i class="fas fa-server"></i> Système
+                </button>
+                <button class="filter-btn" data-filter="securite">
+                    <i class="fas fa-shield-alt"></i> Sécurité
+                </button>
+            </div>
+
+            <!-- Projet en Vedette -->
+            <div class="featured-project">
+                <div class="featured-grid">
+                    <div class="featured-image">
+                        <div class="featured-badge">
+                            <i class="fas fa-star"></i>
+                            Projet Phare
+                        </div>
+                        <!-- Remplacer par votre image -->
+                        <i class="fas fa-code project-image-placeholder"></i>
+                    </div>
+                    <div class="featured-content">
+                        <h2>Nom du Projet Principal</h2>
+                        <p>
+                            Description détaillée du projet le plus important. Expliquez le contexte, les objectifs,
+                            les défis rencontrés et les solutions apportées. Mettez en avant l'impact et les résultats
+                            obtenus.
+                        </p>
+                        <div class="featured-stats">
+                            <div class="stat-item">
+                                <span class="stat-value">500+</span>
+                                <span class="stat-label">Lignes de code</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">3 mois</span>
+                                <span class="stat-label">Durée</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">100%</span>
+                                <span class="stat-label">Fonctionnel</span>
+                            </div>
+                        </div>
+                        <div class="featured-tech">
+                            <span class="tech-tag">React</span>
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">MongoDB</span>
+                            <span class="tech-tag">Docker</span>
+                        </div>
+                        <div class="featured-actions">
+                            <a href="#" class="featured-btn primary">
+                                <i class="fas fa-eye"></i> Voir le projet
+                            </a>
+                            <a href="#" class="featured-btn secondary">
+                                <i class="fab fa-github"></i> Code source
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Titre Section -->
+            <h2 class="section-title">
+                <i class="fas fa-folder-open"></i>
+                Tous les Projets
+            </h2>
+
+            <!-- Grille de Projets -->
+            <div class="projects-grid">
+
+                <!-- Projet 1 - EXEMPLE À MODIFIER -->
+                <div class="project-card" data-category="web">
+                    <div class="project-image">
+                        <span class="project-badge">Web</span>
+                        <!-- Remplacer par votre image ou logo -->
+                        <i class="fas fa-laptop-code project-image-placeholder"></i>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-header">
+                            <h3 class="project-title">
+                                <i class="fas fa-shopping-cart"></i>
+                                Site E-commerce
+                            </h3>
+                        </div>
+                        <p class="project-description">
+                            Développement d'une plateforme e-commerce complète avec panier, paiement et gestion des
+                            commandes.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-tag">HTML5</span>
+                            <span class="tech-tag">CSS3</span>
+                            <span class="tech-tag">JavaScript</span>
+                            <span class="tech-tag">PHP</span>
+                        </div>
+                        <div class="project-footer">
+                            <span class="project-date">
+                                <i class="far fa-calendar"></i> 2024
+                            </span>
+                            <div class="project-links">
+                                <a href="#" class="project-link" title="Voir le projet">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                                <a href="#" class="project-link" title="Code source">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Projet 2 - EXEMPLE À MODIFIER -->
+                <div class="project-card" data-category="reseau">
+                    <div class="project-image">
+                        <span class="project-badge">Réseau</span>
+                        <i class="fas fa-network-wired project-image-placeholder"></i>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-header">
+                            <h3 class="project-title">
+                                <i class="fas fa-project-diagram"></i>
+                                Infrastructure Réseau
+                            </h3>
+                        </div>
+                        <p class="project-description">
+                            Conception et mise en place d'une infrastructure réseau sécurisée avec VLANs et routage
+                            inter-VLANs.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Cisco</span>
+                            <span class="tech-tag">VLANs</span>
+                            <span class="tech-tag">Routing</span>
+                            <span class="tech-tag">Firewall</span>
+                        </div>
+                        <div class="project-footer">
+                            <span class="project-date">
+                                <i class="far fa-calendar"></i> 2024
+                            </span>
+                            <div class="project-links">
+                                <a href="#" class="project-link" title="Documentation">
+                                    <i class="fas fa-file-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Projet 3 - EXEMPLE À MODIFIER -->
+                <div class="project-card" data-category="systeme">
+                    <div class="project-image">
+                        <span class="project-badge">Système</span>
+                        <i class="fas fa-server project-image-placeholder"></i>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-header">
+                            <h3 class="project-title">
+                                <i class="fas fa-hdd"></i>
+                                Serveur Web Linux
+                            </h3>
+                        </div>
+                        <p class="project-description">
+                            Installation et configuration d'un serveur web LAMP avec gestion des utilisateurs et
+                            sécurisation.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Linux</span>
+                            <span class="tech-tag">Apache</span>
+                            <span class="tech-tag">MySQL</span>
+                            <span class="tech-tag">PHP</span>
+                        </div>
+                        <div class="project-footer">
+                            <span class="project-date">
+                                <i class="far fa-calendar"></i> 2023
+                            </span>
+                            <div class="project-links">
+                                <a href="#" class="project-link" title="Documentation">
+                                    <i class="fas fa-book"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Projet 4 - EXEMPLE À MODIFIER -->
+                <div class="project-card" data-category="web">
+                    <div class="project-image">
+                        <span class="project-badge">Web</span>
+                        <i class="fas fa-mobile-alt project-image-placeholder"></i>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-header">
+                            <h3 class="project-title">
+                                <i class="fas fa-paint-brush"></i>
+                                Application Mobile
+                            </h3>
+                        </div>
+                        <p class="project-description">
+                            Création d'une application mobile responsive avec interface moderne et fonctionnalités
+                            interactives.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-tag">React Native</span>
+                            <span class="tech-tag">Firebase</span>
+                            <span class="tech-tag">API REST</span>
+                        </div>
+                        <div class="project-footer">
+                            <span class="project-date">
+                                <i class="far fa-calendar"></i> 2024
+                            </span>
+                            <div class="project-links">
+                                <a href="#" class="project-link" title="Démo">
+                                    <i class="fas fa-play"></i>
+                                </a>
+                                <a href="#" class="project-link" title="GitHub">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Projet 5 - EXEMPLE À MODIFIER -->
+                <div class="project-card" data-category="securite">
+                    <div class="project-image">
+                        <span class="project-badge">Sécurité</span>
+                        <i class="fas fa-shield-alt project-image-placeholder"></i>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-header">
+                            <h3 class="project-title">
+                                <i class="fas fa-lock"></i>
+                                Audit de Sécurité
+                            </h3>
+                        </div>
+                        <p class="project-description">
+                            Réalisation d'un audit de sécurité complet avec tests de pénétration et recommandations.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Kali Linux</span>
+                            <span class="tech-tag">Nmap</span>
+                            <span class="tech-tag">Metasploit</span>
+                            <span class="tech-tag">Wireshark</span>
+                        </div>
+                        <div class="project-footer">
+                            <span class="project-date">
+                                <i class="far fa-calendar"></i> 2023
+                            </span>
+                            <div class="project-links">
+                                <a href="#" class="project-link" title="Rapport">
+                                    <i class="fas fa-file-pdf"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Projet 6 - EXEMPLE À MODIFIER -->
+                <div class="project-card" data-category="web">
+                    <div class="project-image">
+                        <span class="project-badge">Web</span>
+                        <i class="fas fa-blog project-image-placeholder"></i>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-header">
+                            <h3 class="project-title">
+                                <i class="fas fa-pen-fancy"></i>
+                                Blog Personnel
+                            </h3>
+                        </div>
+                        <p class="project-description">
+                            Développement d'un blog avec CMS personnalisé, gestion des articles et système de
+                            commentaires.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-tag">WordPress</span>
+                            <span class="tech-tag">PHP</span>
+                            <span class="tech-tag">MySQL</span>
+                        </div>
+                        <div class="project-footer">
+                            <span class="project-date">
+                                <i class="far fa-calendar"></i> 2023
+                            </span>
+                            <div class="project-links">
+                                <a href="#" class="project-link" title="Visiter">
+                                    <i class="fas fa-globe"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <footer class="credit">Fait par Léo avec ❤️ - © Tous droits réservés</footer>
+    </main>
+
+    <script>
+        // Script pour les filtres de catégories
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const projectCards = document.querySelectorAll('.project-card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Retirer la classe active de tous les boutons
+                filterBtns.forEach(b => b.classList.remove('active'));
+                // Ajouter la classe active au bouton cliqué
+                btn.classList.add('active');
+
+                const filter = btn.dataset.filter;
+
+                projectCards.forEach(card => {
+                    if (filter === 'all' || card.dataset.category === filter) {
+                        card.style.display = 'block';
+                        // Réanimer l'apparition
+                        card.style.animation = 'none';
+                        setTimeout(() => {
+                            card.style.animation = 'projectAppear 0.6s ease-out forwards';
+                        }, 10);
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+
+</html>

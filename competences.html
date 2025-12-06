@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <!--ENCODAGE HTML POUR EMOJIS ETC-->
+    <meta charset="UTF-8">
+
+    <!-- Permet au site de s'adapter aux écrans (PC, mobile, tablette) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Icônes en haut de l'onglet -->
+    <link rel="icon" href="assets/icons/icon.ico" type="image/x-icon">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/icon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/icon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+    <link rel="manifest" href="assets/icons/site.webmanifest">
+
+    <!--RELIER LA BIBLIOTHEQUE D'ICONES EXTERNE (FONT AWESOME)-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <!--RELIER LE FICHIER CSS EXTERNE-->
+    <link rel="stylesheet" href="css/style.css">
+    <!--TITRE DE L'ONGLET-->
+    <title>Portfolio Léo - Compétences</title>
+</head>
+
+<body class="projets-page">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="js/stars.js"></script>
+    <script src="js/menu.js"></script>
+
+    <header>
+        <nav>
+            <a href="index.html">Accueil</a>
+            <a href="cv.html">CV</a>
+            <a href="lettremotivation.html">Lettre de motivation</a>
+            <div class="dropdown">
+                <a>Réalisations</a>
+                <div class="dropdown-content">
+                    <a href="tps.html">TPs</a>
+                    <a href="projets.html">Projets</a>
+                    <a href="stages.html">Stages</a>
+                </div>
+            </div>
+			<a href="competences.html" class="active">Compétences</a>
+            <a href="veille.html">Veille</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="projets-container">
+            <!-- Hero Section -->
+            <div class="projets-hero">
+                <h1>Mes <span>Compétences</span></h1>
+                <p class="subtitle">Savoir-faire technique et professionnel en BTS SIO</p>
+            </div>
+
+            <!-- Filtres -->
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all">
+                    <i class="fas fa-th"></i> Toutes
+                </button>
+                <button class="filter-btn" data-filter="developpement">
+                    <i class="fas fa-code"></i> Développement
+                </button>
+                <button class="filter-btn" data-filter="reseau">
+                    <i class="fas fa-network-wired"></i> Réseau
+                </button>
+                <button class="filter-btn" data-filter="systeme">
+                    <i class="fas fa-server"></i> Système
+                </button>
+                <button class="filter-btn" data-filter="securite">
+                    <i class="fas fa-shield-alt"></i> Sécurité
+                </button>
+            </div>
+
+            <!-- Compétence en Vedette -->
+            <div class="featured-project">
+                <div class="featured-grid">
+                    <div class="featured-image">
+                        <div class="featured-badge">
+                            <i class="fas fa-star"></i>
+                            Compétence Principale
+                        </div>
+                        <i class="fas fa-laptop-code project-image-placeholder"></i>
+                    </div>
+                    <div class="featured-content">
+                        <h2>Développement Web Full-Stack</h2>
+                        <p>
+                            Maîtrise du développement d'applications web complètes, du front-end au back-end. 
+                            Capacité à concevoir des interfaces modernes et responsives, à développer des API 
+                            REST, et à gérer des bases de données. Expérience avec les frameworks modernes et 
+                            les bonnes pratiques de développement.
+                        </p>
+                        <div class="featured-stats">
+                            <div class="stat-item">
+                                <span class="stat-value">10+</span>
+                                <span class="stat-label">Projets réalisés</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">1 an</span>
+                                <span class="stat-label">D'expérience</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">85%</span>
+                                <span class="stat-label">Niveau de maîtrise</span>
+                            </div>
+                        </div>
+                        <div class="featured-tech">
+                            <span class="tech-tag">HTML5</span>
+                            <span class="tech-tag">CSS3</span>
+                            <span class="tech-tag">JavaScript</span>
+                            <span class="tech-tag">PHP</span>
+                            <span class="tech-tag">SQL</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Titre Section -->
+            <h2 class="section-title">
+                <i class="fas fa-toolbox"></i>
+                Toutes mes Compétences
+            </h2>
+
+            <!-- Grille de Compétences -->
+            <div class="projects-grid">
+
+                <!-- Compétence 1 - HTML/CSS -->
+                <div class="project-card" data-category="developpement">
+                    <div class="project-image">
+                        <span class="project-badge">Développement</span>
+                        <i class="fab fa-html5 project-image-placeholder"></i>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-header">
+                            <h3 class="project-title">
+                                <i class="fas fa-palette"></i>
+                                HTML5 & CSS3
+                            </h3>
+                        </div>
+                        <p class="project-description">
+                            Création de pages web structurées et accessibles. Maîtrise du responsive design, 
+                            Flexbox, Grid, et des animations CSS.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-tag">HTML5</span>
+                            <span class="tech-tag">CSS3</span>
+                            <span class="tech-tag">Responsive</span>
+                            <span class="tech-tag">Flexbox</span>
+                        </div>
+                        <div class="project-footer">
+                            <span class="project-date">
+                                <i class="fas fa-signal"></i> Niveau: 90%
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Compétence 2 - JavaScript -->
+                <div class="project-card" data-category="developpement">
+                    <div class="project-image">
+                        <span class="project-badge">Développement</span>
+                        <i class="fab fa-js project-image-placeholder"></i>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-header">
+                            <h3 class="project-title">
+                                <i class="fas fa-code"></i>
+                                JavaScript
+                            </h3>
+                        </div>
+                        <p class="project-description">
+                            Programmation orientée objet, manipulation du DOM, gestion d'événements et requêtes 
+                            asynchrones avec fetch/AJAX.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-tag">ES6+</span>
+                            <span class="tech-tag">DOM</span>
+                            <span class="tech-tag">AJAX</span>
+                            <span class="tech-tag">JSON</span>
+                        </div>
+                        <div class="project-footer">
+                            <span class="project-date">
+                                <i class="fas fa-signal"></i> Niveau: 80%
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Compétence 3 - PHP -->
+                <div class="project-card" data-category="developpement">
+                    <div class="project-image">
+                        <span class="project-badge">Développement</span>
+                        <i class="fab fa-php project-image-placeholder"></i>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-header">
+                            <h3 class="project-title">
+                                <i class="fas fa-server"></i>
+                                PHP & MySQL
+                            </h3>
+                        </div>
+                        <p class="project-description">
+                            Développement back-end avec PHP, gestion de sessions, authentification, et 
+                            manipulation de bases de données MySQL.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-tag">PHP 8</span>
+                            <span class="tech-tag">MySQL</span>
+                            <span class="tech-tag">PDO</span>
+                            <span class="tech-tag">MVC</span>
+                        </div>
+                        <div class="project-footer">
+                            <span class="project-date">
+                                <i class="fas fa-signal"></i> Niveau: 75%
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Compétence 4 - Python -->
+                <div class="project-card" data-category="developpement">
+                    <div class="project-image">
+                        <span class="project-badge">Développement</span>
+                        <i class="fab fa-python project-image-placeholder"></i>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-header">
+                            <h3 class="project-title">
+                                <i class="fas fa-terminal"></i>
+                                Python
+                            </h3>
+                        </div>
+                        <p class="project-description">
+                            Scripts d'automatisation, manipulation de fichiers, et développement d'outils 
+                            pour l'administration système.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Python 3</span>
+                            <span class="tech-tag">Scripts</span>
+                            <span class="tech-tag">Automation</span>
+                        </div>
+                        <div class="project-footer">
+                            <span class="project-date">
+                                <i class="fas fa-signal"></i> Niveau: 70%
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Compétence 5 - Réseau -->
+                <div class="project-card" data-category="reseau">
+                    <div class="project-image">
+                        <span class="project-badge">Réseau</span>
+                        <i class="fas fa-network-wired project-image-placeholder"></i>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-header">
+                            <h3 class="project-title">
+                                <i class="fas fa-project-diagram"></i>
+                                Configuration Réseau
+                            </h3>
+                        </div>
+                        <p class="project-description">
+                            Configuration de routeurs et switches Cisco, VLANs, routage inter-VLANs, et 
+                            protocoles de routage (RIP, OSPF).
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Cisco</span>
+                            <span class="tech-tag">VLANs</span>
+                            <span class="tech-tag">Routing</span>
+                            <span class="tech-tag">TCP/IP</span>
+                        </div>
+                        <div class="project-footer">
+                            <span class="project-date">
+                                <i class="fas fa-signal"></i> Niveau: 75%
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Compétence 6 - Linux -->
+                <div class="project-card" data-category="systeme">
+                    <div class="project-image">
+                        <span class="project-badge">Système</span>
+                        <i class="fab fa-linux project-image-placeholder"></i>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-header">
+                            <h3 class="project-title">
+                                <i class="fas fa-terminal"></i>
+                                Administration Linux
+                            </h3>
+                        </div>
+                        <p class="project-description">
+                            Gestion de serveurs Linux, ligne de commande, gestion des utilisateurs, permissions, 
+                            et installation de services.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Ubuntu</span>
+                            <span class="tech-tag">Debian</span>
+                            <span class="tech-tag">Bash</span>
+                            <span class="tech-tag">SSH</span>
+                        </div>
+                        <div class="project-footer">
+                            <span class="project-date">
+                                <i class="fas fa-signal"></i> Niveau: 70%
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Compétence 7 - Windows Server -->
+                <div class="project-card" data-category="systeme">
+                    <div class="project-image">
+                        <span class="project-badge">Système</span>
+                        <i class="fab fa-windows project-image-placeholder"></i>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-header">
+                            <h3 class="project-title">
+                                <i class="fas fa-server"></i>
+                                Windows Server
+                            </h3>
+                        </div>
+                        <p class="project-description">
+                            Configuration d'Active Directory, gestion des utilisateurs et groupes, GPO, 
+                            et services réseau (DNS, DHCP).
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Active Directory</span>
+                            <span class="tech-tag">GPO</span>
+                            <span class="tech-tag">DNS</span>
+                            <span class="tech-tag">DHCP</span>
+                        </div>
+                        <div class="project-footer">
+                            <span class="project-date">
+                                <i class="fas fa-signal"></i> Niveau: 65%
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Compétence 8 - Base de données -->
+                <div class="project-card" data-category="developpement">
+                    <div class="project-image">
+                        <span class="project-badge">Développement</span>
+                        <i class="fas fa-database project-image-placeholder"></i>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-header">
+                            <h3 class="project-title">
+                                <i class="fas fa-table"></i>
+                                Bases de Données
+                            </h3>
+                        </div>
+                        <p class="project-description">
+                            Conception de schémas relationnels, requêtes SQL avancées, optimisation, et gestion 
+                            de bases MySQL et PostgreSQL.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-tag">MySQL</span>
+                            <span class="tech-tag">SQL</span>
+                            <span class="tech-tag">Merise</span>
+                            <span class="tech-tag">phpMyAdmin</span>
+                        </div>
+                        <div class="project-footer">
+                            <span class="project-date">
+                                <i class="fas fa-signal"></i> Niveau: 80%
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Compétence 9 - Sécurité -->
+                <div class="project-card" data-category="securite">
+                    <div class="project-image">
+                        <span class="project-badge">Sécurité</span>
+                        <i class="fas fa-shield-alt project-image-placeholder"></i>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-header">
+                            <h3 class="project-title">
+                                <i class="fas fa-lock"></i>
+                                Sécurité Informatique
+                            </h3>
+                        </div>
+                        <p class="project-description">
+                            Principes de cybersécurité, configuration de pare-feu, détection de vulnérabilités, 
+                            et bonnes pratiques de sécurisation.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Firewall</span>
+                            <span class="tech-tag">VPN</span>
+                            <span class="tech-tag">Nmap</span>
+                            <span class="tech-tag">Wireshark</span>
+                        </div>
+                        <div class="project-footer">
+                            <span class="project-date">
+                                <i class="fas fa-signal"></i> Niveau: 60%
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Compétence 10 - Git -->
+                <div class="project-card" data-category="developpement">
+                    <div class="project-image">
+                        <span class="project-badge">Développement</span>
+                        <i class="fab fa-git-alt project-image-placeholder"></i>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-header">
+                            <h3 class="project-title">
+                                <i class="fas fa-code-branch"></i>
+                                Git & GitHub
+                            </h3>
+                        </div>
+                        <p class="project-description">
+                            Gestion de versions avec Git, travail collaboratif sur GitHub, branches, merges, 
+                            et résolution de conflits.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Git</span>
+                            <span class="tech-tag">GitHub</span>
+                            <span class="tech-tag">Branches</span>
+                            <span class="tech-tag">Merge</span>
+                        </div>
+                        <div class="project-footer">
+                            <span class="project-date">
+                                <i class="fas fa-signal"></i> Niveau: 75%
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Compétence 11 - Docker -->
+                <div class="project-card" data-category="systeme">
+                    <div class="project-image">
+                        <span class="project-badge">Système</span>
+                        <i class="fab fa-docker project-image-placeholder"></i>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-header">
+                            <h3 class="project-title">
+                                <i class="fas fa-cube"></i>
+                                Conteneurisation
+                            </h3>
+                        </div>
+                        <p class="project-description">
+                            Utilisation de Docker pour créer et gérer des conteneurs, optimisation des images, 
+                            et orchestration basique.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Docker</span>
+                            <span class="tech-tag">Containers</span>
+                            <span class="tech-tag">Images</span>
+                        </div>
+                        <div class="project-footer">
+                            <span class="project-date">
+                                <i class="fas fa-signal"></i> Niveau: 50%
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Compétence 12 - Analyse -->
+                <div class="project-card" data-category="developpement">
+                    <div class="project-image">
+                        <span class="project-badge">Développement</span>
+                        <i class="fas fa-chart-line project-image-placeholder"></i>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-header">
+                            <h3 class="project-title">
+                                <i class="fas fa-sitemap"></i>
+                                Analyse & Conception
+                            </h3>
+                        </div>
+                        <p class="project-description">
+                            Modélisation UML, diagrammes de cas d'utilisation, de classes et de séquences. 
+                            Méthode Merise pour la conception de bases de données.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-tag">UML</span>
+                            <span class="tech-tag">Merise</span>
+                            <span class="tech-tag">Use Case</span>
+                            <span class="tech-tag">MCD</span>
+                        </div>
+                        <div class="project-footer">
+                            <span class="project-date">
+                                <i class="fas fa-signal"></i> Niveau: 70%
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <footer class="credit">Fait par Léo avec ❤️ - © Tous droits réservés</footer>
+    </main>
+
+    <script>
+        // Script pour les filtres de catégories
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const projectCards = document.querySelectorAll('.project-card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Retirer la classe active de tous les boutons
+                filterBtns.forEach(b => b.classList.remove('active'));
+                // Ajouter la classe active au bouton cliqué
+                btn.classList.add('active');
+
+                const filter = btn.dataset.filter;
+
+                projectCards.forEach(card => {
+                    if (filter === 'all' || card.dataset.category === filter) {
+                        card.style.display = 'block';
+                        // Réanimer l'apparition
+                        card.style.animation = 'none';
+                        setTimeout(() => {
+                            card.style.animation = 'projectAppear 0.6s ease-out forwards';
+                        }, 10);
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+
+</html>

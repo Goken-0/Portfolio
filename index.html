@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+	<!-- ENCODAGE HTML POUR EMOJIS ETC -->
+	<meta charset="UTF-8">
+
+	<!-- Permet au site de s'adapter aux écrans (PC, mobile, tablette) -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- Icônes en haut de l'onglet -->
+	<link rel="icon" href="assets/icons/icon.ico" type="image/x-icon">
+	<link rel="icon" type="image/png" sizes="16x16" href="assets/icons/icon-16x16.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="assets/icons/icon-32x32.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+	<link rel="manifest" href="assets/icons/site.webmanifest">
+
+	<!-- Icônes (LinkedIn, GitHub, etc.) via FontAwesome -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+	<!-- Fichier CSS externe -->
+	<link rel="stylesheet" href="css/style.css">
+
+	<title>Portfolio Léo - Accueil</title>
+</head>
+
+<body>
+	<!-- Librairie Three.js pour gérer le canvas 3D -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+	<!-- Librairie jQuery (HTTPS) -->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+	<!-- Audio element -->
+	<audio id="audioPlayer" preload="none">
+		<!-- Les sources seront définies dynamiquement par JavaScript -->
+		Your browser does not support the audio element.
+	</audio>
+
+	<!-- Script qui gère les étoiles -->
+	<script src="js/stars.js"></script>
+
+	<!-- Script qui gère le menu "hamburger" sur mobile -->
+	<script src="js/menu.js"></script>
+
+	<!-- Script du lecteur de musique -->
+	<script src="js/music-player.js"></script>
+
+	<!-- HEADER / NAV -->
+	<header>
+		<nav>
+			<a href="index.html" class="active">Accueil</a>
+			<a href="cv.html">CV</a>
+			<a href="lettremotivation.html">Lettre de motivation</a>
+
+			<!-- Menu déroulant Réalisations -->
+			<div class="dropdown">
+				<a>Réalisations</a>
+				<div class="dropdown-content">
+					<a href="tps.html">TPs</a>
+					<a href="projets.html">Projets</a>
+					<a href="stages.html">Stages</a>
+				</div>
+			</div>
+			<a href="competences.html">Compétences</a>
+			<a href="veille.html">Veille</a>
+			<a href="contact.html">Contact</a>
+		</nav>
+	</header>
+
+	<!-- Section d'accueil -->
+	<section class="home">
+		<!-- Image de présentation -->
+		<div class="home-img">
+			<img src="assets/images/main.jpeg" alt="Photo de Léo">
+		</div>
+
+		<!-- Texte de présentation -->
+		<div class="home-content">
+			<h1>Bonjour, je m'appelle <span>Léo</span></h1>
+			<h3 class="typing-text">Je suis <span>étudiant en BTS SIO</span></h3>
+			<p class="sentence">
+				L'informatique m'anime depuis toujours : bienvenue dans mon univers numérique.
+			</p>
+
+			<!-- Icônes réseaux sociaux -->
+			<div class="social-icons">
+				<a href="https://www.linkedin.com/in/l%C3%A9o-metgy-3268a5383/">
+					<i class="fa-brands fa-linkedin"></i>
+				</a>
+				<a href="https://github.com/Goken-0">
+					<i class="fa-brands fa-github"></i>
+				</a>
+				<a href="spaceinvader.html" class="alien-btn">
+					<i class="fa-solid fa-gamepad"></i>
+				</a>
+			</div>
+
+			<!-- Bouton contact -->
+			<a href="contact.html" class="btn">Me contacter</a>
+
+			<!-- LECTEUR DE MUSIQUE SOUS LE BOUTON CONTACT -->
+			<div class="music-player" id="musicPlayer">
+				<div class="player-header">
+					<i class="fas fa-music" style="color: #3caee4; font-size: 18px;"></i>
+					<button class="minimize-btn" id="minimizeBtn">
+						<i class="fas fa-minus"></i>
+					</button>
+				</div>
+
+				<div class="music-info">
+					<div class="song-title" id="songTitle">Ambient Space</div>
+					<div class="song-artist" id="songArtist">Portfolio Soundtrack</div>
+
+					<div class="progress-container" id="progressContainer">
+						<div class="progress-bar" id="progressBar"></div>
+					</div>
+
+					<div class="time-info">
+						<span id="currentTime">0:00</span>
+						<span id="totalTime">0:00</span>
+					</div>
+				</div>
+
+				<div class="music-controls">
+					<button class="control-btn secondary" id="prevBtn">
+						<i class="fas fa-backward"></i>
+					</button>
+					<button class="control-btn play-pause" id="playPauseBtn">
+						<i class="fas fa-play"></i>
+					</button>
+					<button class="control-btn secondary" id="nextBtn">
+						<i class="fas fa-forward"></i>
+					</button>
+					<button class="control-btn secondary" id="shuffleBtn">
+						<i class="fas fa-random"></i>
+					</button>
+				</div>
+
+				<div class="volume-container">
+					<i class="fas fa-volume-up volume-icon" id="volumeIcon"></i>
+					<input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="30">
+				</div>
+
+				<div class="equalizer" id="equalizer">
+					<div class="eq-bar"></div>
+					<div class="eq-bar"></div>
+					<div class="eq-bar"></div>
+					<div class="eq-bar"></div>
+					<div class="eq-bar"></div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Crédit en bas de page -->
+		<footer class="credit">
+			Fait par Léo avec ❤️ - © Tous droits réservés
+		</footer>
+	</section>
+</body>
+
+</html>

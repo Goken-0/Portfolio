@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <!--ENCODAGE HTML POUR EMOJIS ETC-->
+    <meta charset="UTF-8">
+
+    <!-- Permet au site de s’adapter aux écrans (PC, mobile, tablette) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Icônes en haut de l'onglet -->
+    <link rel="icon" href="assets/icons/icon.ico" type="image/x-icon">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/icon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/icon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+    <link rel="manifest" href="assets/icons/site.webmanifest">
+
+    <!--RELIER LA BIBLIOTHEQUE D'ICONES EXTERNE (FONT AWESOME)-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <!--RELIER LE FICHIER CSS EXTERNE-->
+    <link rel="stylesheet" href="css/style.css">
+    <!--TITRE DE L'ONGLET-->
+    <title>Portfolio Léo - Stages</title>
+</head>
+
+<body class="stages-page">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="js/stars.js"></script>
+    <script src="js/menu.js"></script>
+
+    <header>
+        <nav>
+            <a href="index.html">Accueil</a>
+            <a href="cv.html">CV</a>
+            <a href="lettremotivation.html">Lettre de motivation</a>
+            <div class="dropdown">
+                <a>Réalisations</a>
+                <div class="dropdown-content">
+                    <a href="tps.html">TPs</a>
+                    <a href="projets.html">Projets</a>
+                    <a href="stages.html" class="active">Stages</a>
+                </div>
+            </div>
+			<a href="competences.html">Compétences</a>
+            <a href="veille.html">Veille</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="stages-container">
+            <!-- Hero Section -->
+            <div class="stages-hero">
+                <h1>Mes <span>Stages</span></h1>
+                <p class="subtitle">Parcours professionnel et expériences enrichissantes</p>
+            </div>
+
+            <!-- Timeline -->
+            <div class="timeline">
+
+                <!-- Stage 1 - EXEMPLE À MODIFIER -->
+                <div class="stage-item">
+                    <div class="stage-card">
+                        <div class="stage-header">
+                            <div class="stage-icon">
+                                <i class="fas fa-laptop-code"></i>
+                            </div>
+                            <div class="stage-title-group">
+                                <span class="stage-period">Juin 2024 - Août 2024</span>
+                                <h2>Développeur Web Full-Stack</h2>
+                                <p class="stage-company"><i class="fas fa-building"></i> Nom de l'Entreprise</p>
+                            </div>
+                        </div>
+                        <div class="stage-content">
+                            <p class="stage-description">
+                                Description générale du stage, du contexte de l'entreprise et des objectifs principaux
+                                de la mission.
+                            </p>
+                            <div class="stage-missions">
+                                <h3><i class="fas fa-tasks"></i> Missions réalisées</h3>
+                                <ul>
+                                    <li>
+                                        <i class="fas fa-check-circle"></i>
+                                        <span>Développement d'une application web responsive avec React et
+                                            Node.js</span>
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-check-circle"></i>
+                                        <span>Mise en place d'une API RESTful et intégration de base de données</span>
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-check-circle"></i>
+                                        <span>Optimisation des performances et amélioration de l'UX/UI</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="stage-tags">
+                                <span class="tag">React</span>
+                                <span class="tag">Node.js</span>
+                                <span class="tag">MongoDB</span>
+                                <span class="tag">JavaScript</span>
+                                <span class="tag">CSS3</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stage 2 - EXEMPLE À MODIFIER -->
+                <div class="stage-item">
+                    <div class="stage-card">
+                        <div class="stage-header">
+                            <div class="stage-icon">
+                                <i class="fas fa-network-wired"></i>
+                            </div>
+                            <div class="stage-title-group">
+                                <span class="stage-period">Janvier 2024 - Mars 2024</span>
+                                <h2>Technicien Infrastructure Réseau</h2>
+                                <p class="stage-company"><i class="fas fa-building"></i> Autre Entreprise</p>
+                            </div>
+                        </div>
+                        <div class="stage-content">
+                            <p class="stage-description">
+                                Mission axée sur la configuration et la maintenance de l'infrastructure réseau de
+                                l'entreprise.
+                            </p>
+                            <div class="stage-missions">
+                                <h3><i class="fas fa-tasks"></i> Missions réalisées</h3>
+                                <ul>
+                                    <li>
+                                        <i class="fas fa-check-circle"></i>
+                                        <span>Configuration et déploiement de switchs et routeurs Cisco</span>
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-check-circle"></i>
+                                        <span>Mise en place de VLANs et segmentation réseau</span>
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-check-circle"></i>
+                                        <span>Documentation technique et formation des utilisateurs</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="stage-tags">
+                                <span class="tag">Cisco</span>
+                                <span class="tag">VLANs</span>
+                                <span class="tag">TCP/IP</span>
+                                <span class="tag">Sécurité</span>
+                                <span class="tag">Documentation</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stage 3 - EXEMPLE À MODIFIER -->
+                <div class="stage-item">
+                    <div class="stage-card">
+                        <div class="stage-header">
+                            <div class="stage-icon">
+                                <i class="fas fa-database"></i>
+                            </div>
+                            <div class="stage-title-group">
+                                <span class="stage-period">Mai 2023 - Juin 2023</span>
+                                <h2>Assistant Administrateur Systèmes</h2>
+                                <p class="stage-company"><i class="fas fa-building"></i> Entreprise Tech</p>
+                            </div>
+                        </div>
+                        <div class="stage-content">
+                            <p class="stage-description">
+                                Stage d'observation et de découverte de l'administration système en environnement
+                                professionnel.
+                            </p>
+                            <div class="stage-missions">
+                                <h3><i class="fas fa-tasks"></i> Missions réalisées</h3>
+                                <ul>
+                                    <li>
+                                        <i class="fas fa-check-circle"></i>
+                                        <span>Assistance à la gestion des serveurs Windows et Linux</span>
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-check-circle"></i>
+                                        <span>Support technique utilisateurs et résolution d'incidents</span>
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-check-circle"></i>
+                                        <span>Participation aux sauvegardes et à la maintenance préventive</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="stage-tags">
+                                <span class="tag">Windows Server</span>
+                                <span class="tag">Linux</span>
+                                <span class="tag">Active Directory</span>
+                                <span class="tag">Support IT</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <footer class="credit">Fait par Léo avec ❤️ - © Tous droits réservés</footer>
+    </main>
+</body>
+
+</html>

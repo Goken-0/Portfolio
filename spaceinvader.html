@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Léo - SpaceInvaders</title>
+
+    <!-- Icônes -->
+    <link rel="icon" href="assets/icons/icon.ico" type="image/x-icon">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/icon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/icon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+    <link rel="manifest" href="assets/icons/site.webmanifest">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- Police Rétro -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <!-- Police Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+
+
+    <!-- Fichier CSS externe -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/spaceinvader.css">
+
+    <!-- Librairie Three.js pour gérer le canvas 3D -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+
+    <!-- Librairie jQuery (HTTPS) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Script qui gère le menu "hamburger" sur mobile -->
+    <script src="js/menu.js"></script>
+
+<body>
+
+    <!-- HEADER / NAV -->
+    <header>
+        <nav>
+            <a href="index.html">Accueil</a>
+            <a href="cv.html">CV</a>
+            <a href="lettremotivation.html">Lettre de motivation</a>
+
+            <!-- Menu déroulant Réalisations -->
+            <div class="dropdown">
+                <a>Réalisations</a>
+                <div class="dropdown-content">
+                    <a href="tps.html">TPs</a>
+                    <a href="projets.html">Projets</a>
+                    <a href="stages.html">Stages</a>
+                </div>
+            </div>
+			<a href="competences.html">Compétences</a>
+            <a href="veille.html">Veille</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
+
+    <div id="gameContainer">
+        <canvas id="gameCanvas" width="800" height="600"></canvas>
+        <div id="ui">
+            <div>Score: <span id="score">0</span></div>
+            <div id="livesContainer">Vies: <span id="lives"></span></div>
+        </div>
+
+        <!-- Écran de démarrage -->
+        <div id="startScreen">
+            <div class="start-title">SPACE INVADERS</div>
+            <button id="startButton" class="start-btn">LANCER LE JEU</button>
+            <div class="start-instructions">
+                <p>Utilisez les flèches ou ZQSD pour vous déplacer</p>
+                <p>ESPACE pour tirer</p>
+                <p>ECHAP pour mettre en pause</p>
+            </div>
+        </div>
+
+        <!-- Menu de pause -->
+        <div id="pauseScreen">
+            <div class="pause-title">PAUSE</div>
+            <button id="resumeButton" class="pause-btn">REPRENDRE</button>
+            <button id="restartButton" class="pause-btn">RECOMMENCER</button>
+            <div class="pause-instructions">
+                <p>Appuyez sur ECHAP pour reprendre</p>
+            </div>
+        </div>
+
+        <div id="gameOver">
+            <div>GAME OVER</div>
+            <p>Score Final: <span id="finalScore">0</span></p>
+            <p style="font-size: 18px;">Appuyez sur ESPACE pour rejouer</p>
+        </div>
+    </div>
+
+
+    <!-- Script Jeu Space Invader -->
+    <script src="js/spaceinvader.js"></script>
+
+    <!-- Script qui gère les étoiles -->
+    <script>
+        // Attendre que Three.js soit chargé
+        function initStars() {
+            if (typeof THREE === 'undefined') {
+                setTimeout(initStars, 100);
+                return;
+            }
+
+            // =====================
+            // CONFIGURATION DE BASE
+            // =====================
+            const scene = new THREE.Scene();
+
+            const camera = new THREE.PerspectiveCamera(
+                75,
+                window.innerWidth / window.innerHeight,
+                0.1,
+                1000
+            );
+
+            const renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.domElement.classList.add("background");
+            document.body.appendChild(renderer.domElement);
+
+            // =====================
+            // ÉTOILES FIXES
+            // =====================
+            const starGeometry = new THREE.BufferGeometry();
+            const starCount = 15000;
+            const starPositions = new Float32Array(starCount * 3);
+            const starSizes = new Float32Array(starCount);
+
+            for (let i = 0; i < starCount * 3; i += 3) {
+                starPositions[i] = (Math.random() - 0.5) * 3000;
+                starPositions[i + 1] = (Math.random() - 0.5) * 3000;
+                starPositions[i + 2] = (Math.random() - 0.5) * 3000;
+                starSizes[i / 3] = Math.random() * 3 + 1;
+            }
+
+            starGeometry.setAttribute("position", new THREE.BufferAttribute(starPositions, 3));
+            starGeometry.setAttribute("size", new THREE.BufferAttribute(starSizes, 1));
+
+            const starMaterial = new THREE.PointsMaterial({
+                color: 0xffffff,
+                size: 1.5,
+                transparent: true,
+                opacity: 1.0,
+                sizeAttenuation: false
+            });
+
+            const stars = new THREE.Points(starGeometry, starMaterial);
+            scene.add(stars);
+            camera.position.z = 800;
+
+            // =====================
+            // ANIMATION PRINCIPALE
+            // =====================
+            function animateStars() {
+                requestAnimationFrame(animateStars);
+
+                // Animation des étoiles fixes avec scintillement
+                stars.rotation.y += 0.0003;
+                stars.rotation.x += 0.0001;
+
+                // Effet de scintillement des étoiles
+                const time = Date.now() * 0.001;
+                const sizes = stars.geometry.attributes.size.array;
+                for (let i = 0; i < sizes.length; i++) {
+                    const originalSize = 1 + Math.random() * 3;
+                    sizes[i] = originalSize + Math.sin(time + i * 0.1) * 0.5;
+                }
+                stars.geometry.attributes.size.needsUpdate = true;
+
+                const positions = stars.geometry.attributes.position.array;
+                for (let i = 1; i < positions.length; i += 3) {
+                    positions[i] -= 0.02;
+                    if (positions[i] < -1500) positions[i] = 1500;
+                }
+                stars.geometry.attributes.position.needsUpdate = true;
+
+                renderer.render(scene, camera);
+            }
+
+            // =====================
+            // GESTION DU REDIMENSIONNEMENT
+            // =====================
+            window.addEventListener("resize", () => {
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+            });
+
+            // Démarrage de l'animation
+            animateStars();
+        }
+
+        // Démarrer l'initialisation
+        initStars();
+    </script>
+</body>
+
+<!-- Contrôles tactiles mobiles -->
+<div id="mobileControls" style="display: none;">
+    <button id="shootBtn">TIR</button>
+</div>

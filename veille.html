@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Icônes -->
+    <link rel="icon" href="assets/icons/icon.ico" type="image/x-icon">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/icon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/icon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+    <link rel="manifest" href="assets/icons/site.webmanifest">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Portfolio Léo - Veille Technologique</title>
+</head>
+
+<body class="veille-page">
+    <!-- Librairie Three.js pour gérer le canvas 3D -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="js/stars.js"></script>
+    <script src="js/menu.js"></script>
+
+    <!-- HEADER / NAV -->
+    <header>
+        <nav>
+            <a href="index.html">Accueil</a>
+            <a href="cv.html">CV</a>
+            <a href="lettremotivation.html">Lettre de motivation</a>
+
+            <!-- Menu déroulant Réalisations -->
+            <div class="dropdown">
+                <a>Réalisations</a>
+                <div class="dropdown-content">
+                    <a href="tps.html">TPs</a>
+                    <a href="projets.html">Projets</a>
+                    <a href="stages.html">Stages</a>
+                </div>
+            </div>
+			<a href="competences.html">Compétences</a>
+            <a href="veille.html" class="active">Veille</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="veille-hero">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span class="title-main">Veille</span>
+                <span class="title-accent">Technologique</span>
+            </h1>
+            <p class="hero-subtitle">
+                Exploration et analyse des technologies émergentes
+            </p>
+        </div>
+    </section>
+
+    <!-- INTRODUCTION -->
+    <section class="veille-intro-section">
+        <div class="container">
+            <div class="intro-card">
+                <div class="intro-icon">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <p class="intro-text">
+                    Dans le cadre de ma formation, je mène une veille technologique active sur deux domaines clés :
+                    <strong>les cartes graphiques</strong> et <strong>l'intelligence artificielle</strong>.
+                    Cette démarche me permet de rester à jour sur les innovations et d'analyser les tendances du marché.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- COMPARATIFS -->
+    <section class="comparisons-section">
+        <div class="container">
+
+            <!-- COMPARATIF GPU -->
+            <article class="comparison-block gpu-block">
+                <div class="block-header">
+                    <div class="header-icon">
+                        <i class="fas fa-microchip"></i>
+                    </div>
+                    <div class="header-text">
+                        <h2>Cartes Graphiques</h2>
+                        <span class="header-tag">Hardware & Performance</span>
+                    </div>
+                </div>
+
+                <div class="block-content">
+                    <!-- Description -->
+                    <div class="info-card">
+                        <h3><i class="fas fa-info-circle"></i> Contexte</h3>
+                        <p>
+                            Je surveille régulièrement les sorties GPU de Nvidia et AMD pour analyser
+                            les performances, l'efficience énergétique, le ray tracing, les technologies
+                            d'upscaling (DLSS/FSR) et le support logiciel.
+                        </p>
+                    </div>
+
+                    <!-- Comparatif Cards -->
+                    <div class="versus-container">
+                        <div class="gpu-card nvidia-card">
+                            <div class="card-badge nvidia-badge">NVIDIA</div>
+                            <h3 class="card-title">RTX 5060 Ti 16 Go</h3>
+
+                            <div class="card-stats">
+                                <div class="stat-item">
+                                    <span class="stat-label">Performance 1080p</span>
+                                    <span class="stat-value">~106 FPS</span>
+                                    <a href="https://www.techpowerup.com/review/palit-geforce-rtx-5060-ti-infinity-3-16-gb/31.html"
+                                        target="_blank" class="stat-source">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </a>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Consommation</span>
+                                    <span class="stat-value">166W</span>
+                                    <a href="https://www.techpowerup.com/review/palit-geforce-rtx-5060-ti-infinity-3-16-gb/42.html"
+                                        target="_blank" class="stat-source">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </a>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Température</span>
+                                    <span class="stat-value">65°C</span>
+                                    <a href="https://www.techpowerup.com/review/palit-geforce-rtx-5060-ti-infinity-3-16-gb/40.html"
+                                        target="_blank" class="stat-source">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="card-features">
+                                <h4>Points forts</h4>
+                                <ul>
+                                    <li><i class="fas fa-check"></i> DLSS 4 et excellent ray tracing</li>
+                                    <li><i class="fas fa-check"></i> Encodeurs NVENC récents</li>
+                                    <li><i class="fas fa-check"></i> Efficience énergétique solide</li>
+                                    <li><i class="fas fa-check"></i> Bon support création/streaming</li>
+                                </ul>
+                                <h4>Limitations</h4>
+                                <ul>
+                                    <li><i class="fas fa-minus"></i> Prix généralement plus élevé</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="vs-badge">
+                            <span class="vs-badge-text">VS</span>
+                        </div>
+
+                        <div class="gpu-card amd-card">
+                            <div class="card-badge amd-badge">AMD</div>
+                            <h3 class="card-title">RX 9060 XT 16 Go</h3>
+
+                            <div class="card-stats">
+                                <div class="stat-item">
+                                    <span class="stat-label">Performance 1080p</span>
+                                    <span class="stat-value">~96 FPS</span>
+                                    <a href="https://www.techpowerup.com/review/sapphire-radeon-rx-9060-xt-pulse-oc/31.html"
+                                        target="_blank" class="stat-source">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </a>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Consommation</span>
+                                    <span class="stat-value">180W</span>
+                                    <a href="https://www.techpowerup.com/review/sapphire-radeon-rx-9060-xt-pulse-oc/41.html"
+                                        target="_blank" class="stat-source">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </a>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Température</span>
+                                    <span class="stat-value">57°C</span>
+                                    <a href="https://www.techpowerup.com/review/sapphire-radeon-rx-9060-xt-pulse-oc/39.html"
+                                        target="_blank" class="stat-source">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="card-features">
+                                <h4>Points forts</h4>
+                                <ul>
+                                    <li><i class="fas fa-check"></i> 16 Go VRAM</li>
+                                    <li><i class="fas fa-check"></i> Excellent en rasterisation</li>
+                                    <li><i class="fas fa-check"></i> FSR 4 multi-constructeurs</li>
+                                    <li><i class="fas fa-check"></i> Rapport performance/prix compétitif</li>
+                                </ul>
+                                <h4>Limitations</h4>
+                                <ul>
+                                    <li><i class="fas fa-minus"></i> Ray tracing en retrait</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Analyse -->
+                    <div class="analysis-card">
+                        <h3><i class="fas fa-chart-line"></i> Analyse comparative</h3>
+                        <p>
+                            La RTX 5060 Ti offre environ <strong>10% de performances supplémentaires</strong>
+                            avec une consommation légèrement inférieure, mais génère plus de chaleur.
+                            La RX 9060 XT se démarque par ses <strong>températures plus basses</strong> et
+                            son excellent rapport qualité-prix. Le choix dépendra principalement de
+                            l'écosystème logiciel privilégié (DLSS vs FSR) et du budget disponible.
+                        </p>
+                        <p class="source-credit">
+                            <i class="fas fa-database"></i>
+                            Données issues de
+                            <a href="https://www.techpowerup.com/" target="_blank">TechPowerUp</a>
+                        </p>
+                    </div>
+
+                    <!-- Image -->
+                    <div class="visual-section">
+                        <img src="assets/images/rtx.jpeg" alt="Architecture GPU NVIDIA RTX" class="block-image">
+                        <p class="image-caption">Architecture NVIDIA RTX - Technologies DLSS et Ray Tracing</p>
+                    </div>
+                </div>
+            </article>
+
+            <!-- COMPARATIF IA -->
+            <article class="comparison-block ai-block">
+                <div class="block-header">
+                    <div class="header-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="header-text">
+                        <h2>Intelligence Artificielle</h2>
+                        <span class="header-tag">Modèles Conversationnels</span>
+                    </div>
+                </div>
+
+                <div class="block-content">
+                    <!-- Description -->
+                    <div class="info-card">
+                        <h3><i class="fas fa-info-circle"></i> Contexte</h3>
+                        <p>
+                            Je suis l'évolution des modèles d'IA conversationnels en analysant la qualité
+                            des réponses, les capacités de raisonnement, la vision multimodale et les
+                            intégrations possibles pour comparer Claude et GPT-4 selon différents usages.
+                        </p>
+                    </div>
+
+                    <!-- Comparatif Cards -->
+                    <div class="versus-container">
+                        <div class="ai-card claude-card">
+                            <div class="card-badge claude-badge">ANTHROPIC</div>
+                            <h3 class="card-title">Claude AI</h3>
+
+                            <div class="card-features">
+                                <h4>Caractéristiques</h4>
+                                <ul>
+                                    <li><i class="fas fa-brain"></i> Raisonnement structuré et fiable</li>
+                                    <li><i class="fas fa-file-alt"></i> Excellent pour l'analyse de documents</li>
+                                    <li><i class="fas fa-shield-alt"></i> Approche prudente et éthique</li>
+                                    <li><i class="fas fa-compress"></i> Grande fenêtre contextuelle</li>
+                                </ul>
+                                <h4>Idéal pour</h4>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> Synthèse et analyse</li>
+                                    <li><i class="fas fa-check-circle"></i> Rédaction technique</li>
+                                    <li><i class="fas fa-check-circle"></i> Code structuré</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="vs-badge">
+                            <span class="vs-badge-text">VS</span>
+                        </div>
+
+                        <div class="ai-card gpt-card">
+                            <div class="card-badge gpt-badge">OPENAI</div>
+                            <h3 class="card-title">GPT-4</h3>
+
+                            <div class="card-features">
+                                <h4>Caractéristiques</h4>
+                                <ul>
+                                    <li><i class="fas fa-palette"></i> Créativité et liberté de ton</li>
+                                    <li><i class="fas fa-plug"></i> Large écosystème de plugins</li>
+                                    <li><i class="fas fa-images"></i> Multimodal avancé</li>
+                                    <li><i class="fas fa-globe"></i> Intégrations nombreuses</li>
+                                </ul>
+                                <h4>Idéal pour</h4>
+                                <ul>
+                                    <li><i class="fas fa-check-circle"></i> Contenu créatif</li>
+                                    <li><i class="fas fa-check-circle"></i> Brainstorming</li>
+                                    <li><i class="fas fa-check-circle"></i> Automatisation</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Analyse -->
+                    <div class="analysis-card">
+                        <h3><i class="fas fa-chart-line"></i> Analyse comparative</h3>
+                        <p>
+                            <strong>Claude</strong> se distingue par sa rigueur analytique et sa structure,
+                            idéal pour les tâches nécessitant précision et fiabilité. <strong>GPT-4</strong>
+                            excelle dans la créativité et offre un écosystème d'intégrations plus vaste.
+                            Le choix optimal dépend du cas d'usage : analyse documentaire et synthèse pour
+                            Claude, création de contenu et automatisation pour GPT-4.
+                        </p>
+                    </div>
+
+                    <!-- Image -->
+                    <div class="visual-section">
+                        <img src="assets/images/claude.jpeg" alt="Claude AI Interface" class="block-image">
+                        <p class="image-caption">Claude AI - IA conversationnelle orientée raisonnement</p>
+                    </div>
+                </div>
+            </article>
+
+        </div>
+    </section>
+
+    <!-- MÉTHODOLOGIE -->
+    <section class="methodology-section">
+        <div class="container">
+            <h2 class="section-title">
+                <i class="fas fa-microscope"></i>
+                Méthodologie de Veille
+            </h2>
+
+            <div class="methodology-grid">
+                <div class="method-card">
+                    <div class="method-icon">
+                        <i class="fas fa-rss"></i>
+                    </div>
+                    <h3>Sources d'Information</h3>
+                    <p>Sites spécialisés, revues techniques, chaînes YouTube et documentation officielle</p>
+                </div>
+
+                <div class="method-card">
+                    <div class="method-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <h3>Fréquence</h3>
+                    <p>Veille hebdomadaire avec synthèse mensuelle des tendances émergentes</p>
+                </div>
+
+                <div class="method-card">
+                    <div class="method-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <h3>Outils Utilisés</h3>
+                    <p>TechPowerUp, VideoCardz, benchmarks indépendants et tests en conditions réelles</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="credit">Fait par Léo avec ❤️ - © Tous droits réservés</footer>
+
+</body>
+
+</html>
