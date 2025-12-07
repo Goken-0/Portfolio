@@ -1,0 +1,582 @@
+================================================================================
+                    DOCUMENTATION COMPLÈTE DU PORTFOLIO
+                           Site Portfolio de Léo
+================================================================================
+
+TABLE DES MATIÈRES
+==================
+
+1. Vue d'ensemble du site
+2. Architecture et structure des fichiers
+3. Fonctionnalités principales
+4. Explication détaillée du code
+5. Technologies utilisées
+6. Guide d'utilisation
+7. Personnalisation et modifications
+
+================================================================================
+1. VUE D'ENSEMBLE DU SITE
+================================================================================
+
+Ce portfolio est un site web personnel présentant le profil, les compétences,
+les réalisations et les projets de Léo, étudiant en BTS SIO (Services 
+Informatiques aux Organisations).
+
+CARACTÉRISTIQUES PRINCIPALES :
+- Design moderne et professionnel avec animations
+- Lecteur audio global persistant sur toutes les pages
+- Fond animé avec étoiles 3D (Three.js)
+- Responsive design (adapté mobile, tablette, desktop)
+- Navigation intuitive avec menu hamburger sur mobile
+- Pages de présentation (CV, lettre de motivation, projets, etc.)
+- Jeu Space Invaders intégré
+- Formulaire de contact
+
+================================================================================
+2. ARCHITECTURE ET STRUCTURE DES FICHIERS
+================================================================================
+
+STRUCTURE DU PROJET :
+---------------------
+
+Portfolio/
+│
+├── assets/                    # Ressources (images, musiques, PDF, icônes)
+│   ├── icons/                 # Favicons et icônes du site
+│   ├── images/                # Images du portfolio
+│   ├── music/                 # Fichiers audio MP3
+│   └── pdf/                   # Documents PDF (CV, TPs, etc.)
+│
+├── components/                 # Composants HTML réutilisables
+│   ├── menu.html              # Menu de navigation
+│   └── music-player.html      # Structure HTML du lecteur audio
+│
+├── css/                       # Fichiers de style
+│   ├── style.css              # Styles principaux du site
+│   └── spaceinvader.css       # Styles spécifiques au jeu
+│
+├── js/                        # Scripts JavaScript
+│   ├── music-player.js        # Logique du lecteur audio
+│   ├── inject-music-player.js # Injection du lecteur sur toutes les pages
+│   ├── navigation.js          # Gestion de la navigation active
+│   ├── menu.js                # Menu hamburger mobile
+│   ├── stars.js               # Animation des étoiles 3D
+│   ├── animation-cv.js        # Animations de la page CV
+│   ├── animation-lm.js        # Animations de la page lettre de motivation
+│   ├── tps.js                 # Gestion des TPs (carrousel)
+│   └── spaceinvader.js        # Jeu Space Invaders
+│
+└── *.html                     # Pages HTML du site
+    ├── index.html             # Page d'accueil
+    ├── cv.html               # Page CV
+    ├── lettremotivation.html  # Page lettre de motivation
+    ├── competences.html       # Page compétences
+    ├── projets.html           # Page projets
+    ├── tps.html              # Page travaux pratiques
+    ├── stages.html           # Page stages
+    ├── veille.html           # Page veille technologique
+    ├── contact.html          # Page formulaire de contact
+    └── spaceinvader.html     # Page du jeu Space Invaders
+
+================================================================================
+3. FONCTIONNALITÉS PRINCIPALES
+================================================================================
+
+3.1. LECTEUR AUDIO GLOBAL
+-------------------------
+Le lecteur audio est présent sur toutes les pages et continue de jouer même
+quand on change de page. C'est la fonctionnalité la plus complexe du site.
+
+Fonctionnalités :
+- Lecture, pause, précédent, suivant
+- Répétition d'une chanson (loop)
+- Contrôle du volume avec curseur
+- Barre de progression cliquable et déplaçable
+- Mode minimisé/agrandi
+- Sauvegarde automatique de l'état (localStorage)
+- Persistance entre les pages
+
+Comment ça marche :
+1. Le fichier inject-music-player.js injecte le HTML du lecteur sur chaque page
+2. Le fichier music-player.js crée une instance unique du lecteur (Singleton)
+3. L'état (chanson, position, volume) est sauvegardé dans localStorage
+4. Quand on change de page, l'état est restauré automatiquement
+
+3.2. FOND ANIMÉ AVEC ÉTOILES 3D
+--------------------------------
+Le fond de la page d'accueil affiche des étoiles en 3D qui bougent et
+scintillent, avec des étoiles filantes occasionnelles.
+
+Technologie : Three.js (bibliothèque JavaScript 3D)
+
+3.3. NAVIGATION
+---------------
+- Menu horizontal sur desktop
+- Menu hamburger (trois lignes) sur mobile
+- Mise en surbrillance automatique de la page active
+- Menu déroulant "Réalisations" avec sous-pages
+
+3.4. ANIMATIONS
+---------------
+- Apparition progressive des éléments au scroll
+- Effets hover sur les images
+- Modals pour visualiser les documents (CV, lettre de motivation)
+- Zoom et téléchargement dans les modals
+
+3.5. JEU SPACE INVADERS
+-----------------------
+Jeu Space Invaders intégré avec :
+- Contrôles clavier (flèches + espace)
+- Personnalisation des couleurs
+- Musique de fond
+- Système de score
+
+================================================================================
+4. EXPLICATION DÉTAILLÉE DU CODE
+================================================================================
+
+4.1. LECTEUR AUDIO (music-player.js)
+--------------------------------------
+
+CLASS MusicPlayer :
+-------------------
+Cette classe gère toute la logique du lecteur audio.
+
+PROPRIÉTÉS :
+- audio : L'élément HTML <audio> qui joue la musique
+- playlist : Tableau contenant les chansons (titre, artiste, chemin)
+- currentSongIndex : Index de la chanson actuelle
+- isPlaying : Booléen indiquant si la musique joue
+- isLooping : Booléen indiquant si la répétition est activée
+- isMinimized : Booléen indiquant si le lecteur est minimisé
+
+MÉTHODES PRINCIPALES :
+
+constructor() :
+- Initialise toutes les variables
+- Récupère les éléments HTML (initializeDOM)
+- Lance l'initialisation (init)
+
+init() :
+- Attache les événements aux boutons
+- Restaure l'état précédent depuis localStorage
+- Configure la sauvegarde automatique
+
+saveState() :
+- Sauvegarde l'état actuel dans localStorage
+- Inclut : chanson, position, volume, état play/pause, loop, minimisé
+
+restoreState() :
+- Restaure l'état depuis localStorage
+- Recharge la chanson et la position
+- Relance la lecture si elle était en cours
+
+loadCurrentSong(autoPlay) :
+- Charge une chanson dans le lecteur
+- Met à jour l'affichage (titre, artiste)
+- Lance la lecture si autoPlay est true
+
+togglePlayPause() :
+- Bascule entre play et pause
+
+previousSong() / nextSong() :
+- Change de chanson (avec boucle)
+
+toggleLoop() :
+- Active/désactive la répétition
+
+setProgress(e) :
+- Change la position dans la chanson quand on clique sur la barre
+
+handleProgressMouseDown/Move/Up() :
+- Gère le drag de la barre de progression
+
+setVolume(volume) :
+- Change le volume (0-100)
+
+updateProgress() :
+- Met à jour l'affichage de la barre et des temps
+- Appelé régulièrement pendant la lecture
+
+PATTERN SINGLETON :
+-------------------
+À la fin du fichier, un code s'exécute automatiquement pour créer une seule
+instance du lecteur (window.musicPlayerInstance). Cela garantit qu'il n'y a
+qu'un seul lecteur, même si on change de page.
+
+4.2. INJECTION DU LECTEUR (inject-music-player.js)
+---------------------------------------------------
+
+Ce script injecte automatiquement le HTML du lecteur sur toutes les pages.
+
+FONCTION injectMusicPlayer() :
+1. Vérifie si le lecteur existe déjà (évite les doublons)
+2. Crée un conteneur temporaire avec le HTML
+3. Injecte l'élément <audio> dans le body
+4. Injecte le lecteur dans la page (home-content sur index.html, body ailleurs)
+5. Initialise ou réinitialise le lecteur
+
+Pourquoi injecter plutôt que copier dans chaque page ?
+- Évite la duplication de code
+- Facilite les modifications (un seul endroit à changer)
+- Garantit la cohérence
+
+4.3. NAVIGATION ACTIVE (navigation.js)
+---------------------------------------
+
+Ce script met automatiquement en surbrillance le lien correspondant à la
+page actuelle.
+
+FONCTION updateActiveNavLink() :
+1. Récupère le nom du fichier actuel (ex: "cv.html")
+2. Retire la classe "active" de tous les liens
+3. Trouve le lien correspondant et ajoute "active"
+4. Gère aussi les liens dans le menu déroulant
+
+4.4. MENU HAMBURGER (menu.js)
+------------------------------
+
+Gère le menu hamburger sur mobile.
+
+FONCTIONNALITÉS :
+- Création automatique du bouton hamburger
+- Ouverture/fermeture du menu
+- Overlay (fond sombre) quand le menu est ouvert
+- Fermeture en cliquant ailleurs, sur Échap, ou en swipant
+- Vibration tactile sur mobile
+- Adaptation automatique au redimensionnement
+
+4.5. ÉTOILES 3D (stars.js)
+---------------------------
+
+Utilise Three.js pour créer un fond 3D avec des étoiles.
+
+COMPOSANTS :
+- Scene : La scène 3D
+- Camera : La caméra qui regarde la scène
+- Renderer : Le moteur de rendu qui dessine
+- Stars : 15000 étoiles fixes qui scintillent
+- Shooting Stars : Étoiles filantes occasionnelles
+
+ANIMATION :
+- Les étoiles tournent lentement
+- Elles scintillent (changement de taille)
+- Des étoiles filantes apparaissent régulièrement
+- Parfois, une "pluie d'étoiles" se déclenche
+
+4.6. ANIMATIONS CV/LETTRE (animation-cv.js, animation-lm.js)
+--------------------------------------------------------------
+
+Ces fichiers ajoutent des animations professionnelles aux pages CV et
+lettre de motivation.
+
+FONCTIONNALITÉS :
+1. Animation d'apparition au scroll (IntersectionObserver)
+2. Effet hover subtil sur les images
+3. Modal avec zoom et téléchargement au clic
+4. Indicateur de chargement
+
+MODAL :
+- Zoom avant/arrière avec boutons ou molette
+- Déplacement de l'image zoomée (drag)
+- Téléchargement du PDF
+- Fermeture avec Échap ou clic sur overlay
+
+4.7. CARROUSEL TPs (tps.js)
+-----------------------------
+
+Gère l'affichage des travaux pratiques dans un carrousel.
+
+FONCTIONNALITÉS :
+- Navigation avec flèches gauche/droite
+- Affichage du titre et de la description
+- Lien vers le PDF dans un nouvel onglet
+
+4.8. JEU SPACE INVADERS (spaceinvader.js)
+-------------------------------------------
+
+Jeu Space Invaders complet avec :
+- Vaisseau joueur contrôlable
+- Ennemis qui descendent
+- Tirs et collisions
+- Système de score
+- Panneau de personnalisation des couleurs
+- Musique de fond
+
+================================================================================
+5. TECHNOLOGIES UTILISÉES
+================================================================================
+
+HTML5 :
+- Structure sémantique
+- Élément <audio> pour la musique
+- Canvas pour le jeu
+
+CSS3 :
+- Flexbox et Grid pour la mise en page
+- Animations et transitions
+- Media queries pour le responsive
+- Variables CSS pour les couleurs
+
+JavaScript (ES6+) :
+- Classes
+- Arrow functions
+- Template literals
+- LocalStorage API
+- IntersectionObserver API
+- Event listeners
+
+BIBLIOTHÈQUES EXTERNES :
+- Three.js : Rendu 3D pour les étoiles
+- Font Awesome : Icônes
+- jQuery : (utilisé dans certains scripts)
+
+APIS NAVIGATEUR :
+- localStorage : Sauvegarde de l'état
+- Audio API : Lecture audio
+- Canvas API : Dessin pour le jeu
+- IntersectionObserver : Détection du scroll
+
+================================================================================
+6. GUIDE D'UTILISATION
+================================================================================
+
+6.1. OUVRIR LE SITE
+-------------------
+Ouvrez simplement index.html dans un navigateur web moderne (Chrome, Firefox,
+Edge, Safari).
+
+Note : Pour que tout fonctionne parfaitement, il est recommandé d'utiliser
+un serveur web local (comme Live Server dans VS Code) plutôt que d'ouvrir
+directement le fichier.
+
+6.2. NAVIGATION
+---------------
+- Cliquez sur les liens du menu pour changer de page
+- Sur mobile, cliquez sur le menu hamburger (☰) pour ouvrir le menu
+- Le lien de la page actuelle est automatiquement mis en surbrillance
+
+6.3. LECTEUR AUDIO
+------------------
+- Cliquez sur ▶ pour lancer la musique
+- Utilisez ⏮ et ⏭ pour changer de chanson
+- Cliquez sur 🔁 pour activer la répétition
+- Déplacez le curseur de volume pour ajuster
+- Cliquez sur l'icône volume pour couper le son
+- Cliquez sur la barre de progression pour sauter à un moment précis
+- Maintenez et déplacez la barre pour naviguer dans la chanson
+- Cliquez sur ➖ pour minimiser le lecteur
+
+6.4. JEU SPACE INVADERS
+-----------------------
+- Flèches gauche/droite : Déplacer le vaisseau
+- Espace : Tirer
+- Cliquez sur l'icône palette pour personnaliser les couleurs
+- Le jeu démarre automatiquement
+
+6.5. MODAL CV/LETTRE DE MOTIVATION
+-----------------------------------
+- Cliquez sur l'image pour l'agrandir
+- Utilisez les boutons pour zoomer/dézoomer
+- Déplacez l'image avec la souris si elle est zoomée
+- Utilisez la molette pour zoomer
+- Cliquez sur "Télécharger" pour obtenir le PDF
+- Appuyez sur Échap pour fermer
+
+================================================================================
+7. PERSONNALISATION ET MODIFICATIONS
+================================================================================
+
+7.1. MODIFIER LA PLAYLIST
+--------------------------
+Ouvrez js/music-player.js et modifiez le tableau playlist :
+
+this.playlist = [
+    {
+        title: "Titre de la chanson",
+        artist: "Nom de l'artiste",
+        src: "./assets/music/nom-du-fichier.mp3"
+    },
+    // Ajoutez d'autres chansons ici
+];
+
+Ajoutez les fichiers MP3 dans le dossier assets/music/
+
+7.2. MODIFIER LES COULEURS
+---------------------------
+Ouvrez css/style.css et modifiez les variables CSS en haut du fichier :
+
+:root {
+    --primary-color: #votre-couleur;
+    --secondary-color: #votre-couleur;
+    /* etc. */
+}
+
+7.3. AJOUTER UNE NOUVELLE PAGE
+-------------------------------
+1. Créez un nouveau fichier HTML (ex: nouvelle-page.html)
+2. Copiez la structure de base depuis index.html
+3. Modifiez le contenu
+4. Ajoutez le lien dans le menu (dans tous les fichiers HTML)
+5. Le lecteur audio sera automatiquement injecté
+
+7.4. MODIFIER LE MENU
+----------------------
+Le menu est dans chaque fichier HTML. Modifiez la section <nav> :
+
+<nav>
+    <a href="index.html">Accueil</a>
+    <a href="votre-page.html">Votre Page</a>
+    <!-- etc. -->
+</nav>
+
+7.5. DÉSACTIVER LE LECTEUR AUDIO
+---------------------------------
+Si vous ne voulez pas le lecteur audio :
+1. Retirez ces lignes de tous les fichiers HTML :
+   <script src="js/music-player.js"></script>
+   <script src="js/inject-music-player.js"></script>
+
+7.6. MODIFIER LE FOND D'ÉTOILES
+--------------------------------
+Ouvrez js/stars.js pour modifier :
+- Le nombre d'étoiles (starCount)
+- La vitesse de rotation
+- La fréquence des étoiles filantes
+- Les couleurs
+
+7.7. AJOUTER DES ANIMATIONS
+----------------------------
+Pour ajouter des animations sur une nouvelle page :
+1. Créez un fichier js/animation-votre-page.js
+2. Utilisez IntersectionObserver pour détecter le scroll
+3. Ajoutez des classes CSS pour les animations
+4. Incluez le script dans votre page HTML
+
+================================================================================
+8. DÉTAILS TECHNIQUES AVANCÉS
+================================================================================
+
+8.1. LOCALSTORAGE
+-----------------
+Le lecteur audio utilise localStorage pour sauvegarder l'état. Les données
+sont stockées sous la clé "musicPlayerState" et contiennent :
+- currentSongIndex : Index de la chanson
+- currentTime : Position dans la chanson (en secondes)
+- isPlaying : Si la musique joue
+- volume : Volume (0-1)
+- isLooping : Si la répétition est activée
+- isMinimized : Si le lecteur est minimisé
+
+Pour vider ces données (réinitialiser) :
+localStorage.removeItem('musicPlayerState');
+
+8.2. PATTERN SINGLETON
+----------------------
+Le lecteur audio utilise le pattern Singleton pour garantir qu'il n'y a
+qu'une seule instance, même après changement de page. L'instance est stockée
+dans window.musicPlayerInstance.
+
+8.3. INJECTION DYNAMIQUE
+------------------------
+Le lecteur est injecté dynamiquement pour éviter la duplication de code.
+Le HTML est stocké dans une chaîne JavaScript et injecté via innerHTML.
+
+8.4. GESTION DES ÉVÉNEMENTS
+----------------------------
+Les événements sont attachés de manière propre :
+- Stockage des références pour pouvoir les retirer
+- Vérification de l'existence des éléments avant attachement
+- Nettoyage lors de la réinitialisation
+
+8.5. RESPONSIVE DESIGN
+----------------------
+Le site utilise des media queries pour s'adapter :
+- Desktop : > 995px
+- Tablette : 768px - 995px
+- Mobile : < 768px
+
+Les breakpoints sont définis dans css/style.css.
+
+================================================================================
+9. DÉPANNAGE
+================================================================================
+
+PROBLÈME : Le lecteur audio ne s'affiche pas
+SOLUTION : Vérifiez que les scripts sont bien chargés dans l'ordre :
+1. music-player.js
+2. inject-music-player.js
+
+PROBLÈME : La musique s'arrête en changeant de page
+SOLUTION : Vérifiez que localStorage fonctionne (pas en mode privé)
+
+PROBLÈME : Les étoiles ne s'affichent pas
+SOLUTION : Vérifiez que Three.js est bien chargé et que le navigateur
+           supporte WebGL
+
+PROBLÈME : Le menu hamburger ne fonctionne pas
+SOLUTION : Vérifiez que menu.js est bien chargé et que la largeur de
+           l'écran est < 995px
+
+PROBLÈME : Les animations ne se déclenchent pas
+SOLUTION : Vérifiez que les scripts d'animation sont bien chargés et
+           que les classes CSS existent
+
+================================================================================
+10. STRUCTURE DES DONNÉES
+================================================================================
+
+PLAYLIST :
+----------
+Format d'un élément de playlist :
+{
+    title: string,      // Titre de la chanson
+    artist: string,     // Nom de l'artiste
+    src: string         // Chemin vers le fichier MP3
+}
+
+ÉTAT DU LECTEUR (localStorage) :
+--------------------------------
+{
+    currentSongIndex: number,    // Index dans la playlist (0, 1, 2...)
+    currentTime: number,        // Position en secondes
+    isPlaying: boolean,          // true si en cours de lecture
+    volume: number,              // Volume entre 0 et 1
+    isLooping: boolean,         // true si répétition activée
+    isMinimized: boolean        // true si lecteur minimisé
+}
+
+================================================================================
+11. BONNES PRATIQUES UTILISÉES
+================================================================================
+
+- Code modulaire : Chaque fonctionnalité dans son propre fichier
+- Commentaires explicites : Code bien documenté
+- Gestion d'erreurs : Vérifications avant utilisation
+- Performance : Évite les rechargements inutiles
+- Accessibilité : Attributs ARIA, navigation clavier
+- Responsive : Design adaptatif
+- Séparation des préoccupations : HTML, CSS, JS séparés
+
+================================================================================
+12. AMÉLIORATIONS POSSIBLES
+================================================================================
+
+- Ajouter un système de playlist personnalisée
+- Implémenter un système de recherche dans les projets
+- Ajouter des transitions de page
+- Optimiser les images (lazy loading)
+- Ajouter un mode sombre/clair
+- Implémenter un système de favoris pour les projets
+- Ajouter des statistiques de visite
+- Créer une version PWA (Progressive Web App)
+
+================================================================================
+FIN DE LA DOCUMENTATION
+================================================================================
+
+Pour toute question ou problème, consultez les commentaires dans le code
+ou cette documentation.
+
+Bon développement !
+

@@ -1,19 +1,40 @@
 <!DOCTYPE html>
+<!-- 
+    ============================================
+    PAGE VEILLE TECHNOLOGIQUE
+    ============================================
+    
+    Cette page présente la veille technologique effectuée par Léo.
+    
+    Contenu :
+    - Comparatif de cartes graphiques (NVIDIA vs AMD)
+    - Comparatif d'IA conversationnelles (Claude vs GPT-4)
+    - Méthodologie de veille
+    - Sources et outils utilisés
+-->
 <html lang="fr">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- ============================================
+	     MÉTADONNÉES
+	     ============================================ -->
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Icônes -->
-    <link rel="icon" href="assets/icons/icon.ico" type="image/x-icon">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/icon-16x16.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/icon-32x32.png">
+    <!-- Icônes en haut de l'onglet -->
+    <link rel="icon" href="assets/icons/favicon.ico" type="image/x-icon">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
     <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+    <link rel="android-icon" sizes="192x192" href="assets/icons/android-chrome-192x192.png">
+    <link rel="android-icon" sizes="512x512" href="assets/icons/android-chrome-512x512.png">
     <link rel="manifest" href="assets/icons/site.webmanifest">
 
+    <!--RELIER LA BIBLIOTHEQUE D'ICONES EXTERNE (FONT AWESOME)-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <!--RELIER LE FICHIER CSS EXTERNE-->
     <link rel="stylesheet" href="css/style.css">
+    <!--TITRE DE L'ONGLET-->
     <title>Portfolio Léo - Veille Technologique</title>
 </head>
 
@@ -22,30 +43,39 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="js/stars.js"></script>
     <script src="js/menu.js"></script>
+    <!-- Script du lecteur de musique (doit être chargé avant inject-music-player) -->
+    <script src="js/music-player.js"></script>
+    <!-- Script d'injection du lecteur audio global -->
+    <script src="js/inject-music-player.js"></script>
+    
+    <!-- Script de gestion de la navigation active -->
+    <script src="js/navigation.js"></script>
 
-    <!-- HEADER / NAV -->
-    <header>
-        <nav>
-            <a href="index.html">Accueil</a>
-            <a href="cv.html">CV</a>
-            <a href="lettremotivation.html">Lettre de motivation</a>
-
-            <!-- Menu déroulant Réalisations -->
-            <div class="dropdown">
-                <a>Réalisations</a>
-                <div class="dropdown-content">
-                    <a href="tps.html">TPs</a>
-                    <a href="projets.html">Projets</a>
-                    <a href="stages.html">Stages</a>
-                </div>
-            </div>
+	<!-- HEADER / NAV -->
+	<header>
+		<nav>
+			<a href="index.html">Accueil</a>
+			<a href="cv.html">CV</a>
+			<a href="lettremotivation.html">Lettre de motivation</a>
+			<!-- Menu déroulant Réalisations -->
+			<div class="dropdown">
+				<a href="#" class="dropbtn">Réalisations <i class="fa fa-caret-down"></i></a>
+				<div class="dropdown-content" id="myDropdown">
+					<a href="tps.html">TPs</a>
+					<a href="projets.html">Projets</a>
+					<a href="stages.html">Stages</a>
+				</div>
+			</div>
+			</div>
 			<a href="competences.html">Compétences</a>
-            <a href="veille.html" class="active">Veille</a>
-            <a href="contact.html">Contact</a>
-        </nav>
-    </header>
+			<a href="veille.html">Veille</a>
+			<a href="contact.html">Contact</a>
+		</nav>
+	</header>
 
-    <!-- HERO SECTION -->
+	<!-- ============================================
+	     SECTION HERO (EN-TÊTE)
+	     ============================================ -->
     <section class="veille-hero">
         <div class="hero-content">
             <h1 class="hero-title">
@@ -58,7 +88,11 @@
         </div>
     </section>
 
-    <!-- INTRODUCTION -->
+	<!-- ============================================
+	     INTRODUCTION
+	     ============================================
+	     Présente le contexte de la veille technologique
+    -->
     <section class="veille-intro-section">
         <div class="container">
             <div class="intro-card">
@@ -74,11 +108,19 @@
         </div>
     </section>
 
-    <!-- COMPARATIFS -->
+	<!-- ============================================
+	     SECTION COMPARATIFS
+	     ============================================
+	     Contient les comparatifs détaillés des technologies
+    -->
     <section class="comparisons-section">
         <div class="container">
 
-            <!-- COMPARATIF GPU -->
+            <!-- ============================================
+	         COMPARATIF CARTES GRAPHIQUES
+	         ============================================
+	         Comparaison NVIDIA RTX 5060 Ti vs AMD RX 9060 XT
+            -->
             <article class="comparison-block gpu-block">
                 <div class="block-header">
                     <div class="header-icon">
@@ -225,7 +267,11 @@
                 </div>
             </article>
 
-            <!-- COMPARATIF IA -->
+            <!-- ============================================
+	         COMPARATIF INTELLIGENCE ARTIFICIELLE
+	         ============================================
+	         Comparaison Claude AI vs GPT-4
+            -->
             <article class="comparison-block ai-block">
                 <div class="block-header">
                     <div class="header-icon">
@@ -320,7 +366,11 @@
         </div>
     </section>
 
-    <!-- MÉTHODOLOGIE -->
+	<!-- ============================================
+	     SECTION MÉTHODOLOGIE
+	     ============================================
+	     Explique comment la veille est effectuée
+    -->
     <section class="methodology-section">
         <div class="container">
             <h2 class="section-title">

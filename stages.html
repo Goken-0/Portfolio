@@ -1,18 +1,36 @@
 <!DOCTYPE html>
+<!-- 
+    ============================================
+    PAGE STAGES
+    ============================================
+    
+    Cette page présente les stages effectués par Léo.
+    
+    Structure :
+    - Timeline chronologique des stages
+    - Description de chaque stage
+    - Missions réalisées
+    - Technologies utilisées
+-->
 <html lang="fr">
 
 <head>
-    <!--ENCODAGE HTML POUR EMOJIS ETC-->
-    <meta charset="UTF-8">
+	<!-- ============================================
+	     MÉTADONNÉES
+	     ============================================ -->
+	<!-- Encodage UTF-8 pour les caractères spéciaux -->
+	<meta charset="UTF-8">
 
-    <!-- Permet au site de s’adapter aux écrans (PC, mobile, tablette) -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Viewport pour le responsive design -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Icônes en haut de l'onglet -->
-    <link rel="icon" href="assets/icons/icon.ico" type="image/x-icon">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/icon-16x16.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/icon-32x32.png">
+    <link rel="icon" href="assets/icons/favicon.ico" type="image/x-icon">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
     <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+    <link rel="android-icon" sizes="192x192" href="assets/icons/android-chrome-192x192.png">
+    <link rel="android-icon" sizes="512x512" href="assets/icons/android-chrome-512x512.png">
     <link rel="manifest" href="assets/icons/site.webmanifest">
 
     <!--RELIER LA BIBLIOTHEQUE D'ICONES EXTERNE (FONT AWESOME)-->
@@ -27,37 +45,62 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="js/stars.js"></script>
     <script src="js/menu.js"></script>
+    <!-- Script du lecteur de musique (doit être chargé avant inject-music-player) -->
+    <script src="js/music-player.js"></script>
+    <!-- Script d'injection du lecteur audio global -->
+    <script src="js/inject-music-player.js"></script>
+    
+    <!-- Script de gestion de la navigation active -->
+    <script src="js/navigation.js"></script>
 
-    <header>
-        <nav>
-            <a href="index.html">Accueil</a>
-            <a href="cv.html">CV</a>
-            <a href="lettremotivation.html">Lettre de motivation</a>
-            <div class="dropdown">
-                <a>Réalisations</a>
-                <div class="dropdown-content">
-                    <a href="tps.html">TPs</a>
-                    <a href="projets.html">Projets</a>
-                    <a href="stages.html" class="active">Stages</a>
-                </div>
-            </div>
+	<!-- HEADER / NAV -->
+	<header>
+		<nav>
+			<a href="index.html">Accueil</a>
+			<a href="cv.html">CV</a>
+			<a href="lettremotivation.html">Lettre de motivation</a>
+			<!-- Menu déroulant Réalisations -->
+			<div class="dropdown">
+				<a href="#" class="dropbtn">Réalisations <i class="fa fa-caret-down"></i></a>
+				<div class="dropdown-content" id="myDropdown">
+					<a href="tps.html">TPs</a>
+					<a href="projets.html">Projets</a>
+					<a href="stages.html">Stages</a>
+				</div>
+			</div>
+			</div>
 			<a href="competences.html">Compétences</a>
-            <a href="veille.html">Veille</a>
-            <a href="contact.html">Contact</a>
-        </nav>
-    </header>
+			<a href="veille.html">Veille</a>
+			<a href="contact.html">Contact</a>
+		</nav>
+	</header>
 
+	<!-- ============================================
+	     CONTENU PRINCIPAL
+	     ============================================ -->
     <main>
         <div class="stages-container">
-            <!-- Hero Section -->
+            <!-- Section d'en-tête -->
             <div class="stages-hero">
                 <h1>Mes <span>Stages</span></h1>
                 <p class="subtitle">Parcours professionnel et expériences enrichissantes</p>
             </div>
 
-            <!-- Timeline -->
+            <!-- ============================================
+	         TIMELINE DES STAGES
+	         ============================================
+	         Affichage chronologique des stages
+            -->
             <div class="timeline">
 
+                <!-- 
+                    CARTE DE STAGE
+                    Chaque stage contient :
+                    - Période et entreprise
+                    - Description générale
+                    - Missions réalisées
+                    - Technologies utilisées
+                -->
                 <!-- Stage 1 - EXEMPLE À MODIFIER -->
                 <div class="stage-item">
                     <div class="stage-card">

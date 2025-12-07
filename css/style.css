@@ -1,7 +1,33 @@
-/*IMPORTATION DE LA POLICE POPPINS*/
+/**
+ * ============================================
+ * FICHIER CSS PRINCIPAL DU PORTFOLIO
+ * ============================================
+ * 
+ * Ce fichier contient tous les styles du site :
+ * - Réinitialisation et styles de base
+ * - Styles du header et navigation
+ * - Styles des pages (accueil, CV, projets, etc.)
+ * - Styles du lecteur audio
+ * - Responsive design (mobile, tablette, desktop)
+ * 
+ * STRUCTURE :
+ * 1. Importations et réinitialisation
+ * 2. Variables CSS et styles globaux
+ * 3. Header et navigation
+ * 4. Pages spécifiques
+ * 5. Lecteur audio
+ * 6. Media queries (responsive)
+ */
+
+/* Importation de la police Google Fonts Poppins */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
 
-/* Réinitialisation de base */
+/* ============================================
+   RÉINITIALISATION DE BASE
+   ============================================
+   On remet à zéro tous les styles par défaut du navigateur
+   pour avoir un contrôle total sur l'apparence
+*/
 * {
     margin: 0;
     padding: 0;
@@ -10,6 +36,46 @@
     border: none;
     outline: none;
     font-family: 'Poppins', sans-serif;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Désactiver le surlignage bleu lors de la sélection */
+::selection {
+    background: transparent;
+    color: inherit;
+}
+
+::-moz-selection {
+    background: transparent;
+    color: inherit;
+}
+
+/* Exceptions : permettre la sélection pour les champs de formulaire */
+input,
+textarea,
+[contenteditable="true"],
+[contenteditable="true"] * {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+
+/* Permettre la sélection dans les champs de formulaire */
+input::selection,
+textarea::selection {
+    background: rgba(60, 174, 228, 0.3);
+    color: inherit;
+}
+
+input::-moz-selection,
+textarea::-moz-selection {
+    background: rgba(60, 174, 228, 0.3);
+    color: inherit;
 }
 
 /*MODIFICATION DE LA TAILLE DE POLICE*/
@@ -25,6 +91,20 @@ body {
     background-color: transparent;
     color: white;
     position: relative;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Désactiver le scroll horizontal sur les pages CV, lettre de motivation et contact */
+/* Permettre le scroll vertical si nécessaire pour accéder au contenu */
+body:has(.cv-container),
+body:has(.contact-wrapper) {
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: 100vh;
 }
 
 main {
@@ -544,7 +624,9 @@ span {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    min-height: calc(100vh - 125px);
+    padding: 2rem 0;
+    box-sizing: border-box;
 }
 
 .cv-img {
@@ -590,6 +672,49 @@ span {
     flex-direction: column;
     align-items: center;
     gap: 2rem;
+    padding: 1rem 0;
+    max-width: 100%;
+}
+
+/* Ajustements responsive pour les écrans 1080p et moins */
+@media (max-height: 1080px) {
+    .cv-container {
+        min-height: auto;
+        padding: 1rem 0;
+    }
+    
+    .cv-content {
+        gap: 1.5rem;
+        padding: 0.5rem 0;
+    }
+    
+    .cv-img,
+    .lettre-img {
+        max-width: 500px;
+        width: 30vw;
+    }
+    
+    main {
+        padding: 100px 100px 20px;
+    }
+}
+
+/* Ajustements pour les écrans encore plus petits */
+@media (max-height: 900px) {
+    .cv-img,
+    .lettre-img {
+        max-width: 450px;
+        width: 35vw;
+    }
+    
+    main {
+        padding: 90px 90px 20px;
+    }
+    
+    .btn-cv {
+        padding: 0.8rem 2.2rem;
+        font-size: 1.4rem;
+    }
 }
 
 /*POSITIONNEMENT DE LA PHRASE DE C#3caee4IT*/
@@ -621,7 +746,7 @@ span {
 
 /* Titre centré */
 .contact-title {
-    font-size: 2.5rem;
+    font-size: 4rem;
     font-weight: bold;
     color: white;
     text-align: center;
@@ -629,11 +754,12 @@ span {
 
 /* Formulaire */
 .formulaire-container {
-    width: 300%;
+    width: 100%;
+    max-width: 750px;
     background-color: transparent;
     padding: 30px;
     border-radius: 10px;
-    margin-bottom: 500px;
+    margin-bottom: 50px;
 }
 
 form {
@@ -675,19 +801,97 @@ button:hover {
     box-shadow: 0 0 25px rgba(60, 174, 228, 0.5);
 }
 
+/* Responsive pour tablette */
+@media (max-width: 1024px) {
+    body:has(.contact-wrapper) main {
+        padding: 8rem 3rem 2rem;
+    }
+
+    .contact-wrapper {
+        max-width: 90%;
+        padding: 30px 20px;
+    }
+
+    .formulaire-container {
+        max-width: 100%;
+        padding: 25px;
+    }
+
+    .contact-title {
+        font-size: 3.5rem;
+    }
+}
+
 /* Responsive pour mobile */
 @media (max-width: 768px) {
+    body:has(.contact-wrapper) main {
+        padding: 8rem 1.5rem 2rem;
+    }
+
     .contact-wrapper {
-        padding: 20px;
+        padding: 20px 15px;
         min-height: auto;
+        max-width: 100%;
     }
 
     .formulaire-container {
         padding: 20px;
+        max-width: 100%;
+    }
+
+    .contact-title {
+        font-size: 2.5rem;
+    }
+
+    input,
+    textarea {
+        font-size: 1.5rem;
+        padding: 12px;
+    }
+
+    button {
+        padding: 1.2rem 2rem;
+        font-size: 1.5rem;
+        width: 100%;
+    }
+
+    form {
+        gap: 20px;
+    }
+}
+
+/* Responsive pour très petits écrans */
+@media (max-width: 480px) {
+    body:has(.contact-wrapper) main {
+        padding: 7rem 1rem 1.5rem;
+    }
+
+    .contact-wrapper {
+        padding: 15px 10px;
+    }
+
+    .formulaire-container {
+        padding: 15px;
     }
 
     .contact-title {
         font-size: 2rem;
+        margin-bottom: 20px;
+    }
+
+    input,
+    textarea {
+        font-size: 1.4rem;
+        padding: 10px;
+    }
+
+    button {
+        padding: 1rem 1.5rem;
+        font-size: 1.4rem;
+    }
+
+    form {
+        gap: 15px;
     }
 }
 
@@ -1337,7 +1541,8 @@ body:not(.veille-page) {
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, transparent, transparent, transparent);  /* CHANGER ICI */
+    background: linear-gradient(90deg, transparent, transparent, transparent);
+    /* CHANGER ICI */
     opacity: 0;
     transition: opacity 0.3s ease;
 }
@@ -1974,7 +2179,9 @@ body:not(.veille-page) {
 
 /* ===================== LECTEUR DE MUSIQUE ===================== */
 .music-player {
-    position: static;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
     background: rgba(0, 0, 0, 0.9);
     border: 1px solid rgba(60, 174, 228, 0.3);
     border-radius: 20px;
@@ -1984,15 +2191,17 @@ body:not(.veille-page) {
     min-width: 280px;
     max-width: 420px;
     width: 100%;
-    margin-top: 2rem;
-    transition: box-shadow 0.3s ease, opacity 0.3s ease;
+    z-index: 1000;
+    transition: box-shadow 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
     opacity: 0.95;
 }
 
-/* Centrer le lecteur sous le bouton dans le bloc de contenu */
+/* Centrer le lecteur sous le bouton dans le bloc de contenu sur la page d'accueil */
 .home-content .music-player {
+    position: static;
     margin-left: 0;
     margin-right: 0;
+    margin-top: 2rem;
 }
 
 .music-player:hover {
@@ -2001,14 +2210,64 @@ body:not(.veille-page) {
 }
 
 .music-player.minimized {
-    min-width: auto;
-    padding: 15px;
+    min-width: 220px;
+    max-width: 300px;
+    padding: 10px 15px;
+    transform: translateY(calc(100% - 100px));
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
-.music-player.minimized .music-info,
+/* Sur la page d'accueil, le minimisé reste en place */
+.home-content .music-player.minimized {
+    transform: none;
+}
+
 .music-player.minimized .music-controls,
 .music-player.minimized .volume-container {
     display: none;
+}
+
+/* En mode minimisé, afficher seulement le titre et l'artiste */
+.music-player.minimized .music-info {
+    display: block;
+    margin-bottom: 0;
+    text-align: center;
+}
+
+.music-player.minimized .progress-container,
+.music-player.minimized .time-info {
+    display: none;
+}
+
+/* Style pour le titre et l'artiste en mode minimisé */
+.music-player.minimized .song-title {
+    font-size: 12px;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.4;
+}
+
+.music-player.minimized .song-artist {
+    font-size: 10px;
+    margin-bottom: 0;
+    white-space: nowrap;
+    overflow: visible;
+    text-overflow: clip;
+    max-width: 100%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.4;
+    padding: 0 5px;
 }
 
 .player-header {
@@ -2017,6 +2276,25 @@ body:not(.veille-page) {
     /* au lieu de flex-end */
     align-items: center;
     margin-bottom: 15px;
+}
+
+/* En mode minimisé, ajuster le header */
+.music-player.minimized .player-header {
+    margin-bottom: 5px;
+    flex-shrink: 0;
+}
+
+/* Ajuster l'espacement en mode minimisé */
+.music-player.minimized .music-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0;
+    text-align: center;
+    padding-top: 0;
+    flex: 1;
+    min-height: 50px;
 }
 
 .player-title {
@@ -2135,6 +2413,51 @@ body:not(.veille-page) {
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+}
+
+/* Style pour le bouton de loop actif */
+.control-btn.active.loop-all,
+.control-btn.active.loop-one {
+    background: rgba(60, 174, 228, 0.2);
+    border-color: #3caee4;
+    color: #3caee4;
+}
+
+/* Indicateur "1" pour le mode loop one */
+.loop-indicator {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    background: #3caee4;
+    color: white;
+    font-size: 8px;
+    font-weight: bold;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid rgba(0, 0, 0, 0.9);
+    line-height: 1;
+}
+
+/* Animation pour le bouton de loop actif */
+.control-btn.active.loop-all i,
+.control-btn.active.loop-one i {
+    animation: loopPulse 2s ease-in-out infinite;
+}
+
+@keyframes loopPulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.7;
+        transform: scale(0.95);
+    }
 }
 
 .control-btn.play-pause {
@@ -2346,13 +2669,41 @@ body:not(.veille-page) {
 @media (max-width: 768px) {
     .music-player {
         right: 15px;
+        bottom: 15px;
         min-width: 250px;
         padding: 15px;
     }
 
     .music-player.minimized {
-        transform: translateY(-50%) translateX(calc(100% - 50px));
-        padding: 10px;
+        transform: translateY(calc(100% - 95px));
+        padding: 8px 12px;
+        min-width: 200px;
+        max-width: 280px;
+        min-height: 95px;
+    }
+    
+    .music-player.minimized .song-title {
+        max-width: 100%;
+        font-size: 11px;
+        line-height: 1.4;
+    }
+    
+    .music-player.minimized .song-artist {
+        max-width: 100%;
+        font-size: 9px;
+        line-height: 1.4;
+        overflow: visible;
+        text-overflow: clip;
+        padding: 0 5px;
+    }
+    
+    .music-player.minimized .music-info {
+        min-height: 45px;
+    }
+
+    /* Sur la page d'accueil, le minimisé reste en place */
+    .home-content .music-player.minimized {
+        transform: none;
     }
 
     .music-notification {
@@ -2642,12 +2993,33 @@ body:has(.realisations-container) main {
     pointer-events: none;
 }
 
-/* Affichage au survol du dropdown entier */
-.dropdown:hover .dropdown-content {
+/* --- CODE POUR LE CLIC --- */
+/* La classe .show sera ajoutée par le Javascript quand on clique */
+.dropdown-content.show {
     display: block;
     opacity: 1;
     transform: translateY(0);
     pointer-events: all;
+    animation: fadeInDrop 0.3s ease;
+}
+
+/* Petite animation pour rendre l'apparition fluide */
+@keyframes fadeInDrop {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Garder le lien "Réalisations" coloré quand le menu est ouvert */
+.dropdown a.dropbtn.active {
+    color: #3caee4 !important;
+    border-bottom: 2px solid #3caee4 !important;
 }
 
 /* Liens dans le menu déroulant */
@@ -2743,6 +3115,11 @@ body:has(.realisations-container) main {
         padding-left: 2rem !important;
         background: rgba(60, 174, 228, 0.3) !important;
         border-left: 3px solid #3caee4 !important;
+    }
+
+    /* Cacher la flèche du HTML sur mobile (car on en ajoute une avec CSS) */
+    .dropdown>a .fa-caret-down {
+        display: none;
     }
 
     /* Icône pour indiquer que c'est déroulable */

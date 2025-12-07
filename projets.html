@@ -1,18 +1,36 @@
 <!DOCTYPE html>
+<!-- 
+    ============================================
+    PAGE PROJETS
+    ============================================
+    
+    Cette page présente tous les projets réalisés par Léo.
+    
+    Fonctionnalités :
+    - Filtres par catégorie (Web, Réseau, Système, Sécurité)
+    - Projet phare mis en avant
+    - Grille de projets avec cartes
+    - Script de filtrage JavaScript intégré
+-->
 <html lang="fr">
 
 <head>
-    <!--ENCODAGE HTML POUR EMOJIS ETC-->
-    <meta charset="UTF-8">
+	<!-- ============================================
+	     MÉTADONNÉES
+	     ============================================ -->
+	<!-- Encodage UTF-8 pour les caractères spéciaux -->
+	<meta charset="UTF-8">
 
-    <!-- Permet au site de s’adapter aux écrans (PC, mobile, tablette) -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Viewport pour le responsive design -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Icônes en haut de l'onglet -->
-    <link rel="icon" href="assets/icons/icon.ico" type="image/x-icon">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/icon-16x16.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/icon-32x32.png">
+    <link rel="icon" href="assets/icons/favicon.ico" type="image/x-icon">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
     <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+    <link rel="android-icon" sizes="192x192" href="assets/icons/android-chrome-192x192.png">
+    <link rel="android-icon" sizes="512x512" href="assets/icons/android-chrome-512x512.png">
     <link rel="manifest" href="assets/icons/site.webmanifest">
 
     <!--RELIER LA BIBLIOTHEQUE D'ICONES EXTERNE (FONT AWESOME)-->
@@ -27,35 +45,53 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="js/stars.js"></script>
     <script src="js/menu.js"></script>
+    <!-- Script du lecteur de musique (doit être chargé avant inject-music-player) -->
+    <script src="js/music-player.js"></script>
+    <!-- Script d'injection du lecteur audio global -->
+    <script src="js/inject-music-player.js"></script>
+    
+    <!-- Script de gestion de la navigation active -->
+    <script src="js/navigation.js"></script>
 
-    <header>
-        <nav>
-            <a href="index.html">Accueil</a>
-            <a href="cv.html">CV</a>
-            <a href="lettremotivation.html">Lettre de motivation</a>
-            <div class="dropdown">
-                <a>Réalisations</a>
-                <div class="dropdown-content">
-                    <a href="tps.html">TPs</a>
-                    <a href="projets.html" class="active">Projets</a>
-                    <a href="stages.html">Stages</a>
-                </div>
-            </div>
+	<!-- HEADER / NAV -->
+	<header>
+		<nav>
+			<a href="index.html">Accueil</a>
+			<a href="cv.html">CV</a>
+			<a href="lettremotivation.html">Lettre de motivation</a>
+			<!-- Menu déroulant Réalisations -->
+			<div class="dropdown">
+				<a href="#" class="dropbtn">Réalisations <i class="fa fa-caret-down"></i></a>
+				<div class="dropdown-content" id="myDropdown">
+					<a href="tps.html">TPs</a>
+					<a href="projets.html">Projets</a>
+					<a href="stages.html">Stages</a>
+				</div>
+			</div>
+			</div>
 			<a href="competences.html">Compétences</a>
-            <a href="veille.html">Veille</a>
-            <a href="contact.html">Contact</a>
-        </nav>
-    </header>
+			<a href="veille.html">Veille</a>
+			<a href="contact.html">Contact</a>
+		</nav>
+	</header>
 
+	<!-- ============================================
+	     CONTENU PRINCIPAL
+	     ============================================ -->
     <main>
         <div class="projets-container">
-            <!-- Hero Section -->
+            <!-- Section d'en-tête avec titre -->
             <div class="projets-hero">
                 <h1>Mes <span>Projets</span></h1>
                 <p class="subtitle">Créations personnelles et réalisations techniques</p>
             </div>
 
-            <!-- Filtres -->
+            <!-- ============================================
+	         FILTRES PAR CATÉGORIE
+	         ============================================
+	         Permet de filtrer les projets par catégorie
+	         Le script JavaScript en bas de page gère le filtrage
+            -->
             <div class="filters">
                 <button class="filter-btn active" data-filter="all">
                     <i class="fas fa-th"></i> Tous
@@ -74,7 +110,11 @@
                 </button>
             </div>
 
-            <!-- Projet en Vedette -->
+            <!-- ============================================
+	         PROJET PHARE
+	         ============================================
+	         Mise en avant du projet le plus important
+            -->
             <div class="featured-project">
                 <div class="featured-grid">
                     <div class="featured-image">
@@ -124,15 +164,28 @@
                 </div>
             </div>
 
-            <!-- Titre Section -->
+            <!-- ============================================
+	         TOUS LES PROJETS
+	         ============================================
+	         Grille de tous les projets avec filtrage
+            -->
             <h2 class="section-title">
                 <i class="fas fa-folder-open"></i>
                 Tous les Projets
             </h2>
 
-            <!-- Grille de Projets -->
+            <!-- Grille de projets (les cartes sont filtrées par le script JavaScript) -->
             <div class="projects-grid">
 
+                <!-- 
+                    CARTE DE PROJET
+                    Chaque projet est dans une carte avec :
+                    - Image/icône
+                    - Titre et description
+                    - Technologies utilisées
+                    - Liens (démo, GitHub, etc.)
+                    - Attribut data-category pour le filtrage
+                -->
                 <!-- Projet 1 - EXEMPLE À MODIFIER -->
                 <div class="project-card" data-category="web">
                     <div class="project-image">
@@ -359,11 +412,18 @@
         <footer class="credit">Fait par Léo avec ❤️ - © Tous droits réservés</footer>
     </main>
 
+    <!-- ============================================
+         SCRIPT DE FILTRAGE DES PROJETS
+         ============================================
+         Ce script permet de filtrer les projets par catégorie
+         quand on clique sur les boutons de filtre
+    -->
     <script>
-        // Script pour les filtres de catégories
+        // Récupérer tous les boutons de filtre et toutes les cartes de projet
         const filterBtns = document.querySelectorAll('.filter-btn');
         const projectCards = document.querySelectorAll('.project-card');
 
+        // Pour chaque bouton de filtre
         filterBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 // Retirer la classe active de tous les boutons
@@ -371,17 +431,22 @@
                 // Ajouter la classe active au bouton cliqué
                 btn.classList.add('active');
 
+                // Récupérer la catégorie à filtrer (ex: "web", "reseau", "all")
                 const filter = btn.dataset.filter;
 
+                // Parcourir toutes les cartes de projet
                 projectCards.forEach(card => {
+                    // Si on filtre "all" ou si la catégorie de la carte correspond au filtre
                     if (filter === 'all' || card.dataset.category === filter) {
+                        // Afficher la carte
                         card.style.display = 'block';
-                        // Réanimer l'apparition
+                        // Réanimer l'apparition (effet visuel)
                         card.style.animation = 'none';
                         setTimeout(() => {
                             card.style.animation = 'projectAppear 0.6s ease-out forwards';
                         }, 10);
                     } else {
+                        // Cacher la carte si elle ne correspond pas au filtre
                         card.style.display = 'none';
                     }
                 });

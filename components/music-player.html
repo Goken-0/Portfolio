@@ -1,0 +1,59 @@
+<!-- Audio element global -->
+<audio id="audioPlayer" preload="none">
+	<!-- Les sources seront définies dynamiquement par JavaScript -->
+	Your browser does not support the audio element.
+</audio>
+
+<!-- LECTEUR DE MUSIQUE GLOBAL -->
+<div class="music-player" id="musicPlayer">
+	<div class="player-header">
+		<i class="fas fa-music" style="color: #3caee4; font-size: 18px;"></i>
+		<button class="minimize-btn" id="minimizeBtn">
+			<i class="fas fa-minus"></i>
+		</button>
+	</div>
+
+	<div class="music-info">
+		<div class="song-title" id="songTitle">Ambient Space</div>
+		<div class="song-artist" id="songArtist">Portfolio Soundtrack</div>
+
+		<div class="progress-container" id="progressContainer">
+			<div class="progress-bar" id="progressBar"></div>
+		</div>
+
+		<div class="time-info">
+			<span id="currentTime">0:00</span>
+			<span id="totalTime">0:00</span>
+		</div>
+	</div>
+
+	<div class="music-controls">
+		<button class="control-btn secondary" id="prevBtn">
+			<i class="fas fa-backward"></i>
+		</button>
+		<button class="control-btn play-pause" id="playPauseBtn">
+			<i class="fas fa-play"></i>
+		</button>
+		<button class="control-btn secondary" id="nextBtn">
+			<i class="fas fa-forward"></i>
+		</button>
+		<button class="control-btn secondary" id="loopBtn" title="Répétition">
+			<i class="fas fa-repeat"></i>
+			<span class="loop-indicator" id="loopIndicator" style="display: none;">1</span>
+		</button>
+	</div>
+
+	<div class="volume-container">
+		<i class="fas fa-volume-up volume-icon" id="volumeIcon"></i>
+		<input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="30">
+	</div>
+
+	<div class="equalizer" id="equalizer">
+		<div class="eq-bar"></div>
+		<div class="eq-bar"></div>
+		<div class="eq-bar"></div>
+		<div class="eq-bar"></div>
+		<div class="eq-bar"></div>
+	</div>
+</div>
+

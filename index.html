@@ -1,14 +1,33 @@
 <!DOCTYPE html>
+<!-- 
+    ============================================
+    PAGE D'ACCUEIL DU PORTFOLIO
+    ============================================
+    
+    Cette page est la première page que les visiteurs voient.
+    Elle contient :
+    - Une présentation personnelle
+    - Des liens vers les réseaux sociaux
+    - Le lecteur audio (injecté automatiquement)
+    - Le fond animé avec étoiles 3D
+-->
 <html lang="fr">
 
 <head>
-	<!-- ENCODAGE HTML POUR EMOJIS ETC -->
+	<!-- ============================================
+	     MÉTADONNÉES DE LA PAGE
+	     ============================================ -->
+	
+	<!-- Encodage UTF-8 : permet d'afficher les caractères spéciaux et emojis -->
 	<meta charset="UTF-8">
 
-	<!-- Permet au site de s'adapter aux écrans (PC, mobile, tablette) -->
+	<!-- Viewport : permet au site de s'adapter aux écrans (PC, mobile, tablette) -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	<!-- Icônes en haut de l'onglet -->
+	<!-- ============================================
+	     FAVICONS (ICÔNES DE L'ONGLET)
+	     ============================================ -->
+	<!-- Différentes tailles pour différents appareils et navigateurs -->
 	<link rel="icon" href="assets/icons/favicon.ico" type="image/x-icon">
 	<link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
@@ -17,141 +36,138 @@
 	<link rel="android-icon" sizes="512x512" href="assets/icons/android-chrome-512x512.png">
 	<link rel="manifest" href="assets/icons/site.webmanifest">
 
-	<!-- Icônes (LinkedIn, GitHub, etc.) via FontAwesome -->
+	<!-- ============================================
+	     BIBLIOTHÈQUES EXTERNES
+	     ============================================ -->
+	<!-- Font Awesome : bibliothèque d'icônes (LinkedIn, GitHub, etc.) -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-	<!-- Fichier CSS externe -->
+	<!-- ============================================
+	     FICHIERS CSS
+	     ============================================ -->
+	<!-- Fichier CSS principal : contient tous les styles du site -->
 	<link rel="stylesheet" href="css/style.css">
 
+	<!-- Titre affiché dans l'onglet du navigateur -->
 	<title>Portfolio Léo - Accueil</title>
 </head>
 
 <body>
-	<!-- Librairie Three.js pour gérer le canvas 3D -->
+	<!-- ============================================
+	     SCRIPTS CHARGÉS EN PREMIER
+	     ============================================
+	     Ces scripts sont chargés avant le contenu pour être disponibles rapidement
+	-->
+	
+	<!-- Three.js : bibliothèque JavaScript 3D pour créer le fond animé avec étoiles -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
-	<!-- Librairie jQuery (HTTPS) -->
+	<!-- jQuery : bibliothèque JavaScript (utilisée dans certains scripts) -->
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-	<!-- Audio element -->
-	<audio id="audioPlayer" preload="none">
-		<!-- Les sources seront définies dynamiquement par JavaScript -->
-		Your browser does not support the audio element.
-	</audio>
-
-	<!-- Script qui gère les étoiles -->
+	<!-- Script qui crée et anime les étoiles 3D en arrière-plan -->
 	<script src="js/stars.js"></script>
 
-	<!-- Script qui gère le menu "hamburger" sur mobile -->
+	<!-- Script qui gère le menu hamburger (trois lignes) sur mobile -->
 	<script src="js/menu.js"></script>
 
-	<!-- Script du lecteur de musique -->
+	<!-- Script du lecteur de musique : contient la classe MusicPlayer -->
+	<!-- IMPORTANT : doit être chargé AVANT inject-music-player.js -->
 	<script src="js/music-player.js"></script>
+	
+	<!-- Script qui injecte automatiquement le lecteur audio sur la page -->
+	<script src="js/inject-music-player.js"></script>
+	
+	<!-- Script qui met automatiquement en surbrillance le lien de la page active -->
+	<script src="js/navigation.js"></script>
 
-	<!-- HEADER / NAV -->
+	<!-- ============================================
+	     EN-TÊTE ET NAVIGATION
+	     ============================================ -->
 	<header>
 		<nav>
-			<a href="index.html" class="active">Accueil</a>
+			<!-- Lien vers la page d'accueil -->
+			<a href="index.html">Accueil</a>
+			
+			<!-- Lien vers la page CV -->
 			<a href="cv.html">CV</a>
+			
+			<!-- Lien vers la page lettre de motivation -->
 			<a href="lettremotivation.html">Lettre de motivation</a>
-
-			<!-- Menu déroulant Réalisations -->
+			
+			<!-- Menu déroulant "Réalisations" avec sous-pages -->
 			<div class="dropdown">
-				<a>Réalisations</a>
-				<div class="dropdown-content">
+				<!-- Bouton principal du menu déroulant -->
+				<a href="#" class="dropbtn">Réalisations <i class="fa fa-caret-down"></i></a>
+				<!-- Contenu du menu déroulant (caché par défaut) -->
+				<div class="dropdown-content" id="myDropdown">
 					<a href="tps.html">TPs</a>
 					<a href="projets.html">Projets</a>
 					<a href="stages.html">Stages</a>
 				</div>
 			</div>
+			
+			<!-- Lien vers la page compétences -->
 			<a href="competences.html">Compétences</a>
+			
+			<!-- Lien vers la page veille technologique -->
 			<a href="veille.html">Veille</a>
+			
+			<!-- Lien vers la page contact -->
 			<a href="contact.html">Contact</a>
 		</nav>
 	</header>
 
-	<!-- Section d'accueil -->
+	<!-- ============================================
+	     SECTION D'ACCUEIL
+	     ============================================ -->
 	<section class="home">
-		<!-- Image de présentation -->
+		<!-- Image de présentation (photo de profil) -->
 		<div class="home-img">
 			<img src="assets/images/main.png" alt="Photo de Léo">
 		</div>
 
-		<!-- Texte de présentation -->
+		<!-- Contenu textuel de présentation -->
 		<div class="home-content">
+			<!-- Titre principal avec le prénom en surbrillance -->
 			<h1>Bonjour, je m'appelle <span>Léo</span></h1>
+			
+			<!-- Sous-titre avec effet de frappe (typing) -->
 			<h3 class="typing-text">Je suis <span>étudiant en BTS SIO</span></h3>
+			
+			<!-- Phrase d'accroche -->
 			<p class="sentence">
 				L'informatique m'anime depuis toujours : bienvenue dans mon univers numérique.
 			</p>
 
-			<!-- Icônes réseaux sociaux -->
+			<!-- ============================================
+			     ICÔNES RÉSEAUX SOCIAUX
+			     ============================================ -->
 			<div class="social-icons">
+				<!-- Lien vers le profil LinkedIn -->
 				<a href="https://www.linkedin.com/in/l%C3%A9o-metgy-3268a5383/">
 					<i class="fa-brands fa-linkedin"></i>
 				</a>
+				
+				<!-- Lien vers le profil GitHub -->
 				<a href="https://github.com/Goken-0">
 					<i class="fa-brands fa-github"></i>
 				</a>
+				
+				<!-- Lien vers le jeu Space Invaders -->
 				<a href="spaceinvader.html" class="alien-btn">
 					<i class="fa-solid fa-gamepad"></i>
 				</a>
 			</div>
 
-			<!-- Bouton contact -->
+			<!-- Bouton pour aller à la page contact -->
 			<a href="contact.html" class="btn">Me contacter</a>
 
-			<!-- LECTEUR DE MUSIQUE SOUS LE BOUTON CONTACT -->
-			<div class="music-player" id="musicPlayer">
-				<div class="player-header">
-					<i class="fas fa-music" style="color: #3caee4; font-size: 18px;"></i>
-					<button class="minimize-btn" id="minimizeBtn">
-						<i class="fas fa-minus"></i>
-					</button>
-				</div>
-
-				<div class="music-info">
-					<div class="song-title" id="songTitle">Ambient Space</div>
-					<div class="song-artist" id="songArtist">Portfolio Soundtrack</div>
-
-					<div class="progress-container" id="progressContainer">
-						<div class="progress-bar" id="progressBar"></div>
-					</div>
-
-					<div class="time-info">
-						<span id="currentTime">0:00</span>
-						<span id="totalTime">0:00</span>
-					</div>
-				</div>
-
-				<div class="music-controls">
-					<button class="control-btn secondary" id="prevBtn">
-						<i class="fas fa-backward"></i>
-					</button>
-					<button class="control-btn play-pause" id="playPauseBtn">
-						<i class="fas fa-play"></i>
-					</button>
-					<button class="control-btn secondary" id="nextBtn">
-						<i class="fas fa-forward"></i>
-					</button>
-					<button class="control-btn secondary" id="shuffleBtn">
-						<i class="fas fa-random"></i>
-					</button>
-				</div>
-
-				<div class="volume-container">
-					<i class="fas fa-volume-up volume-icon" id="volumeIcon"></i>
-					<input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="30">
-				</div>
-
-				<div class="equalizer" id="equalizer">
-					<div class="eq-bar"></div>
-					<div class="eq-bar"></div>
-					<div class="eq-bar"></div>
-					<div class="eq-bar"></div>
-					<div class="eq-bar"></div>
-				</div>
-			</div>
+			<!-- 
+				LECTEUR DE MUSIQUE
+				Le lecteur sera automatiquement injecté ici par inject-music-player.js
+				Il n'est pas nécessaire de l'écrire manuellement dans le HTML
+			-->
 		</div>
 
 		<!-- Crédit en bas de page -->

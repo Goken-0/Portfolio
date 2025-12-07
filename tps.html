@@ -1,87 +1,112 @@
 <!DOCTYPE html>
+<!-- 
+    ============================================
+    PAGE TRAVAUX PRATIQUES (TPs)
+    ============================================
+    
+    Cette page affiche les travaux pratiques dans un carrousel.
+    L'utilisateur peut naviguer entre les différents TPs avec les flèches.
+    
+    Fonctionnalités :
+    - Carrousel avec navigation gauche/droite
+    - Affichage du titre et de la description
+    - Lien vers le PDF dans un nouvel onglet
+-->
 <html lang="fr">
 
 <head>
-    <!--ENCODAGE HTML POUR EMOJIS ETC-->
-    <meta charset="UTF-8">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Permet au site de s’adapter aux écrans (PC, mobile, tablette) -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Favicons -->
+	<link rel="icon" href="assets/icons/favicon.ico" type="image/x-icon">
+	<link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+	<link rel="android-icon" sizes="192x192" href="assets/icons/android-chrome-192x192.png">
+	<link rel="android-icon" sizes="512x512" href="assets/icons/android-chrome-512x512.png">
+	<link rel="manifest" href="assets/icons/site.webmanifest">
 
-    <!-- Icônes en haut de l'onglet -->
-    <link rel="icon" href="assets/icons/icon.ico" type="image/x-icon">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/icon-16x16.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/icon-32x32.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
-    <link rel="manifest" href="assets/icons/site.webmanifest">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link rel="stylesheet" href="css/style.css">
-    <title>Portfolio Léo - TPs</title>
+	<!-- Bibliothèques et CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+	<link rel="stylesheet" href="css/style.css">
+	
+	<title>Portfolio Léo - TPs</title>
 </head>
 
 <body>
-    <!-- Librairie Three.js pour gérer le canvas 3D -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <!-- Script qui gère les étoiles -->
-    <script src="js/stars.js"></script>
-    <!-- Script qui gère le menu "hamburger" sur mobile -->
-    <script src="js/menu.js"></script>
-    <!-- Script Realisations Animation -->
-    <script src="js/tps.js"></script>
+	<!-- Scripts -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+	<script src="js/stars.js"></script>
+	<script src="js/menu.js"></script>
+	<!-- Script qui gère le carrousel des TPs -->
+	<script src="js/tps.js"></script>
+	<script src="js/music-player.js"></script>
+	<script src="js/inject-music-player.js"></script>
+	<script src="js/navigation.js"></script>
 
-    <!-- HEADER / NAV -->
-    <header>
-        <nav>
-            <a href="index.html">Accueil</a>
-            <a href="cv.html">CV</a>
-            <a href="lettremotivation.html">Lettre de motivation</a>
-            <div class="dropdown">
-                <a>Réalisations</a>
-                <div class="dropdown-content">
-                    <a href="tps.html" class="active">TPs</a>
-                    <a href="projets.html">Projets</a>
-                    <a href="stages.html">Stages</a>
-                </div>
-            </div>
+	<!-- Navigation -->
+	<header>
+		<nav>
+			<a href="index.html">Accueil</a>
+			<a href="cv.html">CV</a>
+			<a href="lettremotivation.html">Lettre de motivation</a>
+			<div class="dropdown">
+				<a href="#" class="dropbtn">Réalisations <i class="fa fa-caret-down"></i></a>
+				<div class="dropdown-content" id="myDropdown">
+					<a href="tps.html">TPs</a>
+					<a href="projets.html">Projets</a>
+					<a href="stages.html">Stages</a>
+				</div>
+			</div>
 			<a href="competences.html">Compétences</a>
-            <a href="veille.html">Veille</a>
-            <a href="contact.html">Contact</a>
-        </nav>
-    </header>
+			<a href="veille.html">Veille</a>
+			<a href="contact.html">Contact</a>
+		</nav>
+	</header>
 
-    <!-- REALISATIONS -->
-    <main>
-        <div class="realisations-container">
-            <h1>Mes <span>TPs</span></h1>
+	<!-- Contenu principal -->
+	<main>
+		<div class="realisations-container">
+			<!-- Titre de la section -->
+			<h1>Mes <span>TPs</span></h1>
 
-            <div class="carousel">
-                <button class="nav-arrow left" aria-label="Projet précédent">
-                    <i class="fa fa-chevron-left"></i>
-                </button>
+			<!-- Carrousel de navigation -->
+			<div class="carousel">
+				<!-- Flèche gauche : projet précédent -->
+				<button class="nav-arrow left" aria-label="Projet précédent">
+					<i class="fa fa-chevron-left"></i>
+				</button>
 
-                <div class="project-display">
-                    <h2 id="project-title">Titre du projet 1</h2>
-                    <p id="project-description">Courte description du projet 1.</p>
-                    <a id="project-view" href="#" target="_blank" class="view-button">
-                        <i class="fa fa-eye"></i> Visualiser
-                    </a>
-                </div>
+				<!-- Zone d'affichage du projet actuel -->
+				<div class="project-display">
+					<!-- Titre du projet (mis à jour par tps.js) -->
+					<h2 id="project-title">Titre du projet 1</h2>
+					
+					<!-- Description du projet (mise à jour par tps.js) -->
+					<p id="project-description">Courte description du projet 1.</p>
+					
+					<!-- Bouton pour visualiser le PDF (lien mis à jour par tps.js) -->
+					<a id="project-view" href="#" target="_blank" class="view-button">
+						<i class="fa fa-eye"></i> Visualiser
+					</a>
+				</div>
 
-                <button class="nav-arrow right" aria-label="Projet suivant">
-                    <i class="fa fa-chevron-right"></i>
-                </button>
-            </div>
+				<!-- Flèche droite : projet suivant -->
+				<button class="nav-arrow right" aria-label="Projet suivant">
+					<i class="fa fa-chevron-right"></i>
+				</button>
+			</div>
 
-            <!-- Indicateurs de pagination (optionnel) -->
-            <div class="carousel-dots" id="carousel-dots">
-                <!-- Généré dynamiquement par JS -->
-            </div>
-        </div>
-    </main>
+			<!-- Indicateurs de pagination (optionnel, peut être généré dynamiquement) -->
+			<div class="carousel-dots" id="carousel-dots">
+				<!-- Peut être généré dynamiquement par JavaScript si nécessaire -->
+			</div>
+		</div>
+	</main>
 
-    <!-- FOOTER -->
-    <footer class="credit">Fait par Léo avec ❤️ - © Tous droits réservés</footer>
+	<!-- Footer -->
+	<footer class="credit">Fait par Léo avec ❤️ - © Tous droits réservés</footer>
 
 </body>
 

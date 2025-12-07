@@ -1,74 +1,87 @@
 <!DOCTYPE html>
+<!-- 
+    ============================================
+    PAGE LETTRE DE MOTIVATION
+    ============================================
+    
+    Cette page affiche la lettre de motivation sous forme d'image.
+    Identique à la page CV mais pour la lettre de motivation.
+    
+    Fonctionnalités :
+    - Cliquer sur l'image pour l'agrandir dans un modal
+    - Zoomer/dézoomer dans le modal
+    - Télécharger le PDF de la lettre de motivation
+-->
 <html lang="fr">
 
 <head>
-    <!--ENCODAGE HTML POUR EMOJIS ETC-->
-    <meta charset="UTF-8">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Permet au site de s’adapter aux écrans (PC, mobile, tablette) -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Favicons -->
+	<link rel="icon" href="assets/icons/favicon.ico" type="image/x-icon">
+	<link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+	<link rel="android-icon" sizes="192x192" href="assets/icons/android-chrome-192x192.png">
+	<link rel="android-icon" sizes="512x512" href="assets/icons/android-chrome-512x512.png">
+	<link rel="manifest" href="assets/icons/site.webmanifest">
 
-    <!-- Icônes en haut de l'onglet -->
-    <link rel="icon" href="assets/icons/icon.ico" type="image/x-icon">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/icon-16x16.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/icon-32x32.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
-    <link rel="manifest" href="assets/icons/site.webmanifest">
-
-    <!--RELIER LA BIBLIOTHEQUE D'ICONES EXTERNE (FONT AWESOME)-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <!--RELIER LE FICHIER CSS EXTERNE-->
-    <link rel="stylesheet" href="css/style.css">
-    <!--TITRE DE L'ONGLET-->
-    <title>Portfolio Léo - Lettre de motivation</title>
+	<!-- Bibliothèques et CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+	<link rel="stylesheet" href="css/style.css">
+	
+	<title>Portfolio Léo - Lettre de motivation</title>
 </head>
 
 <body>
-    <!-- Librairie Three.js pour gérer le canvas 3D -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+	<!-- Scripts -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+	<script src="js/stars.js"></script>
+	<script src="js/menu.js"></script>
+	<!-- Script des animations pour la lettre de motivation (modal, zoom, etc.) -->
+	<script src="js/animation-lm.js"></script>
+	<script src="js/music-player.js"></script>
+	<script src="js/inject-music-player.js"></script>
+	<script src="js/navigation.js"></script>
 
-    <!-- Script qui gère les étoiles -->
-    <script src="js/stars.js"></script>
-    <!-- Script qui gère le menu "hamburger" sur mobile -->
-    <script src="js/menu.js"></script>
-    <!-- Script qui gère l'animation du cv et de la lettre de motivation -->
-    <script src="js/animation-lm.js"></script>
-
-    <!-- HEADER / NAV -->
-    <header>
-        <nav>
-            <a href="index.html">Accueil</a>
-            <a href="cv.html">CV</a>
-            <a href="lettremotivation.html" class="active">Lettre de motivation</a>
-
-            <!-- Menu déroulant Réalisations -->
-            <div class="dropdown">
-                <a>Réalisations</a>
-                <div class="dropdown-content">
-                    <a href="tps.html">TPs</a>
-                    <a href="projets.html">Projets</a>
-                    <a href="stages.html">Stages</a>
-                </div>
-            </div>
+	<!-- Navigation -->
+	<header>
+		<nav>
+			<a href="index.html">Accueil</a>
+			<a href="cv.html">CV</a>
+			<a href="lettremotivation.html">Lettre de motivation</a>
+			<div class="dropdown">
+				<a href="#" class="dropbtn">Réalisations <i class="fa fa-caret-down"></i></a>
+				<div class="dropdown-content" id="myDropdown">
+					<a href="tps.html">TPs</a>
+					<a href="projets.html">Projets</a>
+					<a href="stages.html">Stages</a>
+				</div>
+			</div>
 			<a href="competences.html">Compétences</a>
-            <a href="veille.html">Veille</a>
-            <a href="contact.html">Contact</a>
-        </nav>
-    </header>
+			<a href="veille.html">Veille</a>
+			<a href="contact.html">Contact</a>
+		</nav>
+	</header>
+    
+	<!-- Contenu principal -->
+	<main>
+		<!-- Conteneur de la lettre de motivation -->
+		<div class="cv-container">
+			<div class="cv-content">
+				<!-- Image de la lettre de motivation (cliquable pour ouvrir le modal) -->
+				<!-- La classe "lettre-img" est utilisée par animation-lm.js -->
+				<img src="assets/images/lettremotivation.jpg" class="lettre-img">
+				
+				<!-- Bouton de téléchargement du PDF -->
+				<a href="assets/pdf/lettremotivation.pdf" class="btn-cv" download="LETTRE_MOTIVATION_METGY_LEO">Télécharger</a>
+			</div>
+		</div>
+	</main>
 
-<main>
-    <!--IMAGE DE LA LETTRE-->
-    <div class="cv-container">
-        <div class="cv-content">
-            <img src="assets/images/lettremotivation.jpg" class="lettre-img">
-            <a href="assets/pdf/lettremotivation.pdf" class="btn-cv"
-                download="LETTRE_MOTIVATION_METGY_LEO">Télécharger</a>
-        </div>
-    </div>
-</main>
-
-<!--CREDIT-->
-<footer class="credit">Fait par Léo avec ❤️ - © Tous droits réservés</footer>
+	<!-- Footer -->
+	<footer class="credit">Fait par Léo avec ❤️ - © Tous droits réservés</footer>
 </body>
 
 </html>

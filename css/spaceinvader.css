@@ -1,442 +1,530 @@
-       * {
-           margin: 0;
-           padding: 0;
-           box-sizing: border-box;
-       }
+/**
+ * ============================================
+ * FICHIER CSS DU JEU SPACE INVADERS
+ * ============================================
+ * 
+ * Ce fichier contient tous les styles spécifiques au jeu Space Invaders.
+ * 
+ * Styles inclus :
+ * - Réinitialisation pour le jeu (désactiver la sélection de texte)
+ * - Styles du canvas et du conteneur de jeu
+ * - Interface utilisateur (score, vies)
+ * - Écrans de démarrage, pause et game over
+ * - Contrôles tactiles pour mobile
+ * - Responsive design pour mobile
+ * 
+ * Police utilisée : 'Press Start 2P' (style rétro arcade)
+ */
 
-       body {
-           background: #000;
-           display: flex;
-           justify-content: center;
-           align-items: center;
-           min-height: 100vh;
-           font-family: 'Press Start 2P', cursive, monospace;
-           overflow: hidden;
-           position: relative;
-           margin: 0;
-           padding: 0;
-       }
+/* ============================================
+   RÉINITIALISATION POUR LE JEU
+   ============================================
+   Désactive la sélection de texte sur tous les éléments
+   pour éviter les problèmes pendant le jeu
+*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
 
-       /* S'assurer que le canvas background n'est pas affecté par le flex du body */
-       canvas.background {
-           position: fixed !important;
-           top: 0 !important;
-           left: 0 !important;
-           width: 100vw !important;
-           height: 100vh !important;
-           z-index: -1 !important;
-           pointer-events: none !important;
-           display: block !important;
-       }
+/* Désactiver le surlignage lors de la sélection */
+::selection {
+    background: transparent;
+    color: inherit;
+}
 
-       #gameContainer {
-           position: relative;
-           box-shadow: 0 0 40px rgba(0, 255, 255, 0.3);
-       }
+::-moz-selection {
+    background: transparent;
+    color: inherit;
+}
 
-       #gameCanvas {
-           border: 3px solid #00ffff;
-           background: linear-gradient(to bottom,
-                   #000000 0%,
-                   #0a0a1a 20%,
-                   #050515 40%,
-                   #0a0520 60%,
-                   #050510 80%,
-                   #000000 100%);
-           display: block;
-       }
+/* ============================================
+   STYLES DU BODY
+   ============================================ */
+body {
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: 'Press Start 2P', cursive, monospace;
+    overflow: hidden;
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
 
-       #ui {
-           position: absolute;
-           top: 10px;
-           left: 10px;
-           color: #00ffff;
-           font-size: 20px;
-           text-shadow: 0 0 10px #00ffff;
-           z-index: 10;
-           font-family: 'Press Start 2P', cursive, monospace !important;
-       }
+/* ============================================
+   CANVAS DE FOND (ÉTOILES)
+   ============================================
+   Le canvas avec les étoiles doit être en arrière-plan
+   et ne pas interférer avec le jeu
+*/
+canvas.background {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: -1 !important;
+    pointer-events: none !important;
+    display: block !important;
+}
 
-       /* Police pour tous les éléments dans l'interface utilisateur */
-       #ui div {
-           font-family: 'Press Start 2P', cursive, monospace !important;
-       }
+/* ============================================
+   CONTENEUR DU JEU
+   ============================================ */
+#gameContainer {
+    position: relative;
+    box-shadow: 0 0 40px rgba(0, 255, 255, 0.3);
+}
 
-       /* Style pour les cœurs de vie */
-       #lives span {
-           color: #ff0000 !important;
-           text-shadow: 0 0 10px #ff0000 !important;
-           display: inline !important;
-           vertical-align: middle !important;
-       }
+/* ============================================
+   CANVAS DU JEU
+   ============================================
+   Surface de dessin principale du jeu
+*/
+#gameCanvas {
+    border: 3px solid #00ffff;
+    background: linear-gradient(to bottom,
+            #000000 0%,
+            #0a0a1a 20%,
+            #050515 40%,
+            #0a0520 60%,
+            #050510 80%,
+            #000000 100%);
+    display: block;
+}
 
-       #livesContainer {
-           display: flex;
-           align-items: center;
-       }
+/* ============================================
+   INTERFACE UTILISATEUR (UI)
+   ============================================
+   Score et vies affichés en haut à gauche
+*/
+#ui {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: #00ffff;
+    font-size: 20px;
+    text-shadow: 0 0 10px #00ffff;
+    z-index: 10;
+    font-family: 'Press Start 2P', cursive, monospace !important;
+}
 
-       /* Forcer la couleur des chiffres dans l'interface */
-       #ui span {
-           color: #00ffff !important;
-           text-shadow: 0 0 10px #00ffff !important;
-           font-family: 'Press Start 2P', cursive, monospace !important;
-       }
+/* Police pour tous les éléments dans l'interface utilisateur */
+#ui div {
+    font-family: 'Press Start 2P', cursive, monospace !important;
+}
 
-       /* Style spécifique pour les cœurs de vie (doit être APRÈS #ui span) */
-       #lives span {
-           color: #ff0000 !important;
-           text-shadow: 0 0 10px #ff0000 !important;
-       }
+/* Style pour les cœurs de vie (rouges) */
+#lives span {
+    color: #ff0000 !important;
+    text-shadow: 0 0 10px #ff0000 !important;
+    display: inline !important;
+    vertical-align: middle !important;
+}
 
-       #gameOver {
-           position: absolute;
-           top: 50%;
-           left: 50%;
-           transform: translate(-50%, -50%);
-           color: #ff0000 !important;
-           font-size: 48px;
-           text-align: center;
-           text-shadow: 0 0 20px #ff0000 !important;
-           display: none;
-           z-index: 20;
-           font-family: 'Press Start 2P', cursive, monospace !important;
-       }
+#livesContainer {
+    display: flex;
+    align-items: center;
+}
 
-       /* Style spécifique pour le texte "GAME OVER" */
-       #gameOver>div:first-child {
-           color: #ff0000 !important;
-           text-shadow: 0 0 20px #ff0000 !important;
-           font-family: 'Press Start 2P', cursive, monospace !important;
-           font-size: 36px !important;
-           white-space: nowrap !important;
-       }
+/* Forcer la couleur des chiffres dans l'interface (cyan) */
+#ui span {
+    color: #00ffff !important;
+    text-shadow: 0 0 10px #00ffff !important;
+    font-family: 'Press Start 2P', cursive, monospace !important;
+}
 
-       #gameOver p {
-           margin: 20px 0;
-           font-size: 24px;
-           color: #00ffff !important;
-           font-family: 'Press Start 2P', cursive, monospace !important;
-           text-shadow: 0 0 10px #00ffff !important;
-       }
+/* Style spécifique pour les cœurs de vie (doit être APRÈS #ui span) */
+#lives span {
+    color: #ff0000 !important;
+    text-shadow: 0 0 10px #ff0000 !important;
+}
 
-       /* Styles spécifiques pour le score final */
-       #gameOver p span {
-           color: #00ffff !important;
-           text-shadow: 0 0 10px #00ffff !important;
-           font-family: 'Press Start 2P', cursive, monospace !important;
-       }
+/* ============================================
+   ÉCRAN GAME OVER
+   ============================================ */
+#gameOver {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #ff0000 !important;
+    font-size: 48px;
+    text-align: center;
+    text-shadow: 0 0 20px #ff0000 !important;
+    display: none;
+    z-index: 20;
+    font-family: 'Press Start 2P', cursive, monospace !important;
+}
 
-       /* Style pour le texte "Appuyez sur ESPACE pour rejouer" */
-       #gameOver p[style*="font-size: 18px"] {
-           font-family: 'Press Start 2P', cursive, monospace !important;
-           color: #00ffff !important;
-           text-shadow: 0 0 10px #00ffff !important;
-       }
+/* Style spécifique pour le texte "GAME OVER" */
+#gameOver>div:first-child {
+    color: #ff0000 !important;
+    text-shadow: 0 0 20px #ff0000 !important;
+    font-family: 'Press Start 2P', cursive, monospace !important;
+    font-size: 36px !important;
+    white-space: nowrap !important;
+}
 
-       /* ===================== ÉCRAN DE DÉMARRAGE ===================== */
-       #startScreen {
-           position: absolute;
-           top: 0;
-           left: 0;
-           width: 100%;
-           height: 100%;
-           background: rgba(0, 0, 0, 0.9);
-           display: flex;
-           flex-direction: column;
-           justify-content: center;
-           align-items: center;
-           z-index: 30;
-       }
+#gameOver p {
+    margin: 20px 0;
+    font-size: 24px;
+    color: #00ffff !important;
+    font-family: 'Press Start 2P', cursive, monospace !important;
+    text-shadow: 0 0 10px #00ffff !important;
+}
 
-       .start-title {
-           font-family: 'Press Start 2P', cursive, monospace !important;
-           font-size: 48px;
-           color: #00ffff;
-           text-shadow: 0 0 20px #00ffff;
-           margin-bottom: 20px;
-           text-align: center;
-       }
+/* Styles spécifiques pour le score final */
+#gameOver p span {
+    color: #00ffff !important;
+    text-shadow: 0 0 10px #00ffff !important;
+    font-family: 'Press Start 2P', cursive, monospace !important;
+}
 
-       .start-btn {
-           font-family: 'Press Start 2P', cursive, monospace !important;
-           font-size: 18px;
-           padding: 15px 30px;
-           background: rgba(0, 255, 255, 0.2);
-           border: 2px solid #00ffff;
-           color: #00ffff;
-           cursor: pointer;
-           transition: all 0.3s;
-           margin-bottom: 40px;
-       }
+/* Style pour le texte "Appuyez sur ESPACE pour rejouer" */
+#gameOver p[style*="font-size: 18px"] {
+    font-family: 'Press Start 2P', cursive, monospace !important;
+    color: #00ffff !important;
+    text-shadow: 0 0 10px #00ffff !important;
+}
 
-       .start-btn:hover {
-           background: rgba(0, 255, 255, 0.4);
-           box-shadow: 0 0 20px #00ffff;
-           transform: scale(1.05);
-       }
+/* ============================================
+   ÉCRAN DE DÉMARRAGE
+   ============================================
+   Affiché au début du jeu avant de commencer
+*/
+#startScreen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 30;
+}
 
-       .start-instructions {
-           text-align: center;
-           color: #ffffff;
-       }
+.start-title {
+    font-family: 'Press Start 2P', cursive, monospace !important;
+    font-size: 48px;
+    color: #00ffff;
+    text-shadow: 0 0 20px #00ffff;
+    margin-bottom: 20px;
+    text-align: center;
+}
 
-       .start-instructions p {
-           font-family: 'Press Start 2P', cursive, monospace !important;
-           font-size: 12px;
-           margin: 10px 0;
-           color: #cccccc;
-       }
+.start-btn {
+    font-family: 'Press Start 2P', cursive, monospace !important;
+    font-size: 18px;
+    padding: 15px 30px;
+    background: rgba(0, 255, 255, 0.2);
+    border: 2px solid #00ffff;
+    color: #00ffff;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-bottom: 40px;
+}
 
-       /* ===================== MENU DE PAUSE ===================== */
-       #pauseScreen {
-           position: absolute;
-           top: 0;
-           left: 0;
-           width: 100%;
-           height: 100%;
-           background: rgba(0, 0, 0, 0.9);
-           display: none;
-           flex-direction: column;
-           justify-content: center;
-           align-items: center;
-           z-index: 30;
-       }
+.start-btn:hover {
+    background: rgba(0, 255, 255, 0.4);
+    box-shadow: 0 0 20px #00ffff;
+    transform: scale(1.05);
+}
 
-       .pause-title {
-           font-family: 'Press Start 2P', cursive, monospace !important;
-           font-size: 48px;
-           color: #ff0000;
-           text-shadow: 0 0 20px #ff0000;
-           margin-bottom: 40px;
-           text-align: center;
-       }
+.start-instructions {
+    text-align: center;
+    color: #ffffff;
+}
 
-       .pause-btn {
-           font-family: 'Press Start 2P', cursive, monospace !important;
-           font-size: 16px;
-           padding: 12px 25px;
-           background: rgba(0, 255, 255, 0.2);
-           border: 2px solid #00ffff;
-           color: #00ffff;
-           cursor: pointer;
-           transition: all 0.3s;
-           margin: 10px;
-       }
+.start-instructions p {
+    font-family: 'Press Start 2P', cursive, monospace !important;
+    font-size: 12px;
+    margin: 10px 0;
+    color: #cccccc;
+}
 
-       .pause-btn:hover {
-           background: rgba(0, 255, 255, 0.4);
-           box-shadow: 0 0 20px #00ffff;
-           transform: scale(1.05);
-       }
+/* ============================================
+   MENU DE PAUSE
+   ============================================
+   Affiché quand le jeu est en pause (touche Échap)
+*/
+#pauseScreen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 30;
+}
 
-       .pause-instructions {
-           text-align: center;
-           margin-top: 30px;
-       }
+.pause-title {
+    font-family: 'Press Start 2P', cursive, monospace !important;
+    font-size: 48px;
+    color: #ff0000;
+    text-shadow: 0 0 20px #ff0000;
+    margin-bottom: 40px;
+    text-align: center;
+}
 
-       .pause-instructions p {
-           font-family: 'Press Start 2P', cursive, monospace !important;
-           font-size: 12px;
-           color: #cccccc;
-       }
+.pause-btn {
+    font-family: 'Press Start 2P', cursive, monospace !important;
+    font-size: 16px;
+    padding: 12px 25px;
+    background: rgba(0, 255, 255, 0.2);
+    border: 2px solid #00ffff;
+    color: #00ffff;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin: 10px;
+}
 
-       /* ----- CANVAS EN ARRIÈRE PLAN ----- */
-       /* Les styles du canvas background sont maintenant définis plus haut */
+.pause-btn:hover {
+    background: rgba(0, 255, 255, 0.4);
+    box-shadow: 0 0 20px #00ffff;
+    transform: scale(1.05);
+}
 
-       /* Tous les éléments HTML sauf le canvas passent au-dessus */
-       body>*:not(canvas) {
-           position: relative;
-           z-index: 1;
-       }
+.pause-instructions {
+    text-align: center;
+    margin-top: 30px;
+}
 
-       /* ----- HEADER ET NAVIGATION ----- */
-       /* Les styles de navigation sont maintenant gérés par style.css */
+.pause-instructions p {
+    font-family: 'Press Start 2P', cursive, monospace !important;
+    font-size: 12px;
+    color: #cccccc;
+}
 
-       /* ===================== CORRECTION DES BOUTONS DU JEU ===================== */
-       /* Centrer les icônes dans les boutons ronds */
-       #musicButton,
-       #togglePanelBtn {
-           display: flex !important;
-           align-items: center !important;
-           justify-content: center !important;
-       }
+/* ============================================
+   ÉLÉMENTS AU-DESSUS DU CANVAS
+   ============================================ */
+body>*:not(canvas) {
+    position: relative;
+    z-index: 1;
+}
 
-       /* Restaurer la police Press Start 2P pour le jeu et les menus */
-       #gameOver,
-       #gameOver p,
-       #ui {
-           font-family: 'Press Start 2P', cursive, monospace !important;
-       }
+/* ============================================
+   CORRECTION DES BOUTONS DU JEU
+   ============================================
+   Centrer les icônes dans les boutons ronds
+*/
+#musicButton,
+#togglePanelBtn {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
 
-       /* Police pour le panneau de personnalisation */
-       #customPanel,
-       #customPanel h3,
-       #customPanel label,
-       #customPanel button {
-           font-family: 'Press Start 2P', cursive, monospace !important;
-       }
+/* Restaurer la police Press Start 2P pour le jeu et les menus */
+#gameOver,
+#gameOver p,
+#ui {
+    font-family: 'Press Start 2P', cursive, monospace !important;
+}
 
-       /* Police pour les boutons du jeu */
-       #musicButton,
-       #togglePanelBtn {
-           font-family: 'Press Start 2P', cursive, monospace !important;
-       }
+/* Police pour le panneau de personnalisation */
+#customPanel,
+#customPanel h3,
+#customPanel label,
+#customPanel button {
+    font-family: 'Press Start 2P', cursive, monospace !important;
+}
 
-       /* Police pour les éléments d'interface du jeu */
-       #score,
-       #lives,
-       #finalScore {
-           font-family: 'Press Start 2P', cursive, monospace !important;
-           color: #00ffff !important;
-           text-shadow: 0 0 10px #00ffff !important;
-       }
+/* Police pour les boutons du jeu */
+#musicButton,
+#togglePanelBtn {
+    font-family: 'Press Start 2P', cursive, monospace !important;
+}
 
-       /* ===================== RESPONSIVE MOBILE ===================== */
-       @media (max-width: 768px) {
-           #gameContainer {
-               width: 100vw !important;
-               height: 100vh !important;
-               box-shadow: none !important;
-           }
+/* Police pour les éléments d'interface du jeu */
+#score,
+#lives,
+#finalScore {
+    font-family: 'Press Start 2P', cursive, monospace !important;
+    color: #00ffff !important;
+    text-shadow: 0 0 10px #00ffff !important;
+}
 
-           #gameCanvas {
-               width: 100vw !important;
-               height: 100vh !important;
-               border: none !important;
-               border-radius: 0 !important;
-           }
+/* ============================================
+   RESPONSIVE MOBILE
+   ============================================
+   Adaptations pour les écrans mobiles
+*/
+@media (max-width: 768px) {
+    /* Le conteneur prend toute la largeur et hauteur */
+    #gameContainer {
+        width: 100vw !important;
+        height: 100vh !important;
+        box-shadow: none !important;
+    }
 
-           #ui {
-               font-size: 14px;
-               top: 80px;
-               left: 10px;
-           }
+    /* Le canvas prend toute la fenêtre */
+    #gameCanvas {
+        width: 100vw !important;
+        height: 100vh !important;
+        border: none !important;
+        border-radius: 0 !important;
+    }
 
-           #gameOver {
-               font-size: 28px;
-               padding: 0 20px;
-           }
+    /* Réduire la taille de l'UI */
+    #ui {
+        font-size: 14px;
+        top: 80px;
+        left: 10px;
+    }
 
-           #gameOver>div:first-child {
-               font-size: 24px !important;
-           }
+    /* Réduire la taille du Game Over */
+    #gameOver {
+        font-size: 28px;
+        padding: 0 20px;
+    }
 
-           #gameOver p {
-               font-size: 16px !important;
-           }
+    #gameOver>div:first-child {
+        font-size: 24px !important;
+    }
 
-           .start-title,
-           .pause-title {
-               font-size: 28px;
-           }
+    #gameOver p {
+        font-size: 16px !important;
+    }
 
-           .start-btn,
-           .pause-btn {
-               font-size: 12px;
-               padding: 12px 20px;
-           }
+    /* Réduire les titres et boutons */
+    .start-title,
+    .pause-title {
+        font-size: 28px;
+    }
 
-           .start-instructions p,
-           .pause-instructions p {
-               font-size: 10px;
-           }
+    .start-btn,
+    .pause-btn {
+        font-size: 12px;
+        padding: 12px 20px;
+    }
 
-           /* Boutons de contrôle mobile */
-           #musicButton {
-               top: 80px;
-               right: 10px;
-               width: 40px;
-               height: 40px;
-               font-size: 16px;
-           }
+    .start-instructions p,
+    .pause-instructions p {
+        font-size: 10px;
+    }
 
-           #togglePanelBtn {
-               top: 130px;
-               right: 10px;
-               width: 40px;
-               height: 40px;
-               font-size: 16px;
-           }
+    /* Ajuster les boutons de contrôle */
+    #musicButton {
+        top: 80px;
+        right: 10px;
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
 
-           /* Panneau de personnalisation mobile */
-           #customPanel {
-               width: 250px;
-               right: -250px;
-               padding: 15px;
-           }
+    #togglePanelBtn {
+        top: 130px;
+        right: 10px;
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
 
-           #customPanel h3 {
-               font-size: 12px;
-           }
+    /* Réduire le panneau de personnalisation */
+    #customPanel {
+        width: 250px;
+        right: -250px;
+        padding: 15px;
+    }
 
-           #customPanel label {
-               font-size: 9px;
-           }
+    #customPanel h3 {
+        font-size: 12px;
+    }
 
-           #customPanel button {
-               font-size: 9px;
-               padding: 8px;
-           }
-       }
+    #customPanel label {
+        font-size: 9px;
+    }
 
-       @media (max-width: 480px) {
-           #ui {
-               font-size: 12px;
-           }
+    #customPanel button {
+        font-size: 9px;
+        padding: 8px;
+    }
+}
 
-           #gameOver {
-               font-size: 20px;
-           }
+/* ============================================
+   RESPONSIVE TRÈS PETIT ÉCRAN
+   ============================================ */
+@media (max-width: 480px) {
+    #ui {
+        font-size: 12px;
+    }
 
-           #gameOver>div:first-child {
-               font-size: 18px !important;
-           }
+    #gameOver {
+        font-size: 20px;
+    }
 
-           #gameOver p {
-               font-size: 14px !important;
-           }
+    #gameOver>div:first-child {
+        font-size: 18px !important;
+    }
 
-           .start-title,
-           .pause-title {
-               font-size: 22px;
-           }
+    #gameOver p {
+        font-size: 14px !important;
+    }
 
-           .start-btn,
-           .pause-btn {
-               font-size: 10px;
-               padding: 10px 15px;
-           }
-       }
+    .start-title,
+    .pause-title {
+        font-size: 22px;
+    }
 
-       /* Contrôles tactiles */
-       #mobileControls {
-           position: fixed;
-           bottom: 20px;
-           right: 20px;
-           z-index: 1000;
-       }
+    .start-btn,
+    .pause-btn {
+        font-size: 10px;
+        padding: 10px 15px;
+    }
+}
 
-       #shootBtn {
-           width: 80px;
-           height: 80px;
-           border-radius: 50%;
-           background: rgba(255, 255, 0, 0.3);
-           border: 3px solid #ffff00;
-           color: #ffff00;
-           font-family: 'Press Start 2P', cursive;
-           font-size: 12px;
-           cursor: pointer;
-           box-shadow: 0 0 20px rgba(255, 255, 0, 0.5);
-           transition: all 0.3s;
-       }
+/* ============================================
+   CONTRÔLES TACTILES MOBILE
+   ============================================
+   Bouton de tir pour les écrans tactiles
+*/
+#mobileControls {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}
 
-       #shootBtn:active {
-           transform: scale(0.9);
-           background: rgba(255, 255, 0, 0.5);
-       }
+#shootBtn {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgba(255, 255, 0, 0.3);
+    border: 3px solid #ffff00;
+    color: #ffff00;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 12px;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(255, 255, 0, 0.5);
+    transition: all 0.3s;
+}
 
-       @media (max-width: 768px) {
-           #mobileControls {
-               display: block !important;
-           }
-       }
+#shootBtn:active {
+    transform: scale(0.9);
+    background: rgba(255, 255, 0, 0.5);
+}
+
+/* Afficher les contrôles tactiles seulement sur mobile */
+@media (max-width: 768px) {
+    #mobileControls {
+        display: block !important;
+    }
+}

@@ -1,13 +1,30 @@
-// =====================
-// ANIMATIONS CV SOBRES ET PROFESSIONNELLES
-// =====================
+/**
+ * ============================================
+ * ANIMATIONS PROFESSIONNELLES POUR LA PAGE LETTRE DE MOTIVATION
+ * ============================================
+ * 
+ * Ce fichier est identique à animation-cv.js mais pour la page lettre de motivation.
+ * Il ajoute les mêmes animations élégantes et professionnelles.
+ * 
+ * Fonctionnalités :
+ * 1. Animation d'apparition au scroll (fade in)
+ * 2. Effet hover subtil sur les images
+ * 3. Modal avec zoom et téléchargement au clic
+ * 4. Indicateur de chargement pour les images
+ * 
+ * Note : Le code est similaire à animation-cv.js mais télécharge le PDF de la lettre de motivation
+ */
 
+// Attendre que le DOM soit complètement chargé
 document.addEventListener('DOMContentLoaded', function () {
 
-    // =====================
-    // 1. ANIMATION D'APPARITION AU SCROLL (DOUCE)
-    // =====================
-
+    // ============================================
+    // 1. ANIMATION D'APPARITION AU SCROLL
+    // ============================================
+    
+    /**
+     * Ajoute une animation d'apparition progressive quand on scroll
+     */
     function animateOnScroll() {
         const images = document.querySelectorAll('.cv-img, .lettre-img');
 
@@ -27,10 +44,13 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // =====================
+    // ============================================
     // 2. EFFET HOVER SUBTIL
-    // =====================
-
+    // ============================================
+    
+    /**
+     * Ajoute un effet hover élégant sur les images
+     */
     function addSubtleHoverEffects() {
         const images = document.querySelectorAll('.cv-img, .lettre-img');
 
@@ -49,17 +69,19 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // =====================
-    // 3. MODAL PROFESSIONNEL AVEC FONT AWESOME
-    // =====================
-
+    // ============================================
+    // 3. MODAL PROFESSIONNEL AVEC ZOOM
+    // ============================================
+    
+    /**
+     * Rend les images cliquables et ouvre un modal au clic
+     */
     function addClickZoom() {
         const images = document.querySelectorAll('.cv-img, .lettre-img');
 
         images.forEach(img => {
             img.style.cursor = 'pointer';
 
-            // Ajouter un indicateur subtil de clicabilité
             const indicator = document.createElement('div');
             img.parentElement.style.position = 'relative';
             img.parentElement.appendChild(indicator);
@@ -71,6 +93,9 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    /**
+     * Crée un modal pour afficher l'image en grand
+     */
     function createModal(imgElement) {
         const modal = document.createElement('div');
         modal.className = 'image-modal';
@@ -110,7 +135,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         document.body.appendChild(modal);
 
-        // Animation d'ouverture fluide
         requestAnimationFrame(() => {
             modal.classList.add('active');
         });
@@ -118,6 +142,9 @@ document.addEventListener('DOMContentLoaded', function () {
         setupModalControls(modal, imgElement);
     }
 
+    /**
+     * Détermine le titre selon le type de document
+     */
     function getDocumentTitle(imgElement) {
         if (imgElement.classList.contains('lm-img')) {
             return 'Lettre de Motivation';
@@ -127,6 +154,9 @@ document.addEventListener('DOMContentLoaded', function () {
         return 'Document';
     }
 
+    /**
+     * Configure tous les contrôles du modal
+     */
     function setupModalControls(modal, originalImg) {
         const modalImg = modal.querySelector('.modal-image');
         const closeBtn = modal.querySelector('.modal-close');
@@ -142,7 +172,6 @@ document.addEventListener('DOMContentLoaded', function () {
         let dragStart = { x: 0, y: 0 };
         let imagePosition = { x: 0, y: 0 };
 
-        // Fermer le modal
         function closeModal() {
             modal.classList.add('closing');
             setTimeout(() => {
@@ -153,13 +182,11 @@ document.addEventListener('DOMContentLoaded', function () {
             }, 300);
         }
 
-        // Event listeners
         closeBtn.addEventListener('click', closeModal);
         overlay.addEventListener('click', (e) => {
             if (e.target === overlay) closeModal();
         });
 
-        // Contrôles de zoom
         zoomInBtn.addEventListener('click', () => {
             scale = Math.min(scale * 1.3, 4);
             updateImageTransform();
@@ -176,7 +203,7 @@ document.addEventListener('DOMContentLoaded', function () {
             updateImageTransform();
         });
 
-        // Téléchargement
+        // IMPORTANT : Ici on télécharge le PDF de la lettre de motivation
         downloadBtn.addEventListener('click', () => {
             const link = document.createElement('a');
             link.href = 'assets/pdf/lettremotivation.pdf';
@@ -186,7 +213,6 @@ document.addEventListener('DOMContentLoaded', function () {
             document.body.removeChild(link);
         });
 
-        // Drag & Drop pour déplacer l'image zoomée
         modalImg.addEventListener('mousedown', startDrag);
         document.addEventListener('mousemove', drag);
         document.addEventListener('mouseup', stopDrag);
@@ -219,7 +245,6 @@ document.addEventListener('DOMContentLoaded', function () {
             modalImg.style.cursor = scale > 1 ? 'grab' : 'default';
         }
 
-        // Zoom avec la molette
         imageContainer.addEventListener('wheel', (e) => {
             e.preventDefault();
             const delta = e.deltaY > 0 ? 0.9 : 1.1;
@@ -227,10 +252,8 @@ document.addEventListener('DOMContentLoaded', function () {
             updateImageTransform();
         });
 
-        // Prévenir le scroll du body
         document.body.style.overflow = 'hidden';
 
-        // Fermer avec Échap
         const escHandler = (e) => {
             if (e.key === 'Escape') {
                 closeModal();
@@ -240,10 +263,10 @@ document.addEventListener('DOMContentLoaded', function () {
         document.addEventListener('keydown', escHandler);
     }
 
-    // =====================
-    // 4. INDICATEUR DE CHARGEMENT SUBTIL
-    // =====================
-
+    // ============================================
+    // 4. INDICATEUR DE CHARGEMENT
+    // ============================================
+    
     function addLoadingIndicator() {
         const images = document.querySelectorAll('.cv-img, .lettre-img');
 
@@ -267,10 +290,10 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // =====================
+    // ============================================
     // INITIALISATION
-    // =====================
-
+    // ============================================
+    
     animateOnScroll();
     addSubtleHoverEffects();
     addClickZoom();

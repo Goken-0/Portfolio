@@ -1,73 +1,122 @@
 <!DOCTYPE html>
+<!-- 
+    ============================================
+    PAGE CV (CURRICULUM VITAE)
+    ============================================
+    
+    Cette page affiche le CV sous forme d'image.
+    L'utilisateur peut :
+    - Cliquer sur l'image pour l'agrandir dans un modal
+    - Zoomer/dézoomer dans le modal
+    - Télécharger le PDF du CV
+-->
 <html lang="fr">
 
 <head>
-    <!--ENCODAGE HTML POUR EMOJIS ETC-->
-    <meta charset="UTF-8">
+	<!-- ============================================
+	     MÉTADONNÉES DE LA PAGE
+	     ============================================ -->
+	
+	<!-- Encodage UTF-8 pour les caractères spéciaux -->
+	<meta charset="UTF-8">
 
-    <!-- Permet au site de s’adapter aux écrans (PC, mobile, tablette) -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Viewport pour le responsive design -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Icônes en haut de l'onglet -->
-    <link rel="icon" href="assets/icons/icon.ico" type="image/x-icon">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/icon-16x16.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/icon-32x32.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
-    <link rel="manifest" href="assets/icons/site.webmanifest">
+	<!-- ============================================
+	     FAVICONS
+	     ============================================ -->
+	<link rel="icon" href="assets/icons/favicon.ico" type="image/x-icon">
+	<link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+	<link rel="android-icon" sizes="192x192" href="assets/icons/android-chrome-192x192.png">
+	<link rel="android-icon" sizes="512x512" href="assets/icons/android-chrome-512x512.png">
+	<link rel="manifest" href="assets/icons/site.webmanifest">
 
-    <!--RELIER LA BIBLIOTHEQUE D'ICONES EXTERNE (FONT AWESOME)-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <!--RELIER LE FICHIER CSS EXTERNE-->
-    <link rel="stylesheet" href="css/style.css">
-    <!--TITRE DE L'ONGLET-->
-    <title>Portfolio Léo - CV</title>
+	<!-- ============================================
+	     BIBLIOTHÈQUES EXTERNES
+	     ============================================ -->
+	<!-- Font Awesome pour les icônes -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+	
+	<!-- Fichier CSS principal -->
+	<link rel="stylesheet" href="css/style.css">
+	
+	<!-- Titre de l'onglet -->
+	<title>Portfolio Léo - CV</title>
 </head>
 
 <body>
-    <!-- Librairie Three.js pour gérer le canvas 3D -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+	<!-- ============================================
+	     SCRIPTS
+	     ============================================ -->
+	
+	<!-- Three.js pour le fond animé -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
-    <!-- Script qui gère les étoiles -->
-    <script src="js/stars.js"></script>
-    <!-- Script qui gère le menu "hamburger" sur mobile -->
-    <script src="js/menu.js"></script>
-    <!-- Script qui gère l'animation du cv et de la lettre de motivation -->
-    <script src="js/animation-cv.js"></script>
+	<!-- Script des étoiles 3D -->
+	<script src="js/stars.js"></script>
+	
+	<!-- Script du menu hamburger mobile -->
+	<script src="js/menu.js"></script>
+	
+	<!-- Script des animations pour le CV (modal, zoom, etc.) -->
+	<script src="js/animation-cv.js"></script>
+	
+	<!-- Script du lecteur de musique (doit être avant inject-music-player) -->
+	<script src="js/music-player.js"></script>
+	
+	<!-- Script d'injection du lecteur audio -->
+	<script src="js/inject-music-player.js"></script>
+	
+	<!-- Script de gestion de la navigation active -->
+	<script src="js/navigation.js"></script>
 
-    <!-- HEADER / NAV -->
-    <header>
-        <nav>
-            <a href="index.html">Accueil</a>
-            <a href="cv.html" class="active">CV</a>
-            <a href="lettremotivation.html">Lettre de motivation</a>
-
-            <!-- Menu déroulant Réalisations -->
-            <div class="dropdown">
-                <a>Réalisations</a>
-                <div class="dropdown-content">
-                    <a href="tps.html">TPs</a>
-                    <a href="projets.html">Projets</a>
-                    <a href="stages.html">Stages</a>
-                </div>
-            </div>
+	<!-- ============================================
+	     EN-TÊTE ET NAVIGATION
+	     ============================================ -->
+	<header>
+		<nav>
+			<a href="index.html">Accueil</a>
+			<a href="cv.html">CV</a>
+			<a href="lettremotivation.html">Lettre de motivation</a>
+			<!-- Menu déroulant Réalisations -->
+			<div class="dropdown">
+				<a href="#" class="dropbtn">Réalisations <i class="fa fa-caret-down"></i></a>
+				<div class="dropdown-content" id="myDropdown">
+					<a href="tps.html">TPs</a>
+					<a href="projets.html">Projets</a>
+					<a href="stages.html">Stages</a>
+				</div>
+			</div>
 			<a href="competences.html">Compétences</a>
-            <a href="veille.html">Veille</a>
-            <a href="contact.html">Contact</a>
-        </nav>
-    </header>
+			<a href="veille.html">Veille</a>
+			<a href="contact.html">Contact</a>
+		</nav>
+	</header>
 
-<main>
-    <!--IMAGE DU CV-->
-    <div class="cv-container">
-        <div class="cv-content">
-            <img src="assets/images/cv.jpg" class="cv-img">
-            <a href="assets/pdf/cv.pdf" class="btn-cv" download="CV_METGY_LEO">Télécharger</a>
-        </div>
-    </div>
-</main>
+	<!-- ============================================
+	     CONTENU PRINCIPAL
+	     ============================================ -->
+	<main>
+		<!-- Conteneur du CV -->
+		<div class="cv-container">
+			<div class="cv-content">
+				<!-- Image du CV (cliquable pour ouvrir le modal) -->
+				<!-- La classe "cv-img" est utilisée par animation-cv.js pour ajouter les fonctionnalités -->
+				<img src="assets/images/cv.jpg" class="cv-img">
+				
+				<!-- Bouton de téléchargement du PDF -->
+				<a href="assets/pdf/cv.pdf" class="btn-cv" download="CV_METGY_LEO">Télécharger</a>
+			</div>
+		</div>
+	</main>
 
-<!--CREDIT-->
-<footer class="credit">Fait par Léo avec ❤️ - © Tous droits réservés</footer>
+	<!-- ============================================
+	     FOOTER
+	     ============================================ -->
+	<footer class="credit">Fait par Léo avec ❤️ - © Tous droits réservés</footer>
 </body>
 
 </html>

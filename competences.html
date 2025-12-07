@@ -1,18 +1,36 @@
 <!DOCTYPE html>
+<!-- 
+    ============================================
+    PAGE COMPÉTENCES
+    ============================================
+    
+    Cette page présente toutes les compétences techniques de Léo.
+    
+    Fonctionnalités :
+    - Filtres par domaine (Développement, Réseau, Système, Sécurité)
+    - Compétence principale mise en avant
+    - Grille de compétences avec niveaux
+    - Script de filtrage JavaScript intégré
+-->
 <html lang="fr">
 
 <head>
-    <!--ENCODAGE HTML POUR EMOJIS ETC-->
-    <meta charset="UTF-8">
+	<!-- ============================================
+	     MÉTADONNÉES
+	     ============================================ -->
+	<!-- Encodage UTF-8 pour les caractères spéciaux -->
+	<meta charset="UTF-8">
 
-    <!-- Permet au site de s'adapter aux écrans (PC, mobile, tablette) -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Viewport pour le responsive design -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Icônes en haut de l'onglet -->
-    <link rel="icon" href="assets/icons/icon.ico" type="image/x-icon">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/icon-16x16.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/icon-32x32.png">
+    <link rel="icon" href="assets/icons/favicon.ico" type="image/x-icon">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
     <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+    <link rel="android-icon" sizes="192x192" href="assets/icons/android-chrome-192x192.png">
+    <link rel="android-icon" sizes="512x512" href="assets/icons/android-chrome-512x512.png">
     <link rel="manifest" href="assets/icons/site.webmanifest">
 
     <!--RELIER LA BIBLIOTHEQUE D'ICONES EXTERNE (FONT AWESOME)-->
@@ -27,35 +45,52 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="js/stars.js"></script>
     <script src="js/menu.js"></script>
+    <!-- Script du lecteur de musique (doit être chargé avant inject-music-player) -->
+    <script src="js/music-player.js"></script>
+    <!-- Script d'injection du lecteur audio global -->
+    <script src="js/inject-music-player.js"></script>
+    
+    <!-- Script de gestion de la navigation active -->
+    <script src="js/navigation.js"></script>
 
-    <header>
-        <nav>
-            <a href="index.html">Accueil</a>
-            <a href="cv.html">CV</a>
-            <a href="lettremotivation.html">Lettre de motivation</a>
-            <div class="dropdown">
-                <a>Réalisations</a>
-                <div class="dropdown-content">
-                    <a href="tps.html">TPs</a>
-                    <a href="projets.html">Projets</a>
-                    <a href="stages.html">Stages</a>
-                </div>
-            </div>
-			<a href="competences.html" class="active">Compétences</a>
-            <a href="veille.html">Veille</a>
-            <a href="contact.html">Contact</a>
-        </nav>
-    </header>
+	<!-- HEADER / NAV -->
+	<header>
+		<nav>
+			<a href="index.html">Accueil</a>
+			<a href="cv.html">CV</a>
+			<a href="lettremotivation.html">Lettre de motivation</a>
+			<!-- Menu déroulant Réalisations -->
+			<div class="dropdown">
+				<a href="#" class="dropbtn">Réalisations <i class="fa fa-caret-down"></i></a>
+				<div class="dropdown-content" id="myDropdown">
+					<a href="tps.html">TPs</a>
+					<a href="projets.html">Projets</a>
+					<a href="stages.html">Stages</a>
+				</div>
+			</div>
+			</div>
+			<a href="competences.html">Compétences</a>
+			<a href="veille.html">Veille</a>
+			<a href="contact.html">Contact</a>
+		</nav>
+	</header>
 
+	<!-- ============================================
+	     CONTENU PRINCIPAL
+	     ============================================ -->
     <main>
         <div class="projets-container">
-            <!-- Hero Section -->
+            <!-- Section d'en-tête -->
             <div class="projets-hero">
                 <h1>Mes <span>Compétences</span></h1>
                 <p class="subtitle">Savoir-faire technique et professionnel en BTS SIO</p>
             </div>
 
-            <!-- Filtres -->
+            <!-- ============================================
+	         FILTRES PAR DOMAINE
+	         ============================================
+	         Permet de filtrer les compétences par domaine
+            -->
             <div class="filters">
                 <button class="filter-btn active" data-filter="all">
                     <i class="fas fa-th"></i> Toutes
@@ -74,7 +109,11 @@
                 </button>
             </div>
 
-            <!-- Compétence en Vedette -->
+            <!-- ============================================
+	         COMPÉTENCE PRINCIPALE
+	         ============================================
+	         Mise en avant de la compétence la plus importante
+            -->
             <div class="featured-project">
                 <div class="featured-grid">
                     <div class="featured-image">
@@ -87,9 +126,9 @@
                     <div class="featured-content">
                         <h2>Développement Web Full-Stack</h2>
                         <p>
-                            Maîtrise du développement d'applications web complètes, du front-end au back-end. 
-                            Capacité à concevoir des interfaces modernes et responsives, à développer des API 
-                            REST, et à gérer des bases de données. Expérience avec les frameworks modernes et 
+                            Maîtrise du développement d'applications web complètes, du front-end au back-end.
+                            Capacité à concevoir des interfaces modernes et responsives, à développer des API
+                            REST, et à gérer des bases de données. Expérience avec les frameworks modernes et
                             les bonnes pratiques de développement.
                         </p>
                         <div class="featured-stats">
@@ -117,15 +156,28 @@
                 </div>
             </div>
 
-            <!-- Titre Section -->
+            <!-- ============================================
+	         TOUTES LES COMPÉTENCES
+	         ============================================
+	         Grille de toutes les compétences avec filtrage
+            -->
             <h2 class="section-title">
                 <i class="fas fa-toolbox"></i>
                 Toutes mes Compétences
             </h2>
 
-            <!-- Grille de Compétences -->
+            <!-- Grille de compétences (filtrée par le script JavaScript) -->
             <div class="projects-grid">
 
+                <!-- 
+                    CARTE DE COMPÉTENCE
+                    Chaque compétence est dans une carte avec :
+                    - Icône représentative
+                    - Titre et description
+                    - Technologies associées
+                    - Niveau de maîtrise
+                    - Attribut data-category pour le filtrage
+                -->
                 <!-- Compétence 1 - HTML/CSS -->
                 <div class="project-card" data-category="developpement">
                     <div class="project-image">
@@ -140,7 +192,7 @@
                             </h3>
                         </div>
                         <p class="project-description">
-                            Création de pages web structurées et accessibles. Maîtrise du responsive design, 
+                            Création de pages web structurées et accessibles. Maîtrise du responsive design,
                             Flexbox, Grid, et des animations CSS.
                         </p>
                         <div class="project-tech">
@@ -171,7 +223,7 @@
                             </h3>
                         </div>
                         <p class="project-description">
-                            Programmation orientée objet, manipulation du DOM, gestion d'événements et requêtes 
+                            Programmation orientée objet, manipulation du DOM, gestion d'événements et requêtes
                             asynchrones avec fetch/AJAX.
                         </p>
                         <div class="project-tech">
@@ -202,7 +254,7 @@
                             </h3>
                         </div>
                         <p class="project-description">
-                            Développement back-end avec PHP, gestion de sessions, authentification, et 
+                            Développement back-end avec PHP, gestion de sessions, authentification, et
                             manipulation de bases de données MySQL.
                         </p>
                         <div class="project-tech">
@@ -233,7 +285,7 @@
                             </h3>
                         </div>
                         <p class="project-description">
-                            Scripts d'automatisation, manipulation de fichiers, et développement d'outils 
+                            Scripts d'automatisation, manipulation de fichiers, et développement d'outils
                             pour l'administration système.
                         </p>
                         <div class="project-tech">
@@ -263,7 +315,7 @@
                             </h3>
                         </div>
                         <p class="project-description">
-                            Configuration de routeurs et switches Cisco, VLANs, routage inter-VLANs, et 
+                            Configuration de routeurs et switches Cisco, VLANs, routage inter-VLANs, et
                             protocoles de routage (RIP, OSPF).
                         </p>
                         <div class="project-tech">
@@ -294,7 +346,7 @@
                             </h3>
                         </div>
                         <p class="project-description">
-                            Gestion de serveurs Linux, ligne de commande, gestion des utilisateurs, permissions, 
+                            Gestion de serveurs Linux, ligne de commande, gestion des utilisateurs, permissions,
                             et installation de services.
                         </p>
                         <div class="project-tech">
@@ -325,7 +377,7 @@
                             </h3>
                         </div>
                         <p class="project-description">
-                            Configuration d'Active Directory, gestion des utilisateurs et groupes, GPO, 
+                            Configuration d'Active Directory, gestion des utilisateurs et groupes, GPO,
                             et services réseau (DNS, DHCP).
                         </p>
                         <div class="project-tech">
@@ -356,7 +408,7 @@
                             </h3>
                         </div>
                         <p class="project-description">
-                            Conception de schémas relationnels, requêtes SQL avancées, optimisation, et gestion 
+                            Conception de schémas relationnels, requêtes SQL avancées, optimisation, et gestion
                             de bases MySQL et PostgreSQL.
                         </p>
                         <div class="project-tech">
@@ -387,7 +439,7 @@
                             </h3>
                         </div>
                         <p class="project-description">
-                            Principes de cybersécurité, configuration de pare-feu, détection de vulnérabilités, 
+                            Principes de cybersécurité, configuration de pare-feu, détection de vulnérabilités,
                             et bonnes pratiques de sécurisation.
                         </p>
                         <div class="project-tech">
@@ -418,7 +470,7 @@
                             </h3>
                         </div>
                         <p class="project-description">
-                            Gestion de versions avec Git, travail collaboratif sur GitHub, branches, merges, 
+                            Gestion de versions avec Git, travail collaboratif sur GitHub, branches, merges,
                             et résolution de conflits.
                         </p>
                         <div class="project-tech">
@@ -449,7 +501,7 @@
                             </h3>
                         </div>
                         <p class="project-description">
-                            Utilisation de Docker pour créer et gérer des conteneurs, optimisation des images, 
+                            Utilisation de Docker pour créer et gérer des conteneurs, optimisation des images,
                             et orchestration basique.
                         </p>
                         <div class="project-tech">
@@ -479,7 +531,7 @@
                             </h3>
                         </div>
                         <p class="project-description">
-                            Modélisation UML, diagrammes de cas d'utilisation, de classes et de séquences. 
+                            Modélisation UML, diagrammes de cas d'utilisation, de classes et de séquences.
                             Méthode Merise pour la conception de bases de données.
                         </p>
                         <div class="project-tech">
@@ -502,8 +554,13 @@
         <footer class="credit">Fait par Léo avec ❤️ - © Tous droits réservés</footer>
     </main>
 
+    <!-- ============================================
+         SCRIPT DE FILTRAGE DES COMPÉTENCES
+         ============================================
+         Ce script permet de filtrer les compétences par domaine
+    -->
     <script>
-        // Script pour les filtres de catégories
+        // Récupérer tous les boutons de filtre et toutes les cartes de compétence
         const filterBtns = document.querySelectorAll('.filter-btn');
         const projectCards = document.querySelectorAll('.project-card');
 
