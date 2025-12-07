@@ -913,7 +913,6 @@ button:hover {
     }
 }
 
-
 /* =====================
    ANIMATIONS CV SOBRES ET PROFESSIONNELLES
    ===================== */
@@ -3989,6 +3988,14 @@ body:has(.realisations-container) main {
     justify-content: center;
 }
 
+.featured-content {
+    padding: 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
 .featured-content h2 {
     font-size: 3.5rem;
     color: var(--text-primary);
@@ -4001,33 +4008,43 @@ body:has(.realisations-container) main {
     line-height: 1.8;
     color: var(--text-secondary);
     margin-bottom: 2.5rem;
+    text-align: left;
+    width: 100%;
 }
 
 .featured-stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
     margin-bottom: 3rem;
-    padding: 2rem;
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 1rem;
+    padding: 0;
 }
 
 .stat-item {
-    text-align: center;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.2rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.stat-value {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: var(--accent);
-    display: block;
+.stat-item:last-child {
+    border-bottom: none;
 }
 
 .stat-label {
-    font-size: 1.6rem !important;
-    font-weight: 600;
+    font-size: 1.4rem !important;
+    font-weight: 500;
     color: var(--text-secondary);
+    min-width: 120px;
+    text-align: left;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--accent);
+    text-align: left;
     flex: 1;
 }
 
@@ -4036,11 +4053,14 @@ body:has(.realisations-container) main {
     flex-wrap: wrap;
     gap: 1rem;
     margin-bottom: 3rem;
+    width: 100%;
 }
 
 .featured-actions {
     display: flex;
     gap: 1.5rem;
+    width: 100%;
+    flex-wrap: wrap;
 }
 
 .featured-btn {
