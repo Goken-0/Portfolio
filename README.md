@@ -48,18 +48,24 @@ Voici l'organisation des fichiers telle qu'elle est sur le dépôt :
 
 ```bash
 Portfolio/
-├── index.html              # Accueil
-├── assets/                 # Images et ressources graphiques
-├── css/                    # Feuilles de styles
-├── js/                     # Scripts JS
-├── components/             # Éléments réutilisables
+├── assets/                     # Images, musiques et ressources graphiques
+├── components/                 # Éléments réutilisables (si utilisé)
+├── css/                        # Feuilles de styles (style.css)
+├── js/                         # Scripts JS (animations, lecteur musique, etc.)
 │
-├── cv.html                 # Curriculum Vitae
-├── competences.html        # Tableau des compétences
-├── contact.html            # Formulaire de contact
-├── spaceinvader.html       # Mini-jeu JS
-├── veille.html             # Sujets de veille
-└── ... (autres pages)
+├── index.html                  # Page d'accueil (Portail)
+├── cv.html                     # Curriculum Vitae
+├── lettremotivation.html       # Lettre de motivation
+├── competences.html            # Tableau des compétences
+├── projets.html                # Présentation des projets réalisés
+├── stages.html                 # Rapports et détails des stages
+├── tps.html                    # Travaux Pratiques
+├── veille.html                 # Veille Technologique
+├── contact.html                # Page de contact
+├── spaceinvader.html           # Mini-jeu bonus
+│
+├── DOCUMENTATION.txt           # Documentation technique du projet
+└── README.md                   # Ce fichier (présentation du projet)
 ```
 
 ## 📫 Me contacter
