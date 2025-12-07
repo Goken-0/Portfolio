@@ -34,12 +34,12 @@
 	<title>Portfolio Léo - TPs</title>
 </head>
 
-<body>
+<body class="projets-page">
 	<!-- Scripts -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 	<script src="js/stars.js"></script>
 	<script src="js/menu.js"></script>
-	<!-- Script qui gère le carrousel des TPs -->
+	<!-- Script qui génère les cartes de TPs -->
 	<script src="js/tps.js"></script>
 	<script src="js/music-player.js"></script>
 	<script src="js/inject-music-player.js"></script>
@@ -68,40 +68,21 @@
 
 	<!-- Contenu principal -->
 	<main>
-		<div class="realisations-container">
-			<!-- Titre de la section -->
-			<h1>Mes <span>TPs</span></h1>
-
-			<!-- Carrousel de navigation -->
-			<div class="carousel">
-				<!-- Flèche gauche : projet précédent -->
-				<button class="nav-arrow left" aria-label="Projet précédent">
-					<i class="fa fa-chevron-left"></i>
-				</button>
-
-				<!-- Zone d'affichage du projet actuel -->
-				<div class="project-display">
-					<!-- Titre du projet (mis à jour par tps.js) -->
-					<h2 id="project-title">Titre du projet 1</h2>
-					
-					<!-- Description du projet (mise à jour par tps.js) -->
-					<p id="project-description">Courte description du projet 1.</p>
-					
-					<!-- Bouton pour visualiser le PDF (lien mis à jour par tps.js) -->
-					<a id="project-view" href="#" target="_blank" class="view-button">
-						<i class="fa fa-eye"></i> Visualiser
-					</a>
-				</div>
-
-				<!-- Flèche droite : projet suivant -->
-				<button class="nav-arrow right" aria-label="Projet suivant">
-					<i class="fa fa-chevron-right"></i>
-				</button>
+		<div class="projets-container">
+			<!-- Section d'en-tête -->
+			<div class="projets-hero">
+				<h1>Mes <span>TPs</span></h1>
+				<p class="subtitle">Travaux pratiques réalisés en BTS SIO</p>
 			</div>
 
-			<!-- Indicateurs de pagination (optionnel, peut être généré dynamiquement) -->
-			<div class="carousel-dots" id="carousel-dots">
-				<!-- Peut être généré dynamiquement par JavaScript si nécessaire -->
+			<!-- Grille de TPs -->
+			<h2 class="section-title">
+				<i class="fas fa-folder-open"></i>
+				Tous les TPs
+			</h2>
+
+			<div class="projects-grid" id="tps-grid">
+				<!-- Les cartes seront générées dynamiquement par tps.js -->
 			</div>
 		</div>
 	</main>
