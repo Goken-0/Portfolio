@@ -207,9 +207,7 @@ class MusicPlayer {
                     savedIndex = 0;  // Si l'index n'est pas valide, on prend la première chanson
                 }
                 
-                // On force toujours à commencer par la première chanson au chargement
-                // (si vous voulez restaurer la dernière chanson jouée, commentez la ligne suivante)
-                savedIndex = 0;
+                // On restaure la dernière chanson jouée pour continuer la musique sur les autres pages
                 
                 // On restaure toutes les variables
                 this.currentSongIndex = savedIndex;
