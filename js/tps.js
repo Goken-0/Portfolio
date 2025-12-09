@@ -57,11 +57,32 @@ document.addEventListener('DOMContentLoaded', () => {
             badge: "Scripting"
         },
         {
-            titre: "TD 1 - Découverte d'une base de données",
+            titre: "TP 6 - Découverte d'une base de données",
             description: "Comment est composée une base de données ?",
             fichier: "assets/pdf/TD_1_BD.pdf",
             image: "assets/images/basedonnees.jpg",
             badge: "Base de données"
+        },
+        {
+            titre: "TP 7 - Commandes CMD",
+            description: "Commandes CMD Essentielles du Support Informatique",
+            fichier: "assets/pdf/TP_Commandes_Avancees.pdf",
+            image: "assets/images/tp7.png",
+            badge: "Scripting"
+        },
+        {
+            titre: "TP 8 - Problème réseau",
+            description: "Diagnostic et Réparation d’un Problème de Connexion Réseau",
+            fichier: "assets/pdf/TP_problemesreseaux.pdf",
+            image: "assets/images/problemesreseaux.jpg",
+            badge: "Réseau"
+        },
+        {
+            titre: "TP 9 - Commandes PowerShell",
+            description: "Interface en ligne de commande",
+            fichier: "assets/pdf/TP_commandespowershell.pdf",
+            image: "assets/images/powershell.png",
+            badge: "Scripting"
         }
     ];
 
