@@ -1,66 +1,29 @@
 /**
  * ============================================
- * ANIMATIONS PROFESSIONNELLES POUR LA PAGE LETTRE DE MOTIVATION
+ * ANIMATIONS LM - VERSION FINALE (AVEC LIMITES DE ZOOM)
  * ============================================
- * 
- * Ce fichier est identique à animation-cv.js mais pour la page lettre de motivation.
- * Il ajoute les mêmes animations élégantes et professionnelles.
- * 
- * Fonctionnalités :
- * 1. Animation d'apparition au scroll (fade in)
- * 2. Effet hover subtil sur les images
- * 3. Modal avec zoom et téléchargement au clic
- * 4. Indicateur de chargement pour les images
- * 
- * Note : Le code est similaire à animation-cv.js mais télécharge le PDF de la lettre de motivation
  */
 
-// Attendre que le DOM soit complètement chargé
 document.addEventListener('DOMContentLoaded', function () {
 
-    // ============================================
-    // 1. ANIMATION D'APPARITION AU SCROLL
-    // ============================================
-    
-    /**
-     * Ajoute une animation d'apparition progressive quand on scroll
-     */
     function animateOnScroll() {
         const images = document.querySelectorAll('.cv-img, .lettre-img');
-
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animate-in');
-                }
+                if (entry.isIntersecting) entry.target.classList.add('animate-in');
             });
-        }, {
-            threshold: 0.2,
-            rootMargin: '0px 0px -50px 0px'
-        });
-
-        images.forEach(img => {
-            observer.observe(img);
-        });
+        }, { threshold: 0.2, rootMargin: '0px 0px -50px 0px' });
+        images.forEach(img => observer.observe(img));
     }
 
-    // ============================================
-    // 2. EFFET HOVER SUBTIL
-    // ============================================
-    
-    /**
-     * Ajoute un effet hover élégant sur les images
-     */
     function addSubtleHoverEffects() {
         const images = document.querySelectorAll('.cv-img, .lettre-img');
-
         images.forEach(img => {
             img.addEventListener('mouseenter', function () {
                 this.style.transform = 'translateY(-8px) scale(1.02)';
                 this.style.boxShadow = '0 15px 35px rgba(119, 158, 148, 0.15)';
                 this.style.transition = 'all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1)';
             });
-
             img.addEventListener('mouseleave', function () {
                 this.style.transform = 'translateY(0) scale(1)';
                 this.style.boxShadow = '0 5px 15px rgba(119, 158, 148, 0.1)';
@@ -69,23 +32,13 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // ============================================
-    // 3. MODAL PROFESSIONNEL AVEC ZOOM
-    // ============================================
-    
-    /**
-     * Rend les images cliquables et ouvre un modal au clic
-     */
     function addClickZoom() {
         const images = document.querySelectorAll('.cv-img, .lettre-img');
-
         images.forEach(img => {
-            img.style.cursor = 'pointer';
-
+            img.style.cursor = 'zoom-in';
             const indicator = document.createElement('div');
             img.parentElement.style.position = 'relative';
             img.parentElement.appendChild(indicator);
-
             img.addEventListener('click', function (e) {
                 e.preventDefault();
                 createModal(this);
@@ -93,40 +46,34 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    /**
-     * Crée un modal pour afficher l'image en grand
-     */
     function createModal(imgElement) {
         const modal = document.createElement('div');
         modal.className = 'image-modal';
+        
         modal.innerHTML = `
             <div class="modal-overlay">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h3 class="modal-title">${getDocumentTitle(imgElement)}</h3>
-                        <button class="modal-close" aria-label="Fermer">
-                            <i class="fas fa-times"></i>
-                        </button>
+                        <button class="modal-close" aria-label="Fermer"><i class="fas fa-times"></i></button>
                     </div>
+                    
                     <div class="modal-image-container">
                         <img src="${imgElement.src}" alt="${imgElement.alt}" class="modal-image">
                     </div>
+                    
                     <div class="modal-controls">
                         <button class="modal-btn modal-zoom-in" title="Zoomer">
-                            <i class="fas fa-search-plus"></i>
-                            <span>Zoomer</span>
+                            <i class="fas fa-search-plus"></i><span>Zoomer</span>
                         </button>
                         <button class="modal-btn modal-zoom-out" title="Dézoomer">
-                            <i class="fas fa-search-minus"></i>
-                            <span>Dézoomer</span>
+                            <i class="fas fa-search-minus"></i><span>Dézoomer</span>
                         </button>
-                        <button class="modal-btn modal-reset" title="Taille originale">
-                            <i class="fas fa-expand-arrows-alt"></i>
-                            <span>Ajuster</span>
+                        <button class="modal-btn modal-reset" title="Ajuster">
+                            <i class="fas fa-compress-arrows-alt"></i><span>Ajuster</span>
                         </button>
                         <button class="modal-btn modal-download" title="Télécharger">
-                            <i class="fas fa-download"></i>
-                            <span>Télécharger</span>
+                            <i class="fas fa-download"></i><span>Télécharger</span>
                         </button>
                     </div>
                 </div>
@@ -134,170 +81,138 @@ document.addEventListener('DOMContentLoaded', function () {
         `;
 
         document.body.appendChild(modal);
-
-        requestAnimationFrame(() => {
-            modal.classList.add('active');
-        });
-
+        requestAnimationFrame(() => modal.classList.add('active'));
         setupModalControls(modal, imgElement);
     }
 
-    /**
-     * Détermine le titre selon le type de document
-     */
     function getDocumentTitle(imgElement) {
-        if (imgElement.classList.contains('lm-img')) {
-            return 'Lettre de Motivation';
-        } else if (imgElement.classList.contains('lettre-img')) {
-            return 'Lettre de Motivation';
-        }
+        if (imgElement.classList.contains('lettre-img') || imgElement.classList.contains('lm-img')) return 'Lettre de Motivation';
         return 'Document';
     }
 
-    /**
-     * Configure tous les contrôles du modal
-     */
     function setupModalControls(modal, originalImg) {
         const modalImg = modal.querySelector('.modal-image');
-        const closeBtn = modal.querySelector('.modal-close');
         const zoomInBtn = modal.querySelector('.modal-zoom-in');
         const zoomOutBtn = modal.querySelector('.modal-zoom-out');
         const resetBtn = modal.querySelector('.modal-reset');
         const downloadBtn = modal.querySelector('.modal-download');
+        const closeBtn = modal.querySelector('.modal-close');
         const overlay = modal.querySelector('.modal-overlay');
         const imageContainer = modal.querySelector('.modal-image-container');
 
-        let scale = 1;
-        let isDragging = false;
-        let dragStart = { x: 0, y: 0 };
-        let imagePosition = { x: 0, y: 0 };
+        // --- LIMITES DE ZOOM (en pixels) ---
+        const MIN_ZOOM = 300; 
+        const MAX_ZOOM = 2500; 
+
+        let isFitMode = true;
+        let currentWidth = 0;
+
+        function initZoom() {
+            isFitMode = true;
+            modalImg.style.width = 'auto';
+            modalImg.style.height = 'auto'; 
+            modalImg.style.maxWidth = '100%';
+            modalImg.style.maxHeight = '100%'; 
+            modalImg.style.objectFit = 'contain';
+            modalImg.style.cursor = 'zoom-in';
+            modalImg.style.margin = 'auto';
+            
+            imageContainer.style.display = 'flex';
+            imageContainer.style.alignItems = 'center';
+            imageContainer.style.justifyContent = 'center';
+        }
+
+        function applyZoom(factor) {
+            if (isFitMode) {
+                currentWidth = modalImg.getBoundingClientRect().width;
+                isFitMode = false;
+                
+                imageContainer.style.display = 'block';
+                imageContainer.style.textAlign = 'center';
+                
+                modalImg.style.maxHeight = 'none';
+                modalImg.style.maxWidth = 'none';
+            } 
+            
+            let newWidth = currentWidth * factor;
+            
+            // --- APPLICATION DES LIMITES ---
+            if (newWidth > MAX_ZOOM) newWidth = MAX_ZOOM;
+            if (newWidth < MIN_ZOOM) newWidth = MIN_ZOOM;
+            
+            currentWidth = newWidth;
+            
+            modalImg.style.width = `${currentWidth}px`;
+            modalImg.style.height = 'auto';
+            modalImg.style.cursor = 'zoom-out';
+        }
+
+        initZoom();
 
         function closeModal() {
             modal.classList.add('closing');
             setTimeout(() => {
-                if (document.body.contains(modal)) {
-                    document.body.removeChild(modal);
-                }
+                if (document.body.contains(modal)) document.body.removeChild(modal);
                 document.body.style.overflow = 'auto';
             }, 300);
         }
 
         closeBtn.addEventListener('click', closeModal);
-        overlay.addEventListener('click', (e) => {
-            if (e.target === overlay) closeModal();
+        overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
+
+        zoomInBtn.addEventListener('click', () => applyZoom(1.1));
+        zoomOutBtn.addEventListener('click', () => applyZoom(0.9));
+        resetBtn.addEventListener('click', initZoom);
+
+        modalImg.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (isFitMode) {
+                applyZoom(1.5);
+            } else {
+                initZoom();
+            }
         });
 
-        zoomInBtn.addEventListener('click', () => {
-            scale = Math.min(scale * 1.3, 4);
-            updateImageTransform();
+        imageContainer.addEventListener('wheel', (e) => {
+            if (e.ctrlKey) {
+                e.preventDefault();
+                const factor = e.deltaY > 0 ? 0.9 : 1.1;
+                applyZoom(factor);
+            }
         });
 
-        zoomOutBtn.addEventListener('click', () => {
-            scale = Math.max(scale / 1.3, 0.3);
-            updateImageTransform();
-        });
-
-        resetBtn.addEventListener('click', () => {
-            scale = 1;
-            imagePosition = { x: 0, y: 0 };
-            updateImageTransform();
-        });
-
-        // IMPORTANT : Ici on télécharge le PDF de la lettre de motivation
         downloadBtn.addEventListener('click', () => {
             const link = document.createElement('a');
-            link.href = 'assets/pdf/lettremotivation.pdf';
-            link.download = 'LETTRE_MOTIVATION_METGY_LEO.pdf';
+            link.href = 'assets/pdf/lettremotivation.pdf'; 
+            link.download = 'LETTRE_DE_MOTIVATION_METGY_LEO.pdf';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
         });
 
-        modalImg.addEventListener('mousedown', startDrag);
-        document.addEventListener('mousemove', drag);
-        document.addEventListener('mouseup', stopDrag);
-
-        function startDrag(e) {
-            if (scale > 1) {
-                isDragging = true;
-                dragStart.x = e.clientX - imagePosition.x;
-                dragStart.y = e.clientY - imagePosition.y;
-                modalImg.style.cursor = 'grabbing';
-                e.preventDefault();
-            }
-        }
-
-        function drag(e) {
-            if (isDragging) {
-                imagePosition.x = e.clientX - dragStart.x;
-                imagePosition.y = e.clientY - dragStart.y;
-                updateImageTransform();
-            }
-        }
-
-        function stopDrag() {
-            isDragging = false;
-            modalImg.style.cursor = scale > 1 ? 'grab' : 'default';
-        }
-
-        function updateImageTransform() {
-            modalImg.style.transform = `scale(${scale}) translate(${imagePosition.x / scale}px, ${imagePosition.y / scale}px)`;
-            modalImg.style.cursor = scale > 1 ? 'grab' : 'default';
-        }
-
-        imageContainer.addEventListener('wheel', (e) => {
-            e.preventDefault();
-            const delta = e.deltaY > 0 ? 0.9 : 1.1;
-            scale = Math.min(Math.max(scale * delta, 0.3), 4);
-            updateImageTransform();
-        });
-
         document.body.style.overflow = 'hidden';
-
-        const escHandler = (e) => {
-            if (e.key === 'Escape') {
-                closeModal();
-                document.removeEventListener('keydown', escHandler);
-            }
-        };
+        const escHandler = (e) => { if (e.key === 'Escape') { closeModal(); document.removeEventListener('keydown', escHandler); }};
         document.addEventListener('keydown', escHandler);
     }
 
-    // ============================================
-    // 4. INDICATEUR DE CHARGEMENT
-    // ============================================
-    
     function addLoadingIndicator() {
         const images = document.querySelectorAll('.cv-img, .lettre-img');
-
         images.forEach(img => {
             if (!img.complete) {
                 const loader = document.createElement('div');
                 loader.className = 'image-loader';
                 loader.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-
                 img.parentElement.appendChild(loader);
-
                 img.addEventListener('load', () => {
                     loader.style.opacity = '0';
-                    setTimeout(() => {
-                        if (img.parentElement.contains(loader)) {
-                            img.parentElement.removeChild(loader);
-                        }
-                    }, 300);
+                    setTimeout(() => img.parentElement.contains(loader) && img.parentElement.removeChild(loader), 300);
                 });
             }
         });
     }
 
-    // ============================================
-    // INITIALISATION
-    // ============================================
-    
     animateOnScroll();
     addSubtleHoverEffects();
     addClickZoom();
     addLoadingIndicator();
-
-    console.log('📄 Animations Lettre de motivation professionnelles activées');
 });
