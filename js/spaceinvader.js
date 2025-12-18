@@ -1,6 +1,6 @@
 /**
  * ============================================
- * JEU SPACE INVADERS (PORTFOLIO VERSION)
+ * JEU SPACE INVADERS (FINAL - SPAWN CENTER FIX)
  * ============================================
  */
 
@@ -34,7 +34,7 @@ customPanel.style.cssText = `
 `;
 
 customPanel.innerHTML = `
-    <h3 style="color: #00ffff; font-size: 14px; margin-bottom: 20px; text-align: center; text-shadow: 0 0 10px #00ffff;">REGLAGES</h3>
+    <h3 style="color: #00ffff; font-size: 14px; margin-bottom: 20px; text-align: center; text-shadow: 0 0 10px #00ffff;">RÉGLAGES</h3>
     
     <div style="margin-bottom: 20px;">
         <label style="color: #00ffff; font-size: 10px; display: block; margin-bottom: 5px;">VOLUME</label>
@@ -140,7 +140,16 @@ function startGameLogic() {
     gameActive = true;
     gamePaused = false;
     updateLivesDisplay();
+    
+    // 1. On redimensionne le canvas (Full screen ou Fenêtre)
     resizeCanvas();
+    
+    // 2. IMPORTANT : On repositionne le joueur APRES le redimensionnement
+    // Centré horizontalement et à 80px du bas
+    player.x = canvas.width / 2 - player.width / 2;
+    player.y = canvas.height - 80;
+
+    // 3. On fait apparaître les ennemis
     spawnEnemies();
 }
 
@@ -148,6 +157,7 @@ function startGameLogic() {
 document.getElementById('btnYes').addEventListener('click', function () {
     const gameContainer = document.getElementById('gameContainer');
     gameContainer.requestFullscreen().then(() => {
+        // Petit délai pour laisser le temps au navigateur de passer en plein écran
         setTimeout(() => {
             isBigMode = true; 
             startGameLogic(); 
@@ -667,8 +677,10 @@ if (window.innerWidth <= 768) {
 
 function resetGame() {
     player = new Player();
+    // REPOSITIONNEMENT DU JOUEUR AU RESET (FIX SPAWN)
     player.x = canvas.width / 2 - player.width / 2;
     player.y = canvas.height - 80;
+    
     bullets = [];
     enemyBullets = [];
     particles = [];
