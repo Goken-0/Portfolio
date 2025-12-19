@@ -1293,6 +1293,135 @@ body:not(.veille-page) {
     padding: 0 2rem;
 }
 
+/* ============================================
+   MISE EN PAGE IMAGES CÔTE À CÔTE
+   ============================================ */
+.visual-row {
+    display: flex;          /* Active l'alignement horizontal */
+    gap: 2rem;             /* Espace entre les deux images */
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 3rem;
+    width: 100%;
+}
+
+/* Force les sections visuelles à prendre 50% chacune quand elles sont dans une ligne */
+.visual-row .visual-section {
+    flex: 1;
+    margin-top: 0 !important; /* Enlève la marge du haut pour l'alignement */
+    width: 50%;
+}
+
+/* Ajustement pour que l'image remplisse bien son bloc */
+.visual-row .block-image {
+    width: 100%;
+    height: 400px; /* Hauteur fixe pour que les deux images soient égales */
+    object-fit: cover; /* Recadre l'image proprement sans la déformer */
+}
+
+/* RESPONSIVE : Sur mobile, on remet les images l'une en dessous de l'autre */
+@media (max-width: 768px) {
+    .visual-row {
+        flex-direction: column;
+    }
+    .visual-row .visual-section {
+        width: 100%;
+    }
+}
+
+/* ============================================
+   AMÉLIORATION METHODOLOGIE (STYLE PRO)
+   ============================================ */
+/* Conteneur interne pour aligner le texte proprement */
+.method-details {
+    text-align: left; /* On aligne à gauche pour la lisibilité */
+    background: rgba(0, 0, 0, 0.2); /* Fond sombre subtil */
+    padding: 1.5rem;
+    border-radius: 1rem;
+    margin-top: 2rem;
+    width: 100%;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Chaque groupe (ex: Hardware, IA...) */
+.method-group {
+    margin-bottom: 1.5rem;
+}
+
+.method-group:last-child {
+    margin-bottom: 0;
+}
+
+/* Titre des groupes (ex: "Hardware") */
+.method-group h4 {
+    color: var(--accent); /* Bleu du site */
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 700;
+}
+
+/* Texte des groupes */
+.method-group p {
+    font-size: 1.8rem !important; /* Un peu plus petit que le texte principal */
+    color: rgba(255, 255, 255, 0.8) !important;
+    line-height: 1.5 !important;
+    margin: 0;
+}
+
+/* ============================================
+   COLORISATION ET STYLES IA (CALQUÉ SUR GPU)
+   ============================================ */
+
+/* --- CLAUDE (Orange) --- */
+/* Applique la couleur à TOUS les éléments importants (Titre, Valeurs stats, Titres listes, Icônes, Liens) */
+.claude-card .card-title,
+.claude-card .stat-value,
+.claude-card .card-features h4,
+.claude-card .card-features li i,
+.claude-card .stat-source {
+    color: #d97706 !important; /* Orange Claude */
+}
+
+/* Hover spécifique Claude (Bordure + Ombre colorée) */
+.claude-card:hover {
+    border-color: #d97706 !important;
+    box-shadow: 0 20px 60px rgba(217, 119, 6, 0.4) !important;
+}
+
+/* Petit effet de zoom sur le lien source au survol */
+.claude-card .stat-source:hover {
+    background: rgba(217, 119, 6, 0.1);
+    transform: scale(1.2);
+}
+
+
+/* --- GPT (Vert OpenAI) --- */
+/* Applique la couleur à TOUS les éléments importants */
+.gpt-card .card-title,
+.gpt-card .stat-value,
+.gpt-card .card-features h4,
+.gpt-card .card-features li i,
+.gpt-card .stat-source {
+    color: #10a37f !important; /* Vert GPT */
+}
+
+/* Hover spécifique GPT (Bordure + Ombre colorée) */
+.gpt-card:hover {
+    border-color: #10a37f !important;
+    box-shadow: 0 20px 60px rgba(16, 163, 127, 0.4) !important;
+}
+
+/* Petit effet de zoom sur le lien source au survol */
+.gpt-card .stat-source:hover {
+    background: rgba(16, 163, 127, 0.1);
+    transform: scale(1.2);
+}
+
 /* =====================================================
    INTRODUCTION SECTION
    ===================================================== */
@@ -4191,66 +4320,4 @@ body:has(.realisations-container) main {
 .project-link:hover i,
 .project-title i {
     animation: iconBounce 0.6s ease infinite;
-
-}
-
-/* =========================================
-   ANIMATIONS SPÉCIALES (Projet Phare & Compétence)
-   ========================================= */
-
-/* Animation de pulsation Néon (pour le Projet Phare)
-   La lueur et la bordure deviennent plus intenses puis reviennent à la normale */
-@keyframes neonBreathing {
-    0%, 100% {
-        box-shadow: 0 0 30px rgba(60, 174, 228, 0.2);
-        border-color: rgba(60, 174, 228, 0.5);
-    }
-    50% {
-        box-shadow: 0 0 60px rgba(60, 174, 228, 0.5), 0 0 120px rgba(60, 174, 228, 0.2);
-        border-color: #3caee4;
-    }
-}
-
-/* Animation de flottement léger (pour la Compétence Principale)
-   La carte monte et descend doucement */
-@keyframes cyberFloat {
-    0%, 100% {
-        transform: translateY(0); /* Position initiale */
-    }
-    50% {
-        transform: translateY(-15px); /* Monte de 15 pixels */
-    }
-}
-
-/* === Application au PROJET PHARE (projets.html) === */
-.featured-project {
-    animation: neonBreathing 4s ease-in-out infinite;
-    transition: all 0.3s ease;
-    position: relative; 
-    z-index: 1;
-}
-
-/* Effet "Focus" au survol du Projet Phare */
-.featured-project:hover {
-    animation-play-state: paused;
-    transform: scale(1.02);
-    border-color: #3caee4;
-    box-shadow: 0 0 80px rgba(60, 174, 228, 0.7);
-}
-
-
-/* === Application à la COMPÉTENCE PRINCIPALE (competences.html) === */
-.main-skill {
-    animation: cyberFloat 6s ease-in-out infinite;
-    position: relative;
-    z-index: 1;
-    transition: all 0.4s ease;
-}
-
-/* Effet "Stabilisation" au survol de la Compétence */
-.main-skill:hover {
-    animation-play-state: paused;
-    transform: translateY(-8px) scale(1.03);
-    box-shadow: 0 25px 50px rgba(60, 174, 228, 0.25);
-    border-color: #3caee4;
 }
