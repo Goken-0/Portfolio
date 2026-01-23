@@ -123,22 +123,22 @@
                             <i class="fas fa-star"></i>
                             Projet Phare
                         </div>
-                        <img src="assets/images/spaceinvaders.jpg">
+                        <img src="assets/images/nas.jpg">
                     </div>
                     <div class="featured-content">
-                        <h2>SPACE INVADERS</h2>
+                        <h2>NAS DIY</h2>
                         <p>
-                            Jeu Space Invaders<br>
-                            Réalisé en Javascript, HTML et CSS
+                            Serveur NAS réalisé à partir d'un ordinateur de bureau Dell Optiplex 3050, celui-ci tourne sous OpenMediaVault ainsi que CasaOS (pour l'interface)<br></br>
+                            Veuillez cliquer sur le bouton <strong>"Voir le PDF"</strong> pour plus de renseignements.
                         </p>
                         <div class="featured-stats">
                             <div class="stat-item">
                                 <span class="stat-label">Projet :</span>
-                                <span class="stat-value">Jeu</span>
+                                <span class="stat-value">Serveur NAS</span>
                             </div>
                             <div class="stat-item">
                                 <span class="stat-label">Type :</span>
-                                <span class="stat-value">Web</span>
+                                <span class="stat-value">Système & Réseau</span>
                             </div>
                             <div class="stat-item">
                                 <span class="stat-label">Statut :</span>
@@ -146,16 +146,12 @@
                             </div>
                         </div>
                         <div class="featured-tech">
-                            <span class="tech-tag">JAVASCRIPT</span>
-                            <span class="tech-tag">HTLM5</span>
-                            <span class="tech-tag">CSS3</span>
+                            <span class="tech-tag">OPENMEDIAVAULT</span>
+                            <span class="tech-tag">CASAOS</span>
                         </div>
                         <div class="featured-actions">
-                            <a href="https://goken-0.github.io/spaceinvaders/" class="featured-btn primary">
-                                <i class="fas fa-eye"></i> SpaceInvaders
-                            </a>
-                            <a href="https://github.com/Goken-0/spaceinvaders" class="featured-btn secondary">
-                                <i class="fab fa-github"></i> Repository
+                            <a href="assets/pdf/nas.pdf" class="featured-btn primary">
+                                <i class="fas fa-eye"></i> Voir le PDF
                             </a>
                         </div>
                     </div>
@@ -268,7 +264,7 @@
                     <div class="project-content">
                         <div class="project-header">
                             <h3 class="project-title">
-                                <i class="fas fa-server"></i>
+                                <i class="fa-solid fa-gamepad"></i>
                                 SPACE INVADERS
                             </h3>
                         </div>
@@ -297,7 +293,41 @@
                     </div>
                 </div>
 
-                <!-- Exemple 4 -->
+                <!-- NAS DIY -->
+                <div class="project-card" data-category="systeme reseau">
+                    <div class="project-image">
+                        <span class="project-badge">Système & Réseau</span>
+                        <img src="assets/images/nas.jpg">
+                    </div>
+                    <div class="project-content">
+                        <div class="project-header">
+                            <h3 class="project-title">
+                                <i class="fas fa-server"></i>
+                                NAS DIY
+                            </h3>
+                        </div>
+                        <p class="project-description">
+                            Serveur NAS réalisé à partir d'un ordinateur de bureau Dell Optiplex 3050, celui-ci tourne sous OpenMediaVault ainsi que CasaOS (pour l'interface)<br></br>
+                            Veuillez cliquer sur le bouton <strong>"lien externe"</strong> pour plus de renseignements.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-tag">OPENMEDIAVAULT</span>
+                            <span class="tech-tag">CASAOS</span>
+                        </div>
+                        <div class="project-footer">
+                            <span class="project-date">
+                                <i class="far fa-calendar"></i> 06/01/2026
+                            </span>
+                            <div class="project-links">
+                                <a href="assets/pdf/nas.pdf" class="project-link" title="Voir le PDF">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Exemple -->
               <!--  <div class="project-card" data-category="securite">
                     <div class="project-image">
                         <span class="project-badge">Sécurité</span>
@@ -341,6 +371,7 @@
          Ce script permet de filtrer les projets par catégorie
          quand on clique sur les boutons de filtre
     -->
+
     <script>
         // Récupérer tous les boutons de filtre et toutes les cartes de projet
         const filterBtns = document.querySelectorAll('.filter-btn');
@@ -354,22 +385,26 @@
                 // Ajouter la classe active au bouton cliqué
                 btn.classList.add('active');
 
-                // Récupérer la catégorie à filtrer (ex: "web", "reseau", "all")
+                // Récupérer la catégorie à filtrer
                 const filter = btn.dataset.filter;
 
                 // Parcourir toutes les cartes de projet
                 projectCards.forEach(card => {
-                    // Si on filtre "all" ou si la catégorie de la carte correspond au filtre
-                    if (filter === 'all' || card.dataset.category === filter) {
+                    // MODIFICATION ICI : On utilise .includes() au lieu de ===
+                    // Cela permet de trouver "systeme" à l'intérieur de "systeme reseau"
+                    const cardCats = card.dataset.category;
+                
+                    if (filter === 'all' || cardCats.includes(filter)) {
                         // Afficher la carte
                         card.style.display = 'block';
-                        // Réanimer l'apparition (effet visuel)
+                    
+                        // Réanimer l'apparition
                         card.style.animation = 'none';
                         setTimeout(() => {
                             card.style.animation = 'projectAppear 0.6s ease-out forwards';
                         }, 10);
                     } else {
-                        // Cacher la carte si elle ne correspond pas au filtre
+                        // Cacher la carte
                         card.style.display = 'none';
                     }
                 });
@@ -377,6 +412,5 @@
         });
     </script>
 
-
-</html>
+    </html>
 
