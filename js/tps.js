@@ -109,8 +109,8 @@
             description: "Configuration générale de l'OS, c'est à dire résolution écran, disposition clavier...",
             fichier: "assets/pdf/TP_PremiereConnexionLinux.pdf",
             image: "assets/images/linux.jpg",
-            badge: "Virtualisation",
-            category: "virtualisation"
+            badge: "Virtualisation, Linux",
+            category: "virtualisation, linux"
         },
         {
             titre: "TP 11 - GuestAdditions",
@@ -291,3 +291,4 @@
         init();
     }
 })();
+
