@@ -4,7 +4,8 @@
  * ============================================
  */
 
-document.addEventListener('DOMContentLoaded', function () {
+(function() {
+    function init() {
 
     // 1. ANIMATION SCROLL
     function animateOnScroll() {
@@ -110,6 +111,21 @@ document.addEventListener('DOMContentLoaded', function () {
         let isFitMode = true;
         let currentWidth = 0;
 
+        // --- DRAG STATE ---
+        let isDragging = false;
+        let dragStartX = 0;
+        let dragStartY = 0;
+        let scrollStartX = 0;
+        let scrollStartY = 0;
+
+        // --- TOUCH STATE ---
+        let lastTouchDist = 0;
+        let isTouchDragging = false;
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let touchScrollStartX = 0;
+        let touchScrollStartY = 0;
+
         function initZoom() {
             isFitMode = true;
             modalImg.style.width = 'auto';
@@ -137,10 +153,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 modalImg.style.maxWidth = 'none';
             } 
             
-            // Calcul théorique
             let newWidth = currentWidth * factor;
-            
-            // --- APPLICATION DES LIMITES ---
             if (newWidth > MAX_ZOOM) newWidth = MAX_ZOOM;
             if (newWidth < MIN_ZOOM) newWidth = MIN_ZOOM;
             
@@ -148,7 +161,7 @@ document.addEventListener('DOMContentLoaded', function () {
             
             modalImg.style.width = `${currentWidth}px`;
             modalImg.style.height = 'auto';
-            modalImg.style.cursor = 'zoom-out';
+            modalImg.style.cursor = isDragging ? 'grabbing' : 'grab';
         }
 
         initZoom();
@@ -168,8 +181,51 @@ document.addEventListener('DOMContentLoaded', function () {
         zoomOutBtn.addEventListener('click', () => applyZoom(0.9));
         resetBtn.addEventListener('click', initZoom);
 
+        // --- ZOOM MOLETTE (sans Ctrl) ---
+        imageContainer.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            const factor = e.deltaY > 0 ? 0.9 : 1.1;
+            applyZoom(factor);
+        }, { passive: false });
+
+        // --- DRAG SOURIS (clic gauche maintenu) ---
+        imageContainer.addEventListener('mousedown', (e) => {
+            if (isFitMode) return;
+            isDragging = true;
+            dragStartX = e.clientX;
+            dragStartY = e.clientY;
+            scrollStartX = imageContainer.scrollLeft;
+            scrollStartY = imageContainer.scrollTop;
+            imageContainer.style.cursor = 'grabbing';
+            modalImg.style.cursor = 'grabbing';
+            e.preventDefault();
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            const dx = e.clientX - dragStartX;
+            const dy = e.clientY - dragStartY;
+            imageContainer.scrollLeft = scrollStartX - dx;
+            imageContainer.scrollTop = scrollStartY - dy;
+        });
+
+        document.addEventListener('mouseup', () => {
+            if (isDragging) {
+                isDragging = false;
+                imageContainer.style.cursor = '';
+                modalImg.style.cursor = isFitMode ? 'zoom-in' : 'grab';
+            }
+        });
+
+        // --- CLIC IMAGE (zoom toggle, seulement si pas de drag) ---
+        let mouseDownPos = { x: 0, y: 0 };
+        modalImg.addEventListener('mousedown', (e) => {
+            mouseDownPos = { x: e.clientX, y: e.clientY };
+        });
         modalImg.addEventListener('click', (e) => {
             e.stopPropagation();
+            const dist = Math.hypot(e.clientX - mouseDownPos.x, e.clientY - mouseDownPos.y);
+            if (dist > 5) return; // c'était un drag, pas un clic
             if (isFitMode) {
                 applyZoom(1.5);
             } else {
@@ -177,12 +233,49 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        imageContainer.addEventListener('wheel', (e) => {
-            if (e.ctrlKey) {
+        // --- SUPPORT TACTILE : DRAG + PINCH-TO-ZOOM ---
+        function getTouchDist(touches) {
+            const dx = touches[0].clientX - touches[1].clientX;
+            const dy = touches[0].clientY - touches[1].clientY;
+            return Math.hypot(dx, dy);
+        }
+
+        imageContainer.addEventListener('touchstart', (e) => {
+            if (e.touches.length === 2) {
+                // Pinch start
+                lastTouchDist = getTouchDist(e.touches);
                 e.preventDefault();
-                const factor = e.deltaY > 0 ? 0.9 : 1.1;
-                applyZoom(factor);
+            } else if (e.touches.length === 1 && !isFitMode) {
+                // Drag start
+                isTouchDragging = true;
+                touchStartX = e.touches[0].clientX;
+                touchStartY = e.touches[0].clientY;
+                touchScrollStartX = imageContainer.scrollLeft;
+                touchScrollStartY = imageContainer.scrollTop;
             }
+        }, { passive: false });
+
+        imageContainer.addEventListener('touchmove', (e) => {
+            if (e.touches.length === 2 && lastTouchDist > 0) {
+                // Pinch zoom
+                e.preventDefault();
+                const newDist = getTouchDist(e.touches);
+                const factor = newDist / lastTouchDist;
+                applyZoom(factor);
+                lastTouchDist = newDist;
+            } else if (e.touches.length === 1 && isTouchDragging) {
+                // Touch drag
+                e.preventDefault();
+                const dx = e.touches[0].clientX - touchStartX;
+                const dy = e.touches[0].clientY - touchStartY;
+                imageContainer.scrollLeft = touchScrollStartX - dx;
+                imageContainer.scrollTop = touchScrollStartY - dy;
+            }
+        }, { passive: false });
+
+        imageContainer.addEventListener('touchend', (e) => {
+            if (e.touches.length < 2) lastTouchDist = 0;
+            if (e.touches.length === 0) isTouchDragging = false;
         });
 
         downloadBtn.addEventListener('click', () => {
@@ -219,4 +312,11 @@ document.addEventListener('DOMContentLoaded', function () {
     addSubtleHoverEffects();
     addClickZoom();
     addLoadingIndicator();
-});
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+})();

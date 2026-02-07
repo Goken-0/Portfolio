@@ -15,8 +15,9 @@
 
     /**
      * Fonction qui met à jour le lien actif dans le menu
+     * Accessible globalement via window.updateActiveNavLink()
      */
-    function updateActiveNavLink() {
+    window.updateActiveNavLink = function updateActiveNavLink() {
         // On récupère le chemin de la page actuelle
         // Par exemple : "/Portfolio/cv.html" ou juste "cv.html"
         const currentPath = window.location.pathname;
@@ -92,10 +93,8 @@
 
     // On exécute la fonction dès que la page est chargée
     if (document.readyState === 'loading') {
-        // Si la page est encore en train de charger, on attend
-        document.addEventListener('DOMContentLoaded', updateActiveNavLink);
+        document.addEventListener('DOMContentLoaded', window.updateActiveNavLink);
     } else {
-        // Si la page est déjà chargée, on exécute tout de suite
-        updateActiveNavLink();
+        window.updateActiveNavLink();
     }
 })();

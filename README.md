@@ -35,13 +35,17 @@ Projet réalisé avec les technologies fondamentales du web :
 En explorant ce dépôt, vous trouverez :
 
 ### 📂 Documents Professionnels
-* 📄 **CV & Motivation** : (`cv.html`, `lettremotivation.html`) Ma candidature en ligne.
-* 🎓 **Stages & TPs** : (`stages.html`, `tps.html`) Comptes-rendus de mes expériences professionnelles et travaux pratiques.
+* 📄 **CV & Motivation** : (`cv.html`, `lettremotivation.html`) Ma candidature en ligne, avec modal interactif (zoom molette, drag souris, pinch-to-zoom tactile).
+* 🎓 **Stages & TPs** : (`stages.html`, `tps.html`) Comptes-rendus de mes expériences professionnelles et travaux pratiques. La page TPs inclut un système de filtrage par catégorie (Virtualisation, Linux, Scripting, Réseau, Hardware, Base de données).
 * 🔍 **Veille Technologique** : (`veille.html`) Suivi des actualités tech et de mon auto-formation.
+* 📊 **Compétences** : (`competences.html`) Grille de compétences avec filtres par domaine et cartes alignées.
 
 ### 🎮 Projets Interactifs
 * 👾 **Space Invader** : (`spaceinvader.html`) Un mini-jeu développé en JavaScript pur pour tester la manipulation du canvas/DOM.
-* 🚀 **Projets** : (`projets.html`) Vitrine de mes autres réalisations.
+* 🚀 **Projets** : (`projets.html`) Vitrine de mes autres réalisations avec filtres par catégorie.
+
+### 🎵 Lecteur de musique
+* Lecteur audio global présent sur toutes les pages, taille harmonisée (340px max) entre la page d'accueil et les autres pages.
 
 ## 📂 Structure du projet
 Voici l'organisation des fichiers telle qu'elle est sur le dépôt :

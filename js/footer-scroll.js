@@ -9,7 +9,21 @@
  * Utile pour ne pas gêner la lecture sur mobile.
  */
 
-document.addEventListener('DOMContentLoaded', function () {
+// AbortController pour pouvoir annuler les écouteurs lors de la réinitialisation
+let _footerScrollAbortController = null;
+
+/**
+ * Initialise la gestion du footer au scroll
+ * Peut être appelé plusieurs fois (lors de la navigation SPA)
+ */
+window.initFooterScroll = function () {
+    // Annuler les anciens écouteurs
+    if (_footerScrollAbortController) {
+        _footerScrollAbortController.abort();
+    }
+    _footerScrollAbortController = new AbortController();
+    const signal = _footerScrollAbortController.signal;
+
     const footer = document.querySelector('.credit');
     
     // Si le footer n'existe pas, on ne fait rien
@@ -78,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
             ticking = true;
         }
-    }, { passive: true });
+    }, { passive: true, signal });
     
     // Au chargement de la page, vérifier si on est déjà en bas
     if (isAtBottom()) {
@@ -86,5 +100,12 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     
     console.log('📱 Gestion du footer au scroll activée');
-});
+};
+
+// Initialiser au chargement de la page
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', window.initFooterScroll);
+} else {
+    window.initFooterScroll();
+}
 

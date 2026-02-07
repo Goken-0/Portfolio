@@ -46,8 +46,12 @@
 	<script src="js/navigation.js"></script>
 	<script src="js/footer-scroll.js"></script>
 
+	<!-- Script du routeur SPA pour la navigation sans rechargement -->
+	<script src="js/spa-router.js"></script>
+
 	<!-- Navigation -->
 	<header>
+		<a href="index.html" class="nav-logo">LM</a>
 		<nav>
 			<a href="index.html">Accueil</a>
 			<a href="cv.html">CV</a>
@@ -73,6 +77,31 @@
 			<div class="projets-hero">
 				<h1>Mes <span>TPs</span></h1>
 				<p class="subtitle">Travaux pratiques réalisés en BTS SIO</p>
+			</div>
+
+			<!-- Filtres par catégorie -->
+			<div class="filters" id="tps-filters">
+				<button class="filter-btn active" data-filter="all">
+					<i class="fas fa-th"></i> Tous
+				</button>
+				<button class="filter-btn" data-filter="virtualisation">
+					<i class="fas fa-desktop"></i> Virtualisation
+				</button>
+				<button class="filter-btn" data-filter="linux">
+					<i class="fab fa-linux"></i> Linux
+				</button>
+				<button class="filter-btn" data-filter="scripting">
+					<i class="fas fa-terminal"></i> Scripting
+				</button>
+				<button class="filter-btn" data-filter="reseau">
+					<i class="fas fa-network-wired"></i> Réseau
+				</button>
+				<button class="filter-btn" data-filter="hardware">
+					<i class="fas fa-microchip"></i> Hardware
+				</button>
+				<button class="filter-btn" data-filter="base-de-donnees">
+					<i class="fas fa-database"></i> Base de données
+				</button>
 			</div>
 
 			<!-- Grille de TPs -->

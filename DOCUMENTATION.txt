@@ -116,12 +116,16 @@ Technologie : Three.js (bibliothèque JavaScript 3D)
 - Mise en surbrillance automatique de la page active
 - Menu déroulant "Réalisations" avec sous-pages
 
-3.4. ANIMATIONS
----------------
+3.4. ANIMATIONS ET MODAL
+------------------------
 - Apparition progressive des éléments au scroll
 - Effets hover sur les images
 - Modals pour visualiser les documents (CV, lettre de motivation)
 - Zoom et téléchargement dans les modals
+- Zoom avec la molette de la souris (sans Ctrl)
+- Déplacement du contenu par drag (maintien clic gauche)
+- Support tactile : pinch-to-zoom et drag sur mobile/tablette
+- Modal responsive optimisé pour petits écrans (pas de débordement)
 
 3.5. JEU SPACE INVADERS
 -----------------------
@@ -277,19 +281,48 @@ FONCTIONNALITÉS :
 4. Indicateur de chargement
 
 MODAL :
-- Zoom avant/arrière avec boutons ou molette
-- Déplacement de l'image zoomée (drag)
+- Zoom avant/arrière avec boutons
+- Zoom avec la molette de la souris (sans Ctrl nécessaire)
+- Déplacement de l'image zoomée par drag (maintien clic gauche)
+- Support tactile : pinch-to-zoom (2 doigts) et drag (1 doigt)
 - Téléchargement du PDF
 - Fermeture avec Échap ou clic sur overlay
+- Responsive mobile : pas de débordement, controles adaptés
 
-4.7. CARROUSEL TPs (tps.js)
------------------------------
+3.6. FILTRES DE LA PAGE TPs
+---------------------------
+La page TPs dispose d'un système de filtrage identique à la page Projets :
+- Boutons de filtre : Tous, Virtualisation, Linux, Scripting, Réseau,
+  Hardware, Base de données
+- Filtrage fluide sans rechargement de page (JavaScript)
+- Compatible desktop et mobile
+- Chaque TP possède un attribut data-category pour le filtrage
+- Animation d'apparition lors du changement de filtre
 
-Gère l'affichage des travaux pratiques dans un carrousel.
+3.7. HARMONISATION DU LECTEUR AUDIO
+------------------------------------
+Le lecteur audio a été harmonisé en taille sur toutes les pages :
+- max-width: 340px (identique page d'accueil et autres pages)
+- min-width: 280px
+- Comportement cohérent sur desktop, tablette et mobile
+
+3.8. ALIGNEMENT DES CARTES COMPÉTENCES
+---------------------------------------
+Les cartes de compétences sont désormais parfaitement alignées :
+- Grille avec align-items: stretch pour hauteur uniforme
+- Descriptions flexibles (flex: 1) pour pousser les footers en bas
+- Compatible responsive sur tous les écrans
+
+4.7. GRILLE ET FILTRES TPs (tps.js)
+-------------------------------------
+
+Gère l'affichage des travaux pratiques dans une grille avec filtres.
 
 FONCTIONNALITÉS :
-- Navigation avec flèches gauche/droite
-- Affichage du titre et de la description
+- Génération dynamique des cartes de TPs
+- Système de filtrage par catégorie (identique à projets.html)
+- Attribut data-category sur chaque carte
+- Animation de réapparition lors du filtrage
 - Lien vers le PDF dans un nouvel onglet
 
 4.8. JEU SPACE INVADERS (spaceinvader.js)
@@ -378,10 +411,20 @@ directement le fichier.
 -----------------------------------
 - Cliquez sur l'image pour l'agrandir
 - Utilisez les boutons pour zoomer/dézoomer
-- Déplacez l'image avec la souris si elle est zoomée
-- Utilisez la molette pour zoomer
+- Déplacez l'image en maintenant le clic gauche (drag)
+- Utilisez la molette de la souris pour zoomer/dézoomer (sans Ctrl)
+- Sur mobile : pincez avec 2 doigts pour zoomer, glissez avec 1 doigt
+  pour déplacer
 - Cliquez sur "Télécharger" pour obtenir le PDF
 - Appuyez sur Échap pour fermer
+
+6.6. FILTRES DE LA PAGE TPs
+----------------------------
+- Cliquez sur les boutons de filtre pour afficher les TPs par catégorie
+- Catégories disponibles : Virtualisation, Linux, Scripting, Réseau,
+  Hardware, Base de données
+- Le filtre "Tous" affiche l'ensemble des TPs
+- Le filtrage est fluide, sans rechargement de page
 
 ================================================================================
 7. PERSONNALISATION ET MODIFICATIONS
@@ -559,7 +602,23 @@ Format d'un élément de playlist :
 - Séparation des préoccupations : HTML, CSS, JS séparés
 
 ================================================================================
-12. AMÉLIORATIONS POSSIBLES
+12. CHANGELOG - MODIFICATIONS RÉCENTES
+================================================================================
+
+FÉVRIER 2026 :
+- Ajout du système de filtres sur la page TPs (identique à Projets)
+  Tags : Virtualisation, Linux, Scripting, Réseau, Hardware, Base de données
+- Amélioration du modal CV/Lettre de motivation :
+  - Zoom avec molette (sans Ctrl)
+  - Déplacement par drag (maintien clic gauche)
+  - Support tactile : pinch-to-zoom et drag mobile
+  - Responsive mobile amélioré
+- Harmonisation de la taille du lecteur audio (340px max sur toutes les pages)
+- Alignement des cartes de compétences (grille stretch + flex)
+- Mise à jour de la documentation
+
+================================================================================
+13. AMÉLIORATIONS POSSIBLES
 ================================================================================
 
 - Ajouter un système de playlist personnalisée
