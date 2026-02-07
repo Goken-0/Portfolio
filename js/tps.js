@@ -126,7 +126,7 @@
             fichier: "assets/pdf/TP_Xubuntu.pdf",
             image: "assets/images/xubuntu.jpg",
             badge: "Virtualisation",
-            categories: ["virtualisation"]
+            categories: ["virtualisation", "linux"]
         },
         {
             titre: "TP 13 - Gestion des utilisateurs",
@@ -293,6 +293,7 @@
         init();
     }
 })();
+
 
 
 
