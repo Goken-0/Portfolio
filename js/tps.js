@@ -136,6 +136,14 @@
             badge: "Linux",
             categories: ["linux"]
         },
+        {
+            titre: "TP 14 - DualBoot Windows/Linux",
+            description: "Tutoriel sur la création d'un DualBoot Windows 10 et Linux Mint",
+            fichier: "assets/pdf/TP_WinMint.pdf",
+            image: "assets/images/dualboot.jpg",
+            badge: "Linux",
+            categories: ["linux"]
+        },
     ];
 
     // ============================================
