@@ -38,7 +38,7 @@
             fichier: "assets/pdf/TP_Installation_VM.pdf",
             image: "assets/images/vm.jpg",
             badge: "Système",
-            category: "virtualisation"
+            categories: ["virtualisation"]
         },
         {
             titre: "TP 2 - Découverte du CMD",
@@ -46,7 +46,7 @@
             fichier: "assets/pdf/Tp_Invite_Commande.pdf",
             image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=600&fit=crop",
             badge: "Système",
-            category: "scripting"
+            categories: ["scripting"]
         },
         {
             titre: "TP 3 - Découverte du Powershell",
@@ -54,7 +54,7 @@
             fichier: "assets/pdf/TP_Powershell.pdf",
             image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&h=600&fit=crop",
             badge: "Système",
-            category: "scripting"
+            categories: ["scripting"]
         },
         {
             titre: "TP 4 - Conception PC",
@@ -62,15 +62,15 @@
             fichier: "assets/pdf/TP_Config.pdf",
             image: "assets/images/pc.jpg",
             badge: "Matériel",
-            category: "hardware"
+            categories: ["hardware"]
         },
         {
             titre: "TP 5 - Découverte des scripts .bat",
             description: "Création d'un script .bat et maitrîse du CMD",
             fichier: "assets/pdf/TP_Script_Bat.pdf",
-            image: "assets/images/bat.png",
+            image: "assets/images/bat.jpg",
             badge: "Scripting",
-            category: "scripting"
+            categories: ["scripting"]
         },
         {
             titre: "TP 6 - Découverte d'une base de données",
@@ -78,15 +78,15 @@
             fichier: "assets/pdf/TD_1_BD.pdf",
             image: "assets/images/basedonnees.jpg",
             badge: "Base de données",
-            category: "base-de-donnees"
+            categories: ["base-de-donnees"]
         },
         {
             titre: "TP 7 - Commandes CMD",
             description: "Commandes CMD Essentielles du Support Informatique",
             fichier: "assets/pdf/TP_Commandes_Avancees.pdf",
-            image: "assets/images/tp7.png",
+            image: "assets/images/tp7.jpg",
             badge: "Scripting",
-            category: "scripting"
+            categories: ["scripting"]
         },
         {
             titre: "TP 8 - Problème réseau",
@@ -94,15 +94,15 @@
             fichier: "assets/pdf/TP_problemesreseaux.pdf",
             image: "assets/images/problemesreseaux.jpg",
             badge: "Réseau",
-            category: "reseau"
+            categories: ["reseau"]
         },
         {
             titre: "TP 9 - Commandes PowerShell",
             description: "Interface en ligne de commande",
             fichier: "assets/pdf/TP_commandespowershell.pdf",
-            image: "assets/images/powershell.png",
+            image: "assets/images/powershell.jpg",
             badge: "Scripting",
-            category: "scripting"
+            categories: ["scripting"]
         },
         {
             titre: "TP 10 - Première Connexion Linux",
@@ -110,7 +110,7 @@
             fichier: "assets/pdf/TP_PremiereConnexionLinux.pdf",
             image: "assets/images/linux.jpg",
             badge: "Virtualisation",
-            category: "virtualisation"
+            categories: ["virtualisation", "linux"]
         },
         {
             titre: "TP 11 - GuestAdditions",
@@ -118,7 +118,7 @@
             fichier: "assets/pdf/TP_GuestAdditions.pdf",
             image: "assets/images/guestadditions.jpg",
             badge: "Virtualisation",
-            category: "virtualisation"
+            categories: ["virtualisation"]
         },
         {
             titre: "TP 12 - Xubuntu",
@@ -126,15 +126,31 @@
             fichier: "assets/pdf/TP_Xubuntu.pdf",
             image: "assets/images/xubuntu.jpg",
             badge: "Virtualisation",
-            category: "virtualisation"
+            categories: ["virtualisation", "linux"]
         },
         {
             titre: "TP 13 - Gestion des utilisateurs",
             description: "Configuration des permissions, création d'utilisateurs, de groupes...",
             fichier: "assets/pdf/TP_GestionUtilisateurs.pdf",
-            image: "assets/images/gestionutilisateurs.png",
+            image: "assets/images/gestionutilisateurs.jpg",
             badge: "Linux",
-            category: "linux"
+            categories: ["linux"]
+        },
+        {
+            titre: "TP 14 - DualBoot Windows/Linux",
+            description: "Tutoriel sur la création d'un DualBoot Windows 10 et Linux Mint",
+            fichier: "assets/pdf/TP_WinMint.pdf",
+            image: "assets/images/dualboot.jpg",
+            badge: "Linux",
+            categories: ["linux"]
+        },
+        {
+            titre: "TP 15 - IoT Avancé & Réseau",
+            description: "Laboratoires IoT (Parties 1 & 2) et mise en place d'infrastructure réseau (Étapes 1 & 2)",
+            fichier: "assets/pdf/TP_Cisco.pdf",
+            image: "assets/images/cisco.png",
+            badge: "Réseau",
+            categories: ["reseau"]
         },
     ];
 
@@ -159,8 +175,10 @@
         // Créer la carte principale
         const carte = document.createElement('div');
         carte.className = 'project-card';
-        // Ajouter data-category pour le filtrage
-        carte.setAttribute('data-category', projet.category || badgeToCategory[projet.badge] || 'all');
+        // On gère le cas tableau (plusieurs) ou string (une seule, pour compatibilité)
+        let cats = projet.categories || [projet.category || badgeToCategory[projet.badge]];
+        // On transforme le tableau en une chaîne séparée par des espaces (ex: "linux virtualisation")
+        carte.setAttribute('data-category', cats.join(' '));
         
         // Créer la section image
         const imageContainer = document.createElement('div');
@@ -259,8 +277,8 @@
                 const cards = gridContainer.querySelectorAll('.project-card');
 
                 cards.forEach(card => {
-                    const cardCat = card.dataset.category;
-                    if (filter === 'all' || cardCat === filter) {
+                    const cardCats = card.dataset.category.split(' ');
+                    if (filter === 'all' || cardCats.includes(filter)) {
                         card.style.display = 'block';
                         // Réanimer l'apparition
                         card.style.animation = 'none';
@@ -291,3 +309,7 @@
         init();
     }
 })();
+
+
+
+
