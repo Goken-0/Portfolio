@@ -68,7 +68,7 @@
             titre: "TP 5 - Découverte des scripts .bat",
             description: "Création d'un script .bat et maitrîse du CMD",
             fichier: "assets/pdf/TP_Script_Bat.pdf",
-            image: "assets/images/bat.png",
+            image: "assets/images/bat.jpg",
             badge: "Scripting",
             categories: ["scripting"]
         },
@@ -84,7 +84,7 @@
             titre: "TP 7 - Commandes CMD",
             description: "Commandes CMD Essentielles du Support Informatique",
             fichier: "assets/pdf/TP_Commandes_Avancees.pdf",
-            image: "assets/images/tp7.png",
+            image: "assets/images/tp7.jpg",
             badge: "Scripting",
             categories: ["scripting"]
         },
@@ -100,7 +100,7 @@
             titre: "TP 9 - Commandes PowerShell",
             description: "Interface en ligne de commande",
             fichier: "assets/pdf/TP_commandespowershell.pdf",
-            image: "assets/images/powershell.png",
+            image: "assets/images/powershell.jpg",
             badge: "Scripting",
             categories: ["scripting"]
         },
@@ -132,7 +132,7 @@
             titre: "TP 13 - Gestion des utilisateurs",
             description: "Configuration des permissions, création d'utilisateurs, de groupes...",
             fichier: "assets/pdf/TP_GestionUtilisateurs.pdf",
-            image: "assets/images/gestionutilisateurs.png",
+            image: "assets/images/gestionutilisateurs.jpg",
             badge: "Linux",
             categories: ["linux"]
         },
@@ -143,6 +143,14 @@
             image: "assets/images/dualboot.jpg",
             badge: "Linux",
             categories: ["linux"]
+        },
+        {
+            titre: "TP 15 - IoT Avancé & Réseau",
+            description: "Laboratoires IoT (Parties 1 & 2) et mise en place d'infrastructure réseau (Étapes 1 & 2)",
+            fichier: "assets/pdf/TP_Cisco.pdf",
+            image: "assets/images/cisco.png",
+            badge: "Réseau",
+            categories: ["reseau"]
         },
     ];
 
