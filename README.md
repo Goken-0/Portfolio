@@ -81,4 +81,4 @@ Je suis ouvert à toutes opportunités.
 
 * 🐙 GitHub : https://github.com/Goken-0
 
-<div align="center"> <small>Fait avec ❤️ par Goken-0 - 2025</small> </div>
+<div align="center"> <small>Fait avec ❤️ par Goken-0</small> </div>
