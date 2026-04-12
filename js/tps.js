@@ -84,7 +84,7 @@
             titre: "TP 7 - Commandes CMD",
             description: "Commandes CMD Essentielles du Support Informatique",
             fichier: "assets/pdf/TP_Commandes_Avancees.pdf",
-            image: "assets/images/tp7.jpg",
+            image: "assets/images/commandescmd.jpg",
             badge: "Scripting",
             categories: ["scripting"]
         },
