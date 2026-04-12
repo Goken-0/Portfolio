@@ -44,7 +44,7 @@
             titre: "TP 2 - Découverte du CMD",
             description: "Les commandes de base dans le CMD",
             fichier: "assets/pdf/Tp_Invite_Commande.pdf",
-            image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=600&fit=crop",
+            image: "assets/images/cmd.jpg",
             badge: "Système",
             categories: ["scripting"]
         },
@@ -52,7 +52,7 @@
             titre: "TP 3 - Découverte du Powershell",
             description: "Les commandes de base dans le Powershell",
             fichier: "assets/pdf/TP_Powershell.pdf",
-            image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&h=600&fit=crop",
+            image: "assets/images/powershell.jpg",
             badge: "Système",
             categories: ["scripting"]
         },
