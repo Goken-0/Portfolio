@@ -148,7 +148,7 @@
             titre: "TP 15 - IoT Avancé & Réseau",
             description: "Laboratoires IoT (Parties 1 & 2) et mise en place d'infrastructure réseau (Étapes 1 & 2)",
             fichier: "assets/pdf/TP_Cisco.pdf",
-            image: "assets/images/cisco.png",
+            image: "assets/images/cisco.jpg",
             badge: "Réseau",
             categories: ["reseau"]
         },
