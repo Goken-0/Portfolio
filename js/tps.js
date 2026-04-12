@@ -100,7 +100,7 @@
             titre: "TP 9 - Commandes PowerShell",
             description: "Interface en ligne de commande",
             fichier: "assets/pdf/TP_commandespowershell.pdf",
-            image: "assets/images/powershell.jpg",
+            image: "assets/images/commandespowershell.jpg",
             badge: "Scripting",
             categories: ["scripting"]
         },
