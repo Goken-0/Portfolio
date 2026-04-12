@@ -51,22 +51,42 @@
     border: none;
     outline: none;
     font-family: 'Poppins', sans-serif;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
     -webkit-tap-highlight-color: transparent;
 }
 
 /* Désactiver le surlignage bleu lors de la sélection */
 ::selection {
-    background: transparent;
+    background: rgba(60, 174, 228, 0.3);
     color: inherit;
 }
 
 ::-moz-selection {
-    background: transparent;
+    background: rgba(60, 174, 228, 0.3);
     color: inherit;
+}
+
+/* Permettre la sélection du texte par défaut */
+body {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+
+/* Exceptions : éléments interactifs non sélectionnables */
+button, 
+a, 
+.nav-logo,
+.social-icons,
+.social-icons a,
+.btn,
+.dropdown,
+.dropdown-content,
+nav a {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 /* Exceptions : permettre la sélection pour les champs de formulaire */
@@ -112,11 +132,6 @@ body {
     background-color: transparent;
     color: white;
     position: relative;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    -webkit-tap-highlight-color: transparent;
 }
 
 /* Désactiver le scroll horizontal sur les pages CV, lettre de motivation et contact */

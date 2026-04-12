@@ -22,7 +22,6 @@
     // (ils sont déjà en mémoire et fonctionnent en continu)
     var PERSISTENT_SCRIPTS = [
         'three.min.js',
-        'jquery',
         'stars.js',
         'menu.js',
         'music-player.js',

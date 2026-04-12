@@ -24,6 +24,37 @@
 	<!-- Viewport : permet au site de s'adapter aux écrans (PC, mobile, tablette) -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+	<!-- Content Security Policy (CSP) : sécurité contre les attaques XSS et injections -->
+	<meta http-equiv="Content-Security-Policy" 
+	      content="default-src 'self'; 
+	               script-src 'self' https://cdnjs.cloudflare.com https://fonts.googleapis.com 'unsafe-inline' 'unsafe-eval'; 
+	               style-src 'self' https://cdnjs.cloudflare.com https://fonts.googleapis.com https://fonts.gstatic.com 'unsafe-inline'; 
+	               font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com data:; 
+	               img-src 'self' data: blob:; 
+	               media-src 'self' blob:; 
+	               connect-src 'self' https://formspree.io; 
+	               frame-ancestors 'none'; 
+	               base-uri 'self'; 
+	               form-action 'self' https://formspree.io;">
+
+	<!-- SEO : description et mots-clés pour les moteurs de recherche -->
+	<meta name="description" content="Portfolio de Léo Metgy, étudiant en BTS SIO. Découvrez mes projets, compétences, stages et réalisations en développement web, réseau et sécurité informatique.">
+	<meta name="keywords" content="portfolio, BTS SIO, développement web, réseau, sécurité, Léo Metgy, CV, projets, stages">
+	<meta name="author" content="Léo Metgy">
+	<meta name="robots" content="index, follow">
+
+	<!-- Open Graph : affichage optimisé sur les réseaux sociaux -->
+	<meta property="og:title" content="Portfolio Léo Metgy - Étudiant BTS SIO">
+	<meta property="og:description" content="Découvrez mes projets, compétences et réalisations en informatique.">
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://goken-0.github.io/Portfolio/">
+	<meta property="og:image" content="https://goken-0.github.io/Portfolio/assets/images/main.png">
+
+	<!-- Twitter Card -->
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="Portfolio Léo Metgy">
+	<meta name="twitter:description" content="Portfolio BTS SIO - Développement, Réseau & Sécurité">
+
 	<!-- ============================================
 	     FAVICONS (ICÔNES DE L'ONGLET)
 	     ============================================ -->
@@ -40,7 +71,10 @@
 	     BIBLIOTHÈQUES EXTERNES
 	     ============================================ -->
 	<!-- Font Awesome : bibliothèque d'icônes (LinkedIn, GitHub, etc.) -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+	<link rel="stylesheet" 
+	      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" 
+	      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" 
+	      crossorigin="anonymous" />
 
 	<!-- ============================================
 	     FICHIERS CSS
@@ -49,7 +83,7 @@
 	<link rel="stylesheet" href="css/style.css">
 
 	<!-- Titre affiché dans l'onglet du navigateur -->
-	<title>Portfolio Léo - Accueil</title>
+	<title>Portfolio Léo Metgy - Étudiant BTS SIO | Développement Web & Réseau</title>
 </head>
 
 <body>
@@ -60,10 +94,9 @@
 	-->
 	
 	<!-- Three.js : bibliothèque JavaScript 3D pour créer le fond animé avec étoiles -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
-	<!-- jQuery : bibliothèque JavaScript (utilisée dans certains scripts) -->
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" 
+	        integrity="sha384-CI3ELBVUz9XQO+97x6nwMDPosPR5XvsxW2ua7N1Xeygeh1IxtgqtCkGfQY9WWdHu" 
+	        crossorigin="anonymous"></script>
 
 	<!-- Script qui crée et anime les étoiles 3D en arrière-plan -->
 	<script src="js/stars.js"></script>
@@ -131,7 +164,10 @@
 	<section class="home">
 		<!-- Image de présentation (photo de profil) -->
 		<div class="home-img">
-			<img src="assets/images/main.png" alt="Photo de Léo">
+			<img src="assets/images/main.png" 
+			     alt="Photo de portrait de Léo Metgy, étudiant en BTS SIO"
+			     width="400"
+			     height="400">
 		</div>
 
 		<!-- Contenu textuel de présentation -->

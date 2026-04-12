@@ -21,6 +21,23 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+	<!-- Content Security Policy (CSP) : sécurité contre les attaques XSS -->
+	<meta http-equiv="Content-Security-Policy" 
+	      content="default-src 'self'; 
+	               script-src 'self' https://cdnjs.cloudflare.com 'unsafe-inline' 'unsafe-eval'; 
+	               style-src 'self' https://cdnjs.cloudflare.com https://fonts.googleapis.com 'unsafe-inline'; 
+	               font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com data:; 
+	               img-src 'self' data: blob:; 
+	               media-src 'self' blob:; 
+	               connect-src 'self' https://formspree.io; 
+	               frame-ancestors 'none'; 
+	               base-uri 'self'; 
+	               form-action 'https://formspree.io';">
+
+	<!-- SEO -->
+	<meta name="description" content="Formulaire de contact pour joindre Léo Metgy, étudiant en BTS SIO.">
+	<meta name="robots" content="index, follow">
+
 	<!-- ============================================
 	     FAVICONS
 	     ============================================ -->
@@ -56,6 +73,45 @@
 	<!-- Script du routeur SPA pour la navigation sans rechargement -->
 	<script src="js/spa-router.js"></script>
 
+	<!-- Validation du formulaire de contact -->
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			const form = document.getElementById('contactForm');
+			const submitBtn = document.getElementById('submitBtn');
+			
+			if (!form || !submitBtn) return;
+			
+			form.addEventListener('submit', function(e) {
+				// Validation email
+				const email = document.getElementById('email');
+				const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+				if (!emailRegex.test(email.value.trim())) {
+					e.preventDefault();
+					email.setCustomValidity('Veuillez entrer une adresse email valide');
+					email.reportValidity();
+					return;
+				}
+				
+				// Vérification basique anti-XSS
+				const message = document.getElementById('message');
+				const messageValue = message.value.toLowerCase();
+				if (messageValue.includes('<script') || 
+				    messageValue.includes('javascript:') || 
+				    messageValue.includes('onerror=') ||
+				    messageValue.includes('onload=')) {
+					e.preventDefault();
+					message.setCustomValidity('Le message contient des caractères non autorisés');
+					message.reportValidity();
+					return;
+				}
+				
+				// Désactiver le bouton pour empêcher le double envoi
+				submitBtn.disabled = true;
+				submitBtn.textContent = 'Envoi en cours...';
+			});
+		});
+	</script>
+
 	<!-- ============================================
 	     NAVIGATION
 	     ============================================ -->
@@ -89,26 +145,66 @@
 			
 			<!-- Conteneur du formulaire -->
 			<div class="formulaire-container">
-				<!-- 
+				<!--
 					FORMULAIRE DE CONTACT
 					action : URL de Formspree qui gère l'envoi des emails
 					method : POST pour envoyer les données
+					
+					Sécurisation :
+					- novalidate : validation personnalisée en JS
+					- maxlength : prévention contre les inputs trop longs
+					- pattern : validation du format des noms
+					- honeypot (_gotcha) : anti-spam pour bots
 				-->
-				<form action="https://formspree.io/f/mpwjegye" method="post">
+				<form action="https://formspree.io/f/mpwjegye" method="post" id="contactForm" novalidate>
 					<!-- Champ nom (obligatoire) -->
-					<input type="text" id="name" name="name" placeholder="Nom" required>
-					
+					<input type="text" 
+					       id="name" 
+					       name="name" 
+					       placeholder="Nom" 
+					       required 
+					       maxlength="100"
+					       pattern="[A-Za-zÀ-ÿ\s\-']+"
+					       autocomplete="family-name"
+					       title="Lettres, espaces, tirets et apostrophes uniquement">
+
 					<!-- Champ prénom (obligatoire) -->
-					<input type="text" id="firstname" name="firstname" placeholder="Prénom" required>
-					
+					<input type="text" 
+					       id="firstname" 
+					       name="firstname" 
+					       placeholder="Prénom" 
+					       required 
+					       maxlength="100"
+					       pattern="[A-Za-zÀ-ÿ\s\-']+"
+					       autocomplete="given-name"
+					       title="Lettres, espaces, tirets et apostrophes uniquement">
+
 					<!-- Champ email (obligatoire, validation automatique du format email) -->
-					<input type="email" id="email" name="email" placeholder="Email" required>
-					
+					<input type="email" 
+					       id="email" 
+					       name="email" 
+					       placeholder="Email" 
+					       required 
+					       maxlength="254"
+					       autocomplete="email">
+
 					<!-- Zone de texte pour le message (obligatoire) -->
-					<textarea id="message" name="message" placeholder="Votre message" rows="5" required></textarea>
-					
+					<textarea id="message" 
+					          name="message" 
+					          placeholder="Votre message" 
+					          rows="5" 
+					          required 
+					          maxlength="2000"></textarea>
+
+					<!-- Honeypot anti-spam (champ invisible pour les bots) -->
+					<input type="text" 
+					       name="_gotcha" 
+					       style="display:none !important" 
+					       tabindex="-1" 
+					       autocomplete="off">
+
 					<!-- Bouton d'envoi -->
-					<button type="submit">Envoyer</button>
+					<button type="submit" id="submitBtn">Envoyer</button>
 				</form>
 			</div>
 		</div>

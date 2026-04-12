@@ -23,6 +23,23 @@
 	<!-- Viewport pour le responsive design -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+	<!-- Content Security Policy (CSP) : sécurité contre les attaques XSS -->
+	<meta http-equiv="Content-Security-Policy" 
+	      content="default-src 'self'; 
+	               script-src 'self' https://cdnjs.cloudflare.com 'unsafe-inline' 'unsafe-eval'; 
+	               style-src 'self' https://cdnjs.cloudflare.com https://fonts.googleapis.com 'unsafe-inline'; 
+	               font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com data:; 
+	               img-src 'self' data: blob:; 
+	               media-src 'self' blob:; 
+	               connect-src 'self'; 
+	               frame-ancestors 'none'; 
+	               base-uri 'self'; 
+	               form-action 'self';">
+
+	<!-- SEO -->
+	<meta name="description" content="Curriculum Vitae de Léo Metgy, étudiant en BTS SIO. Compétences, formations et expériences professionnelles.">
+	<meta name="robots" content="index, follow">
+
 	<!-- ============================================
 	     FAVICONS
 	     ============================================ -->
@@ -53,16 +70,18 @@
 	     ============================================ -->
 	
 	<!-- Three.js pour le fond animé -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" 
+	        integrity="sha384-CI3ELBVUz9XQO+97x6nwMDPosPR5XvsxW2ua7N1Xeygeh1IxtgqtCkGfQY9WWdHu" 
+	        crossorigin="anonymous"></script>
 
 	<!-- Script des étoiles 3D -->
 	<script src="js/stars.js"></script>
-	
+
 	<!-- Script du menu hamburger mobile -->
 	<script src="js/menu.js"></script>
-	
+
 	<!-- Script des animations pour le CV (modal, zoom, etc.) -->
-	<script src="js/animation-cv.js"></script>
+	<script src="js/animation-modal.js"></script>
 	
 	<!-- Script du lecteur de musique (doit être avant inject-music-player) -->
 	<script src="js/music-player.js"></script>
