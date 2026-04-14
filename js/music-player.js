@@ -63,7 +63,12 @@ class MusicPlayer {
                 title: "Instant Crush",
                 artist: "Daft Punk",
                 src: "./assets/music/instantcrush.mp3"
-            }
+            },
+            {
+                title: "Smile",
+                artist: "Juice WRLD, The Weeknd",
+                src: "./assets/music/smile.mp3"
+            }            
         ];
 
         // Maintenant qu'on a défini toutes les variables, on initialise le lecteur
