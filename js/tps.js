@@ -153,7 +153,7 @@
             categories: ["reseau"]
         },
         {
-            titre: "TP 16 - Configuration d'un Switch",
+            titre: "TP 16 - Configuration d'un Switch réseau",
             description: "Sécurisation et configuration d'un switch Cisco SF302-08",
             fichier: "assets/pdf/TP_Switch.pdf",
             image: "assets/images/switch.jpg",
