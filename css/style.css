@@ -451,6 +451,9 @@ span {
 .home-img img {
     position: relative;
     width: 15vw;
+    height: auto;
+    aspect-ratio: 1/1;
+    object-fit: cover;
     margin-right: 5vw;
     animation: floatImage 4s ease-in-out infinite;
     border-radius: 50%;
@@ -668,7 +671,8 @@ span {
 @media(max-width:995px) {
     .home {
         flex-direction: column;
-        margin: 5rem 3rem;
+        margin: 2rem 3rem;
+        gap: 2rem;
     }
 
     .home .home-content h3 {
@@ -680,8 +684,9 @@ span {
     }
 
     .home-img img {
-        width: 68vw;
-        margin-top: 4rem;
+        width: 60vw;
+        max-width: 350px;
+        margin-top: 2rem;
         margin-right: 0;
     }
 
@@ -703,7 +708,7 @@ span {
     }
 
     .home {
-        margin: 4rem 2rem;
+        margin: 2rem 2rem;
         gap: 3rem;
     }
 
@@ -749,7 +754,8 @@ span {
     }
 
     .home-img img {
-        width: 50vw;
+        width: 55vw;
+        max-width: 300px;
     }
 }
 
@@ -775,7 +781,8 @@ span {
     }
 
     .home-img img {
-        width: 65vw;
+        width: 70vw;
+        max-width: 250px;
     }
 
     .cv-img,
