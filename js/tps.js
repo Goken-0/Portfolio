@@ -160,6 +160,14 @@
             badge: "Réseau",
             categories: ["reseau"]
         },
+        {
+            titre: "TP 17 - Commandes Windows & Linux",
+            description: "Diaporama des commandes Windows & Linux, Administrateur Système et Réseau",
+            fichier: "assets/pdf/TP_Commandes.pdf",
+            image: "assets/images/switch.jpg",
+            badge: "Linux",
+            categories: ["linux"]
+        },
     ];
 
     // ============================================
