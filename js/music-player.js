@@ -68,7 +68,17 @@ class MusicPlayer {
                 title: "Smile",
                 artist: "Juice WRLD, The Weeknd",
                 src: "./assets/music/smile.mp3"
-            }            
+            }, 
+            {
+                title: "444",
+                artist: "Lithe",
+                src: "./assets/music/444.mp3"
+            },   
+            {
+                title: "Wizard Of Oz",
+                artist: "M Huncho",
+                src: "./assets/music/wizardofoz.mp3"
+            },   
         ];
 
         // Maintenant qu'on a défini toutes les variables, on initialise le lecteur
