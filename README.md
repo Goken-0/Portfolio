@@ -29,7 +29,7 @@ Projet réalisé avec les technologies fondamentales du web :
 | :--- | :--- |
 | <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" /> | **Structure** sémantique des pages |
 | <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" /> | **Design**, mise en page responsive et animations |
-| <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" /> | **Logique** (Mini-jeu, interactions DOM) |
+| <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" /> | **Logique** (Interactions DOM, animations) |
 
 ## ✨ Contenu du Portfolio
 En explorant ce dépôt, vous trouverez :
@@ -38,9 +38,6 @@ En explorant ce dépôt, vous trouverez :
 * 📄 **CV & Motivation** : (`cv.html`, `lettremotivation.html`) Ma candidature en ligne.
 * 🎓 **Stages & TPs** : (`stages.html`, `tps.html`) Comptes-rendus de mes expériences professionnelles et travaux pratiques.
 * 🔍 **Veille Technologique** : (`veille.html`) Suivi des actualités tech et de mon auto-formation.
-
-### 🎮 Projets Interactifs
-* 👾 **Space Invader** : (`spaceinvader.html`) Un mini-jeu développé en JavaScript pur pour tester la manipulation du canvas/DOM.
 * 🚀 **Projets** : (`projets.html`) Vitrine de mes autres réalisations.
 
 ## 📂 Structure du projet
@@ -62,7 +59,6 @@ Portfolio/
 ├── tps.html                    # Travaux Pratiques
 ├── veille.html                 # Veille Technologique
 ├── contact.html                # Page de contact
-├── spaceinvader.html           # Mini-jeu bonus
 │
 ├── DOCUMENTATION.txt           # Documentation technique du projet
 └── README.md                   # Ce fichier (présentation du projet)
