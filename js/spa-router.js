@@ -18,7 +18,6 @@
 
     async function navigateTo(url, pushState = true) {
         try {
-            // Sauvegarde de l'état audio avant de partir
             if (window.musicPlayerInstance) window.musicPlayerInstance.saveState();
 
             const response = await fetch(url);
@@ -28,64 +27,60 @@
             const parser = new DOMParser();
             const doc = parser.parseFromString(html, 'text/html');
 
-            // 1. Extraire les éléments persistants du DOM actuel
+            // 1. Identifier les éléments à préserver SANS les supprimer du DOM
             const canvas = document.querySelector('canvas.background');
             const audio = document.getElementById('audioPlayer');
             const playerUI = document.getElementById('sidebarMusic');
 
-            // 2. Préparer le nouveau body
+            // 2. Préparer le nouveau contenu
             const newBody = doc.body;
-
-            // 3. Mettre à jour les métadonnées
             document.title = doc.title;
             document.body.className = newBody.className;
 
-            // 4. Remplacer le contenu du body
-            // On utilise innerHTML pour une transition propre, puis on réinjecte les persistants
+            // 3. Supprimer tout SAUF les éléments persistants
+            const children = Array.from(document.body.children);
+            children.forEach(child => {
+                if (child !== canvas && child !== audio && child !== playerUI) {
+                    document.body.removeChild(child);
+                }
+            });
+
+            // 4. Injecter le nouveau contenu (sauf les scripts persistants)
             const scriptsToLoad = [];
             const inlineScripts = [];
 
-            // Filtrer les scripts pour ne pas charger les persistants deux fois
-            newBody.querySelectorAll('script').forEach(script => {
-                if (script.src) {
-                    const src = script.getAttribute('src');
-                    if (!PERSISTENT_SCRIPTS.some(p => src.includes(p))) {
-                        scriptsToLoad.push(src);
-                    }
-                } else {
-                    inlineScripts.push(script.textContent);
-                }
-            });
-
-            // Nettoyage du body actuel
-            while (document.body.firstChild) document.body.removeChild(document.body.firstChild);
-
-            // Injection du nouveau contenu HTML
             Array.from(newBody.children).forEach(child => {
-                if (child.tagName !== 'SCRIPT') {
-                    document.body.appendChild(document.adoptNode(child));
+                if (child.tagName === 'SCRIPT') {
+                    if (child.src) {
+                        const src = child.getAttribute('src');
+                        if (!PERSISTENT_SCRIPTS.some(p => src.includes(p))) {
+                            scriptsToLoad.push(src);
+                        }
+                    } else {
+                        inlineScripts.push(child.textContent);
+                    }
+                    return;
                 }
+                
+                // On adopte le nœud et on l'insère
+                document.body.appendChild(document.adoptNode(child));
             });
 
-            // 5. Réinjection immédiate des éléments critiques
-            if (canvas) document.body.appendChild(canvas);
-            if (audio) document.body.insertBefore(audio, document.body.firstChild);
-            
-            // On délègue le replacement du lecteur à inject-music-player.js via l'événement
+            // 5. S'assurer que le lecteur est au bon endroit dans la nouvelle sidebar
             if (playerUI) {
                 const sidebarBottom = document.querySelector('.sidebar-bottom');
-                if (sidebarBottom) sidebarBottom.insertBefore(playerUI, sidebarBottom.firstChild);
+                if (sidebarBottom) {
+                    sidebarBottom.insertBefore(playerUI, sidebarBottom.firstChild);
+                }
             }
 
             if (pushState) history.pushState({ spaUrl: url }, '', url);
 
-            // 6. Déclencher les réinitialisations
-            document.dispatchEvent(new CustomEvent('spa-page-loaded'));
-            
+            // 6. Réinitialisations
             if (typeof window.reinitUI === 'function') window.reinitUI();
             if (window.musicPlayerInstance) window.musicPlayerInstance.reinitializeDOM();
 
-            // 7. Charger les nouveaux scripts
+            // 7. Charger les scripts spécifiques
             for (const src of scriptsToLoad) {
                 await new Promise(resolve => {
                     const s = document.createElement('script');
