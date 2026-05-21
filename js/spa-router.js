@@ -2,200 +2,130 @@
  * ============================================
  * ROUTEUR SPA (SINGLE PAGE APPLICATION)
  * ============================================
- * 
- * Ce script intercepte les clics sur les liens internes du site
- * et charge les pages sans rechargement complet.
- * 
- * Cela permet de garder le lecteur de musique en lecture continue
- * sans interruption lors de la navigation entre les pages.
  */
 
 (function () {
     'use strict';
 
-    // Liste des scripts qui ne doivent PAS être rechargés lors de la navigation
-    var PERSISTENT_SCRIPTS = [
+    const PERSISTENT_SCRIPTS = [
         'three.min.js',
         'stars.js',
         'menu.js',
         'music-player.js',
         'inject-music-player.js',
-        'navigation.js',
-        'footer-scroll.js',
         'spa-router.js'
     ];
 
-    // Pages exclues du routeur SPA
-    var EXCLUDED_PAGES = [
-        'spaceinvader.html'
-    ];
-
-    function shouldIntercept(anchor) {
-        if (!anchor.href) return false;
-        if (anchor.target === '_blank') return false;
-        if (anchor.hasAttribute('download')) return false;
+    async function navigateTo(url, pushState = true) {
         try {
-            if (new URL(anchor.href).origin !== window.location.origin) return false;
-        } catch (e) {
-            return false;
-        }
-        var href = anchor.getAttribute('href');
-        if (!href || href === '#' || href.startsWith('#')) return false;
-        if (!href.endsWith('.html')) return false;
-        var page = href.split('/').pop();
-        if (EXCLUDED_PAGES.indexOf(page) !== -1) return false;
-        return true;
-    }
+            // Sauvegarde de l'état audio avant de partir
+            if (window.musicPlayerInstance) window.musicPlayerInstance.saveState();
 
-    function loadScript(src) {
-        return new Promise(function (resolve) {
-            var existing = document.querySelector('script[data-spa-loaded="' + src + '"]');
-            if (existing) existing.remove();
-            var script = document.createElement('script');
-            script.src = src;
-            script.setAttribute('data-spa-loaded', src);
-            script.onload = resolve;
-            script.onerror = function () {
-                console.error('Erreur chargement script:', src);
-                resolve();
-            };
-            document.body.appendChild(script);
-        });
-    }
+            const response = await fetch(url);
+            if (!response.ok) { window.location.href = url; return; }
 
-    async function navigateTo(url, pushState) {
-        if (pushState === undefined) pushState = true;
-        var currentNorm = window.location.href.split('#')[0].split('?')[0];
-        var targetNorm = new URL(url, window.location.href).href.split('#')[0].split('?')[0];
-        if (currentNorm === targetNorm) return;
+            const html = await response.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
 
-        try {
-            if (window.musicPlayerInstance) {
-                window.musicPlayerInstance.saveState();
-            }
+            // 1. Extraire les éléments persistants du DOM actuel
+            const canvas = document.querySelector('canvas.background');
+            const audio = document.getElementById('audioPlayer');
+            const playerUI = document.getElementById('sidebarMusic');
 
-            var response = await fetch(url);
-            if (!response.ok) {
-                window.location.href = url;
-                return;
-            }
+            // 2. Préparer le nouveau body
+            const newBody = doc.body;
 
-            var html = await response.text();
-            var parser = new DOMParser();
-            var doc = parser.parseFromString(html, 'text/html');
+            // 3. Mettre à jour les métadonnées
+            document.title = doc.title;
+            document.body.className = newBody.className;
 
-            // Sauvegarder les éléments qui doivent persister
-            var canvas = document.querySelector('canvas.background');
-            var audio = document.getElementById('audioPlayer');
-            var musicPlayer = document.getElementById('sidebarMusic'); // On cible le conteneur parent
+            // 4. Remplacer le contenu du body
+            // On utilise innerHTML pour une transition propre, puis on réinjecte les persistants
+            const scriptsToLoad = [];
+            const inlineScripts = [];
 
-            // Les retirer pour les protéger
-            if (canvas) canvas.remove();
-            if (audio) audio.remove();
-            if (musicPlayer) musicPlayer.remove();
-
-            // Collecter les scripts
-            var pageScripts = [];
-            var inlineScripts = [];
-            var scripts = doc.body.querySelectorAll('script');
-            for (var i = 0; i < scripts.length; i++) {
-                var script = scripts[i];
+            // Filtrer les scripts pour ne pas charger les persistants deux fois
+            newBody.querySelectorAll('script').forEach(script => {
                 if (script.src) {
-                    var src = script.getAttribute('src');
-                    var isPersistent = false;
-                    for (var j = 0; j < PERSISTENT_SCRIPTS.length; j++) {
-                        if (src.indexOf(PERSISTENT_SCRIPTS[j]) !== -1) {
-                            isPersistent = true;
-                            break;
-                        }
+                    const src = script.getAttribute('src');
+                    if (!PERSISTENT_SCRIPTS.some(p => src.includes(p))) {
+                        scriptsToLoad.push(src);
                     }
-                    if (!isPersistent) pageScripts.push(src);
-                } else if (script.textContent.trim()) {
+                } else {
                     inlineScripts.push(script.textContent);
                 }
-            }
+            });
 
-            // Mettre à jour le body
-            document.title = doc.title;
-            document.body.className = doc.body.className;
+            // Nettoyage du body actuel
+            while (document.body.firstChild) document.body.removeChild(document.body.firstChild);
 
-            // Remplacer le contenu
-            while (document.body.firstChild) {
-                document.body.removeChild(document.body.firstChild);
-            }
+            // Injection du nouveau contenu HTML
+            Array.from(newBody.children).forEach(child => {
+                if (child.tagName !== 'SCRIPT') {
+                    document.body.appendChild(document.adoptNode(child));
+                }
+            });
 
+            // 5. Réinjection immédiate des éléments critiques
             if (canvas) document.body.appendChild(canvas);
             if (audio) document.body.insertBefore(audio, document.body.firstChild);
-
-            var newChildren = Array.from(doc.body.children);
-            for (var k = 0; k < newChildren.length; k++) {
-                var child = newChildren[k];
-                if (child.tagName === 'SCRIPT') continue;
-                document.body.appendChild(document.adoptNode(child));
+            
+            // On délègue le replacement du lecteur à inject-music-player.js via l'événement
+            if (playerUI) {
+                const sidebarBottom = document.querySelector('.sidebar-bottom');
+                if (sidebarBottom) sidebarBottom.insertBefore(playerUI, sidebarBottom.firstChild);
             }
 
-            // ==========================================
-            // FIX : Réinsérer le lecteur dans la SIDEBAR
-            // ==========================================
-            if (musicPlayer) {
-                var sidebarBottom = document.querySelector('.sidebar-bottom');
-                if (sidebarBottom) {
-                    sidebarBottom.insertBefore(musicPlayer, sidebarBottom.firstChild);
-                    console.log('✅ SPA : Lecteur replacé dans la sidebar');
-                } else {
-                    document.body.appendChild(musicPlayer);
-                    console.warn('⚠️ SPA : .sidebar-bottom non trouvé, fallback body');
-                }
+            if (pushState) history.pushState({ spaUrl: url }, '', url);
+
+            // 6. Déclencher les réinitialisations
+            document.dispatchEvent(new CustomEvent('spa-page-loaded'));
+            
+            if (typeof window.reinitUI === 'function') window.reinitUI();
+            if (window.musicPlayerInstance) window.musicPlayerInstance.reinitializeDOM();
+
+            // 7. Charger les nouveaux scripts
+            for (const src of scriptsToLoad) {
+                await new Promise(resolve => {
+                    const s = document.createElement('script');
+                    s.src = src;
+                    s.onload = resolve;
+                    s.onerror = resolve;
+                    document.body.appendChild(s);
+                });
             }
 
-            if (pushState) {
-                history.pushState({ spaUrl: url }, '', url);
-            }
-
-            // Réinitialiser les scripts
-            if (typeof window.initMenu === 'function') window.initMenu();
-            if (typeof window.updateActiveNavLink === 'function') window.updateActiveNavLink();
-            if (typeof window.initFooterScroll === 'function') window.initFooterScroll();
-
-            // Rétablir la logique du lecteur
-            if (window.musicPlayerInstance) {
-                window.musicPlayerInstance.reinitializeDOM();
-            }
-
-            for (var s = 0; s < pageScripts.length; s++) {
-                await loadScript(pageScripts[s]);
-            }
-
-            for (var n = 0; n < inlineScripts.length; n++) {
+            inlineScripts.forEach(code => {
                 try {
-                    var inlineScript = document.createElement('script');
-                    inlineScript.textContent = '(function(){' + inlineScripts[n] + '})();';
-                    document.body.appendChild(inlineScript);
+                    const s = document.createElement('script');
+                    s.textContent = code;
+                    document.body.appendChild(s);
                 } catch (e) {}
-            }
+            });
 
             window.scrollTo(0, 0);
-            
-            // Émettre un événement personnalisé pour inject-music-player.js
-            document.dispatchEvent(new CustomEvent('spa-page-loaded'));
 
         } catch (error) {
-            console.error('Erreur navigation SPA:', error);
+            console.error('Erreur SPA:', error);
             window.location.href = url;
         }
     }
 
-    document.addEventListener('click', function (e) {
-        var anchor = e.target.closest('a[href]');
-        if (!anchor || e.ctrlKey || e.shiftKey || e.metaKey || e.altKey) return;
-        if (!shouldIntercept(anchor)) return;
+    document.addEventListener('click', e => {
+        const anchor = e.target.closest('a[href]');
+        if (!anchor || anchor.target === '_blank' || anchor.hasAttribute('download')) return;
+        const href = anchor.getAttribute('href');
+        if (href.startsWith('#') || !href.endsWith('.html') || href.includes('mailto:')) return;
+        if (new URL(anchor.href).origin !== window.location.origin) return;
+        
         e.preventDefault();
-        navigateTo(new URL(anchor.getAttribute('href'), window.location.href).href);
+        navigateTo(anchor.href);
     });
 
-    window.addEventListener('popstate', function (e) {
-        navigateTo(e.state && e.state.spaUrl ? e.state.spaUrl : window.location.href, false);
-    });
+    window.onpopstate = e => {
+        navigateTo(e.state?.spaUrl || window.location.href, false);
+    };
 
     history.replaceState({ spaUrl: window.location.href }, '', window.location.href);
 })();
