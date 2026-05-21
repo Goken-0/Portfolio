@@ -27,25 +27,22 @@
             const parser = new DOMParser();
             const doc = parser.parseFromString(html, 'text/html');
 
-            // 1. Identifier les éléments à préserver SANS les supprimer du DOM
             const canvas = document.querySelector('canvas.background');
             const audio = document.getElementById('audioPlayer');
             const playerUI = document.getElementById('sidebarMusic');
 
-            // 2. Préparer le nouveau contenu
             const newBody = doc.body;
             document.title = doc.title;
             document.body.className = newBody.className;
 
-            // 3. Supprimer tout SAUF les éléments persistants
+            // Nettoyage intelligent
             const children = Array.from(document.body.children);
             children.forEach(child => {
-                if (child !== canvas && child !== audio && child !== playerUI) {
+                if (child !== canvas && child !== audio && child !== playerUI && child.tagName !== 'SCRIPT') {
                     document.body.removeChild(child);
                 }
             });
 
-            // 4. Injecter le nouveau contenu (sauf les scripts persistants)
             const scriptsToLoad = [];
             const inlineScripts = [];
 
@@ -61,30 +58,26 @@
                     }
                     return;
                 }
-                
-                // On adopte le nœud et on l'insère
                 document.body.appendChild(document.adoptNode(child));
             });
 
-            // 5. S'assurer que le lecteur est au bon endroit dans la nouvelle sidebar
             if (playerUI) {
                 const sidebarBottom = document.querySelector('.sidebar-bottom');
-                if (sidebarBottom) {
-                    sidebarBottom.insertBefore(playerUI, sidebarBottom.firstChild);
-                }
+                if (sidebarBottom) sidebarBottom.insertBefore(playerUI, sidebarBottom.firstChild);
             }
 
             if (pushState) history.pushState({ spaUrl: url }, '', url);
 
-            // 6. Réinitialisations
+            // RÉINITIALISATIONS
             if (typeof window.reinitUI === 'function') window.reinitUI();
             if (window.musicPlayerInstance) window.musicPlayerInstance.reinitializeDOM();
 
-            // 7. Charger les scripts spécifiques
+            // CHARGEMENT DES SCRIPTS DE PAGE
             for (const src of scriptsToLoad) {
                 await new Promise(resolve => {
                     const s = document.createElement('script');
                     s.src = src;
+                    s.setAttribute('data-spa-dynamic', 'true');
                     s.onload = resolve;
                     s.onerror = resolve;
                     document.body.appendChild(s);
@@ -95,11 +88,13 @@
                 try {
                     const s = document.createElement('script');
                     s.textContent = code;
+                    s.setAttribute('data-spa-inline', 'true');
                     document.body.appendChild(s);
                 } catch (e) {}
             });
 
             window.scrollTo(0, 0);
+            document.dispatchEvent(new CustomEvent('spa-page-loaded'));
 
         } catch (error) {
             console.error('Erreur SPA:', error);
