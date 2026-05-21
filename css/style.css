@@ -2622,56 +2622,61 @@ button:hover {
 
 /* ===================== LECTEUR DE MUSIQUE (SIDEBAR INTEGRATED) ===================== */
 .sidebar-music-container {
-    width: 100%;
-    padding: 1.2rem 1.4rem;
-    margin-bottom: 0.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.8rem;
+    width: 100% !important;
+    padding: 1.2rem 1.4rem !important;
+    margin-bottom: 0.5rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.8rem !important;
+    z-index: 99 !important;
+    position: relative !important;
 }
 
 .music-player {
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(60, 174, 228, 0.2);
-    border-radius: 1.2rem;
-    padding: 2.2rem 1.4rem; /* Hauteur augmentée via le padding vertical */
-    width: 100%;
-    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid rgba(60, 174, 228, 0.2) !important;
+    border-radius: 1.2rem !important;
+    padding: 2.2rem 1.4rem !important; /* Hauteur augmentée via le padding vertical */
+    width: 100% !important;
+    transition: all 0.3s ease !important;
+    box-sizing: border-box !important;
 }
 
 .music-player:hover {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(60, 174, 228, 0.4);
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-color: rgba(60, 174, 228, 0.4) !important;
 }
 
 .player-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem; /* Espace augmenté */
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin-bottom: 1.5rem !important; /* Espace augmenté */
 }
 
 .music-info {
-    text-align: center;
-    margin-bottom: 1.5rem; /* Espace augmenté */
+    text-align: center !important;
+    margin-bottom: 1.5rem !important; /* Espace augmenté */
+    overflow: hidden !important;
 }
 
 .song-title {
-    color: white;
-    font-size: 1.2rem; /* Taille augmentée */
-    font-weight: 500;
-    margin-bottom: 0.3rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    color: white !important;
+    font-size: 1.2rem !important;
+    font-weight: 600 !important;
+    margin-bottom: 0.3rem !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
 }
 
 .song-artist {
-    color: rgba(255, 255, 255, 0.5);
-    font-size: 1rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    color: rgba(255, 255, 255, 0.6) !important;
+    font-size: 1rem !important;
+    font-weight: 400 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
 }
 
 .progress-container {
@@ -4334,56 +4339,61 @@ body:has(.realisations-container) main {
 
 /* ===================== LECTEUR DE MUSIQUE (SIDEBAR INTEGRATED) ===================== */
 .sidebar-music-container {
-    width: 100%;
-    padding: 1.2rem 1.4rem;
-    margin-bottom: 0.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.8rem;
+    width: 100% !important;
+    padding: 1.2rem 1.4rem !important;
+    margin-bottom: 0.5rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.8rem !important;
+    z-index: 99 !important;
+    position: relative !important;
 }
 
 .music-player {
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(60, 174, 228, 0.2);
-    border-radius: 1.2rem;
-    padding: 2.2rem 1.4rem; /* Hauteur augmentée via le padding vertical */
-    width: 100%;
-    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid rgba(60, 174, 228, 0.2) !important;
+    border-radius: 1.2rem !important;
+    padding: 2.2rem 1.4rem !important; /* Hauteur augmentée via le padding vertical */
+    width: 100% !important;
+    transition: all 0.3s ease !important;
+    box-sizing: border-box !important;
 }
 
 .music-player:hover {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(60, 174, 228, 0.4);
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-color: rgba(60, 174, 228, 0.4) !important;
 }
 
 .player-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem; /* Espace augmenté */
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin-bottom: 1.5rem !important; /* Espace augmenté */
 }
 
 .music-info {
-    text-align: center;
-    margin-bottom: 1.5rem; /* Espace augmenté */
+    text-align: center !important;
+    margin-bottom: 1.5rem !important; /* Espace augmenté */
+    overflow: hidden !important;
 }
 
 .song-title {
-    color: white;
-    font-size: 1.2rem; /* Taille augmentée */
-    font-weight: 500;
-    margin-bottom: 0.3rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    color: white !important;
+    font-size: 1.2rem !important;
+    font-weight: 600 !important;
+    margin-bottom: 0.3rem !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
 }
 
 .song-artist {
-    color: rgba(255, 255, 255, 0.5);
-    font-size: 1rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    color: rgba(255, 255, 255, 0.6) !important;
+    font-size: 1rem !important;
+    font-weight: 400 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
 }
 
 .progress-container {
