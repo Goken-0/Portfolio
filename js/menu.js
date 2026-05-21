@@ -1,210 +1,195 @@
 /**
  * ============================================
- * MENU HAMBURGER POUR MOBILE
+ * SIDEBAR NAVIGATION - MENU.JS
  * ============================================
- * 
- * Ce script gère le menu hamburger (les trois lignes) qui apparaît sur mobile.
- * Quand on clique dessus, le menu de navigation s'ouvre en plein écran.
- * 
- * Fonctionnalités :
- * - Création automatique du bouton hamburger
- * - Ouverture/fermeture du menu
- * - Fermeture en cliquant ailleurs, sur Échap, ou en swipant
- * - Support tactile (vibration sur mobile)
- * - Gestion du dropdown "Réalisations" (mobile et desktop)
- * 
- * Compatible SPA : peut être réinitialisé via window.initMenu()
+ * Gère l'ouverture/fermeture de la sidebar sur mobile
+ * et le dropdown "Réalisations".
+ * Compatible SPA : réinitialisable via window.initMenu()
  */
 
-// AbortController pour pouvoir annuler les écouteurs lors de la réinitialisation
 let _menuAbortController = null;
 
-/**
- * Initialise le menu hamburger et les dropdowns
- * Peut être appelé plusieurs fois (lors de la navigation SPA)
- */
 window.initMenu = function () {
-    // Annuler les anciens écouteurs d'événements
-    if (_menuAbortController) {
-        _menuAbortController.abort();
-    }
+    if (_menuAbortController) _menuAbortController.abort();
     _menuAbortController = new AbortController();
     const signal = _menuAbortController.signal;
 
-    // Supprimer l'ancien hamburger et overlay s'ils existent
-    const oldHamburger = document.querySelector('.hamburger-menu');
-    if (oldHamburger) oldHamburger.remove();
-    const oldOverlay = document.querySelector('.menu-overlay');
-    if (oldOverlay) oldOverlay.remove();
-
-    // On récupère le header et la navigation
-    const header = document.querySelector('header');
-    const nav = document.querySelector('nav');
+    const header  = document.querySelector('header');
+    const nav     = document.querySelector('nav');
     if (!header || !nav) return;
 
-    // =====================
-    // MENU HAMBURGER MOBILE
-    // =====================
+    // ----- Créer le bouton hamburger -----
+    const oldToggle  = document.querySelector('.hamburger-toggle');
+    const oldOverlay = document.querySelector('.sidebar-overlay');
+    if (oldToggle)  oldToggle.remove();
+    if (oldOverlay) oldOverlay.remove();
 
-    // On crée le bouton hamburger (les trois lignes)
-    const hamburgerBtn = document.createElement('button');
-    hamburgerBtn.className = 'hamburger-menu';
-    hamburgerBtn.setAttribute('aria-label', 'Menu de navigation');
-    hamburgerBtn.setAttribute('aria-expanded', 'false');
+    const toggleBtn = document.createElement('button');
+    toggleBtn.className = 'hamburger-toggle';
+    toggleBtn.id = 'hamburgerToggle';
+    toggleBtn.setAttribute('aria-label', 'Ouvrir le menu');
+    toggleBtn.setAttribute('aria-expanded', 'false');
+    toggleBtn.innerHTML = '<span></span><span></span><span></span>';
+    document.body.appendChild(toggleBtn);
 
-    hamburgerBtn.innerHTML = `
-        <span class="hamburger-line"></span>
-        <span class="hamburger-line"></span>
-        <span class="hamburger-line"></span>
-    `;
-
-    // On crée un overlay (fond sombre) qui apparaît quand le menu est ouvert
+    // ----- Créer l'overlay -----
     const overlay = document.createElement('div');
-    overlay.className = 'menu-overlay';
+    overlay.className = 'sidebar-overlay';
     document.body.appendChild(overlay);
 
-    // On insère le bouton hamburger dans le header, juste avant le menu
-    header.insertBefore(hamburgerBtn, nav);
+    let isOpen = false;
 
-    // Variable qui indique si le menu est ouvert ou fermé
-    let isMenuOpen = false;
-
-    /**
-     * Fonction qui ouvre ou ferme le menu
-     */
-    function toggleMenu() {
-        isMenuOpen = !isMenuOpen;
-
-        hamburgerBtn.classList.toggle('active', isMenuOpen);
-        nav.classList.toggle('active', isMenuOpen);
-        overlay.classList.toggle('active', isMenuOpen);
-
-        if (window.innerWidth <= 995) {
-            document.body.style.overflow = isMenuOpen ? 'hidden' : 'auto';
-        }
-
-        hamburgerBtn.setAttribute('aria-expanded', isMenuOpen);
-
-        if ('vibrate' in navigator && window.innerWidth <= 995) {
-            navigator.vibrate(50);
-        }
+    function openSidebar() {
+        isOpen = true;
+        header.classList.add('sidebar-open');
+        toggleBtn.classList.add('active');
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        toggleBtn.setAttribute('aria-expanded', 'true');
+        if ('vibrate' in navigator) navigator.vibrate(40);
     }
 
-    // Quand on clique sur le bouton hamburger
-    hamburgerBtn.addEventListener('click', function (e) {
+    function closeSidebar() {
+        isOpen = false;
+        header.classList.remove('sidebar-open');
+        toggleBtn.classList.remove('active');
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+        toggleBtn.setAttribute('aria-expanded', 'false');
+    }
+
+    function toggleSidebar() {
+        isOpen ? closeSidebar() : openSidebar();
+    }
+
+    // Bouton hamburger
+    toggleBtn.addEventListener('click', e => {
         e.preventDefault();
         e.stopPropagation();
-        toggleMenu();
+        toggleSidebar();
     }, { signal });
 
-    // Quand on clique sur un lien du menu (sauf le bouton Réalisations)
-    const navLinks = nav.querySelectorAll('a:not(.dropbtn)');
-    navLinks.forEach(link => {
-        link.addEventListener('click', function () {
-            if (window.innerWidth <= 995 && isMenuOpen && !link.closest('.dropdown-content')) {
-                toggleMenu();
-            }
+    // Bouton close dans la sidebar
+    const closeBtn = header.querySelector('.sidebar-close');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closeSidebar, { signal });
+    }
+
+    // Overlay
+    overlay.addEventListener('click', closeSidebar, { signal });
+
+    // Touche Échap
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && isOpen) closeSidebar();
+    }, { signal });
+
+    // Fermer si on dépasse le breakpoint
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 995 && isOpen) closeSidebar();
+    }, { signal });
+
+    // Fermer quand on clique un lien de nav (sauf dropbtn)
+    nav.querySelectorAll('a:not(.dropbtn)').forEach(link => {
+        link.addEventListener('click', () => {
+            if (window.innerWidth <= 995 && isOpen) closeSidebar();
         }, { signal });
     });
 
-    // Quand on clique sur l'overlay
-    overlay.addEventListener('click', function () {
-        if (isMenuOpen) {
-            toggleMenu();
-        }
-    }, { signal });
-
-    // Quand on appuie sur Échap
-    document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && isMenuOpen) {
-            toggleMenu();
-        }
-    }, { signal });
-
-    // Si on redimensionne la fenêtre et qu'on passe en mode desktop
-    window.addEventListener('resize', function () {
-        if (window.innerWidth > 995 && isMenuOpen) {
-            hamburgerBtn.classList.remove('active');
-            nav.classList.remove('active');
-            overlay.classList.remove('active');
-            document.body.style.overflow = 'auto';
-            isMenuOpen = false;
-            hamburgerBtn.setAttribute('aria-expanded', 'false');
-        }
-    }, { signal });
-
-    // Support des gestes tactiles (swipe)
-    let touchStartY = 0;
-    let touchEndY = 0;
-
-    nav.addEventListener('touchstart', function (e) {
-        touchStartY = e.changedTouches[0].screenY;
+    // Support swipe left pour fermer
+    let touchStartX = 0;
+    header.addEventListener('touchstart', e => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true, signal });
+    header.addEventListener('touchend', e => {
+        const dx = touchStartX - e.changedTouches[0].screenX;
+        if (dx > 70 && isOpen) closeSidebar();
     }, { passive: true, signal });
 
-    nav.addEventListener('touchend', function (e) {
-        touchEndY = e.changedTouches[0].screenY;
-        const swipeDistance = touchStartY - touchEndY;
-
-        if (swipeDistance > 80 && isMenuOpen && window.innerWidth <= 995) {
-            toggleMenu();
-        }
-    }, { passive: true, signal });
-
-    // =====================
-    // GESTION DU DROPDOWN "RÉALISATIONS"
-    // =====================
-
-    const dropdown = document.querySelector('.dropdown');
-    const dropBtn = document.querySelector('.dropbtn');
+    // ----- DROPDOWN "RÉALISATIONS" -----
+    const dropdown   = document.querySelector('.dropdown');
+    const dropBtn    = document.querySelector('.dropbtn');
     const dropContent = document.querySelector('.dropdown-content');
 
     if (dropdown && dropBtn && dropContent) {
-        // Clic sur le bouton "Réalisations"
-        dropBtn.addEventListener('click', function (e) {
+        dropBtn.addEventListener('click', e => {
             e.preventDefault();
             e.stopPropagation();
-
-            // Mobile : toggle la classe active sur le dropdown
-            if (window.innerWidth <= 995) {
-                dropdown.classList.toggle('active');
-            }
-
-            // Desktop : toggle la classe show sur le contenu
+            dropdown.classList.toggle('active');
             dropContent.classList.toggle('show');
             dropBtn.classList.toggle('active');
         }, { signal });
 
-        // Quand on clique sur un lien dans le dropdown, fermer le menu mobile
-        const dropdownLinks = dropContent.querySelectorAll('a');
-        dropdownLinks.forEach(link => {
-            link.addEventListener('click', function () {
-                if (window.innerWidth <= 995) {
-                    if (nav && hamburgerBtn && nav.classList.contains('active')) {
-                        hamburgerBtn.classList.remove('active');
-                        nav.classList.remove('active');
-                        overlay.classList.remove('active');
-                        document.body.style.overflow = 'auto';
-                        isMenuOpen = false;
-                    }
-                }
-            }, { signal });
-        });
-
-        // Fermer le dropdown quand on clique ailleurs
-        document.addEventListener('click', function (e) {
-            if (!dropContent.contains(e.target) && !dropBtn.contains(e.target)) {
+        // Fermer dropdown si clic extérieur (desktop)
+        document.addEventListener('click', e => {
+            if (!dropdown.contains(e.target)) {
+                dropdown.classList.remove('active');
                 dropContent.classList.remove('show');
                 dropBtn.classList.remove('active');
             }
         }, { signal });
+
+        // Fermer la sidebar après clic sur un lien du dropdown
+        dropContent.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 995 && isOpen) closeSidebar();
+                dropdown.classList.remove('active');
+                dropContent.classList.remove('show');
+                dropBtn.classList.remove('active');
+            }, { signal });
+        });
     }
 
-    console.log('🍔 Menu hamburger initialisé avec succès !');
+    console.log('🗂️ Sidebar initialisée');
 };
 
-// Initialiser au chargement de la page
+// Init au chargement
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', window.initMenu);
 } else {
     window.initMenu();
 }
+
+// ============================================
+// PROFILE CARD 3D TILT EFFECT
+// ============================================
+(function initProfileTilt() {
+    function setup() {
+        const cards = document.querySelectorAll('.profile-card');
+        if (cards.length === 0) return;
+        
+        cards.forEach(card => {
+            const inner = card.querySelector('.profile-card-inner');
+            if (!inner) return;
+
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const cx = rect.left + rect.width / 2;
+                const cy = rect.top + rect.height / 2;
+                const dx = (e.clientX - cx) / (rect.width / 2);
+                const dy = (e.clientY - cy) / (rect.height / 2);
+                const rotX = -dy * 22;
+                const rotY = dx * 22;
+                inner.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg) scale(1.06)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                inner.style.transition = 'transform 0.5s ease';
+                inner.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
+                setTimeout(() => { inner.style.transition = 'transform 0.1s ease, box-shadow 0.3s ease'; }, 500);
+            });
+
+            card.addEventListener('mouseenter', () => {
+                inner.style.transition = 'transform 0.1s ease, box-shadow 0.3s ease';
+            });
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', setup);
+    } else {
+        setup();
+    }
+
+    // Re-init for SPA
+    window._initProfileTilt = setup;
+})();
