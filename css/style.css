@@ -627,6 +627,11 @@ nav a span,
     color: inherit !important;
 }
 
+/* Classe générique pour appliquer la couleur d'accent (bleu ciel) sur n'importe quel span de titre */
+h1 span, h2 span {
+    color: var(--accent);
+}
+
 /*MODIFICATION DE LA PHRASE D'ACCROCHE*/
 .sentence {
     font-size: 2.2rem;
@@ -2701,11 +2706,24 @@ button:hover {
     align-items: center;
     justify-content: center;
     padding: 0.5rem;
+    border: none;
+    outline: none;
 }
 
 .control-btn:hover {
-    color: var(--accent);
+    color: var(--accent) !important;
+    background: transparent !important;
+    background-color: transparent !important;
     transform: scale(1.1);
+    box-shadow: none !important;
+}
+
+.control-btn i {
+    transition: color 0.2s ease;
+}
+
+.control-btn:hover i {
+    color: var(--accent) !important;
 }
 
 .control-btn.play-pause {
@@ -2713,13 +2731,63 @@ button:hover {
     color: rgba(255, 255, 255, 0.9);
 }
 
-.control-btn.play-pause:hover {
-    color: var(--accent);
+.control-btn.play-pause:hover,
+.control-btn.play-pause:hover i {
+    color: var(--accent) !important;
 }
 
-.control-btn.active {
+.control-btn.active,
+.control-btn.active i {
     color: var(--accent) !important;
     text-shadow: 0 0 10px rgba(60, 174, 228, 0.5);
+}
+
+.volume-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+    padding: 0 0.5rem;
+}
+
+.volume-icon {
+    color: var(--accent);
+    font-size: 1.1rem;
+    width: 1.5rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.volume-icon:hover {
+    color: #ffffff !important;
+}
+
+.volume-slider {
+    flex: 1;
+    height: 3px;
+    -webkit-appearance: none;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    outline: none;
+}
+
+.volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 10px;
+    height: 10px;
+    background: var(--accent);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(60, 174, 228, 0.5);
+}
+
+.volume-slider::-moz-range-thumb {
+    width: 10px;
+    height: 10px;
+    background: var(--accent);
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
 }
 
 /* Animation equalizer compacte */
@@ -4350,11 +4418,24 @@ body:has(.realisations-container) main {
     align-items: center;
     justify-content: center;
     padding: 0.5rem;
+    border: none;
+    outline: none;
 }
 
 .control-btn:hover {
-    color: var(--accent);
+    color: var(--accent) !important;
+    background: transparent !important;
+    background-color: transparent !important;
     transform: scale(1.1);
+    box-shadow: none !important;
+}
+
+.control-btn i {
+    transition: color 0.2s ease;
+}
+
+.control-btn:hover i {
+    color: var(--accent) !important;
 }
 
 .control-btn.play-pause {
@@ -4362,13 +4443,63 @@ body:has(.realisations-container) main {
     color: rgba(255, 255, 255, 0.9);
 }
 
-.control-btn.play-pause:hover {
-    color: var(--accent);
+.control-btn.play-pause:hover,
+.control-btn.play-pause:hover i {
+    color: var(--accent) !important;
 }
 
-.control-btn.active {
+.control-btn.active,
+.control-btn.active i {
     color: var(--accent) !important;
     text-shadow: 0 0 10px rgba(60, 174, 228, 0.5);
+}
+
+.volume-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+    padding: 0 0.5rem;
+}
+
+.volume-icon {
+    color: var(--accent);
+    font-size: 1.1rem;
+    width: 1.5rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.volume-icon:hover {
+    color: #ffffff !important;
+}
+
+.volume-slider {
+    flex: 1;
+    height: 3px;
+    -webkit-appearance: none;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    outline: none;
+}
+
+.volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 10px;
+    height: 10px;
+    background: var(--accent);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(60, 174, 228, 0.5);
+}
+
+.volume-slider::-moz-range-thumb {
+    width: 10px;
+    height: 10px;
+    background: var(--accent);
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
 }
 
 /* Animation equalizer compacte */
