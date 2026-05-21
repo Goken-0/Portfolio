@@ -61,7 +61,7 @@
 	<link rel="stylesheet" href="css/style.css">
 	
 	<!-- Titre de l'onglet -->
-	<title>Portfolio Léo - CV</title>
+	<title>Portfolio - Léo Metgy</title>
 </head>
 
 <body>
@@ -102,24 +102,46 @@
 	     EN-TÊTE ET NAVIGATION
 	     ============================================ -->
 	<header>
-		<a href="index.html" class="nav-logo">LM</a>
+		<div class="sidebar-top">
+			<button class="sidebar-close" aria-label="Fermer le menu"><i class="fa-solid fa-xmark"></i></button>
+		</div>
+
+		<div class="sidebar-profile">
+			<div class="profile-card" id="profileCard">
+				<div class="profile-card-inner">
+					<img src="assets/images/main.png" alt="Photo de profil de Léo Metgy" class="profile-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+					<div class="profile-placeholder"><i class="fa-solid fa-user"></i></div>
+				</div>
+				<div class="profile-glow"></div>
+			</div>
+			<h2 class="profile-name">Léo ✌️</h2>
+			<p class="profile-title">Étudiant BTS SIO</p>
+			<div class="sidebar-social">
+				<a href="https://www.linkedin.com/in/l%C3%A9o-metgy-3268a5383/" title="LinkedIn" target="_blank" rel="noopener" class="social-linkedin"><i class="fa-brands fa-linkedin"></i></a>
+				<a href="https://github.com/Goken-0" title="GitHub" target="_blank" rel="noopener" class="social-github"><i class="fa-brands fa-github"></i></a>
+				<a href="spaceinvader.html" title="Mini-jeu" class="social-game"><i class="fa-solid fa-gamepad"></i></a>
+			</div>
+		</div>
+
 		<nav>
-			<a href="index.html">Accueil</a>
-			<a href="cv.html">CV</a>
-			<a href="lettremotivation.html">Lettre de motivation</a>
-			<!-- Menu déroulant Réalisations -->
+			<a href="index.html"><i class="fa-solid fa-house"></i><span>Accueil</span></a>
+			<a href="cv.html"><i class="fa-solid fa-file-lines"></i><span>CV</span></a>
+			<a href="lettremotivation.html"><i class="fa-solid fa-envelope-open-text"></i><span>Lettre de motivation</span></a>
 			<div class="dropdown">
-				<a href="#" class="dropbtn"><i class="fa fa-caret-down"></i> Réalisations</a>
+				<a href="#" class="dropbtn"><i class="fa-solid fa-layer-group"></i><span>Réalisations</span><i class="fa fa-caret-down caret-icon"></i></a>
 				<div class="dropdown-content" id="myDropdown">
-					<a href="tps.html">TPs</a>
-					<a href="projets.html">Projets</a>
-					<a href="stages.html">Stages</a>
+					<a href="tps.html"><i class="fa-solid fa-flask"></i>TPs</a>
+					<a href="projets.html"><i class="fa-solid fa-diagram-project"></i>Projets</a>
+					<a href="stages.html"><i class="fa-solid fa-briefcase"></i>Stages</a>
 				</div>
 			</div>
-			<a href="competences.html">Compétences</a>
-			<a href="veille.html">Veille</a>
-			<a href="contact.html">Contact</a>
+			<a href="competences.html"><i class="fa-solid fa-code"></i><span>Compétences</span></a>
+			<a href="veille.html"><i class="fa-solid fa-satellite-dish"></i><span>Veille</span></a>
 		</nav>
+		<div class="sidebar-bottom">
+			<a href="contact.html" class="btn sidebar-contact-btn"><i class="fa-solid fa-paper-plane"></i> Me contacter</a>
+			<p class="sidebar-footer-credit">Fait avec ❤️ par Léo</p>
+		</div>
 	</header>
 
 	<!-- ============================================
@@ -127,7 +149,8 @@
 	     ============================================ -->
 	<main>
 		<!-- Conteneur du CV -->
-		<div class="cv-container">
+		<div class="cv-container" style="flex-direction: column;">
+            <h1 class="section-title">Mon <span>CV</span></h1>
 			<div class="cv-content">
 				<!-- Image du CV (cliquable pour ouvrir le modal) -->
 				<!-- La classe "cv-img" est utilisée par animation-cv.js pour ajouter les fonctionnalités -->
@@ -142,7 +165,8 @@
 	<!-- ============================================
 	     FOOTER
 	     ============================================ -->
-	<footer class="credit">Fait par Léo avec ❤️ - © Tous droits réservés</footer>
+	<script src="js/typing.js"></script>
+	<script src="js/cursor.js"></script>
 </body>
 
 </html>

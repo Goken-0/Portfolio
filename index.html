@@ -83,7 +83,7 @@
 	<link rel="stylesheet" href="css/style.css">
 
 	<!-- Titre affiché dans l'onglet du navigateur -->
-	<title>Portfolio Léo Metgy</title>
+	<title>Portfolio - Léo Metgy</title>
 </head>
 
 <body>
@@ -124,38 +124,47 @@
 	     EN-TÊTE ET NAVIGATION
 	     ============================================ -->
 	<header>
-		<a href="index.html" class="nav-logo">LM</a>
+		<div class="sidebar-top">
+			<button class="sidebar-close" aria-label="Fermer le menu"><i class="fa-solid fa-xmark"></i></button>
+		</div>
+
+		<!-- Photo de profil avec animation 3D -->
+		<div class="sidebar-profile">
+			<div class="profile-card" id="profileCard">
+				<div class="profile-card-inner">
+					<img src="assets/images/main.png" alt="Photo de profil de Léo Metgy" class="profile-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+					<div class="profile-placeholder"><i class="fa-solid fa-user"></i></div>
+				</div>
+				<div class="profile-glow"></div>
+			</div>
+			<h2 class="profile-name">Léo ✌️</h2>
+			<p class="profile-title">Étudiant BTS SIO</p>
+			<div class="sidebar-social">
+				<a href="https://www.linkedin.com/in/l%C3%A9o-metgy-3268a5383/" title="LinkedIn" target="_blank" rel="noopener" class="social-linkedin"><i class="fa-brands fa-linkedin"></i></a>
+				<a href="https://github.com/Goken-0" title="GitHub" target="_blank" rel="noopener" class="social-github"><i class="fa-brands fa-github"></i></a>
+				<a href="spaceinvader.html" title="Mini-jeu" class="social-game"><i class="fa-solid fa-gamepad"></i></a>
+			</div>
+		</div>
+
 		<nav>
-			<!-- Lien vers la page d'accueil -->
-			<a href="index.html">Accueil</a>
-			
-			<!-- Lien vers la page CV -->
-			<a href="cv.html">CV</a>
-			
-			<!-- Lien vers la page lettre de motivation -->
-			<a href="lettremotivation.html">Lettre de motivation</a>
-			
-			<!-- Menu déroulant "Réalisations" avec sous-pages -->
+			<a href="index.html"><i class="fa-solid fa-house"></i><span>Accueil</span></a>
+			<a href="cv.html"><i class="fa-solid fa-file-lines"></i><span>CV</span></a>
+			<a href="lettremotivation.html"><i class="fa-solid fa-envelope-open-text"></i><span>Lettre de motivation</span></a>
 			<div class="dropdown">
-				<!-- Bouton principal du menu déroulant -->
-				<a href="#" class="dropbtn"><i class="fa fa-caret-down"></i> Réalisations</a>
-				<!-- Contenu du menu déroulant (caché par défaut) -->
+				<a href="#" class="dropbtn"><i class="fa-solid fa-layer-group"></i><span>Réalisations</span><i class="fa fa-caret-down caret-icon"></i></a>
 				<div class="dropdown-content" id="myDropdown">
-					<a href="tps.html">TPs</a>
-					<a href="projets.html">Projets</a>
-					<a href="stages.html">Stages</a>
+					<a href="tps.html"><i class="fa-solid fa-flask"></i>TPs</a>
+					<a href="projets.html"><i class="fa-solid fa-diagram-project"></i>Projets</a>
+					<a href="stages.html"><i class="fa-solid fa-briefcase"></i>Stages</a>
 				</div>
 			</div>
-			
-			<!-- Lien vers la page compétences -->
-			<a href="competences.html">Compétences</a>
-			
-			<!-- Lien vers la page veille technologique -->
-			<a href="veille.html">Veille</a>
-			
-			<!-- Lien vers la page contact -->
-			<a href="contact.html">Contact</a>
+			<a href="competences.html"><i class="fa-solid fa-code"></i><span>Compétences</span></a>
+			<a href="veille.html"><i class="fa-solid fa-satellite-dish"></i><span>Veille</span></a>
 		</nav>
+		<div class="sidebar-bottom">
+			<a href="contact.html" class="btn sidebar-contact-btn"><i class="fa-solid fa-paper-plane"></i> Me contacter</a>
+			<p class="sidebar-footer-credit">Fait avec ❤️ par Léo</p>
+		</div>
 	</header>
 
 	<!-- ============================================
@@ -164,19 +173,23 @@
 	<section class="home">
 		<!-- Image de présentation (photo de profil) -->
 		<div class="home-img">
-			<img src="assets/images/main.png" 
-			     alt="Photo de portrait de Léo Metgy, étudiant en BTS SIO"
-			     width="400"
-			     height="400">
+			<div class="profile-card home-profile-card">
+				<div class="profile-card-inner">
+					<img src="assets/images/main.png" 
+						 alt="Photo de profil de Léo Metgy" 
+						 class="profile-img">
+					<div class="profile-placeholder"><i class="fa-solid fa-user"></i></div>
+				</div>
+				<div class="profile-glow"></div>
+			</div>
 		</div>
-
 		<!-- Contenu textuel de présentation -->
 		<div class="home-content">
 			<!-- Titre principal avec le prénom en surbrillance -->
 			<h1>Bonjour, je m'appelle <span>Léo</span></h1>
 			
-			<!-- Sous-titre avec effet de frappe (typing) -->
-			<h3 class="typing-text">Je suis <span>étudiant en BTS SIO</span></h3>
+			<!-- Sous-titre avec animation de rotation de mots -->
+			<h3 class="typing-text">Je suis <span class="rotate-wrap"><span class="word-visible">étudiant en BTS SIO</span></span><span class="typing-cursor"></span></h3>
 			
 			<!-- Phrase d'accroche -->
 			<p class="sentence">
@@ -213,11 +226,9 @@
 			-->
 		</div>
 
-		<!-- Crédit en bas de page -->
-		<footer class="credit">
-			Fait par Léo avec ❤️ - © Tous droits réservés
-		</footer>
 	</section>
+	<script src="js/typing.js"></script>
+	<script src="js/cursor.js"></script>
 </body>
 
 </html>
