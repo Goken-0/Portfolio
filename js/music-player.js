@@ -11,9 +11,12 @@ class MusicPlayer {
         this.prevBtn = null;
         this.nextBtn = null;
         this.loopBtn = null;
+        this.volumeSlider = null;
+        this.volumeIcon = null;
         this.progressContainer = null;
         this.progressBar = null;
         this.songTitle = null;
+        this.songArtist = null;
         this.equalizer = null;
 
         this.isPlaying = false;
@@ -40,6 +43,8 @@ class MusicPlayer {
         this.prevBtn = document.getElementById('prevBtn');
         this.nextBtn = document.getElementById('nextBtn');
         this.loopBtn = document.getElementById('loopBtn');
+        this.volumeSlider = document.getElementById('volumeSlider');
+        this.volumeIcon = document.getElementById('volumeIcon');
         this.progressContainer = document.getElementById('progressContainer');
         this.progressBar = document.getElementById('progressBar');
         this.songTitle = document.getElementById('songTitle');
@@ -49,12 +54,27 @@ class MusicPlayer {
 
     reinitializeDOM() {
         this.initializeDOM();
-        if (this.audio && !this.eventListenersAttached) {
+        // Important : reset le flag pour rattacher les écouteurs sur les nouveaux éléments du DOM
+        this.eventListenersAttached = false; 
+        
+        if (this.audio) {
             this.setupEventListeners();
             this.setupAudioEventListeners();
             this.eventListenersAttached = true;
             this.updatePlayButton();
             this.updateLoopButton();
+            this.updateVolumeIcon();
+            
+            // Mettre à jour le titre affiché
+            if (this.songTitle && this.playlist[this.currentSongIndex]) {
+                this.songTitle.textContent = this.playlist[this.currentSongIndex].title;
+            }
+            if (this.songArtist && this.playlist[this.currentSongIndex]) {
+                this.songArtist.textContent = this.playlist[this.currentSongIndex].artist;
+            }
+            if (this.volumeSlider) {
+                this.volumeSlider.value = this.audio.volume;
+            }
         }
     }
 
@@ -95,12 +115,14 @@ class MusicPlayer {
                 this.isLooping = state.isLooping || false;
                 this.loadCurrentSong(false);
                 this.audio.volume = state.volume !== undefined ? state.volume : 0.3;
+                if (this.volumeSlider) this.volumeSlider.value = this.audio.volume;
                 
                 this.audio.addEventListener('loadedmetadata', () => {
                     this.audio.currentTime = state.currentTime || 0;
                 }, { once: true });
 
                 this.updateLoopButton();
+                this.updateVolumeIcon();
 
                 if (state.isPlaying) {
                     this.audio.play().catch(() => {});
@@ -110,6 +132,9 @@ class MusicPlayer {
             }
         } else {
             this.loadCurrentSong(false);
+            if (this.audio) this.audio.volume = 0.3;
+            if (this.volumeSlider) this.volumeSlider.value = 0.3;
+            this.updateVolumeIcon();
         }
     }
 
@@ -117,21 +142,42 @@ class MusicPlayer {
         if (!this.playlist[this.currentSongIndex]) return;
         const currentSong = this.playlist[this.currentSongIndex];
         this.audio.src = currentSong.src;
-        this.songTitle.textContent = currentSong.title;
+        if (this.songTitle) this.songTitle.textContent = currentSong.title;
         if (this.songArtist) this.songArtist.textContent = currentSong.artist;
         if (autoPlay) this.play();
     }
 
     setupEventListeners() {
-        this.playPauseBtn?.addEventListener('click', () => this.togglePlayPause());
-        this.prevBtn?.addEventListener('click', () => this.previousSong());
-        this.nextBtn?.addEventListener('click', () => this.nextSong());
-        this.loopBtn?.addEventListener('click', () => this.toggleLoop());
-        this.progressContainer?.addEventListener('click', (e) => this.setProgress(e));
+        this.playPauseBtn?.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.togglePlayPause();
+        });
+        this.prevBtn?.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.previousSong();
+        });
+        this.nextBtn?.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.nextSong();
+        });
+        this.loopBtn?.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.toggleLoop();
+        });
+        this.progressContainer?.addEventListener('click', (e) => {
+            this.setProgress(e);
+        });
+        this.volumeSlider?.addEventListener('input', (e) => {
+            this.audio.volume = e.target.value;
+            this.updateVolumeIcon();
+        });
     }
 
     setupAudioEventListeners() {
-        this.audio.addEventListener('timeupdate', () => this.updateProgress());
+        this.audio.removeEventListener('timeupdate', this.timeUpdateHandler);
+        this.timeUpdateHandler = () => this.updateProgress();
+        this.audio.addEventListener('timeupdate', this.timeUpdateHandler);
+
         this.audio.addEventListener('ended', () => {
             if (this.isLooping) {
                 this.audio.currentTime = 0;
@@ -145,7 +191,7 @@ class MusicPlayer {
     }
 
     togglePlayPause() {
-        if (!this.audio.src || this.audio.src.includes('undefined')) {
+        if (!this.audio.src || this.audio.src === '' || this.audio.src.includes('undefined')) {
             this.loadCurrentSong(true);
             return;
         }
@@ -163,11 +209,17 @@ class MusicPlayer {
         if (!this.loopBtn) return;
         if (this.isLooping) {
             this.loopBtn.classList.add('active');
-            this.loopBtn.style.color = 'var(--accent)';
         } else {
             this.loopBtn.classList.remove('active');
-            this.loopBtn.style.color = '';
         }
+    }
+
+    updateVolumeIcon() {
+        if (!this.volumeIcon || !this.audio) return;
+        const v = this.audio.volume;
+        if (v === 0) this.volumeIcon.className = 'fas fa-volume-mute volume-icon';
+        else if (v < 0.5) this.volumeIcon.className = 'fas fa-volume-down volume-icon';
+        else this.volumeIcon.className = 'fas fa-volume-up volume-icon';
     }
 
     play() {
@@ -214,8 +266,9 @@ class MusicPlayer {
     }
 
     updateProgress() {
+        if (!this.audio || !this.progressBar) return;
         const { currentTime, duration } = this.audio;
-        if (isNaN(duration)) return;
+        if (isNaN(duration) || duration === 0) return;
         const progressPercent = (currentTime / duration) * 100;
         this.progressBar.style.width = `${progressPercent}%`;
     }

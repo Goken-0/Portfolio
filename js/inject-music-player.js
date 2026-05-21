@@ -53,29 +53,37 @@
     `;
 
     function injectMusicPlayer() {
-        if (document.getElementById('musicPlayer') || document.getElementById('audioPlayer')) {
-            if (window.musicPlayerInstance) window.musicPlayerInstance.reinitializeDOM();
-            return;
+        // Vérifier si le lecteur est déjà dans le DOM pour éviter les doublons
+        const existingPlayer = document.getElementById('sidebarMusic');
+        const existingAudio = document.getElementById('audioPlayer');
+
+        if (!existingAudio) {
+            const tempAudio = document.createElement('div');
+            tempAudio.innerHTML = `
+                <audio id="audioPlayer" preload="none">
+                    Your browser does not support the audio element.
+                </audio>
+            `;
+            document.body.insertBefore(tempAudio.firstElementChild, document.body.firstChild);
         }
 
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = musicPlayerHTML;
-
-        const audioElement = tempDiv.querySelector('#audioPlayer');
-        if (audioElement) document.body.insertBefore(audioElement, document.body.firstChild);
-
-        const musicContainer = tempDiv.querySelector('#sidebarMusic');
-        if (musicContainer) {
+        if (!existingPlayer) {
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = musicPlayerHTML.replace(/<audio.*<\/audio>/s, ''); // Retirer l'audio du template pour l'injecter proprement
+            const musicContainer = tempDiv.querySelector('#sidebarMusic');
+            
             const sidebarBottom = document.querySelector('.sidebar-bottom');
             if (sidebarBottom) {
-                // Insérer le lecteur juste AVANT le bouton de contact ou les crédits
+                // Toujours injecter en tant que PREMIER enfant de sidebar-bottom
+                // Cela garantit qu'il est en haut de cette section, dans la sidebar
                 sidebarBottom.insertBefore(musicContainer, sidebarBottom.firstChild);
+                console.log('✅ Lecteur injecté dans la sidebar (sidebar-bottom)');
             } else {
-                // Fallback si sidebar-bottom n'existe pas
-                document.body.appendChild(musicContainer);
+                console.error('❌ Erreur : .sidebar-bottom non trouvé');
             }
         }
 
+        // Réinitialiser la logique du lecteur sur les nouveaux éléments
         if (window.musicPlayerInstance) {
             window.musicPlayerInstance.reinitializeDOM();
         } else if (typeof MusicPlayer !== 'undefined') {
@@ -83,9 +91,14 @@
         }
     }
 
+    // Exécuter l'injection
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', injectMusicPlayer);
     } else {
         injectMusicPlayer();
     }
+
+    // S'assurer que le lecteur reste en place lors des changements SPA
+    document.addEventListener('spa-page-loaded', injectMusicPlayer);
+    
 })();
