@@ -54,7 +54,7 @@
             }
         });
         
-        // On gère aussi les liens dans le menu déroulant "Réalisations"
+        // On gère aussi les liens dans les menus déroulants (Parcours, Réalisations, etc.)
         const dropdownLinks = document.querySelectorAll('.dropdown-content a[href]');
         let foundInDropdown = false;
         
@@ -70,10 +70,13 @@
                 link.classList.add('active');
                 foundInDropdown = true;
                 
-                // On active aussi le bouton "Réalisations" pour indiquer qu'une sous-page est active
-                const dropbtn = document.querySelector('.dropbtn');
-                if (dropbtn) {
-                    dropbtn.classList.add('active');
+                // On active aussi le bouton parent pour indiquer qu'une sous-page est active
+                const parentDropdown = link.closest('.dropdown');
+                if (parentDropdown) {
+                    const dropbtn = parentDropdown.querySelector('.dropbtn');
+                    if (dropbtn) {
+                        dropbtn.classList.add('active');
+                    }
                 }
             }
         });

@@ -64,14 +64,21 @@
 
     // --- GESTION DROPDOWN ---
     function setupDropdown() {
-        const dropBtn = document.querySelector('.dropbtn');
-        const dropdown = document.querySelector('.dropdown');
-        if (!dropBtn || !dropdown) return;
+        const dropBtns = document.querySelectorAll('.dropbtn');
+        
+        dropBtns.forEach(dropBtn => {
+            const dropdown = dropBtn.closest('.dropdown');
+            if (!dropdown) return;
 
-        dropBtn.onclick = (e) => {
-            e.preventDefault();
-            dropdown.classList.toggle('active');
-        };
+            dropBtn.onclick = (e) => {
+                e.preventDefault();
+                // Fermer les autres dropdowns si nécessaire (optionnel, mais propre)
+                document.querySelectorAll('.dropdown').forEach(d => {
+                    if (d !== dropdown) d.classList.remove('active');
+                });
+                dropdown.classList.toggle('active');
+            };
+        });
     }
 
     // Initialisation globale
