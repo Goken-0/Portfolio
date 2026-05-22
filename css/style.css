@@ -975,6 +975,12 @@ h1 span, h2 span {
     box-sizing: border-box;
 }
 
+/* Réduction du vide au-dessus du titre pour CV et Lettre de motivation */
+body:has(.cv-container) .section-title {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
 .cv-img {
     width: 22vw;
     max-width: 500px;
@@ -1041,7 +1047,7 @@ h1 span, h2 span {
     }
     
     main {
-        padding: 100px 100px 20px;
+        padding: 40px 100px 20px;
     }
 }
 
@@ -1058,7 +1064,7 @@ h1 span, h2 span {
     }
     
     main {
-        padding: 90px 90px 20px;
+        padding: 30px 90px 20px;
     }
     
     .btn-cv {
