@@ -70,13 +70,19 @@
 			<div class="sidebar-social">
 				<a href="https://www.linkedin.com/in/l%C3%A9o-metgy-3268a5383/" title="LinkedIn" target="_blank" rel="noopener" class="social-linkedin"><i class="fa-brands fa-linkedin"></i></a>
 				<a href="https://github.com/Goken-0" title="GitHub" target="_blank" rel="noopener" class="social-github"><i class="fa-brands fa-github"></i></a>
+				<a href="contact.html" title="Me contacter" class="social-contact"><i class="fa-solid fa-envelope"></i></a>
 			</div>
 		</div>
 
 		<nav>
 			<a href="index.html"><i class="fa-solid fa-house"></i><span>Accueil</span></a>
-			<a href="cv.html"><i class="fa-solid fa-file-lines"></i><span>CV</span></a>
-			<a href="lettremotivation.html"><i class="fa-solid fa-envelope-open-text"></i><span>Lettre de motivation</span></a>
+			<div class="dropdown">
+				<a href="#" class="dropbtn"><i class="fa-solid fa-user-graduate"></i><span>Parcours</span><i class="fa fa-caret-down caret-icon"></i></a>
+				<div class="dropdown-content">
+					<a href="cv.html"><i class="fa-solid fa-file-lines"></i>CV</a>
+					<a href="lettremotivation.html"><i class="fa-solid fa-envelope-open-text"></i>Motivation</a>
+				</div>
+			</div>
 			<div class="dropdown">
 				<a href="#" class="dropbtn"><i class="fa-solid fa-layer-group"></i><span>Réalisations</span><i class="fa fa-caret-down caret-icon"></i></a>
 				<div class="dropdown-content" id="myDropdown">
@@ -87,12 +93,22 @@
 			</div>
 			<a href="competences.html"><i class="fa-solid fa-code"></i><span>Compétences</span></a>
 			<a href="veille.html"><i class="fa-solid fa-satellite-dish"></i><span>Veille</span></a>
+			<a href="contact.html"><i class="fa-solid fa-envelope"></i><span>Contact</span></a>
 		</nav>
 		<div class="sidebar-bottom">
-			<a href="contact.html" class="btn sidebar-contact-btn"><i class="fa-solid fa-paper-plane"></i> Me contacter</a>
 			<p class="sidebar-footer-credit">Fait avec ❤️ par Léo</p>
 		</div>
 	</header>
+
+	<!-- Bouton mobile (Hamburger) -->
+	<div class="hamburger-toggle">
+		<span></span>
+		<span></span>
+		<span></span>
+	</div>
+
+	<!-- Overlay mobile -->
+	<div class="sidebar-overlay"></div>
     
 	<!-- Contenu principal -->
 	<main>
