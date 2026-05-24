@@ -75,10 +75,11 @@ class MusicPlayer {
 
         // Volume
         if (this.volumeSlider) {
-            this.volumeSlider.value = this.audio.volume;
+            this.volumeSlider.value = this.audio.volume * 100;
             this.volumeSlider.oninput = (e) => {
-                this.audio.volume = e.target.value;
+                this.audio.volume = e.target.value / 100;
                 this.updateVolumeIcon();
+                this.saveState();
             };
         }
 

@@ -38,7 +38,7 @@
 
         <div class="volume-container">
             <i class="fas fa-volume-up volume-icon" id="volumeIcon"></i>
-            <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.01" value="0.3">
+            <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" step="1" value="30">
         </div>
     </div>
 </div>
