@@ -1,23 +1,4 @@
-/**
- * ============================================
- * FICHIER CSS PRINCIPAL DU PORTFOLIO
- * ============================================
- * 
- * Ce fichier contient tous les styles du site :
- * - Réinitialisation et styles de base
- * - Styles du header et navigation
- * - Styles des pages (accueil, CV, projets, etc.)
- * - Styles du lecteur audio
- * - Responsive design (mobile, tablette, desktop)
- * 
- * STRUCTURE :
- * 1. Importations et réinitialisation
- * 2. Variables CSS et styles globaux
- * 3. Header et navigation
- * 4. Pages spécifiques
- * 5. Lecteur audio
- * 6. Media queries (responsive)
- */
+/* Style principal - Portfolio Léo Metgy */
 
 /* Importation de la police Google Fonts Poppins */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
@@ -126,7 +107,7 @@ html::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera */
 }
 
-/*MODIFICATION DU CORPS DE LA PAGE*/
+/* Page body */
 body {
     width: 100%;
     height: 100vh;
@@ -146,13 +127,28 @@ body:has(.contact-wrapper) {
 }
 
 
+/* Layout de base du main */
 main {
     margin-left: 260px;
     padding: 4rem 6rem 4rem;
     min-height: 100vh;
+}
+
+/* Accueil : Centré */
+.home-page main {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+/* Autres pages : Flux normal (Block) */
+.cv-page main,
+.motivation-page main,
+.projets-page main,
+.stages-page main,
+.veille-page main,
+.contact-page main {
+    display: block;
 }
 
 /* ----- CANVAS EN ARRIÈRE PLAN ----- */
@@ -603,33 +599,31 @@ section {
     padding: 5rem 9% 5rem;
 }
 
-/*MODIFICATION IMAGE PRINCIPALE*/
+/* Section Accueil */
 .home {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 6rem;
+    gap: clamp(4rem, 6vw, 10rem);
     background-color: transparent;
-    /* Décalage pour la sidebar */
-    margin-left: 260px;
-    padding-left: 4rem;
-    min-height: 100vh;
-    padding-top: 0;
-    padding-bottom: 0;
+    margin-left: 0;
+    padding: 0; 
+    min-height: calc(100vh - 8rem);
+    width: 100%;
 }
 
-/*MODIFICATION DU CONTENEUR DE TEXTE*/
 .home-content {
     overflow: visible;
-    max-width: 100%;
+    flex: 1;
+    max-width: 1100px; /* Augmenté pour laisser la phrase d'accroche tenir sur une ligne */
 }
 
-/*MODIFICATION PHRASE DE PRESENTATION*/
 .home .home-content h1 {
-    font-size: 6rem;
+    font-size: clamp(3rem, 4.5vw, 6rem);
     font-weight: 700;
-    line-height: 1.3;
+    line-height: 1.2;
     letter-spacing: .2px;
+    white-space: nowrap; 
 }
 
 .home .home-content h1 span {
@@ -647,18 +641,20 @@ h1 span, h2 span {
     color: var(--accent);
 }
 
-/*MODIFICATION DE LA PHRASE D'ACCROCHE*/
+/* Phrase d'accroche */
 .sentence {
-    font-size: 2.2rem;
-    line-height: 1.7;
+    font-size: clamp(1.6rem, 2vw, 2.2rem);
+    line-height: 1.6;
     color: var(--text-muted);
-    margin-bottom: 0.5rem; /* Gap réduit ici */
+    margin-bottom: 1rem;
+    max-width: none; /* Supprimé pour laisser white-space gérer */
+    white-space: nowrap; /* Force la ligne unique sur desktop */
 }
 
-/*MODIFICATION PHRASE DE PRESENTATION*/
+/* Typing effect */
 .home-content h3 {
-    font-size: 4rem;
-    margin-bottom: 0.5rem; /* Gap réduit ici */
+    font-size: clamp(2rem, 3.5vw, 4rem);
+    margin-bottom: 0.8rem;
     font-weight: 700;
     color: var(--text);
     opacity: .95;
@@ -666,13 +662,13 @@ h1 span, h2 span {
 }
 
 .home-profile-card {
-    width: 15vw !important;
-    height: 15vw !important;
-    min-width: 250px;
-    min-height: 250px;
-    margin-right: 5vw;
+    width: clamp(250px, 18vw, 400px) !important;
+    height: auto !important;
+    aspect-ratio: 1 / 1 !important;
+    margin-right: 0; /* Suppression de la marge fixe pour laisser le gap gérer l'espace */
     margin-bottom: 0 !important;
     animation: floatImage 4s ease-in-out infinite;
+    flex-shrink: 0;
 }
 
 .home-profile-card .profile-card-inner {
@@ -698,7 +694,7 @@ h1 span, h2 span {
     }
 }
 
-/*MODIFICATION LOGO RESEAUX SOCIAUX*/
+/* Logo and social icons */
 .social-icons a {
     display: inline-flex;
     justify-content: center;
@@ -744,7 +740,7 @@ h1 span, h2 span {
     box-shadow: 0 8px 24px rgba(60, 174, 228, 0.35) !important;
 }
 
-/*MODIFICATION BOUTONS RESEAUX SOCIAUX*/
+/* Social icons buttons */
 .btn {
     display: inline-block;
     padding: 1rem 2.8rem;
@@ -782,7 +778,7 @@ h1 span, h2 span {
     /* devant les autres éléments */
 }
 
-/*MODIFICATION PHRASE DE PRESENTATION*/
+/* Typing effect */
 .typing-text {
     font-size: clamp(2.2rem, 3vw, 3.6rem);
     font-weight: 700;
@@ -844,7 +840,7 @@ h1 span, h2 span {
 
 /* letter-spacing déjà défini dans les règles principales ci-dessus */
 
-/*MODIFICATION POUR LES APPAREILS MOBILES ET TABLETTES*/
+/* Mobile and tablets */
 @media (max-width: 1000px) {
     .home {
         gap: 4rem;
@@ -868,11 +864,11 @@ h1 span, h2 span {
         font-size: 5rem;
     }
 
-    .home-img img {
-        width: 60vw;
-        max-width: 350px;
+    .home-profile-card {
+        width: 60vw !important;
+        max-width: 350px !important;
         margin-top: 2rem;
-        margin-right: 0;
+        margin-right: 0 !important;
     }
 
     main {
@@ -941,9 +937,9 @@ h1 span, h2 span {
         padding: 0.8rem 2rem;
     }
 
-    .home-img img {
-        width: 55vw;
-        max-width: 300px;
+    .home-profile-card {
+        width: 55vw !important;
+        max-width: 300px !important;
     }
 }
 
@@ -969,9 +965,9 @@ h1 span, h2 span {
         font-size: 1.4rem;
     }
 
-    .home-img img {
-        width: 70vw;
-        max-width: 250px;
+    .home-profile-card {
+        width: 70vw !important;
+        max-width: 250px !important;
     }
 
     .cv-img,
@@ -980,7 +976,7 @@ h1 span, h2 span {
     }
 }
 
-/*MODIFICATION DE L'IMAGE DU CV ET LETTRE DE MOTIVATION*/
+/* CV and Motivation Letter Images */
 .cv-container {
     display: flex;
     justify-content: center;
@@ -1010,7 +1006,7 @@ body:has(.cv-container) .section-title {
     border: 5px solid #3caee4;
 }
 
-/*MODIFICATION DU BOUTON TELECHARGER CV*/
+/* Download CV button */
 .btn-cv {
     display: inline-block;
     padding: 1rem 2.8rem;
@@ -1504,7 +1500,7 @@ button:hover {
    ===================================================== */
 
 /* Variables CSS pour la cohérence - SCOPÉES À LA PAGE VEILLE */
-.veille-page {
+#veille {
     --accent-color: #3caee4;
     --accent-hover: #3caee4;
     --nvidia-green: #76b900;
@@ -1552,14 +1548,14 @@ button:hover {
 }
 
 /* Reset et base pour la page veille */
-.veille-page {
+#veille {
     background-color: transparent;
     color: var(--text-primary);
     overflow-x: hidden;
 }
 
 /* Override des styles généraux des sections pour la page veille */
-.veille-page section {
+#veille section {
     min-height: auto;
     padding: 0;
 }
@@ -3156,7 +3152,7 @@ body:has(.realisations-container) main {
 }
 
 /* Styles spécifiques à la page Stages */
-.stages-page {
+#stages {
     --accent: #3caee4;
     --text-primary: #ffffff;
     --text-secondary: rgba(255, 255, 255, 0.8);
@@ -3164,7 +3160,7 @@ body:has(.realisations-container) main {
     --border-color: rgba(60, 174, 228, 0.3);
 }
 
-.stages-page main {
+#stages main {
     padding: 4rem 4rem 4rem;
     margin-left: 260px;
     display: block;
@@ -3529,7 +3525,7 @@ body:has(.realisations-container) main {
 }
 
 @media (max-width: 768px) {
-    .stages-page main {
+    #stages main {
         padding: 7rem 1.5rem 3rem;
         margin-left: 0;
     }
@@ -3576,7 +3572,7 @@ body:has(.realisations-container) main {
 }
 
 /* Styles spécifiques à la page Projets */
-.projets-page {
+#projets {
     --accent: #3caee4;
     --text-primary: #ffffff;
     --text-secondary: rgba(255, 255, 255, 0.8);
@@ -3584,7 +3580,7 @@ body:has(.realisations-container) main {
     --border-color: rgba(60, 174, 228, 0.3);
 }
 
-.projets-page main {
+#projets main {
     padding: 4rem 4rem 4rem;
     margin-left: 260px;
     display: block;
@@ -4133,7 +4129,7 @@ body:has(.realisations-container) main {
 }
 
 @media (max-width: 768px) {
-    .projets-page main {
+    #projets main {
         padding: 7rem 1.5rem 3rem;
         margin-left: 0;
     }
@@ -4597,7 +4593,7 @@ body:has(.contact-wrapper) {
 /* Mobile stages */
 @media (max-width: 995px) {
     .stages-page main,
-    .projets-page main {
+    #projets main {
         margin-left: 0 !important;
     }
 }
