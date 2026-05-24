@@ -868,8 +868,13 @@ h1 span, h2 span {
         font-size: 2.5rem;
     }
 
-    .home-content h1 {
+    .home .home-content h1 {
         font-size: 5rem;
+        white-space: normal;
+    }
+
+    .sentence {
+        white-space: normal;
     }
 
     .home-profile-card {
@@ -962,15 +967,21 @@ h1 span, h2 span {
     }
 
     .home .home-content h1 {
-        font-size: 3rem;
+        font-size: 2.8rem;
+        white-space: normal;
     }
 
     .home .home-content h3 {
-        font-size: 2rem;
+        font-size: 1.8rem;
+    }
+
+    .typing-text .rotate-wrap span {
+        white-space: normal;
     }
 
     .sentence {
         font-size: 1.4rem;
+        white-space: normal;
     }
 
     .home-profile-card {
@@ -2722,9 +2733,9 @@ button:hover {
 
 .music-controls {
     display: flex;
-    justify-content: space-between; 
+    justify-content: center; 
     align-items: center;
-    gap: 0.5rem; /* Réduit */
+    gap: 1.2rem;
 }
 
 .control-btn {
@@ -2795,17 +2806,18 @@ button:hover {
 
 .volume-slider {
     flex: 1;
-    height: 3px;
+    height: 5px;
     -webkit-appearance: none;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
     outline: none;
+    cursor: pointer;
 }
 
 .volume-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
-    width: 10px;
-    height: 10px;
+    width: 12px;
+    height: 12px;
     background: var(--accent);
     border-radius: 50%;
     cursor: pointer;
@@ -2813,8 +2825,8 @@ button:hover {
 }
 
 .volume-slider::-moz-range-thumb {
-    width: 10px;
-    height: 10px;
+    width: 12px;
+    height: 12px;
     background: var(--accent);
     border-radius: 50%;
     cursor: pointer;
@@ -4440,9 +4452,9 @@ body:has(.realisations-container) main {
 
 .music-controls {
     display: flex;
-    justify-content: space-between; 
+    justify-content: center; 
     align-items: center;
-    gap: 0.5rem; /* Réduit */
+    gap: 1.2rem;
 }
 
 .control-btn {
@@ -4513,17 +4525,18 @@ body:has(.realisations-container) main {
 
 .volume-slider {
     flex: 1;
-    height: 3px;
+    height: 5px;
     -webkit-appearance: none;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
     outline: none;
+    cursor: pointer;
 }
 
 .volume-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
-    width: 10px;
-    height: 10px;
+    width: 12px;
+    height: 12px;
     background: var(--accent);
     border-radius: 50%;
     cursor: pointer;
@@ -4531,8 +4544,8 @@ body:has(.realisations-container) main {
 }
 
 .volume-slider::-moz-range-thumb {
-    width: 10px;
-    height: 10px;
+    width: 12px;
+    height: 12px;
     background: var(--accent);
     border-radius: 50%;
     cursor: pointer;
