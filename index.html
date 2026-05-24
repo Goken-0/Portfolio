@@ -1,134 +1,39 @@
 <!DOCTYPE html>
-<!-- 
-    ============================================
-    PAGE D'ACCUEIL DU PORTFOLIO
-    ============================================
-    
-    Cette page est la première page que les visiteurs voient.
-    Elle contient :
-    - Une présentation personnelle
-    - Des liens vers les réseaux sociaux
-    - Le lecteur audio (injecté automatiquement)
-    - Le fond animé avec étoiles 3D
--->
+<!-- Portfolio Léo Metgy -->
 <html lang="fr">
 
 <head>
-	<!-- ============================================
-	     MÉTADONNÉES DE LA PAGE
-	     ============================================ -->
-	
-	<!-- Encodage UTF-8 : permet d'afficher les caractères spéciaux et emojis -->
 	<meta charset="UTF-8">
-
-	<!-- Viewport : permet au site de s'adapter aux écrans (PC, mobile, tablette) -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	<!-- Content Security Policy (CSP) : sécurité contre les attaques XSS et injections -->
-	<meta http-equiv="Content-Security-Policy" 
-	      content="default-src 'self'; 
-	               script-src 'self' https://cdnjs.cloudflare.com https://fonts.googleapis.com 'unsafe-inline' 'unsafe-eval'; 
-	               style-src 'self' https://cdnjs.cloudflare.com https://fonts.googleapis.com https://fonts.gstatic.com 'unsafe-inline'; 
-	               font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com data:; 
-	               img-src 'self' data: blob:; 
-	               media-src 'self' blob:; 
-	               connect-src 'self' https://formspree.io; 
-	               frame-ancestors 'none'; 
-	               base-uri 'self'; 
-	               form-action 'self' https://formspree.io;">
-
-	<!-- SEO : description et mots-clés pour les moteurs de recherche -->
-	<meta name="description" content="Portfolio de Léo Metgy, étudiant en BTS SIO. Découvrez mes projets, compétences, stages et réalisations en réseau et sécurité informatique.">
-	<meta name="keywords" content="portfolio, BTS SIO, réseau, sécurité, Léo Metgy, CV, projets, stages">
-	<meta name="author" content="Léo Metgy">
+	<!-- SEO -->
+	<meta name="description" content="Portfolio de Léo Metgy, étudiant en BTS SIO. Découvrez mes projets, compétences et parcours professionnel.">
 	<meta name="robots" content="index, follow">
 
-	<!-- Open Graph : affichage optimisé sur les réseaux sociaux -->
-	<meta property="og:title" content="Portfolio Léo Metgy - Étudiant BTS SIO">
-	<meta property="og:description" content="Découvrez mes projets, compétences et réalisations en informatique.">
-	<meta property="og:type" content="website">
-	<meta property="og:url" content="https://goken-0.github.io/Portfolio/">
-	<meta property="og:image" content="https://goken-0.github.io/Portfolio/assets/images/main.png">
-
-	<!-- Twitter Card -->
-	<meta name="twitter:card" content="summary_large_image">
-	<meta name="twitter:title" content="Portfolio Léo Metgy">
-	<meta name="twitter:description" content="Portfolio BTS SIO - Réseau & Sécurité">
-
-	<!-- ============================================
-	     FAVICONS (ICÔNES DE L'ONGLET)
-	     ============================================ -->
-	<!-- Différentes tailles pour différents appareils et navigateurs -->
+	<!-- Favicons -->
 	<link rel="icon" href="assets/icons/favicon.ico" type="image/x-icon">
 	<link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
 	<link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
-	<link rel="android-icon" sizes="192x192" href="assets/icons/android-chrome-192x192.png">
-	<link rel="android-icon" sizes="512x512" href="assets/icons/android-chrome-512x512.png">
 	<link rel="manifest" href="assets/icons/site.webmanifest">
 
-	<!-- ============================================
-	     BIBLIOTHÈQUES EXTERNES
-	     ============================================ -->
-	<!-- Font Awesome : bibliothèque d'icônes (LinkedIn, GitHub, etc.) -->
-	<link rel="stylesheet" 
-	      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" 
-	      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" 
-	      crossorigin="anonymous" />
-
-	<!-- ============================================
-	     FICHIERS CSS
-	     ============================================ -->
-	<!-- Fichier CSS principal : contient tous les styles du site -->
+	<!-- Bibliothèques et CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 	<link rel="stylesheet" href="css/style.css">
-
-	<!-- Titre affiché dans l'onglet du navigateur -->
+	
 	<title>Portfolio - Léo Metgy</title>
 </head>
 
-<body>
-	<!-- ============================================
-	     SCRIPTS CHARGÉS EN PREMIER
-	     ============================================
-	     Ces scripts sont chargés avant le contenu pour être disponibles rapidement
-	-->
-	
-	<!-- Three.js : bibliothèque JavaScript 3D pour créer le fond animé avec étoiles -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" 
-	        integrity="sha384-CI3ELBVUz9XQO+97x6nwMDPosPR5XvsxW2ua7N1Xeygeh1IxtgqtCkGfQY9WWdHu" 
-	        crossorigin="anonymous"></script>
+<body class="home-page">
+	<!-- Three.js pour le fond animé -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
-	<!-- Script qui crée et anime les étoiles 3D en arrière-plan -->
-	<script src="js/stars.js"></script>
-
-	<!-- Script qui gère le menu hamburger (trois lignes) sur mobile -->
-	<script src="js/menu.js"></script>
-
-	<!-- Script du lecteur de musique : contient la classe MusicPlayer -->
-	<!-- IMPORTANT : doit être chargé AVANT inject-music-player.js -->
-	<script src="js/music-player.js"></script>
-	
-	<!-- Script qui injecte automatiquement le lecteur audio sur la page -->
-	<script src="js/inject-music-player.js"></script>
-	
-	<!-- Script qui met automatiquement en surbrillance le lien de la page active -->
-	<script src="js/navigation.js"></script>
-	
-	<!-- Script qui gère l'affichage/masquage du footer lors du scroll -->
-	<script src="js/footer-scroll.js"></script>
-
-	<!-- Script du routeur SPA pour la navigation sans rechargement -->
-	<script src="js/spa-router.js"></script>
-
-	<!-- ============================================
-	     EN-TÊTE ET NAVIGATION
-	     ============================================ -->
+	<!-- Header / Sidebar -->
 	<header>
 		<div class="sidebar-top">
 			<button class="sidebar-close" aria-label="Fermer le menu"><i class="fa-solid fa-xmark"></i></button>
 		</div>
 
-		<!-- Photo de profil avec animation 3D -->
 		<div class="sidebar-profile">
 			<div class="profile-card" id="profileCard">
 				<div class="profile-card-inner">
@@ -142,30 +47,30 @@
 			<div class="sidebar-social">
 				<a href="https://www.linkedin.com/in/l%C3%A9o-metgy-3268a5383/" title="LinkedIn" target="_blank" rel="noopener" class="social-linkedin"><i class="fa-brands fa-linkedin"></i></a>
 				<a href="https://github.com/Goken-0" title="GitHub" target="_blank" rel="noopener" class="social-github"><i class="fa-brands fa-github"></i></a>
-				<a href="contact.html" title="Me contacter" class="social-contact"><i class="fa-solid fa-envelope"></i></a>
+				<a href="#contact" title="Me contacter" class="social-contact"><i class="fa-solid fa-envelope"></i></a>
 			</div>
 		</div>
 
 		<nav>
-			<a href="index.html"><i class="fa-solid fa-house"></i><span>Accueil</span></a>
+			<a href="#accueil"><i class="fa-solid fa-house"></i><span>Accueil</span></a>
 			<div class="dropdown">
 				<a href="#" class="dropbtn"><i class="fa-solid fa-user-graduate"></i><span>Parcours</span><i class="fa fa-caret-down caret-icon"></i></a>
 				<div class="dropdown-content">
-					<a href="cv.html"><i class="fa-solid fa-file-lines"></i>CV</a>
-					<a href="lettremotivation.html"><i class="fa-solid fa-envelope-open-text"></i>Motivation</a>
+					<a href="#cv"><i class="fa-solid fa-file-lines"></i>CV</a>
+					<a href="#motivation"><i class="fa-solid fa-envelope-open-text"></i>Motivation</a>
 				</div>
 			</div>
 			<div class="dropdown">
 				<a href="#" class="dropbtn"><i class="fa-solid fa-layer-group"></i><span>Réalisations</span><i class="fa fa-caret-down caret-icon"></i></a>
-				<div class="dropdown-content" id="myDropdown">
-					<a href="tps.html"><i class="fa-solid fa-flask"></i>TPs</a>
-					<a href="projets.html"><i class="fa-solid fa-diagram-project"></i>Projets</a>
-					<a href="stages.html"><i class="fa-solid fa-briefcase"></i>Stages</a>
+				<div class="dropdown-content">
+					<a href="#tps"><i class="fa-solid fa-flask"></i>TPs</a>
+					<a href="#projets"><i class="fa-solid fa-diagram-project"></i>Projets</a>
+					<a href="#stages"><i class="fa-solid fa-briefcase"></i>Stages</a>
 				</div>
 			</div>
-			<a href="competences.html"><i class="fa-solid fa-code"></i><span>Compétences</span></a>
-			<a href="veille.html"><i class="fa-solid fa-satellite-dish"></i><span>Veille</span></a>
-			<a href="contact.html"><i class="fa-solid fa-envelope"></i><span>Contact</span></a>
+			<a href="#competences"><i class="fa-solid fa-code"></i><span>Compétences</span></a>
+			<a href="#veille"><i class="fa-solid fa-satellite-dish"></i><span>Veille</span></a>
+			<a href="#contact"><i class="fa-solid fa-envelope"></i><span>Contact</span></a>
 		</nav>
 		<div class="sidebar-bottom">
 			<p class="sidebar-footer-credit">Fait avec ❤️ par Léo</p>
@@ -183,64 +88,619 @@
 	<div class="sidebar-overlay"></div>
 
 	<!-- ============================================
-	     SECTION D'ACCUEIL
+	     CONTENU PRINCIPAL (TOUT SUR UNE PAGE)
 	     ============================================ -->
-	<section class="home">
-		<!-- Image de présentation (photo de profil) -->
-		<div class="home-img">
-			<div class="profile-card home-profile-card">
+	<main id="main-content">
+		
+		<!-- Section ACCUEIL -->
+		<section id="accueil" class="home">
+			<div class="home-profile-card profile-card">
 				<div class="profile-card-inner">
-					<img src="assets/images/main.png" 
-						 alt="Photo de profil de Léo Metgy" 
-						 class="profile-img">
-					<div class="profile-placeholder"><i class="fa-solid fa-user"></i></div>
+					<img src="assets/images/main.png" alt="Photo de profil de Léo Metgy" class="profile-img">
 				</div>
 				<div class="profile-glow"></div>
 			</div>
-		</div>
-		<!-- Contenu textuel de présentation -->
-		<div class="home-content">
-			<!-- Titre principal avec le prénom en surbrillance -->
-			<h1>Bonjour, je m'appelle <span>Léo</span></h1>
-			
-			<!-- Sous-titre avec animation de rotation de mots -->
-			<h3 class="typing-text">Je suis <span class="rotate-wrap"><span class="word-visible">étudiant en BTS SIO</span></span><span class="typing-cursor"></span></h3>
-			
-			<!-- Phrase d'accroche -->
-			<p class="sentence">
-				L'informatique m'anime depuis toujours : bienvenue dans mon univers numérique.
-			</p>
-
-			<!-- ============================================
-			     ICÔNES RÉSEAUX SOCIAUX
-			     ============================================ -->
-			<div class="social-icons">
-				<!-- Lien vers le profil LinkedIn -->
-				<a href="https://www.linkedin.com/in/l%C3%A9o-metgy-3268a5383/">
-					<i class="fa-brands fa-linkedin"></i>
-				</a>
+			<div class="home-content">
+				<!-- Titre principal avec le prénom en surbrillance -->
+				<h1>Bonjour, je m'appelle <span>Léo</span></h1>
 				
-				<!-- Lien vers le profil GitHub -->
-				<a href="https://github.com/Goken-0">
-					<i class="fa-brands fa-github"></i>
-				</a>
+				<!-- Sous-titre avec animation de rotation de mots -->
+				<h3 class="typing-text">Je suis <span class="rotate-wrap"><span class="word-visible">étudiant en BTS SIO</span></span><span class="typing-cursor"></span></h3>
+				
+				<!-- Phrase d'accroche -->
+				<p class="sentence">
+					L'informatique m'anime depuis toujours : bienvenue dans mon univers numérique.
+				</p>
+
+				<div class="social-icons">
+					<a href="https://www.linkedin.com/in/l%C3%A9o-metgy-3268a5383/" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
+					<a href="https://github.com/Goken-0" target="_blank"><i class="fa-brands fa-github"></i></a>
+				</div>
+				<a href="#contact" class="btn">Me contacter</a>
 			</div>
+		</section>
 
-			<!-- Bouton pour aller à la page contact -->
-			<a href="contact.html" class="btn">Me contacter</a>
+		<!-- Section CV -->
+		<section id="cv" style="display:none">
+			<div class="cv-container" style="flex-direction: column;">
+				<h1 class="section-title">Mon <span>CV</span></h1>
+				<div class="cv-content">
+					<img src="assets/images/cv.jpg" class="cv-img">
+					<a href="assets/pdf/cv.pdf" class="btn-cv" download="CV_METGY_LEO">Télécharger</a>
+				</div>
+			</div>
+		</section>
 
-			<!-- 
-				LECTEUR DE MUSIQUE
-				Le lecteur sera automatiquement injecté ici par inject-music-player.js
-				Il n'est pas nécessaire de l'écrire manuellement dans le HTML
-			-->
-		</div>
+		<!-- Section MOTIVATION -->
+		<section id="motivation" style="display:none">
+			<div class="cv-container" style="flex-direction: column;">
+				<h1 class="section-title">Ma <span>Lettre de Motivation</span></h1>
+				<div class="cv-content">
+					<img src="assets/images/lettremotivation.jpg" class="lettre-img">
+					<a href="assets/pdf/lettremotivation.pdf" class="btn-cv" download="LETTRE_MOTIVATION_METGY_LEO">Télécharger</a>
+				</div>
+			</div>
+		</section>
 
-	</section>
+		<!-- Section TPs -->
+		<section id="tps" style="display:none">
+			<div class="projets-container">
+				<div class="projets-hero">
+					<h1>Mes <span>TPs</span></h1>
+					<p class="subtitle">Travaux pratiques réalisés en BTS SIO</p>
+				</div>
+				<div class="filters" id="tps-filters">
+					<button class="filter-btn active" data-filter="all"><i class="fas fa-th"></i> Tous</button>
+					<button class="filter-btn" data-filter="virtualisation"><i class="fas fa-desktop"></i> Virtualisation</button>
+					<button class="filter-btn" data-filter="linux"><i class="fab fa-linux"></i> Linux</button>
+					<button class="filter-btn" data-filter="scripting"><i class="fas fa-terminal"></i> Scripting</button>
+					<button class="filter-btn" data-filter="reseau"><i class="fas fa-network-wired"></i> Réseau</button>
+					<button class="filter-btn" data-filter="hardware"><i class="fas fa-microchip"></i> Hardware</button>
+					<button class="filter-btn" data-filter="base-de-donnees"><i class="fas fa-database"></i> Base de données</button>
+				</div>
+				<h2 class="section-title"><i class="fas fa-folder-open"></i> Tous les TPs</h2>
+				<div class="projects-grid" id="tps-grid"></div>
+			</div>
+		</section>
+
+		<!-- Section PROJETS -->
+		<section id="projets" style="display:none">
+			<div class="projets-container">
+				<div class="projets-hero">
+					<h1>Mes <span>Projets</span></h1>
+					<p class="subtitle">Créations personnelles et réalisations techniques</p>
+				</div>
+				<div class="filters">
+					<button class="filter-btn active" data-filter="all"><i class="fas fa-th"></i> Tous</button>
+					<button class="filter-btn" data-filter="web"><i class="fas fa-globe"></i> Web</button>
+					<button class="filter-btn" data-filter="reseau"><i class="fas fa-network-wired"></i> Réseau</button>
+					<button class="filter-btn" data-filter="systeme"><i class="fas fa-server"></i> Système</button>
+					<button class="filter-btn" data-filter="securite"><i class="fas fa-shield-alt"></i> Sécurité</button>
+					<button class="filter-btn" data-filter="logiciel"><i class="fas fa-laptop-code"></i> Logiciel</button>
+				</div>
+				<div class="featured-project">
+					<div class="featured-grid">
+						<div class="featured-image">
+							<div class="featured-badge"><i class="fas fa-star"></i> Projet Phare</div>
+							<img src="assets/images/nas.jpg" alt="Projet NAS DIY - Network Attached Storage" loading="lazy" decoding="async">
+						</div>
+						<div class="featured-content">
+							<h2>NAS DIY</h2>
+							<p>Serveur NAS réalisé à partir d'un ordinateur de bureau Dell Optiplex 3050, celui-ci tourne sous OpenMediaVault ainsi que CasaOS (pour l'interface)<br></br>Veuillez cliquer sur le bouton <strong>"Voir le PDF"</strong> pour plus de renseignements.</p>
+							<div class="featured-stats">
+								<div class="stat-item"><span class="stat-label">Projet :</span><span class="stat-value">Serveur NAS</span></div>
+								<div class="stat-item"><span class="stat-label">Type :</span><span class="stat-value">Système & Réseau</span></div>
+								<div class="stat-item"><span class="stat-label">Statut :</span><span class="stat-value">Terminé</span></div>
+							</div>
+							<div class="featured-tech"><span class="tech-tag">OPENMEDIAVAULT</span><span class="tech-tag">CASAOS</span></div>
+							<div class="featured-actions"><a href="assets/pdf/nas.pdf" class="featured-btn primary"><i class="fas fa-eye"></i> Voir le PDF</a></div>
+						</div>
+					</div>
+				</div>
+				<h2 class="section-title"><i class="fas fa-folder-open"></i> Tous les Projets</h2>
+				<div class="projects-grid">
+					<!-- FILECOMPRESSOR -->
+					<div class="project-card" data-category="logiciel">
+						<div class="project-image"><span class="project-badge">Logiciel</span><img src="assets/images/filecompressor_thumb.jpg" alt="FileCompressor - Application de compression" loading="lazy" decoding="async"></div>
+						<div class="project-content">
+							<div class="project-header"><h3 class="project-title"><i class="fas fa-file-archive"></i> FileCompressor</h3></div>
+							<p class="project-description">Logiciel de compression de fichiers (PDF, Images, Documents)<br>Application desktop performante avec interface moderne</p>
+							<div class="project-tech"><span class="tech-tag">RUST</span><span class="tech-tag">TAURI 2</span><span class="tech-tag">REACT</span><span class="tech-tag">TYPESCRIPT</span></div>
+							<div class="project-footer">
+								<span class="project-date"><i class="far fa-calendar"></i> Avril 2026</span>
+								<div class="project-links"><a href="https://github.com/Goken-0/FileCompressor" class="project-link" title="Repo Github"><i class="fab fa-github"></i></a></div>
+							</div>
+						</div>
+					</div>
+					<!-- SECURE_PASS_GEN -->
+					<div class="project-card" data-category="web">
+						<div class="project-image"><span class="project-badge">Web</span><img src="assets/images/securepassgen.jpg"></div>
+						<div class="project-content">
+							<div class="project-header"><h3 class="project-title"><i class="fas fa-code"></i> Secure_Pass_Gen</h3></div>
+							<p class="project-description">Générateur de mot de passe sécurisé<br>NO LOG (CLIENT SIDE ONLY)</p>
+							<div class="project-tech"><span class="tech-tag">HTML5</span><span class="tech-tag">CSS3</span></div>
+							<div class="project-footer">
+								<span class="project-date"><i class="far fa-calendar"></i> Décembre 2025</span>
+								<div class="project-links">
+									<a href="https://goken-0.github.io/secure_pass_gen/" class="project-link" title="Secure_Pass_Gen"><i class="fas fa-external-link-alt"></i></a>
+									<a href="https://github.com/Goken-0/secure_pass_gen" class="project-link" title="Repo Github"><i class="fab fa-github"></i></a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- THE TANGLE -->
+					<div class="project-card" data-category="web">
+						<div class="project-image"><span class="project-badge">Web</span><img src="assets/images/tanglegame.jpg"></div>
+						<div class="project-content">
+							<div class="project-header"><h3 class="project-title"><i class="fa-solid fa-gamepad"></i> THE TANGLE</h3></div>
+							<p class="project-description">Jeu Snake<br>Réalisé en Javascript, HTML et CSS</p>
+							<div class="project-tech"><span class="tech-tag">JAVASCRIPT</span><span class="tech-tag">HTLM5</span><span class="tech-tag">CSS3</span></div>
+							<div class="project-footer">
+								<span class="project-date"><i class="far fa-calendar"></i> Décembre 2025</span>
+								<div class="project-links">
+									<a href="https://goken-0.github.io/thetangle/" class="project-link" title="The Tangle"><i class="fas fa-external-link-alt"></i></a>
+									<a href="https://github.com/Goken-0/thetangle" class="project-link" title="Repo Github"><i class="fab fa-github"></i></a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- SPACEINVADERS -->
+					<div class="project-card" data-category="web">
+						<div class="project-image"><span class="project-badge">Web</span><img src="assets/images/spaceinvaders.jpg"></div>
+						<div class="project-content">
+							<div class="project-header"><h3 class="project-title"><i class="fa-solid fa-gamepad"></i> SPACE INVADERS</h3></div>
+							<p class="project-description">Jeu Space Invaders<br>Réalisé en Javascript, HTML et CSS</p>
+							<div class="project-tech"><span class="tech-tag">JAVASCRIPT</span><span class="tech-tag">HTLM5</span><span class="tech-tag">CSS3</span></div>
+							<div class="project-footer">
+								<span class="project-date"><i class="far fa-calendar"></i> Décembre 2025</span>
+								<div class="project-links">
+									<a href="https://goken-0.github.io/spaceinvaders/" class="project-link" title="SpaceInvaders"><i class="fas fa-external-link-alt"></i></a>
+									<a href="https://github.com/Goken-0/spaceinvaders" class="project-link" title="Repo Github"><i class="fab fa-github"></i></a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- NAS DIY (DANS LA GRILLE AUSSI) -->
+					<div class="project-card" data-category="systeme reseau">
+						<div class="project-image"><span class="project-badge">Système & Réseau</span><img src="assets/images/nas.jpg"></div>
+						<div class="project-content">
+							<div class="project-header"><h3 class="project-title"><i class="fas fa-server"></i> NAS DIY</h3></div>
+							<p class="project-description">Serveur NAS réalisé à partir d'un ordinateur de bureau Dell Optiplex 3050, celui-ci tourne sous OpenMediaVault ainsi que CasaOS (pour l'interface)<br></br>Veuillez cliquer sur le bouton <strong>"lien externe"</strong> pour plus de renseignements.</p>
+							<div class="project-tech"><span class="tech-tag">OPENMEDIAVAULT</span><span class="tech-tag">CASAOS</span></div>
+							<div class="project-footer">
+								<span class="project-date"><i class="far fa-calendar"></i> Janvier 2026</span>
+								<div class="project-links"><a href="assets/pdf/nas.pdf" class="project-link" title="Voir le PDF"><i class="fas fa-external-link-alt"></i></a></div>
+							</div>
+						</div>
+					</div>
+					<!-- THINKPAD T490 -->
+					<div class="project-card" data-category="systeme reseau">
+						<div class="project-image"><span class="project-badge">Système & Réseau</span><img src="assets/images/thinkpad.png"></div>
+						<div class="project-content">
+							<div class="project-header"><h3 class="project-title"><i class="fas fa-server"></i> THINKPAD</h3></div>
+							<p class="project-description">Un projet de remise à neuf et de configuration système pour créer mon propre environnement de travail.<br></br>Veuillez cliquer sur le bouton <strong>"lien externe"</strong> pour plus de renseignements.</p>
+							<div class="project-tech"><span class="tech-tag">FEDORA</span><span class="tech-tag">WINDOWS</span><span class="tech-tag">LENOVO</span></div>
+							<div class="project-footer">
+								<span class="project-date"><i class="far fa-calendar"></i> Mai 2026</span>
+								<div class="project-links"><a href="assets/pdf/thinkpad.pdf" class="project-link" title="Voir le PDF"><i class="fas fa-external-link-alt"></i></a></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Section STAGES -->
+		<section id="stages" style="display:none">
+			<div class="stages-container">
+				<div class="stages-hero">
+					<h1>Mes <span>Stages</span></h1>
+					<p class="subtitle">Parcours professionnel et expériences enrichissantes</p>
+				</div>
+				<div class="timeline">
+					<div class="stage-item">
+						<div class="stage-card">
+							<div class="stage-header">
+								<div class="stage-icon"><i class="fas fa-network-wired"></i></div>
+								<div class="stage-title-group">
+									<span class="stage-period">01/06/2025 - 29/06/2025</span>
+									<h2>Conseil départemental de la Somme</h2>
+									<p class="stage-company"><i class="fas fa-building"></i> Boulevard de Châteaudun, 80000 Amiens, France</p>
+								</div>
+							</div>
+							<div class="stage-content">
+								<p class="stage-description">Description générale du stage, du contexte de l'entreprise et des objectifs principaux de la mission.</p>
+								<div class="stage-missions">
+									<h3><i class="fas fa-tasks"></i> Missions réalisées</h3>
+									<ul>
+										<li><i class="fas fa-check-circle"></i> <span>À remplir</span></li>
+										<li><i class="fas fa-check-circle"></i> <span>À remplir</span></li>
+										<li><i class="fas fa-check-circle"></i> <span>À remplir</span></li>
+									</ul>
+								</div>
+								<div class="stage-tags"><span class="tag">Cisco</span><span class="tag">VLANs</span><span class="tag">TCP/IP</span><span class="tag">Sécurité</span><span class="tag">Documentation</span></div>
+							</div>
+						</div>
+					</div>
+					<div class="stage-item">
+						<div class="stage-card">
+							<div class="stage-header">
+								<div class="stage-icon"><i class="fas fa-network-wired"></i></div>
+								<div class="stage-title-group">
+									<span class="stage-period">2026</span>
+									<h2>À la recherche d'un stage (2ème année réseau)</h2>
+									<p class="stage-company"><i class="fas fa-building"></i> Autre Entreprise</p>
+								</div>
+							</div>
+							<div class="stage-content">
+								<p class="stage-description">Description générale du stage, du contexte de l'entreprise et des objectifs principaux de la mission.</p>
+								<div class="stage-missions">
+									<h3><i class="fas fa-tasks"></i> Missions réalisées</h3>
+									<ul>
+										<li><i class="fas fa-check-circle"></i> <span>À remplir</span></li>
+										<li><i class="fas fa-check-circle"></i> <span>À remplir</span></li>
+										<li><i class="fas fa-check-circle"></i> <span>À remplir</span></li>
+									</ul>
+								</div>
+								<div class="stage-tags"><span class="tag">Cisco</span><span class="tag">VLANs</span><span class="tag">TCP/IP</span><span class="tag">Sécurité</span><span class="tag">Documentation</span></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Section COMPÉTENCES -->
+		<section id="competences" style="display:none">
+			<div class="projets-container">
+				<div class="projets-hero">
+					<h1>Mes <span>Compétences</span></h1>
+					<p class="subtitle">Savoir-faire technique et professionnel en BTS SIO</p>
+				</div>
+				<div class="filters">
+					<button class="filter-btn active" data-filter="all"><i class="fas fa-th"></i> Toutes</button>
+					<button class="filter-btn" data-filter="developpement"><i class="fas fa-code"></i> Développement</button>
+					<button class="filter-btn" data-filter="reseau"><i class="fas fa-network-wired"></i> Réseau</button>
+					<button class="filter-btn" data-filter="systeme"><i class="fas fa-server"></i> Système</button>
+					<button class="filter-btn" data-filter="securite"><i class="fas fa-shield-alt"></i> Sécurité</button>
+				</div>
+				<div class="featured-project">
+					<div class="featured-grid">
+						<div class="featured-image">
+							<div class="featured-badge"><i class="fas fa-star"></i> Compétence Principale</div>
+							<img src="assets/images/htmlcss.jpg" alt="Logo HTML5/CSS3">
+						</div>
+						<div class="featured-content">
+							<h2>HTML5 & CSS3</h2>
+							<p>Apprentissage du développement web en première année de BTS SIO. Découverte des technologies front-end et back-end, création de pages web et initiation aux bases de données.</p>
+							<div class="featured-stats">
+								<div class="stat-item"><span class="stat-value">En cours</span><span class="stat-label">Formation</span></div>
+								<div class="stat-item"><span class="stat-value">1ère année</span><span class="stat-label">BTS SIO</span></div>
+								<div class="stat-item"><span class="stat-value">En progression</span><span class="stat-label">Niveau</span></div>
+							</div>
+							<div class="featured-tech"><span class="tech-tag">HTML5</span><span class="tech-tag">CSS3</span><span class="tech-tag">Responsive</span></div>
+						</div>
+					</div>
+				</div>
+				<h2 class="section-title"><i class="fas fa-toolbox"></i> Toutes mes Compétences</h2>
+				<div class="projects-grid">
+					<div class="project-card" data-category="developpement">
+						<div class="project-image"><span class="project-badge">Développement</span><img src="assets/images/htmlcss.jpg" alt="Logo HTML5/CSS3"></div>
+						<div class="project-content">
+							<div class="project-header"><h3 class="project-title"><i class="fas fa-palette"></i> HTML5 & CSS3</h3></div>
+							<p class="project-description">Apprentissage de la création de pages web structurées. Découverte du responsive design et des bases de CSS.</p>
+							<div class="project-tech"><span class="tech-tag">HTML5</span><span class="tech-tag">CSS3</span><span class="tech-tag">Responsive</span></div>
+							<div class="project-footer"><span class="project-date"><i class="fas fa-signal"></i> En apprentissage</span></div>
+						</div>
+					</div>
+					<div class="project-card" data-category="developpement">
+						<div class="project-image"><span class="project-badge">Développement</span><img src="assets/images/js.jpg" alt="Logo JavaScript"></div>
+						<div class="project-content">
+							<div class="project-header"><h3 class="project-title"><i class="fas fa-code"></i> JavaScript</h3></div>
+							<p class="project-description">Initiation à la programmation JavaScript, manipulation du DOM et gestion d'événements.</p>
+							<div class="project-tech"><span class="tech-tag">JavaScript</span><span class="tech-tag">DOM</span></div>
+							<div class="project-footer"><span class="project-date"><i class="fas fa-signal"></i> En apprentissage</span></div>
+						</div>
+					</div>
+					<div class="project-card" data-category="securite">
+						<div class="project-image"><span class="project-badge">Cybersécurité</span><img src="assets/images/secnum.jpg" alt="Logo SecNumAcadémie"></div>
+						<div class="project-content">
+							<div class="project-header"><h3 class="project-title"><i class="fas fa-shield-alt"></i> MOOC de l'ANSSI</h3></div>
+							<p class="project-description">Formation certifiante sur les fondamentaux de la sécurité numérique : authentification, sécurité sur Internet, poste de travail et nomadisme.</p>
+							<div class="project-tech"><span class="tech-tag">SecNumAcadémie</span><span class="tech-tag">ANSSI</span><span class="tech-tag">Hygiène Numérique</span></div>
+							<div class="project-footer">
+								<span class="project-date"><i class="fas fa-check-circle" style="color: #3caee4;"></i> Attestation obtenue</span>
+								<div class="project-links">
+									<a href="assets/pdf/attestation_metgy_leo.pdf" class="project-link" title="Voir l'attestation"><i class="fas fa-file-pdf"></i></a>
+									<a href="https://secnumacademie.gouv.fr/" target="_blank" class="project-link" title="Site officiel"><i class="fas fa-external-link-alt"></i></a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="project-card" data-category="reseau">
+						<div class="project-image"><span class="project-badge">Réseau</span><img src="assets/images/cisco2.jpg" alt="Logo Cisco"></div>
+						<div class="project-content">
+							<div class="project-header"><h3 class="project-title"><i class="fas fa-network-wired"></i> Cisco Networking Academy</h3></div>
+							<p class="project-description">Introduction aux réseaux : architectures, modèles OSI et TCP/IP, adressage IPv4/IPv6 et configuration de base des routeurs et commutateurs.</p>
+							<div class="project-tech"><span class="tech-tag">Cisco</span><span class="tech-tag">Packet Tracer</span><span class="tech-tag">Adressage IP</span></div>
+							<div class="project-footer">
+								<span class="project-date"><i class="fas fa-spinner fa-spin"></i> En cours</span>
+								<div class="project-links"><a href="https://www.netacad.com/" target="_blank" class="project-link" title="Site Cisco NetAcad"><i class="fas fa-external-link-alt"></i></a></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Section VEILLE -->
+		<section id="veille" style="display:none">
+			<section class="veille-hero">
+				<div class="hero-content">
+					<h1 class="hero-title"><span class="title-main">Veille</span><span class="title-accent">Technologique</span></h1>
+					<p class="hero-subtitle">Exploration et analyse des technologies émergentes</p>
+				</div>
+			</section>
+			<section class="veille-intro-section">
+				<div class="container">
+					<div class="intro-card">
+						<div class="intro-icon"><i class="fas fa-lightbulb"></i></div>
+						<p class="intro-text">Dans le cadre de ma formation, je mène une veille technologique active sur deux domaines clés : <strong>les cartes graphiques</strong> et <strong>l'intelligence artificielle</strong>. Cette démarche me permet de rester à jour sur les innovations et d'analyser les tendances du marché.</p>
+					</div>
+				</div>
+			</section>
+			<section class="comparisons-section">
+				<div class="container">
+					<article class="comparison-block gpu-block">
+						<div class="block-header">
+							<div class="header-icon"><i class="fas fa-microchip"></i></div>
+							<div class="header-text"><h2>Cartes Graphiques</h2><span class="header-tag">Hardware & Performance</span></div>
+						</div>
+						<div class="block-content">
+							<div class="info-card">
+								<h3><i class="fas fa-info-circle"></i> Contexte</h3>
+								<p>Je surveille régulièrement les sorties GPU de Nvidia et AMD pour analyser les performances, l'efficience énergétique, le ray tracing, les technologies d'upscaling (DLSS/FSR) et le support logiciel.</p>
+							</div>
+							<div class="versus-container">
+								<div class="gpu-card nvidia-card">
+									<div class="card-badge nvidia-badge">NVIDIA</div>
+									<h3 class="card-title">Palit GeForce RTX 5060 Ti 16 Go</h3>
+									<div class="card-stats">
+										<div class="stat-item"><span class="stat-label">Performance 1080p</span><span class="stat-value">~106 FPS</span><a href="https://www.techpowerup.com/review/palit-geforce-rtx-5060-ti-infinity-3-16-gb/31.html" target="_blank" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
+										<div class="stat-item"><span class="stat-label">Consommation</span><span class="stat-value">166W</span><a href="https://www.techpowerup.com/review/palit-geforce-rtx-5060-ti-infinity-3-16-gb/42.html" target="_blank" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
+										<div class="stat-item"><span class="stat-label">Température</span><span class="stat-value">65°C</span><a href="https://www.techpowerup.com/review/palit-geforce-rtx-5060-ti-infinity-3-16-gb/40.html" target="_blank" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
+									</div>
+									<div class="card-features">
+										<h4>Points forts</h4>
+										<ul>
+											<li><i class="fas fa-check"></i> DLSS 4 et excellent ray tracing</li>
+											<li><i class="fas fa-check"></i> Encodeurs NVENC récents</li>
+											<li><i class="fas fa-check"></i> Efficience énergétique solide</li>
+											<li><i class="fas fa-check"></i> Bon support création/streaming</li>
+										</ul>
+										<h4>Limitations</h4>
+										<ul><li><i class="fas fa-minus"></i> Prix généralement plus élevé</li></ul>
+									</div>
+								</div>
+								<div class="vs-badge"><span class="vs-badge-text">VS</span></div>
+								<div class="gpu-card amd-card">
+									<div class="card-badge amd-badge">AMD</div>
+									<h3 class="card-title">Sapphire Radeon RX 9060 XT 16 Go</h3>
+									<div class="card-stats">
+										<div class="stat-item"><span class="stat-label">Performance 1080p</span><span class="stat-value">~96 FPS</span><a href="https://www.techpowerup.com/review/sapphire-radeon-rx-9060-xt-pulse-oc/31.html" target="_blank" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
+										<div class="stat-item"><span class="stat-label">Consommation</span><span class="stat-value">180W</span><a href="https://www.techpowerup.com/review/sapphire-radeon-rx-9060-xt-pulse-oc/41.html" target="_blank" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
+										<div class="stat-item"><span class="stat-label">Température</span><span class="stat-value">57°C</span><a href="https://www.techpowerup.com/review/sapphire-radeon-rx-9060-xt-pulse-oc/39.html" target="_blank" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
+									</div>
+									<div class="card-features">
+										<h4>Points forts</h4>
+										<ul>
+											<li><i class="fas fa-check"></i> 16 Go VRAM</li>
+											<li><i class="fas fa-check"></i> Excellent en rasterisation</li>
+											<li><i class="fas fa-check"></i> FSR 4 multi-constructeurs</li>
+											<li><i class="fas fa-check"></i> Rapport performance/prix compétitif</li>
+										</ul>
+										<h4>Limitations</h4>
+										<ul><li><i class="fas fa-minus"></i> Ray tracing en retrait</li></ul>
+									</div>
+								</div>
+							</div>
+							<div class="analysis-card">
+								<h3><i class="fas fa-chart-line"></i> Analyse comparative</h3>
+								<p>La RTX 5060 Ti offre environ <strong>10% de performances supplémentaires</strong> avec une consommation légèrement inférieure, mais génère plus de chaleur. La RX 9060 XT se démarque par ses <strong>températures plus basses</strong> et son excellent rapport qualité-prix. Le choix dépendra principalement de l'écosystème logiciel privilégié (DLSS vs FSR) et du budget disponible.</p>
+								<p class="source-credit"><i class="fas fa-database"></i> Données issues de <a href="https://www.techpowerup.com/" target="_blank">TechPowerUp</a></p>
+							</div>
+							<div class="visual-row">
+								<div class="visual-section"><img src="assets/images/rtx.jpeg" alt="Architecture GPU NVIDIA RTX" class="block-image"><p class="image-caption">Architecture NVIDIA RTX</p></div>
+								<div class="visual-section"><img src="assets/images/amd.jpg" alt="Architecture GPU AMD RX" class="block-image"><p class="image-caption">Architecture AMD RDNA 4</p></div>
+							</div>
+						</div>
+					</article>
+					<hr class="separateur-section">
+					<article class="comparison-block ai-block">
+						<div class="block-header">
+							<div class="header-icon"><i class="fas fa-robot"></i></div>
+							<div class="header-text"><h2>Intelligence Artificielle</h2><span class="header-tag">Modèles Conversationnels</span></div>
+						</div>
+						<div class="block-content">
+							<div class="info-card">
+								<h3><i class="fas fa-info-circle"></i> Contexte</h3>
+								<p>Je suis l'évolution des modèles d'IA conversationnels en analysant la qualité des réponses, les capacités de raisonnement, la vision multimodale et les intégrations possibles pour comparer Claude et GPT-4 selon différents usages.</p>
+							</div>
+							<div class="versus-container">
+								<div class="ai-card claude-card">
+									<div class="card-badge claude-badge">ANTHROPIC</div>
+									<h3 class="card-title">Claude 4.5 Sonnet</h3>
+									<div class="card-stats">
+										<div class="stat-item"><span class="stat-label">Maths (AIME 2025)</span><span class="stat-value">94.6%</span><a href="https://www.anthropic.com/news/claude-sonnet-4-5" target="_blank" class="stat-source" title="Rapport Technique Anthropic"><i class="fas fa-external-link-alt"></i></a></div>
+										<div class="stat-item"><span class="stat-label">Code (SWE-bench)</span><span class="stat-value">77.2%</span><a href="https://www.anthropic.com/news/claude-sonnet-4-5" target="_blank" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
+										<div class="stat-item"><span class="stat-label">Fenêtre Contexte</span><span class="stat-value">200K</span><a href="https://www.anthropic.com/claude/sonnet" target="_blank" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
+									</div>
+									<div class="card-features">
+										<h4>Caractéristiques</h4>
+										<ul>
+											<li><i class="fas fa-brain"></i> Raisonnement "Agentic" autonome</li>
+											<li><i class="fas fa-laptop-code"></i> Utilisation d'ordinateur (Computer Use)</li>
+											<li><i class="fas fa-shield-alt"></i> Sécurité ASL-3 certifiée</li>
+											<li><i class="fas fa-code-branch"></i> Maintenance de code complexe</li>
+										</ul>
+										<h4>Idéal pour</h4>
+										<ul>
+											<li><i class="fas fa-check-circle"></i> Développement logiciel (DevOps)</li>
+											<li><i class="fas fa-check-circle"></i> Tâches autonomes longues</li>
+											<li><i class="fas fa-check-circle"></i> Analyse financière</li>
+										</ul>
+									</div>
+								</div>
+								<div class="vs-badge"><span class="vs-badge-text">VS</span></div>
+								<div class="ai-card gpt-card">
+									<div class="card-badge gpt-badge">OPENAI</div>
+									<h3 class="card-title">GPT-5 (v5.2)</h3>
+									<div class="card-stats">
+										<div class="stat-item"><span class="stat-label">Maths (AIME 2025)</span><span class="stat-value">100%</span><a href="https://openai.com/index/introducing-gpt-5-2/" target="_blank" class="stat-source" title="Rapport Technique OpenAI"><i class="fas fa-external-link-alt"></i></a></div>
+										<div class="stat-item"><span class="stat-label">Code (SWE-bench)</span><span class="stat-value">80.0%</span><a href="https://openai.com/index/introducing-gpt-5-2/" target="_blank" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
+										<div class="stat-item"><span class="stat-label">Fenêtre Contexte</span><span class="stat-value">400K</span><a href="https://platform.openai.com/docs/models/gpt-5" target="_blank" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
+									</div>
+									<div class="card-features">
+										<h4>Caractéristiques</h4>
+										<ul>
+											<li><i class="fas fa-bolt"></i> Raisonnement instantané</li>
+											<li><i class="fas fa-project-diagram"></i> Planification multimodale</li>
+											<li><i class="fas fa-server"></i> Infrastructure massivement scalable</li>
+											<li><i class="fas fa-globe"></i> Agents autonomes profonds</li>
+										</ul>
+										<h4>Idéal pour</h4>
+										<ul>
+											<li><i class="fas fa-check-circle"></i> Recherche scientifique (Ph.D level)</li>
+											<li><i class="fas fa-check-circle"></i> Résolution mathématique pure</li>
+											<li><i class="fas fa-check-circle"></i> Systèmes critiques</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<div class="analysis-card">
+								<h3><i class="fas fa-chart-line"></i> Analyse comparative (2025)</h3>
+								<p>Le paysage a évolué : <strong>GPT-5.2</strong> atteint la perfection théorique en mathématiques (100% sur AIME) et domine sur la fenêtre de contexte (400K), le rendant imbattable pour la recherche scientifique lourde. Cependant, <strong>Claude 4.5 Sonnet</strong> reste la référence pour les développeurs grâce à ses capacités de "Computer Use" (contrôle de l'interface) et une architecture plus "fluide" pour le codage au quotidien, malgré des scores bruts légèrement inférieurs.</p>
+							</div>
+							<div class="visual-row">
+								<div class="visual-section"><img src="assets/images/claude.jpg" alt="Claude AI Interface" class="block-image"><p class="image-caption">Claude AI - Raisonnement</p></div>
+								<div class="visual-section"><img src="assets/images/gpt.jpg" alt="GPT-5 Logo" class="block-image"><p class="image-caption">GPT-5 - Créativité & Multimodal</p></div>
+							</div>
+						</div>
+					</article>
+					<section class="methodology-section">
+						<div class="container">
+							<h2 class="section-title"><i class="fas fa-microscope"></i> Méthodologie de Veille</h2>
+							<div class="methodology-grid">
+								<div class="method-card">
+									<div class="method-icon"><i class="fas fa-rss"></i></div>
+									<h3>Sources</h3>
+									<div class="method-details">
+										<div class="method-group">
+											<h4><i class="fas fa-microchip"></i> Hardware</h4>
+											<p>TechPowerUp, VideoCardz, Tom's Hardware, Chaînes Tech (Gamers Nexus, Hardware Unboxed).</p>
+										</div>
+										<div class="method-group">
+											<h4><i class="fas fa-brain"></i> Intelligence Artificielle</h4>
+											<p>Documentations OpenAI, Anthropic et LMARENA</p>
+										</div>
+									</div>
+								</div>
+								<div class="method-card">
+									<div class="method-icon"><i class="fas fa-calendar-check"></i></div>
+									<h3>Fréquence</h3>
+									<div class="method-details">
+										<div class="method-group">
+											<h4><i class="fas fa-sync-alt"></i> Routine Hebdo</h4>
+											<p>Consultation des flux RSS et newsletters techniques chaque lundi matin.</p>
+										</div>
+										<div class="method-group">
+											<h4><i class="fas fa-file-alt"></i> Synthèse Mensuelle</h4>
+											<p>Rédaction d'un résumé des tendances majeures et mise à jour du portfolio.</p>
+										</div>
+									</div>
+								</div>
+								<div class="method-card">
+									<div class="method-icon"><i class="fas fa-tools"></i></div>
+									<h3>Outils</h3>
+									<div class="method-details">
+										<div class="method-group">
+											<h4><i class="fas fa-tachometer-alt"></i> Benchmarking</h4>
+											<p>3DMark, Cinebench (GPU) et LMSYS Arena.</p>
+										</div>
+										<div class="method-group">
+											<h4><i class="fas fa-folder-open"></i> Organisation</h4>
+											<p>Feedly, Notion et GitHub.</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+				</div>
+			</section>
+		</section>
+
+		<!-- Section CONTACT -->
+		<section id="contact" style="display:none">
+			<div class="contact-wrapper">
+				<h2 class="contact-title">Contactez <span>Moi</span></h2>
+				<div class="formulaire-container">
+					<form action="https://formspree.io/f/mpwjegye" method="post" id="contactForm" novalidate>
+						<input type="text" id="name" name="name" placeholder="Nom" required maxlength="100" pattern="[A-Za-zÀ-ÿ\s\-']+" autocomplete="family-name" title="Lettres, espaces, tirets et apostrophes uniquement">
+						<input type="text" id="firstname" name="firstname" placeholder="Prénom" required maxlength="100" pattern="[A-Za-zÀ-ÿ\s\-']+" autocomplete="given-name" title="Lettres, espaces, tirets et apostrophes uniquement">
+						<input type="email" id="email" name="email" placeholder="Email" required maxlength="254" autocomplete="email">
+						<textarea id="message" name="message" placeholder="Votre message" rows="5" required maxlength="2000"></textarea>
+						<input type="text" name="_gotcha" style="display:none !important" tabindex="-1" autocomplete="off">
+						<button type="submit" id="submitBtn">Envoyer</button>
+					</form>
+				</div>
+			</div>
+		</section>
+
+	</main>
+
+	<!-- Scripts de fin de page -->
+	<script src="js/stars.js"></script>
+	<script src="js/menu.js"></script>
+	<script src="js/animation-modal.js"></script>
+	<script src="js/music-player.js"></script>
+	<script src="js/inject-music-player.js"></script>
+	<script src="js/navigation.js"></script>
+	<script src="js/footer-scroll.js"></script>
+	<script src="js/tps.js"></script>
+	<script src="js/filters.js"></script>
+	<script src="js/spa-router.js"></script>
 	<script src="js/typing.js"></script>
 	<script src="js/cursor.js"></script>
+
+	<!-- Script de validation contact -->
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			const form = document.getElementById('contactForm');
+			const submitBtn = document.getElementById('submitBtn');
+			if (!form || !submitBtn) return;
+			form.addEventListener('submit', function(e) {
+				const email = document.getElementById('email');
+				const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+				if (!emailRegex.test(email.value.trim())) {
+					e.preventDefault();
+					email.setCustomValidity('Veuillez entrer une adresse email valide');
+					email.reportValidity();
+					return;
+				}
+				const message = document.getElementById('message');
+				const messageValue = message.value.toLowerCase();
+				if (messageValue.includes('<script') || messageValue.includes('javascript:') || messageValue.includes('onerror=') || messageValue.includes('onload=')) {
+					e.preventDefault();
+					message.setCustomValidity('Le message contient des caractères non autorisés');
+					message.reportValidity();
+					return;
+				}
+				submitBtn.disabled = true;
+				submitBtn.textContent = 'Envoi en cours...';
+			});
+		});
+	</script>
 </body>
 
 </html>
-
-
