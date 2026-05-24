@@ -36,33 +36,27 @@ Projet réalisé avec les technologies fondamentales du web :
 En explorant ce dépôt, vous trouverez :
 
 ### 📂 Documents Professionnels
-* 📄 **CV & Motivation** : (`cv.html`, `lettremotivation.html`) Ma candidature en ligne.
-* 🎓 **Stages & TPs** : (`stages.html`, `tps.html`) Comptes-rendus de mes expériences professionnelles et travaux pratiques.
-* 🔍 **Veille Technologique** : (`veille.html`) Suivi des actualités tech et de mon auto-formation.
-* 🚀 **Projets** : (`projets.html`) Vitrine de mes autres réalisations.
+* 📄 **CV & Motivation** : Disponibles en version interactive sur le site et en téléchargement PDF.
+* 🎓 **Stages & TPs** : Comptes-rendus de mes expériences professionnelles et travaux pratiques détaillés.
+* 🔍 **Veille Technologique** : Suivi des actualités tech et de mon auto-formation.
+* 🚀 **Projets** : Vitrine de mes réalisations techniques et projets personnels.
 
 ## 📂 Structure du projet
-Voici l'organisation des fichiers telle qu'elle est sur le dépôt :
+Voici l'organisation actuelle des fichiers :
 
 ```bash
 Portfolio/
-├── assets/                     # Images, musiques et ressources graphiques
-├── components/                 # Éléments réutilisables (si utilisé)
-├── css/                        # Feuilles de styles (style.css)
-├── js/                         # Scripts JS (animations, lecteur musique, etc.)
+├── assets/                     # Ressources du site
+│   ├── icons/                  # Favicons et fichiers manifest
+│   ├── images/                 # Illustrations et captures d'écran
+│   ├── music/                  # Pistes audio pour le lecteur intégré
+│   └── pdf/                    # Documents (CV, Lettre, rapports de TPs)
+├── css/                        # Styles CSS
+├── js/                         # Logique JavaScript (SPA, animations, etc.)
 │
-├── index.html                  # Page d'accueil (Portail)
-├── cv.html                     # Curriculum Vitae
-├── lettremotivation.html       # Lettre de motivation
-├── competences.html            # Tableau des compétences
-├── projets.html                # Présentation des projets réalisés
-├── stages.html                 # Rapports et détails des stages
-├── tps.html                    # Travaux Pratiques
-├── veille.html                 # Veille Technologique
-├── contact.html                # Page de contact
-│
-├── DOCUMENTATION.txt           # Documentation technique du projet
-└── README.md                   # Ce fichier (présentation du projet)
+├── index.html                  # Point d'entrée unique (Architecture SPA)
+├── .gitignore                  # Fichiers exclus du versionnage
+└── README.md                   # Présentation du projet
 ```
 
 ## 📫 Me contacter
