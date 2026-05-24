@@ -1,143 +1,103 @@
 /**
  * ============================================
- * ROUTEUR SPA (SINGLE PAGE APPLICATION) - V3
+ * ROUTEUR SPA (SINGLE PAGE APPLICATION) - HASH BASED
  * ============================================
  */
 
 (function () {
     'use strict';
 
-    const PERSISTENT_SCRIPTS = [
-        'three.min.js',
-        'stars.js',
-        'menu.js',
-        'music-player.js',
-        'inject-music-player.js',
-        'spa-router.js'
-    ];
-
-    async function navigateTo(url, pushState = true) {
-        try {
-            if (window.musicPlayerInstance) window.musicPlayerInstance.saveState();
-
-            const response = await fetch(url);
-            if (!response.ok) { window.location.href = url; return; }
-
-            const html = await response.text();
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, 'text/html');
-
-            // 1. GESTION DU HEAD (Styles spécifiques)
-            const currentLinks = Array.from(document.head.querySelectorAll('link[rel="stylesheet"]'));
-            const newLinks = Array.from(doc.head.querySelectorAll('link[rel="stylesheet"]'));
-
-            newLinks.forEach(newLink => {
-                const href = newLink.getAttribute('href');
-                if (!currentLinks.some(l => l.getAttribute('href') === href)) {
-                    const link = document.createElement('link');
-                    link.rel = 'stylesheet';
-                    link.href = href;
-                    link.setAttribute('data-spa-style', 'true');
-                    document.head.appendChild(link);
-                }
-            });
-
-            // 2. ÉLÉMENTS PERSISTANTS (SANS SUPPRESSION)
-            const canvas = document.querySelector('canvas.background');
-            const audio = document.getElementById('audioPlayer');
-            const playerUI = document.getElementById('sidebarMusic');
-            const header = document.querySelector('header'); // La sidebar est persistante !
-
-            // 3. NETTOYAGE DU BODY (Sauf persistants)
-            const children = Array.from(document.body.children);
-            children.forEach(child => {
-                if (child !== canvas && child !== audio && child !== playerUI && child !== header && child.tagName !== 'SCRIPT') {
-                    document.body.removeChild(child);
-                }
-            });
-
-            // 4. INJECTION DU NOUVEAU CONTENU
-            document.title = doc.title;
-            const newBody = doc.body;
-            document.body.className = newBody.className;
-
-            const scriptsToLoad = [];
-            const inlineScripts = [];
-
-            Array.from(newBody.children).forEach(child => {
-                if (child.tagName === 'HEADER') return; // On garde notre header actuel
-                
-                if (child.tagName === 'SCRIPT') {
-                    if (child.src) {
-                        const src = child.getAttribute('src');
-                        if (!PERSISTENT_SCRIPTS.some(p => src.includes(p))) scriptsToLoad.push(src);
-                    } else {
-                        inlineScripts.push(child.textContent);
-                    }
-                    return;
-                }
-                
-                document.body.appendChild(document.adoptNode(child));
-            });
-
-            // 5. RE-POSITIONNEMENT DU LECTEUR DANS LA NOUVELLE SIDEBAR (si header a changé)
-            // Note: Comme on garde le même 'header', il devrait déjà être là.
-            if (playerUI) {
-                const sidebarBottom = document.querySelector('.sidebar-bottom');
-                if (sidebarBottom && playerUI.parentElement !== sidebarBottom) {
-                    sidebarBottom.insertBefore(playerUI, sidebarBottom.firstChild);
-                }
-            }
-
-            if (pushState) history.pushState({ spaUrl: url }, '', url);
-
-            // 6. RÉINITIALISATIONS
-            document.dispatchEvent(new CustomEvent('spa-page-loaded'));
-            if (typeof window.reinitUI === 'function') window.reinitUI();
-            if (window.musicPlayerInstance) window.musicPlayerInstance.reinitializeDOM();
-
-            // 7. SCRIPTS DYNAMIQUES
-            for (const src of scriptsToLoad) {
-                await new Promise(resolve => {
-                    const s = document.createElement('script');
-                    s.src = src;
-                    s.setAttribute('data-spa-dynamic', 'true');
-                    s.onload = resolve;
-                    s.onerror = resolve;
-                    document.body.appendChild(s);
-                });
-            }
-
-            inlineScripts.forEach(code => {
-                try {
-                    const s = document.createElement('script');
-                    s.textContent = code;
-                    document.body.appendChild(s);
-                } catch (e) {}
-            });
-
-            window.scrollTo(0, 0);
-
-        } catch (error) {
-            console.error('Erreur SPA:', error);
-            window.location.href = url;
-        }
-    }
-
-    document.addEventListener('click', e => {
-        const anchor = e.target.closest('a[href]');
-        if (!anchor || anchor.target === '_blank' || anchor.hasAttribute('download')) return;
-        const href = anchor.getAttribute('href');
-        if (!href || href.startsWith('#') || !href.endsWith('.html') || href.includes('mailto:')) return;
-        if (new URL(anchor.href).origin !== window.location.origin) return;
-        
-        e.preventDefault();
-        navigateTo(anchor.href);
-    });
-
-    window.onpopstate = e => {
-        navigateTo(e.state?.spaUrl || window.location.href, false);
+    const SECTIONS = {
+        'accueil': { id: 'accueil', class: 'home-page', display: 'flex' },
+        'cv': { id: 'cv', class: 'cv-page', display: 'block' },
+        'motivation': { id: 'motivation', class: 'motivation-page', display: 'block' },
+        'tps': { id: 'tps', class: 'projets-page', display: 'block' },
+        'projets': { id: 'projets', class: 'projets-page', display: 'block' },
+        'stages': { id: 'stages', class: 'stages-page', display: 'block' },
+        'competences': { id: 'competences', class: 'projets-page', display: 'block' },
+        'veille': { id: 'veille', class: 'veille-page', display: 'block' },
+        'contact': { id: 'contact', class: 'contact-page', display: 'block' }
     };
 
-    history.replaceState({ spaUrl: window.location.href }, '', window.location.href);
+    function navigateTo(hash) {
+        const id = hash.replace('#', '') || 'accueil';
+        const config = SECTIONS[id] || SECTIONS['accueil'];
+
+        // 1. Masquer toutes les sections
+        document.querySelectorAll('main > section').forEach(sec => {
+            sec.style.display = 'none';
+        });
+
+        // 2. Afficher la section cible avec son display original
+        const targetSection = document.getElementById(config.id);
+        if (targetSection) {
+            targetSection.style.display = config.display;
+            
+            // Re-déclencher les animations si nécessaire
+            targetSection.classList.remove('animate-in');
+            void targetSection.offsetWidth; // Force reflow
+            targetSection.classList.add('animate-in');
+        }
+
+        // 3. Mettre à jour la classe du body pour le CSS scoping
+        document.body.className = config.class;
+
+        // 4. Mettre à jour la navigation active
+        updateActiveLink(hash || '#accueil');
+
+        // 5. Scroll vers le haut
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        // 6. Fermer le menu mobile si ouvert
+        const header = document.querySelector('header');
+        const overlay = document.querySelector('.sidebar-overlay');
+        const hamburger = document.querySelector('.hamburger-toggle');
+        if (header && header.classList.contains('sidebar-open')) {
+            header.classList.remove('sidebar-open');
+            if (overlay) overlay.classList.remove('active');
+            if (hamburger) hamburger.classList.remove('active');
+        }
+        
+        // 7. Réinitialiser les composants si nécessaire
+        if (window.reinitUI) window.reinitUI();
+        if (window.initFilters) window.initFilters();
+    }
+
+    function updateActiveLink(hash) {
+        document.querySelectorAll('nav a').forEach(link => {
+            const linkHash = link.getAttribute('href');
+            if (linkHash === hash) {
+                link.classList.add('active');
+                const parentDropdown = link.closest('.dropdown');
+                if (parentDropdown) parentDropdown.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+    }
+
+    // Intercepter les clics
+    document.addEventListener('click', e => {
+        const link = e.target.closest('nav a, .social-contact, .btn, .view-button, .featured-btn');
+        if (link && link.getAttribute('href') && link.getAttribute('href').startsWith('#')) {
+            // Le hashchange s'en occupe
+        } else if (link && link.getAttribute('href') && !link.getAttribute('href').startsWith('http') && link.getAttribute('href').endsWith('.html')) {
+            e.preventDefault();
+            const page = link.getAttribute('href').replace('.html', '');
+            window.location.hash = (page === 'index') ? '#accueil' : '#' + page;
+        }
+    });
+
+    window.addEventListener('hashchange', () => {
+        navigateTo(window.location.hash);
+    });
+
+    window.addEventListener('load', () => {
+        if (!window.location.hash || window.location.hash === '#') {
+            window.location.hash = '#accueil';
+        } else {
+            navigateTo(window.location.hash);
+        }
+    });
+
 })();

@@ -77,16 +77,7 @@ class MusicPlayer {
         if (this.volumeSlider) {
             this.volumeSlider.value = this.audio.volume * 100;
             this.volumeSlider.oninput = (e) => {
-                const vol = e.target.value / 100;
-                try {
-                    this.audio.volume = vol;
-                } catch (err) {
-                    console.log("audio.volume est en lecture seule sur cet appareil");
-                }
-                
-                if (this.gainNode) {
-                    this.gainNode.gain.value = vol;
-                }
+                this.audio.volume = e.target.value / 100;
                 this.updateVolumeIcon();
                 this.saveState();
             };
@@ -128,9 +119,6 @@ class MusicPlayer {
     }
 
     togglePlay() {
-        // Initialiser l'AudioContext pour iOS au premier clic
-        this.setupAudioContext();
-
         // Sécurité : re-charger si la source a été perdue
         if (!this.audio.src || this.audio.src === "" || window.location.href.includes(this.audio.src)) {
             this.loadSong(this.currentSongIndex, false);
@@ -143,38 +131,7 @@ class MusicPlayer {
         }
     }
 
-    setupAudioContext() {
-        if (this.audioContext) {
-            if (this.audioContext.state === 'suspended') {
-                this.audioContext.resume();
-            }
-            return;
-        }
-
-        try {
-            const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-            if (AudioContextClass) {
-                this.audioContext = new AudioContextClass();
-                this.source = this.audioContext.createMediaElementSource(this.audio);
-                this.gainNode = this.audioContext.createGain();
-                
-                // On met le volume de l'élément audio à 1 et on gère via le gainNode
-                this.gainNode.gain.value = this.audio.volume;
-                
-                this.source.connect(this.gainNode);
-                this.gainNode.connect(this.audioContext.destination);
-                
-                console.log("AudioContext initialisé avec succès");
-            }
-        } catch (e) {
-            console.error("Erreur lors de l'initialisation de l'AudioContext:", e);
-        }
-    }
-
     loadSong(index, shouldPlay = true) {
-        // S'assurer que l'AudioContext est prêt
-        if (shouldPlay) this.setupAudioContext();
-        
         this.currentSongIndex = index;
         const song = this.playlist[index];
         if (!song) return;
