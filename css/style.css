@@ -181,7 +181,7 @@ header {
     left: 0 !important;
     width: 260px !important;
     height: 100vh !important;
-    padding: 1.5rem 1.5rem !important;
+    padding: 1rem 1.2rem !important; /* Réduit */
     background: rgba(0, 0, 0, 0.55) !important;
     backdrop-filter: blur(24px) !important;
     -webkit-backdrop-filter: blur(24px) !important;
@@ -191,11 +191,19 @@ header {
     align-items: stretch !important;
     justify-content: space-between !important;
     z-index: 999999 !important;
-    overflow-y: auto !important;
+    overflow-y: hidden !important; /* On essaie d'éviter le scroll */
     overflow-x: hidden !important;
-    scrollbar-width: none !important;
     transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
     box-shadow: 4px 0 24px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Scroll de secours si l'écran est vraiment très petit verticalement */
+@media (max-height: 800px) {
+    header {
+        overflow-y: auto !important;
+        scrollbar-width: none !important;
+    }
+    header::-webkit-scrollbar { display: none !important; }
 }
 
 header::-webkit-scrollbar { display: none !important; }
@@ -205,9 +213,9 @@ header::-webkit-scrollbar { display: none !important; }
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.2rem; /* Réduit */
     flex-shrink: 0;
-    min-height: 2rem;
+    min-height: 1.5rem; /* Réduit */
 }
 
 .sidebar-close {
@@ -286,18 +294,18 @@ header::-webkit-scrollbar { display: none !important; }
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding-bottom: 1.5rem;
+    padding-bottom: 0.8rem; /* Réduit */
     border-bottom: 1px solid rgba(60, 174, 228, 0.12);
-    margin-bottom: 1.2rem;
+    margin-bottom: 0.8rem; /* Réduit */
     flex-shrink: 0;
 }
 
 /* Conteneur carte 3D */
 .profile-card {
     position: relative;
-    width: 150px;
-    height: 150px;
-    margin-bottom: 1.2rem;
+    width: clamp(100px, 15vh, 130px); /* Taille adaptative */
+    height: clamp(100px, 15vh, 130px);
+    margin-bottom: 0.8rem; /* Réduit */
     perspective: 600px;
     cursor: pointer;
 }
@@ -379,10 +387,10 @@ header::-webkit-scrollbar { display: none !important; }
     display: inline-flex !important;
     justify-content: center !important;
     align-items: center !important;
-    width: 3.6rem !important;
-    height: 3.6rem !important;
-    border-radius: 1rem !important;
-    font-size: 1.55rem !important;
+    width: 3.2rem !important; /* Réduit */
+    height: 3.2rem !important;
+    border-radius: 0.8rem !important; /* Réduit */
+    font-size: 1.4rem !important; /* Réduit */
     transition: all 0.3s ease !important;
     margin: 0 !important;
     padding: 0 !important;
@@ -2638,13 +2646,14 @@ button:hover {
 }
 
 /* ===================== LECTEUR DE MUSIQUE (SIDEBAR INTEGRATED) ===================== */
+/* ===================== LECTEUR DE MUSIQUE (SIDEBAR INTEGRATED) ===================== */
 .sidebar-music-container {
     width: 100% !important;
-    padding: 1.2rem 1.4rem !important;
-    margin-bottom: 0.5rem !important;
+    padding: 0.8rem 1.2rem !important; /* Réduit */
+    margin-bottom: 0.3rem !important;
     display: flex !important;
     flex-direction: column !important;
-    gap: 0.8rem !important;
+    gap: 0.5rem !important;
     z-index: 99 !important;
     position: relative !important;
 }
@@ -2652,8 +2661,8 @@ button:hover {
 .music-player {
     background: rgba(255, 255, 255, 0.04) !important;
     border: 1px solid rgba(60, 174, 228, 0.2) !important;
-    border-radius: 1.2rem !important;
-    padding: 2.2rem 1.4rem !important; /* Hauteur augmentée via le padding vertical */
+    border-radius: 1rem !important;
+    padding: 1.2rem 1rem !important; /* Réduit */
     width: 100% !important;
     transition: all 0.3s ease !important;
     box-sizing: border-box !important;
@@ -2668,20 +2677,20 @@ button:hover {
     display: flex !important;
     justify-content: space-between !important;
     align-items: center !important;
-    margin-bottom: 1.5rem !important; /* Espace augmenté */
+    margin-bottom: 0.8rem !important; /* Réduit */
 }
 
 .music-info {
     text-align: center !important;
-    margin-bottom: 1.5rem !important; /* Espace augmenté */
+    margin-bottom: 0.8rem !important; /* Réduit */
     overflow: hidden !important;
 }
 
 .song-title {
     color: white !important;
-    font-size: 1.2rem !important;
+    font-size: 1.1rem !important; /* Réduit */
     font-weight: 600 !important;
-    margin-bottom: 0.3rem !important;
+    margin-bottom: 0.2rem !important;
     white-space: nowrap !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
@@ -2689,7 +2698,7 @@ button:hover {
 
 .song-artist {
     color: rgba(255, 255, 255, 0.6) !important;
-    font-size: 1rem !important;
+    font-size: 0.9rem !important; /* Réduit */
     font-weight: 400 !important;
     white-space: nowrap !important;
     overflow: hidden !important;
@@ -2713,9 +2722,9 @@ button:hover {
 
 .music-controls {
     display: flex;
-    justify-content: space-between; /* Utilise tout l'espace disponible */
+    justify-content: space-between; 
     align-items: center;
-    gap: 1rem;
+    gap: 0.5rem; /* Réduit */
 }
 
 .control-btn {
@@ -2723,11 +2732,11 @@ button:hover {
     color: rgba(255, 255, 255, 0.7);
     cursor: pointer;
     transition: all 0.2s ease;
-    font-size: 1.3rem;
+    font-size: 1.2rem; /* Réduit */
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0.5rem;
+    padding: 0.4rem; /* Réduit */
     border: none;
     outline: none;
 }
@@ -4355,13 +4364,14 @@ body:has(.realisations-container) main {
 }
 
 /* ===================== LECTEUR DE MUSIQUE (SIDEBAR INTEGRATED) ===================== */
+/* ===================== LECTEUR DE MUSIQUE (SIDEBAR INTEGRATED) ===================== */
 .sidebar-music-container {
     width: 100% !important;
-    padding: 1.2rem 1.4rem !important;
-    margin-bottom: 0.5rem !important;
+    padding: 0.8rem 1.2rem !important; /* Réduit */
+    margin-bottom: 0.3rem !important;
     display: flex !important;
     flex-direction: column !important;
-    gap: 0.8rem !important;
+    gap: 0.5rem !important;
     z-index: 99 !important;
     position: relative !important;
 }
@@ -4369,8 +4379,8 @@ body:has(.realisations-container) main {
 .music-player {
     background: rgba(255, 255, 255, 0.04) !important;
     border: 1px solid rgba(60, 174, 228, 0.2) !important;
-    border-radius: 1.2rem !important;
-    padding: 2.2rem 1.4rem !important; /* Hauteur augmentée via le padding vertical */
+    border-radius: 1rem !important;
+    padding: 1.2rem 1rem !important; /* Réduit */
     width: 100% !important;
     transition: all 0.3s ease !important;
     box-sizing: border-box !important;
@@ -4385,20 +4395,20 @@ body:has(.realisations-container) main {
     display: flex !important;
     justify-content: space-between !important;
     align-items: center !important;
-    margin-bottom: 1.5rem !important; /* Espace augmenté */
+    margin-bottom: 0.8rem !important; /* Réduit */
 }
 
 .music-info {
     text-align: center !important;
-    margin-bottom: 1.5rem !important; /* Espace augmenté */
+    margin-bottom: 0.8rem !important; /* Réduit */
     overflow: hidden !important;
 }
 
 .song-title {
     color: white !important;
-    font-size: 1.2rem !important;
+    font-size: 1.1rem !important; /* Réduit */
     font-weight: 600 !important;
-    margin-bottom: 0.3rem !important;
+    margin-bottom: 0.2rem !important;
     white-space: nowrap !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
@@ -4406,7 +4416,7 @@ body:has(.realisations-container) main {
 
 .song-artist {
     color: rgba(255, 255, 255, 0.6) !important;
-    font-size: 1rem !important;
+    font-size: 0.9rem !important; /* Réduit */
     font-weight: 400 !important;
     white-space: nowrap !important;
     overflow: hidden !important;
@@ -4430,9 +4440,9 @@ body:has(.realisations-container) main {
 
 .music-controls {
     display: flex;
-    justify-content: space-between; /* Utilise tout l'espace disponible */
+    justify-content: space-between; 
     align-items: center;
-    gap: 1rem;
+    gap: 0.5rem; /* Réduit */
 }
 
 .control-btn {
@@ -4440,11 +4450,11 @@ body:has(.realisations-container) main {
     color: rgba(255, 255, 255, 0.7);
     cursor: pointer;
     transition: all 0.2s ease;
-    font-size: 1.3rem;
+    font-size: 1.2rem; /* Réduit */
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0.5rem;
+    padding: 0.4rem; /* Réduit */
     border: none;
     outline: none;
 }
