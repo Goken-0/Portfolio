@@ -460,14 +460,7 @@ nav a.active {
     background: rgba(60, 174, 228, 0.1) !important;
 }
 
-/* Règle spécifique homepage */
-body:has(.home) header nav a {
-    font-size: 1.45rem !important;
-}
-
-body:has(.home) .dropdown-content a {
-    font-size: 1.35rem !important;
-}
+/* Règle spécifique homepage - Supprimée pour éviter le décalage de mise en page */
 
 /* ----- BAS DE SIDEBAR : CTA + footer ---- */
 .sidebar-bottom {
@@ -508,7 +501,7 @@ body:has(.home) .dropdown-content a {
     header {
         transform: translateX(-100%) !important;
         width: min(280px, 85vw) !important;
-        padding-top: 5rem !important;
+        padding-top: 2rem !important;
     }
 
     header.sidebar-open {
@@ -530,19 +523,51 @@ body:has(.home) .dropdown-content a {
         font-size: 2.2rem !important;
     }
 
+    /* Profile réduit sur mobile pour gagner de la place */
+    .sidebar-profile {
+        padding-bottom: 1rem;
+        margin-bottom: 0.8rem;
+    }
+    
+    .profile-card {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 0.8rem;
+    }
+    
+    .profile-name {
+        font-size: 1.5rem;
+    }
+    
+    .profile-title {
+        font-size: 1rem;
+        margin-bottom: 0.8rem;
+    }
+
     /* Nav pleine largeur dans la sidebar mobile */
     nav {
-        gap: 0.6rem !important;
+        gap: 0.4rem !important;
     }
 
     nav a {
-        font-size: 1.6rem !important;
-        padding: 1.3rem 1.5rem !important;
+        font-size: 1.4rem !important;
+        padding: 1rem 1.2rem !important;
     }
 
     nav a:hover,
     nav a.active {
         transform: translateX(4px) !important;
+    }
+
+    /* Amélioration de l'accessibilité tactile du volume sur mobile */
+    .volume-slider::-webkit-slider-thumb {
+        width: 18px !important;
+        height: 18px !important;
+    }
+    
+    .volume-slider::-moz-range-thumb {
+        width: 18px !important;
+        height: 18px !important;
     }
 
     /* Contenu principal — pas de marge gauche sur mobile */
@@ -4296,7 +4321,7 @@ body:has(.realisations-container) main {
     display: flex !important;
     align-items: center !important;
     gap: 0.8rem !important;
-    font-size: 1.5rem !important;
+    font-size: 1.45rem !important;
     font-weight: 400 !important;
     transition: all 0.2s ease !important;
     border: none !important;
