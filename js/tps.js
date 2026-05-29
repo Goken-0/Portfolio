@@ -168,6 +168,25 @@
             badge: "Linux",
             categories: ["linux"]
         },
+        {
+            titre: "TP 18 - Infrastructure Réseau d'Entreprise",
+            description: "Mise en place d'une infrastructure réseau d'entreprise.",
+            fichier: "assets/pdf/TP_InfraReseau.pdf",
+            image: "assets/images/infrareseau.jpg",
+            badge: "Réseau",
+            categories: ["reseau"]
+        },
+        {
+            titre: "TP 19 - Serveur d'impression CUPS",
+            description: "Mise en place d'un serveur d'impression CUPS sous Linux.",
+            fichiers: [
+                { url: "assets/pdf/TP_cups.pdf", title: "Voir le Diaporama", icon: '<i class="fas fa-file-powerpoint"></i>' },
+                { url: "assets/pdf/TP_cupsword.pdf", title: "Voir le fichier Brut Word", icon: '<i class="fas fa-file-word"></i>' }
+            ],
+            image: "assets/images/cups.jpg",
+            badge: "Linux",
+            categories: ["linux"]
+        },
     ];
 
     // ============================================
@@ -237,14 +256,31 @@
         const footer = document.createElement('div');
         footer.className = 'project-footer';
         
-        const lienPDF = document.createElement('a');
-        lienPDF.href = projet.fichier;
-        lienPDF.target = '_blank';
-        lienPDF.className = 'project-link';
-        lienPDF.title = 'Voir le PDF';
-        lienPDF.innerHTML = '<i class="fas fa-file-pdf"></i>';
+        const linksContainer = document.createElement('div');
+        linksContainer.className = 'project-links';
+        linksContainer.style.marginLeft = 'auto'; // Pour aligner à droite
         
-        footer.appendChild(lienPDF);
+        if (projet.fichiers && Array.isArray(projet.fichiers)) {
+            projet.fichiers.forEach(f => {
+                const lien = document.createElement('a');
+                lien.href = f.url;
+                lien.target = '_blank';
+                lien.className = 'project-link';
+                lien.title = f.title;
+                lien.innerHTML = f.icon || '<i class="fas fa-file-pdf"></i>';
+                linksContainer.appendChild(lien);
+            });
+        } else if (projet.fichier) {
+            const lienPDF = document.createElement('a');
+            lienPDF.href = projet.fichier;
+            lienPDF.target = '_blank';
+            lienPDF.className = 'project-link';
+            lienPDF.title = 'Voir le PDF';
+            lienPDF.innerHTML = '<i class="fas fa-file-pdf"></i>';
+            linksContainer.appendChild(lienPDF);
+        }
+        
+        footer.appendChild(linksContainer);
         
         // Assembler le contenu
         contentContainer.appendChild(header);
