@@ -181,7 +181,7 @@
         },
         {
             titre: "TP 19 - Gestion de l'impression sous Linux via Cups",
-            description: "Comment imprimer sous Linux / Comment configurer une imprimante",
+            description: "Comment imprimer sous Linux ? / Comment configurer une imprimante ?",
             fichiers: [
                 { url: "assets/pdf/TP_cups.pdf", title: "Voir le Diaporama", icon: '<i class="fas fa-file-powerpoint"></i>' },
                 { url: "assets/pdf/TP_cupsword.pdf", title: "Voir le fichier Brut Word", icon: '<i class="fas fa-file-word"></i>' }
