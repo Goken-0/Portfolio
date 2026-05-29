@@ -173,7 +173,7 @@
             description: "Mise en place d'une infrastructure réseau d'entreprise.",
             fichiers: [
                 { url: "assets/pdf/TP_InfraReseau.pdf", title: "Voir le Diaporama", icon: '<i class="fas fa-file-powerpoint"></i>' },
-                { url: "tprajout/TP_InfraReseauWord.pdf", title: "Voir le fichier Brut Word", icon: '<i class="fas fa-file-word"></i>' }
+                { url: "assets/pdf/TP_InfraReseauWord.pdf", title: "Voir le fichier Brut Word", icon: '<i class="fas fa-file-word"></i>' }
             ],
             image: "assets/images/infrareseau.jpg",
             badge: "Réseau",
