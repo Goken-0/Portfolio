@@ -66,7 +66,7 @@
         },
         {
             titre: "TP 5 - Découverte des scripts .bat",
-            description: "Création d'un script .bat et maitrîse du CMD",
+            description: "Création d'un script .bat et maîtrise du CMD",
             fichier: "assets/pdf/TP_Script_Bat.pdf",
             image: "assets/images/bat.jpg",
             badge: "Scripting",
