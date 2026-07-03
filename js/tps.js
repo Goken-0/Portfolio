@@ -268,6 +268,7 @@
                 const lien = document.createElement('a');
                 lien.href = f.url;
                 lien.target = '_blank';
+                lien.rel = 'noopener';
                 lien.className = 'project-link';
                 lien.title = f.title;
                 lien.innerHTML = f.icon || '<i class="fas fa-file-pdf"></i>';
@@ -277,6 +278,7 @@
             const lienPDF = document.createElement('a');
             lienPDF.href = projet.fichier;
             lienPDF.target = '_blank';
+            lienPDF.rel = 'noopener';
             lienPDF.className = 'project-link';
             lienPDF.title = 'Voir le PDF';
             lienPDF.innerHTML = '<i class="fas fa-file-pdf"></i>';
@@ -314,48 +316,12 @@
     }
 
     // ============================================
-    // FILTRAGE DES TPs
-    // ============================================
-    
-    function setupFilters() {
-        const filterBtns = document.querySelectorAll('#tps-filters .filter-btn');
-        if (!filterBtns.length) return;
-
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                // Retirer la classe active de tous les boutons
-                filterBtns.forEach(b => b.classList.remove('active'));
-                // Ajouter la classe active au bouton cliqué
-                btn.classList.add('active');
-
-                const filter = btn.dataset.filter;
-                const cards = gridContainer.querySelectorAll('.project-card');
-
-                cards.forEach(card => {
-                    const cardCats = card.dataset.category.split(' ');
-                    if (filter === 'all' || cardCats.includes(filter)) {
-                        card.style.display = 'block';
-                        // Réanimer l'apparition
-                        card.style.animation = 'none';
-                        setTimeout(() => {
-                            card.style.animation = 'projectAppear 0.6s ease-out forwards';
-                        }, 10);
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-            });
-        });
-    }
-
-    // ============================================
     // INITIALISATION
     // ============================================
-    
+    // (le filtrage est géré par filters.js, commun à toutes les sections)
+
     // Générer toutes les cartes au chargement
     genererCartes();
-    // Initialiser les filtres
-    setupFilters();
     }
 
     if (document.readyState === 'loading') {

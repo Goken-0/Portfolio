@@ -12,19 +12,19 @@
         const toggle = document.querySelector('.hamburger-toggle');
         const sidebar = document.querySelector('header');
         const overlay = document.querySelector('.sidebar-overlay');
-        const closeBtn = document.querySelector('.sidebar-close');
 
         if (!toggle || !sidebar) return;
 
         function toggleMenu() {
-            toggle.classList.toggle('active');
+            const open = toggle.classList.toggle('active');
             sidebar.classList.toggle('sidebar-open');
             if (overlay) overlay.classList.toggle('active');
+            toggle.setAttribute('aria-expanded', open);
+            toggle.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
         }
 
         // On enlève les anciens écouteurs pour éviter les doublons SPA
         toggle.onclick = toggleMenu;
-        if (closeBtn) closeBtn.onclick = toggleMenu;
         if (overlay) overlay.onclick = toggleMenu;
 
         // Fermer au clic sur un lien mobile
@@ -37,6 +37,8 @@
 
     // --- EFFET TILT 3D ---
     function setupTilt() {
+        // Inutile (et gênant) sur écran tactile : pas de survol souris
+        if (window.matchMedia('(hover: none)').matches) return;
         const cards = document.querySelectorAll('.profile-card');
         cards.forEach(card => {
             const inner = card.querySelector('.profile-card-inner');
@@ -74,9 +76,14 @@
                 e.preventDefault();
                 // Fermer les autres dropdowns si nécessaire (optionnel, mais propre)
                 document.querySelectorAll('.dropdown').forEach(d => {
-                    if (d !== dropdown) d.classList.remove('active');
+                    if (d !== dropdown) {
+                        d.classList.remove('active');
+                        const btn = d.querySelector('.dropbtn');
+                        if (btn) btn.setAttribute('aria-expanded', 'false');
+                    }
                 });
-                dropdown.classList.toggle('active');
+                const open = dropdown.classList.toggle('active');
+                dropBtn.setAttribute('aria-expanded', open);
             };
         });
     }

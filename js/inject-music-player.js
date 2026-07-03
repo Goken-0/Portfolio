@@ -29,16 +29,21 @@
             <div class="progress-bar" id="progressBar"></div>
         </div>
 
+        <div class="time-row">
+            <span id="currentTime">0:00</span>
+            <span id="totalTime">0:00</span>
+        </div>
+
         <div class="music-controls">
-            <button class="control-btn" id="prevBtn"><i class="fas fa-backward"></i></button>
-            <button class="control-btn play-pause" id="playPauseBtn"><i class="fas fa-play"></i></button>
-            <button class="control-btn" id="nextBtn"><i class="fas fa-forward"></i></button>
-            <button class="control-btn" id="loopBtn" title="Répétition"><i class="fas fa-repeat"></i></button>
+            <button class="control-btn" id="prevBtn" aria-label="Piste précédente"><i class="fas fa-backward"></i></button>
+            <button class="control-btn play-pause" id="playPauseBtn" aria-label="Lecture / pause"><i class="fas fa-play"></i></button>
+            <button class="control-btn" id="nextBtn" aria-label="Piste suivante"><i class="fas fa-forward"></i></button>
         </div>
 
         <div class="volume-container">
             <i class="fas fa-volume-up volume-icon" id="volumeIcon"></i>
-            <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" step="1" value="30">
+            <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" step="1" value="30" aria-label="Volume">
+            <button class="control-btn loop-btn" id="loopBtn" title="Répétition" aria-label="Répétition"><i class="fas fa-repeat"></i></button>
         </div>
     </div>
 </div>
@@ -50,7 +55,8 @@
         if (!audio) {
             audio = document.createElement('audio');
             audio.id = 'audioPlayer';
-            audio.preload = 'auto';
+            // 'none' : ne rien télécharger tant que l'utilisateur n'a pas lancé la lecture
+            audio.preload = 'none';
             document.body.insertBefore(audio, document.body.firstChild);
         }
 

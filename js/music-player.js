@@ -23,6 +23,7 @@ class MusicPlayer {
         if (!this.audio) {
             this.audio = document.createElement('audio');
             this.audio.id = 'audioPlayer';
+            this.audio.preload = 'none';
             document.body.insertBefore(this.audio, document.body.firstChild);
         }
 
@@ -43,6 +44,8 @@ class MusicPlayer {
         this.songTitle = document.getElementById('songTitle');
         this.songArtist = document.getElementById('songArtist');
         this.equalizer = document.getElementById('equalizer');
+        this.currentTimeEl = document.getElementById('currentTime');
+        this.totalTimeEl = document.getElementById('totalTime');
 
         this.attachButtonEvents();
     }
@@ -50,6 +53,13 @@ class MusicPlayer {
     reinitializeDOM() {
         this.initializeDOM();
         this.updateUI();
+    }
+
+    static formatTime(seconds) {
+        if (!isFinite(seconds) || seconds < 0) return '0:00';
+        const m = Math.floor(seconds / 60);
+        const s = Math.floor(seconds % 60);
+        return m + ':' + String(s).padStart(2, '0');
     }
 
     attachButtonEvents() {
@@ -103,6 +113,11 @@ class MusicPlayer {
                 const pc = (this.audio.currentTime / this.audio.duration) * 100;
                 this.progressBar.style.width = pc + '%';
             }
+            if (this.currentTimeEl) this.currentTimeEl.textContent = MusicPlayer.formatTime(this.audio.currentTime);
+        };
+
+        this.audio.ondurationchange = () => {
+            if (this.totalTimeEl) this.totalTimeEl.textContent = MusicPlayer.formatTime(this.audio.duration);
         };
 
         this.audio.onended = () => {
@@ -181,11 +196,15 @@ class MusicPlayer {
 
         this.updateVolumeIcon();
 
-        // Mettre à jour les infos si elles sont vides (cas du switch SPA)
-        if (this.songTitle && this.songTitle.textContent === "Blinding Lights") {
-             const song = this.playlist[this.currentSongIndex];
-             this.songTitle.textContent = song.title;
-             if (this.songArtist) this.songArtist.textContent = song.artist;
+        // Resynchroniser l'affichage du temps (cas du switch SPA)
+        if (this.currentTimeEl) this.currentTimeEl.textContent = MusicPlayer.formatTime(this.audio.currentTime);
+        if (this.totalTimeEl) this.totalTimeEl.textContent = MusicPlayer.formatTime(this.audio.duration);
+
+        // Toujours synchroniser titre/artiste avec la chanson courante (cas du switch SPA)
+        const song = this.playlist[this.currentSongIndex];
+        if (song) {
+            if (this.songTitle) this.songTitle.textContent = song.title;
+            if (this.songArtist) this.songArtist.textContent = song.artist;
         }
     }
 

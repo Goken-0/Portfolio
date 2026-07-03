@@ -12,20 +12,39 @@
         if (!section) return;
 
         const filterBtns = section.querySelectorAll('.filter-btn');
-        const cards = section.querySelectorAll('.project-card');
+
+        // Message "aucun résultat" (créé une seule fois par section)
+        function getNoResultsEl() {
+            let el = section.querySelector('.no-results');
+            if (!el) {
+                el = document.createElement('p');
+                el.className = 'no-results';
+                el.innerHTML = '<i class="fas fa-search"></i> Aucun élément dans cette catégorie.';
+                el.style.display = 'none';
+                const grid = section.querySelector('.projects-grid');
+                if (grid) grid.insertAdjacentElement('afterend', el);
+            }
+            return el;
+        }
 
         filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
+            // onclick (et non addEventListener) : le routeur SPA réinitialise les
+            // filtres à chaque navigation, on évite d'empiler les écouteurs
+            btn.onclick = () => {
                 // Retirer la classe active de tous les boutons de CETTE section
                 filterBtns.forEach(b => b.classList.remove('active'));
                 // Ajouter la classe active au bouton cliqué
                 btn.classList.add('active');
 
                 const filter = btn.dataset.filter;
+                // Requêter les cartes au clic : celles de #tps sont générées par tps.js
+                const cards = section.querySelectorAll('.project-card');
+                let visibles = 0;
 
                 cards.forEach(card => {
-                    const categories = card.dataset.category || '';
+                    const categories = (card.dataset.category || '').split(' ');
                     if (filter === 'all' || categories.includes(filter)) {
+                        visibles++;
                         card.style.display = 'block';
                         // Réanimer l'apparition
                         card.style.animation = 'none';
@@ -36,7 +55,9 @@
                         card.style.display = 'none';
                     }
                 });
-            });
+
+                getNoResultsEl().style.display = visibles === 0 ? 'block' : 'none';
+            };
         });
     }
 

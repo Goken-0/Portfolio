@@ -17,6 +17,15 @@
  * - WebGL : Rendu graphique accéléré par le GPU
  */
 
+(function () {
+'use strict';
+
+// Si Three.js n'a pas pu être chargé (CDN indisponible), on abandonne sans casser le reste du site
+if (typeof THREE === 'undefined') return;
+
+// Respecter la préférence utilisateur de réduction des animations
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
 // ============================================
 // CONFIGURATION DE BASE THREE.JS
 // ============================================
@@ -226,23 +235,26 @@ function createShootingStar() {
     }, shootingStarGroup.maxLife * 1000);
 }
 
-// Générer une étoile filante toutes les 2 secondes (80% de chance)
-setInterval(() => {
-    if (Math.random() < 0.8) {
-        createShootingStar();
-    }
-}, 2000);
-
-// Événement spécial : pluie d'étoiles filantes (30% de chance toutes les 15 secondes)
-setInterval(() => {
-    if (Math.random() < 0.30) {
-        console.log("🌟 Pluie d'étoiles filantes !");
-        // Créer 5 étoiles filantes avec un léger décalage (réduit de 8 à 5)
-        for (let i = 0; i < 5; i++) {
-            setTimeout(() => createShootingStar(), i * 250);  // Délai augmenté de 200 à 250ms
+// Pas d'étoiles filantes si l'utilisateur préfère réduire les animations,
+// ni quand l'onglet est en arrière-plan (document.hidden)
+if (!reducedMotion) {
+    // Générer une étoile filante toutes les 2 secondes (80% de chance)
+    setInterval(() => {
+        if (!document.hidden && Math.random() < 0.8) {
+            createShootingStar();
         }
-    }
-}, 15000);
+    }, 2000);
+
+    // Événement spécial : pluie d'étoiles filantes (30% de chance toutes les 15 secondes)
+    setInterval(() => {
+        if (!document.hidden && Math.random() < 0.30) {
+            // Créer 5 étoiles filantes avec un léger décalage (réduit de 8 à 5)
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => createShootingStar(), i * 250);  // Délai augmenté de 200 à 250ms
+            }
+        }
+    }, 15000);
+}
 
 // ============================================
 // BOUCLE D'ANIMATION PRINCIPALE
@@ -349,5 +361,12 @@ window.addEventListener("resize", () => {
     camera.updateProjectionMatrix();  // Recalculer la projection
 });
 
-// Démarrer l'animation
-animateStars();
+// Démarrer l'animation — ou rendre une seule image fixe si l'utilisateur
+// préfère réduire les animations (le fond étoilé reste visible, sans mouvement)
+if (reducedMotion) {
+    renderer.render(scene, camera);
+} else {
+    animateStars();
+}
+
+})();

@@ -76,14 +76,14 @@
         });
     }
 
-    // Intercepter les clics
+    // Intercepter les clics sur d'anciens liens *.html (les liens #hash sont gérés par hashchange)
     document.addEventListener('click', e => {
         const link = e.target.closest('nav a, .social-contact, .btn, .view-button, .featured-btn');
-        if (link && link.getAttribute('href') && link.getAttribute('href').startsWith('#')) {
-            // Le hashchange s'en occupe
-        } else if (link && link.getAttribute('href') && !link.getAttribute('href').startsWith('http') && link.getAttribute('href').endsWith('.html')) {
+        if (!link) return;
+        const href = link.getAttribute('href');
+        if (href && !href.startsWith('#') && !href.startsWith('http') && href.endsWith('.html')) {
             e.preventDefault();
-            const page = link.getAttribute('href').replace('.html', '');
+            const page = href.replace('.html', '');
             window.location.hash = (page === 'index') ? '#accueil' : '#' + page;
         }
     });
