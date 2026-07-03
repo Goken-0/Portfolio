@@ -754,7 +754,17 @@
 						} else if (res.status === 429) {
 							showStatus('error', 'Trop de messages envoyés en peu de temps. Patientez quelques minutes avant de réessayer.');
 						} else {
-							showStatus('error', 'Une erreur est survenue. Réessayez ou contactez-moi via LinkedIn.');
+							// Afficher la raison précise renvoyée par Formspree si disponible
+							res.json().then(function(data) {
+								var detail = (data && data.errors && data.errors.length)
+									? data.errors.map(function(err) { return err.message; }).join(' — ')
+									: (data && data.error) || '';
+								showStatus('error', detail
+									? 'Erreur : ' + detail
+									: 'Une erreur est survenue. Réessayez ou contactez-moi via LinkedIn.');
+							}).catch(function() {
+								showStatus('error', 'Une erreur est survenue. Réessayez ou contactez-moi via LinkedIn.');
+							});
 						}
 					}).catch(function() {
 						showStatus('error', 'Impossible d\'envoyer le message. Vérifiez votre connexion.');
