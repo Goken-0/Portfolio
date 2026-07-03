@@ -10,12 +10,13 @@
 	<meta name="description" content="Portfolio de Léo Metgy, étudiant en BTS SIO. Découvrez mes projets, compétences et parcours professionnel.">
 	<meta name="robots" content="index, follow">
 	<meta name="author" content="Léo Metgy">
+	<link rel="canonical" href="https://goken-0.github.io/Portfolio/">
 
 	<!-- Open Graph / réseaux sociaux -->
 	<meta property="og:type" content="website">
 	<meta property="og:title" content="Portfolio - Léo Metgy">
 	<meta property="og:description" content="Portfolio de Léo Metgy, étudiant en BTS SIO. Découvrez mes projets, compétences et parcours professionnel.">
-	<meta property="og:image" content="assets/images/main.png">
+	<meta property="og:image" content="https://goken-0.github.io/Portfolio/assets/images/main.png">
 	<meta property="og:url" content="https://goken-0.github.io/Portfolio/">
 	<meta property="og:locale" content="fr_FR">
 
@@ -23,7 +24,7 @@
 	<meta name="twitter:card" content="summary_large_image">
 	<meta name="twitter:title" content="Portfolio - Léo Metgy">
 	<meta name="twitter:description" content="Portfolio de Léo Metgy, étudiant en BTS SIO. Découvrez mes projets, compétences et parcours professionnel.">
-	<meta name="twitter:image" content="assets/images/main.png">
+	<meta name="twitter:image" content="https://goken-0.github.io/Portfolio/assets/images/main.png">
 
 	<!-- Favicons -->
 	<link rel="icon" href="assets/icons/favicon.ico" type="image/x-icon">
@@ -32,28 +33,29 @@
 	<link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
 	<link rel="manifest" href="assets/icons/site.webmanifest">
 
-	<!-- Préchargement des polices (parallèle, non bloquant pour le parse CSS) -->
+	<!-- Polices et Font Awesome : chargement non bloquant -->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap">
+	<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" media="print" onload="this.media='all'">
+	<link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" media="print" onload="this.media='all'">
+	<noscript>
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+	</noscript>
 
-	<!-- Bibliothèques et CSS -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+	<!-- CSS du site -->
 	<link rel="stylesheet" href="css/style.css">
 	
 	<title>Portfolio - Léo Metgy</title>
 </head>
 
 <body class="home-page">
-	<!-- Three.js pour le fond animé -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+	<a class="skip-link" href="#main-content">Aller au contenu</a>
 
 	<!-- Header / Sidebar -->
 	<header>
-		<div class="sidebar-top">
-			<button class="sidebar-close" aria-label="Fermer le menu"><i class="fa-solid fa-xmark"></i></button>
-		</div>
-
 		<div class="sidebar-profile">
 			<div class="profile-card" id="profileCard">
 				<div class="profile-card-inner">
@@ -71,17 +73,17 @@
 			</div>
 		</div>
 
-		<nav>
+		<nav id="main-nav">
 			<a href="#accueil"><i class="fa-solid fa-house"></i><span>Accueil</span></a>
 			<div class="dropdown">
-				<a href="#" class="dropbtn"><i class="fa-solid fa-user-graduate"></i><span>Parcours</span><i class="fa fa-caret-down caret-icon"></i></a>
+				<a href="#" class="dropbtn" aria-expanded="false" aria-haspopup="true"><i class="fa-solid fa-user-graduate"></i><span>Parcours</span><i class="fa fa-caret-down caret-icon"></i></a>
 				<div class="dropdown-content">
 					<a href="#cv"><i class="fa-solid fa-file-lines"></i>CV</a>
 					<a href="#motivation"><i class="fa-solid fa-envelope-open-text"></i>Motivation</a>
 				</div>
 			</div>
 			<div class="dropdown">
-				<a href="#" class="dropbtn"><i class="fa-solid fa-layer-group"></i><span>Réalisations</span><i class="fa fa-caret-down caret-icon"></i></a>
+				<a href="#" class="dropbtn" aria-expanded="false" aria-haspopup="true"><i class="fa-solid fa-layer-group"></i><span>Réalisations</span><i class="fa fa-caret-down caret-icon"></i></a>
 				<div class="dropdown-content">
 					<a href="#tps"><i class="fa-solid fa-flask"></i>TPs</a>
 					<a href="#projets"><i class="fa-solid fa-diagram-project"></i>Projets</a>
@@ -98,11 +100,11 @@
 	</header>
 
 	<!-- Bouton mobile (Hamburger) -->
-	<div class="hamburger-toggle">
+	<button class="hamburger-toggle" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="main-nav">
 		<span></span>
 		<span></span>
 		<span></span>
-	</div>
+	</button>
 
 	<!-- Overlay mobile -->
 	<div class="sidebar-overlay"></div>
@@ -133,8 +135,8 @@
 				</p>
 
 				<div class="social-icons">
-					<a href="https://www.linkedin.com/in/l%C3%A9o-metgy-3268a5383/" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
-					<a href="https://github.com/Goken-0" target="_blank"><i class="fa-brands fa-github"></i></a>
+					<a href="https://www.linkedin.com/in/l%C3%A9o-metgy-3268a5383/" target="_blank" rel="noopener" aria-label="Profil LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+					<a href="https://github.com/Goken-0" target="_blank" rel="noopener" aria-label="Profil GitHub"><i class="fa-brands fa-github"></i></a>
 				</div>
 				<a href="#contact" class="btn">Me contacter</a>
 			</div>
@@ -206,7 +208,7 @@
 						</div>
 						<div class="featured-content">
 							<h2>NAS DIY</h2>
-							<p>Serveur NAS réalisé à partir d'un ordinateur de bureau Dell Optiplex 3050, celui-ci tourne sous OpenMediaVault ainsi que CasaOS (pour l'interface)<br></br>Veuillez cliquer sur le bouton <strong>"Voir le PDF"</strong> pour plus de renseignements.</p>
+							<p>Serveur NAS réalisé à partir d'un ordinateur de bureau Dell Optiplex 3050, celui-ci tourne sous OpenMediaVault ainsi que CasaOS (pour l'interface)<br><br>Veuillez cliquer sur le bouton <strong>"Voir le PDF"</strong> pour plus de renseignements.</p>
 							<div class="featured-stats">
 								<div class="stat-item"><span class="stat-label">Projet :</span><span class="stat-value">Serveur NAS</span></div>
 								<div class="stat-item"><span class="stat-label">Type :</span><span class="stat-value">Système & Réseau</span></div>
@@ -285,7 +287,7 @@
 						<div class="project-image"><span class="project-badge">Système & Réseau</span><img src="assets/images/nas.jpg" alt="NAS DIY sous OpenMediaVault" loading="lazy" decoding="async"></div>
 						<div class="project-content">
 							<div class="project-header"><h3 class="project-title"><i class="fas fa-server"></i> NAS DIY</h3></div>
-							<p class="project-description">Serveur NAS réalisé à partir d'un ordinateur de bureau Dell Optiplex 3050, celui-ci tourne sous OpenMediaVault ainsi que CasaOS (pour l'interface)<br></br>Veuillez cliquer sur le bouton <strong>"lien externe"</strong> pour plus de renseignements.</p>
+							<p class="project-description">Serveur NAS réalisé à partir d'un ordinateur de bureau Dell Optiplex 3050, celui-ci tourne sous OpenMediaVault ainsi que CasaOS (pour l'interface)<br><br>Veuillez cliquer sur le bouton <strong>"lien externe"</strong> pour plus de renseignements.</p>
 							<div class="project-tech"><span class="tech-tag">OPENMEDIAVAULT</span><span class="tech-tag">CASAOS</span></div>
 							<div class="project-footer">
 								<span class="project-date"><i class="far fa-calendar"></i> Janvier 2026</span>
@@ -298,7 +300,7 @@
 						<div class="project-image"><span class="project-badge">Système & Réseau</span><img src="assets/images/thinkpad.png" alt="ThinkPad T490 remis à neuf" loading="lazy" decoding="async"></div>
 						<div class="project-content">
 							<div class="project-header"><h3 class="project-title"><i class="fas fa-server"></i> THINKPAD</h3></div>
-							<p class="project-description">Un projet de remise à neuf et de configuration système pour créer mon propre environnement de travail.<br></br>Veuillez cliquer sur le bouton <strong>"lien externe"</strong> pour plus de renseignements.</p>
+							<p class="project-description">Un projet de remise à neuf et de configuration système pour créer mon propre environnement de travail.<br><br>Veuillez cliquer sur le bouton <strong>"lien externe"</strong> pour plus de renseignements.</p>
 							<div class="project-tech"><span class="tech-tag">FEDORA</span><span class="tech-tag">WINDOWS</span><span class="tech-tag">LENOVO</span></div>
 							<div class="project-footer">
 								<span class="project-date"><i class="far fa-calendar"></i> Mai 2026</span>
@@ -323,22 +325,26 @@
 							<div class="stage-header">
 								<div class="stage-icon"><i class="fas fa-network-wired"></i></div>
 								<div class="stage-title-group">
-									<span class="stage-period">01/06/2025 - 29/06/2025</span>
+									<span class="stage-period">01/06/2026 - 26/06/2026</span>
 									<h2>Conseil départemental de la Somme</h2>
-									<p class="stage-company"><i class="fas fa-building"></i> Boulevard de Châteaudun, 80000 Amiens, France</p>
+									<p class="stage-company"><i class="fas fa-building"></i> 43 Rue de la République, 80000 Amiens, France</p>
 								</div>
 							</div>
 							<div class="stage-content">
-								<p class="stage-description">Description générale du stage, du contexte de l'entreprise et des objectifs principaux de la mission.</p>
+								<p class="stage-description">Stage de 4 semaines à la DSI du Conseil Départemental de la Somme.</p>
 								<div class="stage-missions">
 									<h3><i class="fas fa-tasks"></i> Missions réalisées</h3>
 									<ul>
-										<li><i class="fas fa-check-circle"></i> <span>À remplir</span></li>
-										<li><i class="fas fa-check-circle"></i> <span>À remplir</span></li>
-										<li><i class="fas fa-check-circle"></i> <span>À remplir</span></li>
+										<li><i class="fas fa-check-circle"></i> <span>Support et assistance aux utilisateurs</span></li>
+										<li><i class="fas fa-check-circle"></i> <span>Réseau et téléphonie sur IP (VoIP)</span></li>
+										<li><i class="fas fa-check-circle"></i> <span>Sécurité : modèle en tiers et phishing</span></li>
+										<li><i class="fas fa-check-circle"></i> <span>Configuration de switches Cisco et VLAN</span></li>
 									</ul>
 								</div>
-								<div class="stage-tags"><span class="tag">Cisco</span><span class="tag">VLANs</span><span class="tag">TCP/IP</span><span class="tag">Sécurité</span><span class="tag">Documentation</span></div>
+								<div class="stage-tags"><span class="tag">Cisco</span><span class="tag">VLANs</span><span class="tag">TCP/IP</span><span class="tag">VoIP</span><span class="tag">Sécurité</span><span class="tag">Déploiement</span></div>
+								<div class="stage-actions">
+									<a href="https://goken-0.github.io/Rapport2026/" target="_blank" rel="noopener" class="featured-btn primary"><i class="fas fa-book-open"></i> Consulter le rapport de stage</a>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -363,7 +369,7 @@
 										<li><i class="fas fa-check-circle"></i> <span>À remplir</span></li>
 									</ul>
 								</div>
-								<div class="stage-tags"><span class="tag">Cisco</span><span class="tag">VLANs</span><span class="tag">TCP/IP</span><span class="tag">Sécurité</span><span class="tag">Documentation</span></div>
+								<div class="stage-tags"><span class="tag">Cisco</span><span class="tag">VLANs</span><span class="tag">TCP/IP</span><span class="tag">Sécurité</span><span class="tag">Déploiement</span></div>
 							</div>
 						</div>
 					</div>
@@ -434,7 +440,7 @@
 								<span class="project-date"><i class="fas fa-check-circle" style="color: #3caee4;"></i> Attestation obtenue</span>
 								<div class="project-links">
 									<a href="assets/pdf/attestation_metgy_leo.pdf" class="project-link" title="Voir l'attestation"><i class="fas fa-file-pdf"></i></a>
-									<a href="https://secnumacademie.gouv.fr/" target="_blank" class="project-link" title="Site officiel"><i class="fas fa-external-link-alt"></i></a>
+									<a href="https://secnumacademie.gouv.fr/" target="_blank" rel="noopener" class="project-link" title="Site officiel"><i class="fas fa-external-link-alt"></i></a>
 								</div>
 							</div>
 						</div>
@@ -447,7 +453,7 @@
 							<div class="project-tech"><span class="tech-tag">Cisco</span><span class="tech-tag">Packet Tracer</span><span class="tech-tag">Adressage IP</span></div>
 							<div class="project-footer">
 								<span class="project-date"><i class="fas fa-spinner fa-spin"></i> En cours</span>
-								<div class="project-links"><a href="https://www.netacad.com/" target="_blank" class="project-link" title="Site Cisco NetAcad"><i class="fas fa-external-link-alt"></i></a></div>
+								<div class="project-links"><a href="https://www.netacad.com/" target="_blank" rel="noopener" class="project-link" title="Site Cisco NetAcad"><i class="fas fa-external-link-alt"></i></a></div>
 							</div>
 						</div>
 					</div>
@@ -488,9 +494,9 @@
 									<div class="card-badge nvidia-badge">NVIDIA</div>
 									<h3 class="card-title">Palit GeForce RTX 5060 Ti 16 Go</h3>
 									<div class="card-stats">
-										<div class="stat-item"><span class="stat-label">Performance 1080p</span><span class="stat-value">~106 FPS</span><a href="https://www.techpowerup.com/review/palit-geforce-rtx-5060-ti-infinity-3-16-gb/31.html" target="_blank" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
-										<div class="stat-item"><span class="stat-label">Consommation</span><span class="stat-value">166W</span><a href="https://www.techpowerup.com/review/palit-geforce-rtx-5060-ti-infinity-3-16-gb/42.html" target="_blank" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
-										<div class="stat-item"><span class="stat-label">Température</span><span class="stat-value">65°C</span><a href="https://www.techpowerup.com/review/palit-geforce-rtx-5060-ti-infinity-3-16-gb/40.html" target="_blank" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
+										<div class="stat-item"><span class="stat-label">Performance 1080p</span><span class="stat-value">~106 FPS</span><a href="https://www.techpowerup.com/review/palit-geforce-rtx-5060-ti-infinity-3-16-gb/31.html" target="_blank" rel="noopener" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
+										<div class="stat-item"><span class="stat-label">Consommation</span><span class="stat-value">166W</span><a href="https://www.techpowerup.com/review/palit-geforce-rtx-5060-ti-infinity-3-16-gb/42.html" target="_blank" rel="noopener" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
+										<div class="stat-item"><span class="stat-label">Température</span><span class="stat-value">65°C</span><a href="https://www.techpowerup.com/review/palit-geforce-rtx-5060-ti-infinity-3-16-gb/40.html" target="_blank" rel="noopener" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
 									</div>
 									<div class="card-features">
 										<h4>Points forts</h4>
@@ -509,9 +515,9 @@
 									<div class="card-badge amd-badge">AMD</div>
 									<h3 class="card-title">Sapphire Radeon RX 9060 XT 16 Go</h3>
 									<div class="card-stats">
-										<div class="stat-item"><span class="stat-label">Performance 1080p</span><span class="stat-value">~96 FPS</span><a href="https://www.techpowerup.com/review/sapphire-radeon-rx-9060-xt-pulse-oc/31.html" target="_blank" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
-										<div class="stat-item"><span class="stat-label">Consommation</span><span class="stat-value">180W</span><a href="https://www.techpowerup.com/review/sapphire-radeon-rx-9060-xt-pulse-oc/41.html" target="_blank" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
-										<div class="stat-item"><span class="stat-label">Température</span><span class="stat-value">57°C</span><a href="https://www.techpowerup.com/review/sapphire-radeon-rx-9060-xt-pulse-oc/39.html" target="_blank" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
+										<div class="stat-item"><span class="stat-label">Performance 1080p</span><span class="stat-value">~96 FPS</span><a href="https://www.techpowerup.com/review/sapphire-radeon-rx-9060-xt-pulse-oc/31.html" target="_blank" rel="noopener" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
+										<div class="stat-item"><span class="stat-label">Consommation</span><span class="stat-value">180W</span><a href="https://www.techpowerup.com/review/sapphire-radeon-rx-9060-xt-pulse-oc/41.html" target="_blank" rel="noopener" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
+										<div class="stat-item"><span class="stat-label">Température</span><span class="stat-value">57°C</span><a href="https://www.techpowerup.com/review/sapphire-radeon-rx-9060-xt-pulse-oc/39.html" target="_blank" rel="noopener" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
 									</div>
 									<div class="card-features">
 										<h4>Points forts</h4>
@@ -529,7 +535,7 @@
 							<div class="analysis-card">
 								<h3><i class="fas fa-chart-line"></i> Analyse comparative</h3>
 								<p>La RTX 5060 Ti offre environ <strong>10% de performances supplémentaires</strong> avec une consommation légèrement inférieure, mais génère plus de chaleur. La RX 9060 XT se démarque par ses <strong>températures plus basses</strong> et son excellent rapport qualité-prix. Le choix dépendra principalement de l'écosystème logiciel privilégié (DLSS vs FSR) et du budget disponible.</p>
-								<p class="source-credit"><i class="fas fa-database"></i> Données issues de <a href="https://www.techpowerup.com/" target="_blank">TechPowerUp</a></p>
+								<p class="source-credit"><i class="fas fa-database"></i> Données issues de <a href="https://www.techpowerup.com/" target="_blank" rel="noopener">TechPowerUp</a></p>
 							</div>
 							<div class="visual-row">
 								<div class="visual-section"><img src="assets/images/rtx.jpeg" alt="Architecture GPU NVIDIA RTX" class="block-image"><p class="image-caption">Architecture NVIDIA RTX</p></div>
@@ -553,9 +559,9 @@
 									<div class="card-badge claude-badge">ANTHROPIC</div>
 									<h3 class="card-title">Claude 4.5 Sonnet</h3>
 									<div class="card-stats">
-										<div class="stat-item"><span class="stat-label">Maths (AIME 2025)</span><span class="stat-value">94.6%</span><a href="https://www.anthropic.com/news/claude-sonnet-4-5" target="_blank" class="stat-source" title="Rapport Technique Anthropic"><i class="fas fa-external-link-alt"></i></a></div>
-										<div class="stat-item"><span class="stat-label">Code (SWE-bench)</span><span class="stat-value">77.2%</span><a href="https://www.anthropic.com/news/claude-sonnet-4-5" target="_blank" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
-										<div class="stat-item"><span class="stat-label">Fenêtre Contexte</span><span class="stat-value">200K</span><a href="https://www.anthropic.com/claude/sonnet" target="_blank" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
+										<div class="stat-item"><span class="stat-label">Maths (AIME 2025)</span><span class="stat-value">94.6%</span><a href="https://www.anthropic.com/news/claude-sonnet-4-5" target="_blank" rel="noopener" class="stat-source" title="Rapport Technique Anthropic"><i class="fas fa-external-link-alt"></i></a></div>
+										<div class="stat-item"><span class="stat-label">Code (SWE-bench)</span><span class="stat-value">77.2%</span><a href="https://www.anthropic.com/news/claude-sonnet-4-5" target="_blank" rel="noopener" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
+										<div class="stat-item"><span class="stat-label">Fenêtre Contexte</span><span class="stat-value">200K</span><a href="https://www.anthropic.com/claude/sonnet" target="_blank" rel="noopener" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
 									</div>
 									<div class="card-features">
 										<h4>Caractéristiques</h4>
@@ -578,9 +584,9 @@
 									<div class="card-badge gpt-badge">OPENAI</div>
 									<h3 class="card-title">GPT-5 (v5.2)</h3>
 									<div class="card-stats">
-										<div class="stat-item"><span class="stat-label">Maths (AIME 2025)</span><span class="stat-value">100%</span><a href="https://openai.com/index/introducing-gpt-5-2/" target="_blank" class="stat-source" title="Rapport Technique OpenAI"><i class="fas fa-external-link-alt"></i></a></div>
-										<div class="stat-item"><span class="stat-label">Code (SWE-bench)</span><span class="stat-value">80.0%</span><a href="https://openai.com/index/introducing-gpt-5-2/" target="_blank" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
-										<div class="stat-item"><span class="stat-label">Fenêtre Contexte</span><span class="stat-value">400K</span><a href="https://platform.openai.com/docs/models/gpt-5" target="_blank" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
+										<div class="stat-item"><span class="stat-label">Maths (AIME 2025)</span><span class="stat-value">100%</span><a href="https://openai.com/index/introducing-gpt-5-2/" target="_blank" rel="noopener" class="stat-source" title="Rapport Technique OpenAI"><i class="fas fa-external-link-alt"></i></a></div>
+										<div class="stat-item"><span class="stat-label">Code (SWE-bench)</span><span class="stat-value">80.0%</span><a href="https://openai.com/index/introducing-gpt-5-2/" target="_blank" rel="noopener" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
+										<div class="stat-item"><span class="stat-label">Fenêtre Contexte</span><span class="stat-value">400K</span><a href="https://platform.openai.com/docs/models/gpt-5" target="_blank" rel="noopener" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
 									</div>
 									<div class="card-features">
 										<h4>Caractéristiques</h4>
@@ -668,12 +674,13 @@
 				<h2 class="contact-title">Contactez <span>Moi</span></h2>
 				<div class="formulaire-container">
 					<form action="https://formspree.io/f/mpwjegye" method="post" id="contactForm" novalidate>
-						<input type="text" id="name" name="name" placeholder="Nom" required maxlength="100" pattern="[A-Za-zÀ-ÿ\s\-']+" autocomplete="family-name" title="Lettres, espaces, tirets et apostrophes uniquement">
-						<input type="text" id="firstname" name="firstname" placeholder="Prénom" required maxlength="100" pattern="[A-Za-zÀ-ÿ\s\-']+" autocomplete="given-name" title="Lettres, espaces, tirets et apostrophes uniquement">
-						<input type="email" id="email" name="email" placeholder="Email" required maxlength="254" autocomplete="email">
-						<textarea id="message" name="message" placeholder="Votre message" rows="5" required maxlength="2000"></textarea>
+						<input type="text" id="name" name="name" placeholder="Nom" aria-label="Nom" required maxlength="100" pattern="[A-Za-zÀ-ÿ\s\-']+" autocomplete="family-name" title="Lettres, espaces, tirets et apostrophes uniquement">
+						<input type="text" id="firstname" name="firstname" placeholder="Prénom" aria-label="Prénom" required maxlength="100" pattern="[A-Za-zÀ-ÿ\s\-']+" autocomplete="given-name" title="Lettres, espaces, tirets et apostrophes uniquement">
+						<input type="email" id="email" name="email" placeholder="Email" aria-label="Adresse email" required maxlength="254" autocomplete="email">
+						<textarea id="message" name="message" placeholder="Votre message" aria-label="Votre message" rows="5" required maxlength="2000"></textarea>
 						<input type="text" name="_gotcha" style="display:none !important" tabindex="-1" autocomplete="off">
 						<button type="submit" id="submitBtn">Envoyer</button>
+						<p id="formStatus" class="form-status" role="status" aria-live="polite"></p>
 					</form>
 				</div>
 			</div>
@@ -681,46 +688,89 @@
 
 	</main>
 
+	<!-- Bouton retour en haut -->
+	<button id="backToTop" class="back-to-top" aria-label="Retour en haut de page"><i class="fas fa-chevron-up"></i></button>
+
 	<!-- Scripts de fin de page -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 	<script src="js/stars.js"></script>
 	<script src="js/menu.js"></script>
 	<script src="js/animation-modal.js"></script>
 	<script src="js/music-player.js"></script>
 	<script src="js/inject-music-player.js"></script>
 	<script src="js/navigation.js"></script>
-	<script src="js/footer-scroll.js"></script>
 	<script src="js/tps.js"></script>
 	<script src="js/filters.js"></script>
 	<script src="js/spa-router.js"></script>
 	<script src="js/typing.js"></script>
+	<script src="js/back-to-top.js"></script>
 
-	<!-- Script de validation contact -->
+	<!-- Script de validation et d'envoi AJAX du formulaire contact -->
 	<script>
-		document.addEventListener('DOMContentLoaded', function() {
-			const form = document.getElementById('contactForm');
-			const submitBtn = document.getElementById('submitBtn');
-			if (!form || !submitBtn) return;
-			form.addEventListener('submit', function(e) {
-				const email = document.getElementById('email');
-				const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-				if (!emailRegex.test(email.value.trim())) {
-					e.preventDefault();
-					email.setCustomValidity('Veuillez entrer une adresse email valide');
-					email.reportValidity();
-					return;
+		(function() {
+			'use strict';
+
+			function initContactForm() {
+				const form = document.getElementById('contactForm');
+				const submitBtn = document.getElementById('submitBtn');
+				const status = document.getElementById('formStatus');
+				if (!form || !submitBtn) return;
+
+				function showStatus(type, text) {
+					if (!status) return;
+					status.className = 'form-status ' + type;
+					status.textContent = text;
 				}
-				const message = document.getElementById('message');
-				const messageValue = message.value.toLowerCase();
-				if (messageValue.includes('<script') || messageValue.includes('javascript:') || messageValue.includes('onerror=') || messageValue.includes('onload=')) {
+
+				form.addEventListener('submit', function(e) {
+					// Toujours bloquer l'envoi natif : jamais de redirection vers Formspree
 					e.preventDefault();
-					message.setCustomValidity('Le message contient des caractères non autorisés');
-					message.reportValidity();
-					return;
-				}
-				submitBtn.disabled = true;
-				submitBtn.textContent = 'Envoi en cours...';
-			});
-		});
+
+					const email = document.getElementById('email');
+					email.setCustomValidity('');
+					if (!form.checkValidity()) {
+						form.reportValidity();
+						return;
+					}
+					const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+					if (!emailRegex.test(email.value.trim())) {
+						email.setCustomValidity('Veuillez entrer une adresse email valide');
+						email.reportValidity();
+						return;
+					}
+
+					submitBtn.disabled = true;
+					submitBtn.textContent = 'Envoi en cours...';
+					showStatus('', '');
+
+					fetch(form.action, {
+						method: 'POST',
+						body: new FormData(form),
+						headers: { 'Accept': 'application/json' }
+					}).then(function(res) {
+						if (res.ok) {
+							form.reset();
+							showStatus('success', 'Message envoyé ! Je vous répondrai dès que possible.');
+						} else if (res.status === 429) {
+							showStatus('error', 'Trop de messages envoyés en peu de temps. Patientez quelques minutes avant de réessayer.');
+						} else {
+							showStatus('error', 'Une erreur est survenue. Réessayez ou contactez-moi via LinkedIn.');
+						}
+					}).catch(function() {
+						showStatus('error', 'Impossible d\'envoyer le message. Vérifiez votre connexion.');
+					}).finally(function() {
+						submitBtn.disabled = false;
+						submitBtn.textContent = 'Envoyer';
+					});
+				});
+			}
+
+			if (document.readyState === 'loading') {
+				document.addEventListener('DOMContentLoaded', initContactForm);
+			} else {
+				initContactForm();
+			}
+		})();
 	</script>
 </body>
 
