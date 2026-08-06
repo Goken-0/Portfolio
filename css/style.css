@@ -1671,11 +1671,15 @@ button:hover {
    HERO SECTION
    ===================================================== */
 .veille-page .veille-hero {
-    min-height: 50vh !important;
+    /* `auto` et non 50vh : centré verticalement dans un bloc d'une demi-page,
+       le sous-titre se retrouvait à ~150 px du bloc d'intro. La hauteur suit
+       maintenant le contenu, et c'est le padding seul qui donne l'air.
+       Le !important neutralise la règle globale `section { min-height: 100vh }`. */
+    min-height: auto !important;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 6rem 2rem 4rem !important;
+    padding: 6rem 2rem 2rem !important;
     position: relative;
 }
 
@@ -1875,7 +1879,9 @@ button:hover {
    INTRODUCTION SECTION
    ===================================================== */
 .veille-page .veille-intro-section {
-    padding: 4rem 0 !important;
+    /* Haut resserré (le hero apporte déjà son padding bas), bas conservé pour
+       garder de la respiration avant les blocs de comparaison */
+    padding: 2rem 0 4rem !important;
 }
 
 .intro-card {
@@ -2572,8 +2578,13 @@ button:hover {
 /* Tablettes */
 @media (max-width: 768px) {
     .veille-page .veille-hero {
-        min-height: 45vh !important;
-        padding: 10rem 2rem 3rem !important;
+        min-height: auto !important;
+        /* 10rem en haut : le bouton hamburger flotte au-dessus du contenu */
+        padding: 10rem 2rem 1.5rem !important;
+    }
+
+    .veille-page .veille-intro-section {
+        padding: 1.5rem 0 3rem !important;
     }
 
     .hero-title {
@@ -2639,7 +2650,7 @@ button:hover {
     }
 
     .veille-page .veille-hero {
-        padding: 9rem 1.5rem 2.5rem !important;
+        padding: 9rem 1.5rem 1.2rem !important;
     }
 
     .intro-card {
