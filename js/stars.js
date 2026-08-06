@@ -1,372 +1,547 @@
 /**
  * ============================================
- * ANIMATION DES ÉTOILES 3D EN ARRIÈRE-PLAN
+ * FOND SPATIAL ANIMÉ (CANVAS 2D)
  * ============================================
- * 
- * Ce fichier crée un fond animé avec des étoiles en 3D pour la page d'accueil.
- * Il utilise la bibliothèque Three.js pour le rendu 3D.
- * 
- * Fonctionnalités :
- * - 15000 étoiles fixes qui scintillent
- * - Étoiles filantes occasionnelles avec traînées lumineuses
- * - Pluie d'étoiles filantes aléatoire
- * - Animation fluide et performante
- * 
- * Technologies :
- * - Three.js : Bibliothèque JavaScript 3D
- * - WebGL : Rendu graphique accéléré par le GPU
+ *
+ * Champ d'étoiles en perspective qui défile en permanence vers le spectateur,
+ * et qui passe en « vitesse lumière » à chaque navigation : les étoiles
+ * s'étirent alors en traînées avant de revenir à leur dérive tranquille.
+ *
+ * Portage du fond du portfolio de Sonny (src/scripts/space_background.ts),
+ * adapté au routeur SPA par hash de ce site : les événements de navigation
+ * d'Astro sont remplacés par les clics sur les onglets et par `hashchange`.
+ *
+ * Aucune dépendance : canvas 2D natif, pas de Three.js, pas de WebGL.
+ *
+ * Les étoiles sont stockées en coordonnées polaires (rayon depuis le centre,
+ * angle, décalage de profondeur) plutôt qu'en coordonnées écran. La position
+ * et la taille à l'écran sont recalculées à chaque frame : animer une étoile
+ * revient donc simplement à faire avancer le temps, sans jamais modifier son
+ * état propre.
  */
 
 (function () {
 'use strict';
 
-// Si Three.js n'a pas pu être chargé (CDN indisponible), on abandonne sans casser le reste du site
-if (typeof THREE === 'undefined') return;
+// ---- Champ d'étoiles ----
+const STAR_COUNT = 700;
+const DEPTH = 2000;
+const MAX_STAR_RADIUS = 500;
+const FULL_TURN_RADIANS = Math.PI * 2;
 
-// Respecter la préférence utilisateur de réduction des animations
-const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+// ---- Apparence ----
+const BACKGROUND_COLOR = '#000000';
+const STAR_COLOR_RGB = '224, 234, 255';
+
+// ---- Caméra ----
+const CAMERA_FIELD_OF_VIEW_DEGREES = 75;
+const NEAR_DISTANCE = 0.5;
+const POINT_RADIUS_FALLOFF = 300;
+const MIN_POINT_RADIUS = 0.5;
+const MAX_POINT_RADIUS = 3;
+const MIN_ALPHA = 0.08;
+const MAX_ALPHA = 0.95;
+
+// ---- Vitesses de défilement ----
+const IDLE_WARP_SPEED = 20;
+const NAVIGATION_WARP_SPEED = 400;
+const WARP_ACCELERATION_DURATION_MS = 450;
+const WARP_DECELERATION_DURATION_MS = 900;
+// Plancher sur la durée d'affichage du warp : une navigation SPA est
+// instantanée, sans ce minimum l'effet serait trop bref pour être vu.
+const WARP_MIN_VISIBLE_DURATION_MS = 500;
+const ARRIVAL_WARP_SPEED = 600;
+const ARRIVAL_EASE_DURATION_MS = 1800;
+
+// ---- Traînées ----
+const STREAK_DURATION_SECONDS = 0.05;
+const STREAK_ALPHA_FACTOR = 0.6;
+const STREAK_WIDTH_FACTOR = 1.5;
+const STREAK_MAX_LENGTH_PX = 120;
+// En dessous de ce seuil il n'y a que la dérive de repos : on dessine alors de
+// simples points, pour que les traînées ne signalent qu'une vraie transition
+// (navigation ou plongée d'arrivée).
+const STREAK_VISIBILITY_SPEED_THRESHOLD = IDLE_WARP_SPEED * 2;
+
+// ---- Cadence de rendu ----
+const REFRESH_SAMPLE_FRAME_COUNT = 10;
+const HIGH_REFRESH_HZ_THRESHOLD = 90;
+const MID_REFRESH_HZ_THRESHOLD = 50;
+const HIGH_TIER_FRAMES_PER_SECOND = 60;
+const MID_TIER_FRAMES_PER_SECOND = 30;
+const LOW_TIER_FRAMES_PER_SECOND = 24;
+
+// ---- Étoiles filantes ----
+const SHOOTING_STAR_MIN_DELAY_S = 4;      // délai mini avant la prochaine
+const SHOOTING_STAR_MAX_DELAY_S = 11;     // délai maxi avant la prochaine
+const SHOOTING_STAR_SPEED_MIN = 900;      // pixels/seconde
+const SHOOTING_STAR_SPEED_MAX = 1500;
+const SHOOTING_STAR_LENGTH_MIN = 140;     // longueur de la traînée, en pixels
+const SHOOTING_STAR_LENGTH_MAX = 320;
+const SHOOTING_STAR_LIFETIME_S = 1.1;
+const SHOOTING_STAR_WIDTH = 2;
+const SHOOTING_STAR_FADE_IN = 0.15;       // fraction de la vie passée en fondu d'entrée
+// Angle de chute, en degrés depuis l'horizontale (vers le bas-droite)
+const SHOOTING_STAR_ANGLE_MIN_DEG = 20;
+const SHOOTING_STAR_ANGLE_MAX_DEG = 40;
+
+const MAX_DELTA_SECONDS = 0.1;
+const MILLISECONDS_PER_SECOND = 1000;
+const DEGREES_PER_HALF_TURN = 180;
+
+// Exposé tout de suite : si le canvas 2D est indisponible, les clics sur les
+// onglets appelleront une fonction inoffensive au lieu de planter.
+window.triggerWarp = function () {};
 
 // ============================================
-// CONFIGURATION DE BASE THREE.JS
+// OUTILS
 // ============================================
 
-// Créer la scène 3D (l'environnement où tout se passe)
-const scene = new THREE.Scene();
-
-// Créer la caméra (le point de vue)
-// PerspectiveCamera(angle de vue, ratio largeur/hauteur, distance min, distance max)
-const camera = new THREE.PerspectiveCamera(
-    75,                                    // Angle de vue (en degrés)
-    window.innerWidth / window.innerHeight, // Ratio d'aspect (largeur/hauteur)
-    0.1,                                   // Distance minimale visible
-    1000                                    // Distance maximale visible
-);
-
-// Créer le moteur de rendu (qui dessine tout sur l'écran)
-const renderer = new THREE.WebGLRenderer({ antialias: true });  // antialias = lissage des bords
-renderer.setSize(window.innerWidth, window.innerHeight);        // Taille du rendu = taille de la fenêtre
-
-// Ajouter le canvas au body et lui donner la classe "background"
-renderer.domElement.classList.add("background");
-document.body.appendChild(renderer.domElement);
-
-// ============================================
-// CRÉATION DES ÉTOILES FIXES
-// ============================================
-
-// Créer la géométrie pour les étoiles (structure de données)
-const starGeometry = new THREE.BufferGeometry();
-const starCount = 15000;  // Nombre d'étoiles
-
-// Tableaux pour stocker les positions (x, y, z pour chaque étoile)
-const starPositions = new Float32Array(starCount * 3);  // *3 car x, y, z
-const starSizes = new Float32Array(starCount);           // Taille de chaque étoile
-
-// Remplir les tableaux avec des positions aléatoires
-for (let i = 0; i < starCount * 3; i += 3) {
-    // Position X aléatoire entre -1500 et 1500
-    starPositions[i] = (Math.random() - 0.5) * 3000;
-    // Position Y aléatoire entre -1500 et 1500
-    starPositions[i + 1] = (Math.random() - 0.5) * 3000;
-    // Position Z aléatoire entre -1500 et 1500
-    starPositions[i + 2] = (Math.random() - 0.5) * 3000;
-    // Taille aléatoire entre 1 et 4
-    starSizes[i / 3] = Math.random() * 3 + 1;
+function lerp(start, end, progress) {
+    return start + (end - start) * progress;
 }
 
-// Attacher les données à la géométrie
-starGeometry.setAttribute("position", new THREE.BufferAttribute(starPositions, 3));
-starGeometry.setAttribute("size", new THREE.BufferAttribute(starSizes, 1));
-
-// Stocker les tailles originales pour l'animation (une seule fois)
-const originalSizes = new Float32Array(starCount);
-for (let i = 0; i < starCount; i++) {
-    originalSizes[i] = starSizes[i];
+function easeInOutCubic(progress) {
+    return progress < 0.5
+        ? 4 * progress * progress * progress
+        : 1 - Math.pow(-2 * progress + 2, 3) / 2;
 }
 
-// Créer le matériau des étoiles (apparence)
-const starMaterial = new THREE.PointsMaterial({
-    color: 0xffffff,          // Couleur blanche
-    size: 1.5,                 // Taille de base
-    transparent: true,         // Permet la transparence
-    opacity: 1.0,              // Opacité complète
-    sizeAttenuation: false     // Les étoiles gardent la même taille peu importe la distance
-});
-
-// Créer l'objet Points qui contient toutes les étoiles
-const stars = new THREE.Points(starGeometry, starMaterial);
-scene.add(stars);  // Ajouter à la scène
-
-// Positionner la caméra (reculer pour voir les étoiles)
-camera.position.z = 800;
-
-// ============================================
-// CRÉATION DES ÉTOILES FILANTES
-// ============================================
-
-// Tableau qui stocke toutes les étoiles filantes actives
-let shootingStars = [];
-
-// Couleurs possibles pour les étoiles filantes
-const colors = [0xffffff, 0xffffaa, 0xaaffff, 0xffaaff, 0xaaffaa];
-
-/**
- * Crée une nouvelle étoile filante avec traînée lumineuse
- */
-function createShootingStar() {
-    // Noyau lumineux (la partie principale de l'étoile)
-    const coreGeometry = new THREE.SphereGeometry(2, 16, 16);  // Sphère de rayon 2 (réduit encore)
-    const coreColor = colors[Math.floor(Math.random() * colors.length)];  // Couleur aléatoire
-    const coreMaterial = new THREE.MeshBasicMaterial({
-        color: coreColor,
-        transparent: true,
-        opacity: 1
-    });
-    const core = new THREE.Mesh(coreGeometry, coreMaterial);
-    
-    // Halo extérieur (effet de lueur autour du noyau)
-    const haloGeometry = new THREE.SphereGeometry(4, 16, 16);  // Plus grand que le noyau (réduit à 4)
-    const haloMaterial = new THREE.MeshBasicMaterial({
-        color: coreColor,
-        transparent: true,
-        opacity: 0.3  // Semi-transparent
-    });
-    const halo = new THREE.Mesh(haloGeometry, haloMaterial);
-    
-    // Position initiale aléatoire
-    const startX = Math.random() > 0.5 ? 1500 : -1500;  // Soit à gauche, soit à droite
-    const startY = Math.random() * 1000 + 500;          // Entre 500 et 1500 en hauteur
-    // Limiter la profondeur Z pour éviter que les étoiles soient trop proches de la caméra (z=800)
-    // Garder les étoiles entre 200 et 600 devant la caméra pour une taille raisonnable
-    const startZ = 800 - (Math.random() * 400 + 200);  // Entre 200 et 600 devant la caméra
-    
-    core.position.set(startX, startY, startZ);
-    halo.position.copy(core.position);  // Le halo suit le noyau
-    
-    // Vitesse de déplacement (diagonale avec variation) - réduite pour un mouvement plus fluide
-    const velocity = new THREE.Vector3(
-        startX > 0 ? -(Math.random() * 4 + 5) : (Math.random() * 4 + 5),  // Vers le centre (réduit)
-        -(Math.random() * 5 + 4),  // Vers le bas (réduit)
-        (Math.random() - 0.5) * 1   // Légère variation en profondeur (réduit)
-    );
-    
-    // Créer plusieurs traînées lumineuses (effet de queue)
-    const trails = [];
-    const trailCount = 3;      // Nombre de traînées (réduit de 5 à 3)
-    const trailLength = 200;   // Longueur de chaque traînée (réduit de 300 à 200)
-    
-    for (let i = 0; i < trailCount; i++) {
-        const trailGeometry = new THREE.BufferGeometry();
-        const trailPoints = [];
-        const segmentCount = 50;  // Nombre de points dans la traînée
-        
-        // Créer les points de la traînée (derrière l'étoile)
-        for (let j = 0; j < segmentCount; j++) {
-            const progress = j / (segmentCount - 1);  // Progression de 0 à 1
-            // Position du point = position de l'étoile - direction * longueur * progression
-            const trailPos = core.position.clone().add(
-                velocity.clone().normalize().multiplyScalar(-trailLength * progress)
-            );
-            trailPoints.push(trailPos);
-        }
-        
-        trailGeometry.setFromPoints(trailPoints);
-        
-        // Matériau de la traînée (opacité qui diminue)
-        const trailMaterial = new THREE.LineBasicMaterial({
-            color: coreColor,
-            transparent: true,
-            opacity: 0.8 - (i * 0.15),  // Plus la traînée est loin, plus elle est transparente
-            linewidth: 3 - (i * 0.5)
-        });
-        
-        const trail = new THREE.Line(trailGeometry, trailMaterial);
-        trails.push(trail);
-        scene.add(trail);
-    }
-    
-    // Particules sparkles (petites particules qui brillent autour)
-    const sparkleGeometry = new THREE.BufferGeometry();
-    const sparkleCount = 15;  // Réduit de 20 à 15
-    const sparklePositions = new Float32Array(sparkleCount * 3);
-    
-    // Positionner les particules autour du noyau (zone plus petite)
-    for (let i = 0; i < sparkleCount * 3; i += 3) {
-        sparklePositions[i] = core.position.x + (Math.random() - 0.5) * 30;  // Réduit de 50 à 30
-        sparklePositions[i + 1] = core.position.y + (Math.random() - 0.5) * 30;
-        sparklePositions[i + 2] = core.position.z + (Math.random() - 0.5) * 30;
-    }
-    
-    sparkleGeometry.setAttribute("position", new THREE.BufferAttribute(sparklePositions, 3));
-    
-    const sparkleMaterial = new THREE.PointsMaterial({
-        color: coreColor,
-        size: 1.5,  // Réduit encore à 1.5 pour des particules plus petites
-        transparent: true,
-        opacity: 0.8
-    });
-    
-    const sparkles = new THREE.Points(sparkleGeometry, sparkleMaterial);
-    
-    // Grouper tous les éléments de l'étoile filante
-    const shootingStarGroup = {
-        core,           // Noyau
-        halo,           // Halo
-        trails,         // Traînées
-        sparkles,       // Particules
-        velocity,       // Vitesse
-        life: 1.0,      // Durée de vie (1.0 = 100%)
-        maxLife: Math.random() * 3 + 4  // Durée de vie maximale (en secondes)
-    };
-    
-    // Ajouter à la scène
-    scene.add(core);
-    scene.add(halo);
-    scene.add(sparkles);
-    shootingStars.push(shootingStarGroup);
-    
-    // Nettoyage automatique après la durée de vie
-    setTimeout(() => {
-        scene.remove(core);
-        scene.remove(halo);
-        scene.remove(sparkles);
-        trails.forEach(trail => scene.remove(trail));
-        shootingStars = shootingStars.filter(s => s.core !== core);
-    }, shootingStarGroup.maxLife * 1000);
+function wrapDepth(value) {
+    return ((value % DEPTH) + DEPTH) % DEPTH;
 }
 
-// Pas d'étoiles filantes si l'utilisateur préfère réduire les animations,
-// ni quand l'onglet est en arrière-plan (document.hidden)
-if (!reducedMotion) {
-    // Générer une étoile filante toutes les 2 secondes (80% de chance)
-    setInterval(() => {
-        if (!document.hidden && Math.random() < 0.8) {
-            createShootingStar();
-        }
-    }, 2000);
+function clamp(value, min, max) {
+    return Math.min(Math.max(value, min), max);
+}
 
-    // Événement spécial : pluie d'étoiles filantes (30% de chance toutes les 15 secondes)
-    setInterval(() => {
-        if (!document.hidden && Math.random() < 0.30) {
-            // Créer 5 étoiles filantes avec un léger décalage (réduit de 8 à 5)
-            for (let i = 0; i < 5; i++) {
-                setTimeout(() => createShootingStar(), i * 250);  // Délai augmenté de 200 à 250ms
-            }
-        }
-    }, 15000);
+function computeFocalLength(fieldOfViewDegrees) {
+    return 1 / Math.tan((fieldOfViewDegrees * Math.PI) / (2 * DEGREES_PER_HALF_TURN));
 }
 
 // ============================================
-// BOUCLE D'ANIMATION PRINCIPALE
+// CANVAS
 // ============================================
 
-/**
- * Fonction d'animation appelée en continu
- * Cette fonction met à jour toutes les positions et redessine tout
- */
-function animateStars() {
-    // Demander la prochaine frame (cela crée une boucle infinie)
-    requestAnimationFrame(animateStars);
-    
-    // Faire tourner les étoiles fixes lentement
-    stars.rotation.y += 0.0003;  // Rotation autour de l'axe Y
-    stars.rotation.x += 0.0001;   // Rotation autour de l'axe X
-    
-    // Effet de scintillement des étoiles (changement de taille)
-    const time = Date.now() * 0.001;  // Temps en secondes
-    const sizes = stars.geometry.attributes.size.array;
-    
-    for (let i = 0; i < sizes.length; i++) {
-        // Utiliser la taille originale stockée au lieu de recalculer avec Math.random()
-        const originalSize = originalSizes[i];
-        // Utiliser sin pour créer un effet de pulsation (variation plus douce)
-        sizes[i] = originalSize + Math.sin(time + i * 0.1) * 0.3;
-    }
-    stars.geometry.attributes.size.needsUpdate = true;  // Indiquer que les tailles ont changé
-    
-    // Faire descendre les étoiles (effet de mouvement)
-    const positions = stars.geometry.attributes.position.array;
-    for (let i = 1; i < positions.length; i += 3) {  // i+1 = position Y
-        positions[i] -= 0.02;  // Déplacer vers le bas
-        // Si l'étoile sort en bas, la remettre en haut
-        if (positions[i] < -1500) positions[i] = 1500;
-    }
-    stars.geometry.attributes.position.needsUpdate = true;
-    
-    // Animer les étoiles filantes
-    shootingStars.forEach((star, index) => {
-        // Déplacer le noyau selon sa vitesse
-        star.core.position.add(star.velocity);
-        star.halo.position.copy(star.core.position);  // Le halo suit le noyau
-        
-        // Supprimer l'étoile si elle sort de l'écran (optimisation)
-        if (star.core.position.x < -2000 || star.core.position.x > 2000 ||
-            star.core.position.y < -2000 || star.core.position.y > 2000 ||
-            star.core.position.z < 0 || star.core.position.z > 1000) {
-            star.life = 0;  // Forcer la suppression
-        }
-        
-        // Mettre à jour les traînées (elles doivent suivre l'étoile)
-        star.trails.forEach((trail, trailIndex) => {
-            const trailPoints = [];
-            const segmentCount = 50;
-            const offset = trailIndex * 10;  // Décalage pour chaque traînée
-            
-            // Recalculer les points de la traînée
-            for (let j = 0; j < segmentCount; j++) {
-                const progress = j / (segmentCount - 1);
-                const trailPos = star.core.position.clone().add(
-                    star.velocity.clone().normalize().multiplyScalar(-(200 + offset) * progress)  // Réduit de 300 à 200
-                );
-                trailPoints.push(trailPos);
-            }
-            
-            trail.geometry.setFromPoints(trailPoints);
-        });
-        
-        // Mettre à jour les particules sparkles
-        const sparklePositions = star.sparkles.geometry.attributes.position.array;
-        for (let i = 0; i < sparklePositions.length; i += 3) {
-            // Déplacer les particules avec la vitesse de l'étoile + variation aléatoire
-            sparklePositions[i] += star.velocity.x * 0.8 + (Math.random() - 0.5) * 2;
-            sparklePositions[i + 1] += star.velocity.y * 0.8 + (Math.random() - 0.5) * 2;
-            sparklePositions[i + 2] += star.velocity.z * 0.8 + (Math.random() - 0.5) * 2;
-        }
-        star.sparkles.geometry.attributes.position.needsUpdate = true;
-        
-        // Diminuer progressivement l'opacité (fade out)
-        star.life -= 1 / (star.maxLife * 60);  // Diminuer selon le nombre de frames
-        star.core.material.opacity = Math.max(0, star.life);
-        star.halo.material.opacity = Math.max(0, star.life * 0.3);
-        star.sparkles.material.opacity = Math.max(0, star.life * 0.8);
-        
-        // Diminuer aussi l'opacité des traînées
-        star.trails.forEach((trail, trailIndex) => {
-            trail.material.opacity = Math.max(0, (star.life * (0.8 - trailIndex * 0.15)));
-        });
-    });
-    
-    // Rendre la scène (dessiner tout sur l'écran)
-    renderer.render(scene, camera);
+const canvas = document.createElement('canvas');
+canvas.id = 'space-background';
+canvas.className = 'background';
+canvas.setAttribute('aria-hidden', 'true');
+
+const context = canvas.getContext('2d');
+if (!context) return;
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+function attachCanvas() {
+    if (!canvas.isConnected) document.body.appendChild(canvas);
 }
-
-// ============================================
-// GESTION DU REDIMENSIONNEMENT
-// ============================================
-
-// Quand la fenêtre est redimensionnée, adapter le rendu
-window.addEventListener("resize", () => {
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    camera.aspect = window.innerWidth / window.innerHeight;  // Mettre à jour le ratio
-    camera.updateProjectionMatrix();  // Recalculer la projection
-});
-
-// Démarrer l'animation — ou rendre une seule image fixe si l'utilisateur
-// préfère réduire les animations (le fond étoilé reste visible, sans mouvement)
-if (reducedMotion) {
-    renderer.render(scene, camera);
+if (document.body) {
+    attachCanvas();
 } else {
-    animateStars();
+    document.addEventListener('DOMContentLoaded', attachCanvas);
+}
+
+window.addEventListener('resize', function () {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
+
+// ============================================
+// ÉTOILES
+// ============================================
+
+// La racine carrée sur le rayon donne une répartition uniforme dans le disque :
+// sans elle, les étoiles s'agglutineraient au centre.
+const stars = Array.from({ length: STAR_COUNT }, function () {
+    return {
+        radius: Math.sqrt(Math.random()) * MAX_STAR_RADIUS,
+        angle: Math.random() * FULL_TURN_RADIANS,
+        zPhase: Math.random() * DEPTH
+    };
+});
+
+// ============================================
+// ÉTOILES FILANTES
+// ============================================
+//
+// Indépendantes du champ d'étoiles : elles vivent en coordonnées écran, pas
+// dans le tunnel en perspective. Une seule à la fois, relancée après un délai
+// aléatoire — assez rare pour rester un petit événement quand elle passe.
+
+let shootingStar = null;
+let nextShootingStarIn = randomBetween(SHOOTING_STAR_MIN_DELAY_S, SHOOTING_STAR_MAX_DELAY_S);
+
+function randomBetween(min, max) {
+    return min + Math.random() * (max - min);
+}
+
+/**
+ * Crée une étoile filante démarrant hors champ, en haut, avec une trajectoire
+ * descendante vers la droite. La marge négative en X permet à certaines
+ * d'entrer par le bord gauche plutôt que toujours par le haut.
+ */
+function spawnShootingStar() {
+    const angle = (randomBetween(SHOOTING_STAR_ANGLE_MIN_DEG, SHOOTING_STAR_ANGLE_MAX_DEG) * Math.PI)
+        / DEGREES_PER_HALF_TURN;
+
+    shootingStar = {
+        x: randomBetween(-canvas.width * 0.25, canvas.width * 0.9),
+        y: randomBetween(-canvas.height * 0.1, canvas.height * 0.45),
+        directionX: Math.cos(angle),
+        directionY: Math.sin(angle),
+        speed: randomBetween(SHOOTING_STAR_SPEED_MIN, SHOOTING_STAR_SPEED_MAX),
+        length: randomBetween(SHOOTING_STAR_LENGTH_MIN, SHOOTING_STAR_LENGTH_MAX),
+        age: 0
+    };
+}
+
+function updateShootingStar(deltaSeconds) {
+    if (shootingStar === null) {
+        nextShootingStarIn -= deltaSeconds;
+        if (nextShootingStarIn <= 0) spawnShootingStar();
+        return;
+    }
+
+    shootingStar.age += deltaSeconds;
+    shootingStar.x += shootingStar.directionX * shootingStar.speed * deltaSeconds;
+    shootingStar.y += shootingStar.directionY * shootingStar.speed * deltaSeconds;
+
+    const offScreen = shootingStar.x - shootingStar.length > canvas.width
+        || shootingStar.y - shootingStar.length > canvas.height;
+
+    if (shootingStar.age >= SHOOTING_STAR_LIFETIME_S || offScreen) {
+        shootingStar = null;
+        nextShootingStarIn = randomBetween(SHOOTING_STAR_MIN_DELAY_S, SHOOTING_STAR_MAX_DELAY_S);
+    }
+}
+
+/**
+ * Traînée dessinée avec un dégradé linéaire : opaque à la tête, transparente
+ * à la queue. L'opacité globale monte vite puis redescend sur la durée de vie,
+ * pour que l'étoile n'apparaisse ni ne disparaisse d'un coup.
+ */
+function drawShootingStar() {
+    if (shootingStar === null) return;
+
+    const progress = shootingStar.age / SHOOTING_STAR_LIFETIME_S;
+    const opacity = progress < SHOOTING_STAR_FADE_IN
+        ? progress / SHOOTING_STAR_FADE_IN
+        : 1 - (progress - SHOOTING_STAR_FADE_IN) / (1 - SHOOTING_STAR_FADE_IN);
+
+    const tailX = shootingStar.x - shootingStar.directionX * shootingStar.length;
+    const tailY = shootingStar.y - shootingStar.directionY * shootingStar.length;
+
+    const gradient = context.createLinearGradient(shootingStar.x, shootingStar.y, tailX, tailY);
+    gradient.addColorStop(0, 'rgba(' + STAR_COLOR_RGB + ', ' + clamp(opacity, 0, 1) + ')');
+    gradient.addColorStop(1, 'rgba(' + STAR_COLOR_RGB + ', 0)');
+
+    context.beginPath();
+    context.moveTo(shootingStar.x, shootingStar.y);
+    context.lineTo(tailX, tailY);
+    context.strokeStyle = gradient;
+    context.lineWidth = SHOOTING_STAR_WIDTH;
+    context.lineCap = 'round';
+    context.stroke();
+
+    // Petit point vif en tête, pour lui donner du relief
+    context.beginPath();
+    context.fillStyle = 'rgba(255, 255, 255, ' + clamp(opacity, 0, 1) + ')';
+    context.arc(shootingStar.x, shootingStar.y, SHOOTING_STAR_WIDTH, 0, FULL_TURN_RADIANS);
+    context.fill();
+}
+
+// ============================================
+// ÉTAT DU WARP
+// ============================================
+//
+// `currentSpeed` est recalculée à chaque frame en interpolant de
+// `easeStartSpeed` vers `easeTargetSpeed` sur `easeDurationMs`, à partir de
+// `easeStartTimestamp`. C'est une interpolation basée sur le temps (et non un
+// lissage par frame) : la courbe est donc identique quelle que soit la cadence
+// de rendu de la machine.
+
+const warpState = {
+    currentSpeed: IDLE_WARP_SPEED,
+    easeStartSpeed: IDLE_WARP_SPEED,
+    easeTargetSpeed: IDLE_WARP_SPEED,
+    easeStartTimestamp: 0,
+    easeDurationMs: 1,
+    accumulatedTime: 0,
+    lastRenderTimestamp: 0,
+    // Instant (même horloge que l'interpolation) où la décélération démarre.
+    // Piloter ça depuis la boucle plutôt qu'avec un setTimeout garde une seule
+    // horloge : les deux ne peuvent pas dériver l'une par rapport à l'autre.
+    decelerateAtTimestamp: Infinity
+};
+
+/**
+ * Lance (ou redirige en plein vol) une transition de vitesse. On repart
+ * toujours de la vitesse interpolée courante : deux navigations rapprochées
+ * s'enchaînent en douceur au lieu de provoquer un saut.
+ */
+function setWarpTarget(targetSpeed, durationMs, timestamp) {
+    warpState.easeStartSpeed = warpState.currentSpeed;
+    warpState.easeTargetSpeed = targetSpeed;
+    warpState.easeStartTimestamp = timestamp;
+    warpState.easeDurationMs = durationMs;
+}
+
+/**
+ * Plongée d'arrivée : on démarre à pleine vitesse et on redescend vers la
+ * dérive de repos, donc les traînées sont longues au chargement puis se
+ * rétractent en points à mesure que tout se stabilise.
+ */
+function startArrivalDive() {
+    warpState.currentSpeed = ARRIVAL_WARP_SPEED;
+    warpState.easeStartSpeed = ARRIVAL_WARP_SPEED;
+    warpState.easeTargetSpeed = IDLE_WARP_SPEED;
+    warpState.easeStartTimestamp = performance.now();
+    warpState.easeDurationMs = ARRIVAL_EASE_DURATION_MS;
+    warpState.decelerateAtTimestamp = Infinity;
+}
+
+/**
+ * Rafale de navigation. Appelable à répétition : chaque appel relance la
+ * montée en vitesse et repousse le début de la décélération.
+ */
+function triggerWarp() {
+    const timestamp = performance.now();
+    setWarpTarget(NAVIGATION_WARP_SPEED, WARP_ACCELERATION_DURATION_MS, timestamp);
+    warpState.decelerateAtTimestamp = timestamp + WARP_MIN_VISIBLE_DURATION_MS;
+}
+
+window.triggerWarp = triggerWarp;
+
+// ============================================
+// PROJECTION & DESSIN
+// ============================================
+
+function projectStar(star, uTime, viewport) {
+    const depthPosition = Math.min(-wrapDepth(star.zPhase + uTime), -NEAR_DISTANCE);
+    const distance = -depthPosition;
+    const scale = (viewport.focalLength / distance) * viewport.halfHeight;
+
+    return {
+        screenX: viewport.centerX + Math.cos(star.angle) * star.radius * scale,
+        screenY: viewport.centerY - Math.sin(star.angle) * star.radius * scale,
+        pointRadius: clamp(POINT_RADIUS_FALLOFF / distance, MIN_POINT_RADIUS, MAX_POINT_RADIUS),
+        alpha: clamp(1 - distance / DEPTH, MIN_ALPHA, MAX_ALPHA)
+    };
+}
+
+/**
+ * Limite l'éloignement de la queue par rapport à la tête, en pixels écran.
+ * Sans ce plafond, les étoiles proches du point de fuite (distance minuscule,
+ * échelle énorme) tracent des traînées bien plus longues que tout le reste :
+ * borner la longueur garde une intensité homogène quelle que soit la profondeur.
+ */
+function clampStreakTail(head, tail) {
+    const deltaX = head.screenX - tail.screenX;
+    const deltaY = head.screenY - tail.screenY;
+    const length = Math.hypot(deltaX, deltaY);
+    if (length <= STREAK_MAX_LENGTH_PX) return tail;
+
+    const lengthScale = STREAK_MAX_LENGTH_PX / length;
+    return {
+        screenX: head.screenX - deltaX * lengthScale,
+        screenY: head.screenY - deltaY * lengthScale
+    };
+}
+
+function drawStreak(star, head, uTime, warpSpeed, viewport) {
+    const trailUTime = uTime - warpSpeed * STREAK_DURATION_SECONDS;
+    const tail = clampStreakTail(head, projectStar(star, trailUTime, viewport));
+
+    context.beginPath();
+    context.moveTo(tail.screenX, tail.screenY);
+    context.lineTo(head.screenX, head.screenY);
+    context.lineWidth = head.pointRadius * STREAK_WIDTH_FACTOR;
+    context.lineCap = 'round';
+    context.strokeStyle = 'rgba(' + STAR_COLOR_RGB + ', ' + (head.alpha * STREAK_ALPHA_FACTOR) + ')';
+    context.stroke();
+}
+
+function drawStarHead(head) {
+    context.beginPath();
+    context.fillStyle = 'rgba(' + STAR_COLOR_RGB + ', ' + head.alpha + ')';
+    context.arc(head.screenX, head.screenY, head.pointRadius, 0, FULL_TURN_RADIANS);
+    context.fill();
+}
+
+/**
+ * Dessine chaque étoile comme une tête lumineuse, plus — uniquement quand la
+ * vitesse dépasse la dérive de repos (donc pendant une navigation ou la
+ * plongée d'arrivée) — une traînée sombre remontant vers sa position d'il y a
+ * STREAK_DURATION_SECONDS. À vitesse de repos, c'est toujours un simple point.
+ */
+function drawStar(star, uTime, warpSpeed, viewport) {
+    const head = projectStar(star, uTime, viewport);
+
+    if (warpSpeed > STREAK_VISIBILITY_SPEED_THRESHOLD) {
+        drawStreak(star, head, uTime, warpSpeed, viewport);
+    }
+
+    drawStarHead(head);
+}
+
+function drawFrame(viewport) {
+    context.fillStyle = BACKGROUND_COLOR;
+    context.fillRect(0, 0, canvas.width, canvas.height);
+
+    for (let i = 0; i < stars.length; i++) {
+        drawStar(stars[i], warpState.accumulatedTime, warpState.currentSpeed, viewport);
+    }
+
+    // Par-dessus le champ : c'est l'élément le plus proche du spectateur
+    drawShootingStar();
+}
+
+// ============================================
+// CADENCE DE RENDU
+// ============================================
+
+/**
+ * Échantillonne des deltas bruts de requestAnimationFrame (sans limitation)
+ * pour estimer la fréquence de rafraîchissement réelle de l'écran : la boucle
+ * peut ainsi viser cette cadence au lieu d'imposer la même à tout le monde.
+ */
+function measureRefreshRate(onMeasured) {
+    let sampledFrameCount = 0;
+    let firstSampleTimestamp = 0;
+
+    function sampleFrame(timestamp) {
+        if (sampledFrameCount === 0) firstSampleTimestamp = timestamp;
+        sampledFrameCount += 1;
+
+        if (sampledFrameCount < REFRESH_SAMPLE_FRAME_COUNT) {
+            requestAnimationFrame(sampleFrame);
+            return;
+        }
+
+        const elapsedMs = timestamp - firstSampleTimestamp;
+        onMeasured((MILLISECONDS_PER_SECOND * (REFRESH_SAMPLE_FRAME_COUNT - 1)) / elapsedMs);
+    }
+
+    requestAnimationFrame(sampleFrame);
+}
+
+function pickTargetFramesPerSecond(measuredHz) {
+    if (measuredHz >= HIGH_REFRESH_HZ_THRESHOLD) return HIGH_TIER_FRAMES_PER_SECOND;
+    if (measuredHz >= MID_REFRESH_HZ_THRESHOLD) return MID_TIER_FRAMES_PER_SECOND;
+    return LOW_TIER_FRAMES_PER_SECOND;
+}
+
+// ============================================
+// BOUCLE D'ANIMATION
+// ============================================
+
+function advanceWarpState(timestamp, deltaSeconds) {
+    // Fin du palier de navigation : on enclenche la décélération.
+    if (timestamp >= warpState.decelerateAtTimestamp) {
+        warpState.decelerateAtTimestamp = Infinity;
+        setWarpTarget(IDLE_WARP_SPEED, WARP_DECELERATION_DURATION_MS, timestamp);
+    }
+
+    const easeProgress = clamp(
+        (timestamp - warpState.easeStartTimestamp) / warpState.easeDurationMs, 0, 1
+    );
+    warpState.currentSpeed = lerp(
+        warpState.easeStartSpeed,
+        warpState.easeTargetSpeed,
+        easeInOutCubic(easeProgress)
+    );
+    warpState.accumulatedTime += warpState.currentSpeed * deltaSeconds;
+}
+
+function runAnimationLoop(frameIntervalMs) {
+    const focalLength = computeFocalLength(CAMERA_FIELD_OF_VIEW_DEGREES);
+    // Figé au démarrage : un redimensionnement recadre le champ (recentrage)
+    // au lieu de le redimensionner. Avec une hauteur lue en direct, toutes les
+    // étoiles sauteraient à l'instant où la fenêtre change de hauteur.
+    const scaleReferenceHalfHeight = canvas.height / 2;
+
+    startArrivalDive();
+
+    function renderFrame(timestamp) {
+        requestAnimationFrame(renderFrame);
+
+        if (timestamp - warpState.lastRenderTimestamp < frameIntervalMs) return;
+
+        const deltaSeconds = Math.min(
+            (timestamp - warpState.lastRenderTimestamp) / MILLISECONDS_PER_SECOND,
+            MAX_DELTA_SECONDS
+        );
+        warpState.lastRenderTimestamp = timestamp;
+        advanceWarpState(timestamp, deltaSeconds);
+        updateShootingStar(deltaSeconds);
+
+        drawFrame({
+            focalLength: focalLength,
+            centerX: canvas.width / 2,
+            centerY: canvas.height / 2,
+            halfHeight: scaleReferenceHalfHeight
+        });
+    }
+
+    renderFrame(0);
+}
+
+// ============================================
+// DÉCLENCHEURS DU WARP
+// ============================================
+
+// Onglets de la sidebar (on ignore les boutons de dropdown : ils ouvrent un
+// sous-menu, ils ne naviguent pas) + photo de profil de la sidebar.
+document.addEventListener('click', function (e) {
+    if (e.target.closest('#profileCard')) {
+        triggerWarp();
+        // La photo de profil se comporte comme un logo : elle ramène à
+        // l'accueil. Si on y est déjà, seule la rafale joue.
+        if (window.location.hash !== '#accueil') window.location.hash = '#accueil';
+        return;
+    }
+
+    const link = e.target.closest('nav a');
+    if (!link || link.classList.contains('dropbtn')) return;
+
+    const href = link.getAttribute('href');
+    if (!href || !href.startsWith('#') || href === '#') return;
+
+    triggerWarp();
+});
+
+// Photo de profil au clavier (elle porte role="button" tabindex="0")
+document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    if (!e.target.closest || !e.target.closest('#profileCard')) return;
+    e.preventDefault();
+    triggerWarp();
+    if (window.location.hash !== '#accueil') window.location.hash = '#accueil';
+});
+
+// Retour/avance navigateur et liens internes hors sidebar (.btn, etc.)
+window.addEventListener('hashchange', triggerWarp);
+
+// ============================================
+// DÉMARRAGE
+// ============================================
+
+// Préférence de réduction des animations : on peint une seule image fixe.
+// Le fond étoilé reste visible, simplement immobile.
+if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    window.triggerWarp = function () {};
+    drawFrame({
+        focalLength: computeFocalLength(CAMERA_FIELD_OF_VIEW_DEGREES),
+        centerX: canvas.width / 2,
+        centerY: canvas.height / 2,
+        halfHeight: canvas.height / 2
+    });
+} else {
+    measureRefreshRate(function (measuredHz) {
+        runAnimationLoop(MILLISECONDS_PER_SECOND / pickTargetFramesPerSecond(measuredHz));
+    });
 }
 
 })();

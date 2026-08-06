@@ -55,6 +55,15 @@ class MusicPlayer {
         this.updateUI();
     }
 
+    /**
+     * Vrai quand le curseur de volume est masqué, c'est-à-dire sur mobile
+     * (voir la règle .volume-slider dans css/style.css). Le seuil doit rester
+     * aligné sur celui de la feuille de style.
+     */
+    static isVolumeSliderHidden() {
+        return window.matchMedia('(max-width: 995px)').matches;
+    }
+
     static formatTime(seconds) {
         if (!isFinite(seconds) || seconds < 0) return '0:00';
         const m = Math.floor(seconds / 60);
@@ -217,13 +226,37 @@ class MusicPlayer {
     }
 
     saveState() {
+        // Sur mobile le gain est forcé à 100 % (voir restoreState) : ce n'est
+        // pas un choix de l'utilisateur, on ne l'écrit donc pas par-dessus le
+        // volume réglé au bureau.
+        let volume = this.audio.volume;
+        if (MusicPlayer.isVolumeSliderHidden()) {
+            try {
+                const previous = JSON.parse(localStorage.getItem('musicState'));
+                if (previous && previous.vol !== undefined) volume = previous.vol;
+            } catch (e) {
+                // état illisible : on retombe sur le volume courant
+            }
+        }
+
         const state = {
             index: this.currentSongIndex,
             time: this.audio.currentTime,
-            vol: this.audio.volume,
+            vol: volume,
             loop: this.isLooping
         };
         localStorage.setItem('musicState', JSON.stringify(state));
+    }
+
+    /**
+     * Sans curseur (mobile), le son doit se régler uniquement avec les boutons
+     * du téléphone : on laisse donc le gain de l'élément audio à 100 %. Sinon
+     * le volume enregistré depuis le bureau (30 % par défaut) s'appliquerait
+     * en plus du volume système, sans aucun moyen de le remonter.
+     */
+    defaultVolume(savedVolume) {
+        if (MusicPlayer.isVolumeSliderHidden()) return 1;
+        return savedVolume !== undefined ? savedVolume : 0.3;
     }
 
     restoreState() {
@@ -233,7 +266,7 @@ class MusicPlayer {
                 const state = JSON.parse(saved);
                 this.currentSongIndex = state.index || 0;
                 this.isLooping = state.loop || false;
-                this.audio.volume = state.vol !== undefined ? state.vol : 0.3;
+                this.audio.volume = this.defaultVolume(state.vol);
                 
                 // Pré-charger la source mais ne pas lancer sans interaction
                 const song = this.playlist[this.currentSongIndex];
@@ -248,7 +281,7 @@ class MusicPlayer {
                 console.error("Erreur restauration état audio:", e);
             }
         } else {
-            this.audio.volume = 0.3;
+            this.audio.volume = this.defaultVolume(undefined);
             const song = this.playlist[this.currentSongIndex];
             this.audio.src = song.src;
         }

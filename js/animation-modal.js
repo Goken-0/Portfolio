@@ -17,6 +17,11 @@
 (function() {
     'use strict';
 
+    /** Traduction d'une clé, avec le texte français en valeur de repli. */
+    function t(key, french) {
+        return (window.i18n && window.i18n.t) ? window.i18n.t(key, french) : french;
+    }
+
     // Configuration pour chaque type de document
     const CONFIG = {
         cv: {
@@ -125,7 +130,7 @@
         
         const closeBtn = document.createElement('button');
         closeBtn.className = 'modal-close';
-        closeBtn.setAttribute('aria-label', 'Fermer');
+        closeBtn.setAttribute('aria-label', t('modal.close', 'Fermer'));
         const closeIcon = document.createElement('i');
         closeIcon.className = 'fas fa-times';
         closeBtn.appendChild(closeIcon);
@@ -146,18 +151,19 @@
         const controls = document.createElement('div');
         controls.className = 'modal-controls';
         
-        // Boutons de contrôle
+        // Boutons de contrôle (libellés résolus à l'ouverture de la modale :
+        // elle est recréée à chaque clic, pas besoin de la retraduire à chaud)
         const buttons = [
-            { icon: 'fas fa-search-plus', text: 'Zoomer', class: 'modal-zoom-in', title: 'Zoomer' },
-            { icon: 'fas fa-search-minus', text: 'Dézoomer', class: 'modal-zoom-out', title: 'Dézoomer' },
-            { icon: 'fas fa-compress-arrows-alt', text: 'Ajuster', class: 'modal-reset', title: 'Ajuster' },
-            { icon: 'fas fa-download', text: 'Télécharger', class: 'modal-download', title: 'Télécharger' }
+            { icon: 'fas fa-search-plus', text: t('modal.zoomIn', 'Zoomer'), class: 'modal-zoom-in' },
+            { icon: 'fas fa-search-minus', text: t('modal.zoomOut', 'Dézoomer'), class: 'modal-zoom-out' },
+            { icon: 'fas fa-compress-arrows-alt', text: t('modal.fit', 'Ajuster'), class: 'modal-reset' },
+            { icon: 'fas fa-download', text: t('modal.download', 'Télécharger'), class: 'modal-download' }
         ];
         
         buttons.forEach(btn => {
             const button = document.createElement('button');
             button.className = `modal-btn ${btn.class}`;
-            button.title = btn.title;
+            button.title = btn.text;
             const icon = document.createElement('i');
             icon.className = btn.icon;
             const span = document.createElement('span');
@@ -184,11 +190,11 @@
      * @returns {string}
      */
     function getDocumentTitle(imgElement) {
-        if (imgElement.classList.contains('cv-img')) return 'Curriculum Vitae';
+        if (imgElement.classList.contains('cv-img')) return t('modal.cv', 'Curriculum Vitae');
         if (imgElement.classList.contains('lettre-img') || imgElement.classList.contains('lm-img')) {
-            return 'Lettre de Motivation';
+            return t('modal.lm', 'Lettre de Motivation');
         }
-        return 'Document';
+        return t('modal.document', 'Document');
     }
 
     /**

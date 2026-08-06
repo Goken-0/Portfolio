@@ -4,25 +4,64 @@
  * ============================================
  * Remplace l'animation CSS de typing par une rotation
  * de mots fluide et responsive.
+ *
+ * Bilingue : les mots sont rejoués dans la langue courante à chaque
+ * bascule (événement i18n:changed).
  */
 (function () {
     'use strict';
 
-    const words = [
-        'étudiant en BTS SIO',
-        'passionné de réseaux',
-        'futur technicien IT',
-        'amateur de cybersecurité'
-    ];
+    const WORDS = {
+        fr: [
+            'étudiant en BTS SIO',
+            'passionné de réseaux',
+            'futur technicien IT',
+            'amateur de cybersecurité'
+        ],
+        en: [
+            'an IT student',
+            'a networking enthusiast',
+            'a future IT technician',
+            'a cybersecurity enthusiast'
+        ]
+    };
+
+    const PREFIX = {
+        fr: 'Je suis ',
+        en: "I'm "
+    };
+
+    // Identifiants des minuteries en cours : sans ce suivi, chaque bascule de
+    // langue empilerait un nouvel setInterval et la rotation s'emballerait.
+    let rotationTimer = null;
+    let pendingTimeouts = [];
+
+    function clearTimers() {
+        if (rotationTimer !== null) {
+            clearInterval(rotationTimer);
+            rotationTimer = null;
+        }
+        pendingTimeouts.forEach(clearTimeout);
+        pendingTimeouts = [];
+    }
+
+    function currentLang() {
+        return (window.i18n && window.i18n.lang === 'en') ? 'en' : 'fr';
+    }
 
     function initTyping() {
         const h3 = document.querySelector('.typing-text');
         if (!h3) return;
 
+        clearTimers();
+
+        const lang = currentLang();
+        const words = WORDS[lang];
+
         // Vider le h3 et reconstruire proprement
         h3.innerHTML = '';
 
-        const prefix = document.createTextNode('Je suis\u00a0');
+        const prefix = document.createTextNode(PREFIX[lang]);
         h3.appendChild(prefix);
 
         const wrap = document.createElement('span');
@@ -57,18 +96,20 @@
             // Sortie de l'ancien mot
             spans[prev].classList.remove('word-visible');
             spans[prev].classList.add('word-out');
-            setTimeout(() => spans[prev].classList.remove('word-out'), 500);
+            pendingTimeouts.push(setTimeout(() => spans[prev].classList.remove('word-out'), 500));
 
             // Entrée du nouveau mot
-            setTimeout(() => showWord(current), 300);
+            pendingTimeouts.push(setTimeout(() => showWord(current), 300));
         }
 
         // Premier mot immédiatement
         showWord(0);
 
         // Rotation toutes les 3s
-        setInterval(nextWord, 3000);
+        rotationTimer = setInterval(nextWord, 3000);
     }
+
+    document.addEventListener('i18n:changed', initTyping);
 
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initTyping);

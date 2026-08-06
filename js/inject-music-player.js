@@ -35,15 +35,15 @@
         </div>
 
         <div class="music-controls">
-            <button class="control-btn" id="prevBtn" aria-label="Piste précédente"><i class="fas fa-backward"></i></button>
-            <button class="control-btn play-pause" id="playPauseBtn" aria-label="Lecture / pause"><i class="fas fa-play"></i></button>
-            <button class="control-btn" id="nextBtn" aria-label="Piste suivante"><i class="fas fa-forward"></i></button>
+            <button class="control-btn" id="prevBtn" aria-label="Piste précédente" data-i18n-aria="music.prev"><i class="fas fa-backward"></i></button>
+            <button class="control-btn play-pause" id="playPauseBtn" aria-label="Lecture / pause" data-i18n-aria="music.play"><i class="fas fa-play"></i></button>
+            <button class="control-btn" id="nextBtn" aria-label="Piste suivante" data-i18n-aria="music.next"><i class="fas fa-forward"></i></button>
         </div>
 
         <div class="volume-container">
             <i class="fas fa-volume-up volume-icon" id="volumeIcon"></i>
-            <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" step="1" value="30" aria-label="Volume">
-            <button class="control-btn loop-btn" id="loopBtn" title="Répétition" aria-label="Répétition"><i class="fas fa-repeat"></i></button>
+            <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" step="1" value="30" aria-label="Volume" data-i18n-aria="music.volume">
+            <button class="control-btn loop-btn" id="loopBtn" title="Répétition" data-i18n-title="music.loop" aria-label="Répétition" data-i18n-aria="music.loop"><i class="fas fa-repeat"></i></button>
         </div>
     </div>
 </div>
@@ -75,6 +75,9 @@
             sidebarBottom.insertBefore(playerUI, sidebarBottom.firstChild);
             console.log('⚓ Lecteur ré-ancré dans la sidebar');
         }
+
+        // 2b. Traduire le fragment fraîchement injecté (il porte data-i18n-aria)
+        if (playerUI && window.i18n && window.i18n.apply) window.i18n.apply(playerUI);
 
         // 3. Initialiser ou ré-attacher la logique
         if (window.musicPlayerInstance) {

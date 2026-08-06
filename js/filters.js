@@ -13,16 +13,20 @@
 
         const filterBtns = section.querySelectorAll('.filter-btn');
 
-        // Message "aucun résultat" (créé une seule fois par section)
+        // Message "aucun résultat" (créé une seule fois par section).
+        // Il porte data-i18n : le moteur i18n le retraduira tout seul lors
+        // d'une bascule de langue, même s'il est déjà dans le DOM.
         function getNoResultsEl() {
             let el = section.querySelector('.no-results');
             if (!el) {
                 el = document.createElement('p');
                 el.className = 'no-results';
+                el.setAttribute('data-i18n', 'ui.noResults');
                 el.innerHTML = '<i class="fas fa-search"></i> Aucun élément dans cette catégorie.';
                 el.style.display = 'none';
                 const grid = section.querySelector('.projects-grid');
                 if (grid) grid.insertAdjacentElement('afterend', el);
+                if (window.i18n && window.i18n.apply) window.i18n.apply(el);
             }
             return el;
         }

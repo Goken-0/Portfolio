@@ -7,6 +7,9 @@
 (function() {
     'use strict';
 
+    // Resynchronise le libellé du hamburger, réassignée par setupMenu()
+    let syncMenuLabel = function () {};
+
     // --- MENU HAMBURGER MOBILE ---
     function setupMenu() {
         const toggle = document.querySelector('.hamburger-toggle');
@@ -15,13 +18,34 @@
 
         if (!toggle || !sidebar) return;
 
+        // Le libellé du hamburger dépend de son état ouvert/fermé : il est donc
+        // géré ici plutôt que par un data-i18n statique, et resynchronisé à
+        // chaque changement de langue.
+        function t(key, french) {
+            return (window.i18n && window.i18n.t) ? window.i18n.t(key, french) : french;
+        }
+
+        function syncToggleLabel() {
+            const open = toggle.classList.contains('active');
+            toggle.setAttribute(
+                'aria-label',
+                open ? t('ui.closeMenu', 'Fermer le menu') : t('ui.openMenu', 'Ouvrir le menu')
+            );
+        }
+
         function toggleMenu() {
             const open = toggle.classList.toggle('active');
             sidebar.classList.toggle('sidebar-open');
             if (overlay) overlay.classList.toggle('active');
             toggle.setAttribute('aria-expanded', open);
-            toggle.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
+            syncToggleLabel();
         }
+
+        // setupMenu() est rejoué à chaque navigation SPA : on expose la
+        // resynchronisation plutôt que d'empiler un écouteur à chaque appel
+        // (l'écouteur unique est branché tout en bas du fichier).
+        syncMenuLabel = syncToggleLabel;
+        syncToggleLabel();
 
         // On enlève les anciens écouteurs pour éviter les doublons SPA
         toggle.onclick = toggleMenu;
@@ -97,6 +121,12 @@
 
     // Exposer pour le SPA
     window.reinitUI = init;
+
+    // Écouteur unique : le libellé du hamburger dépend de l'état d'ouverture,
+    // il ne peut pas être piloté par un simple data-i18n statique.
+    document.addEventListener('i18n:changed', function () {
+        syncMenuLabel();
+    });
 
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
