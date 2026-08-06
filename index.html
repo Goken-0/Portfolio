@@ -47,59 +47,91 @@
 
 	<!-- CSS du site -->
 	<link rel="stylesheet" href="css/style.css">
-	
+
 	<title>Portfolio - Léo Metgy</title>
 </head>
 
 <body class="home-page">
-	<a class="skip-link" href="#main-content">Aller au contenu</a>
+	<a class="skip-link" href="#main-content" data-i18n="ui.skipLink">Aller au contenu</a>
+
+	<!-- Sélecteur de langue (flottant, en haut à droite).
+	     Drapeaux en SVG inline plutôt qu'en emoji : Windows ne rend pas les
+	     indicateurs régionaux et afficherait « FR » / « GB » en lettres brutes. -->
+	<div class="lang-switcher" role="group" aria-label="Langue / Language">
+		<button type="button" class="lang-btn active" data-lang="fr" aria-pressed="true"
+			title="Passer en français" data-i18n-title="ui.switchToFr"
+			aria-label="Passer en français" data-i18n-aria="ui.switchToFr">
+			<svg class="lang-flag" viewBox="0 0 60 40" aria-hidden="true" focusable="false">
+				<rect width="20" height="40" fill="#002654"/>
+				<rect x="20" width="20" height="40" fill="#ffffff"/>
+				<rect x="40" width="20" height="40" fill="#ed2939"/>
+			</svg>
+		</button>
+		<button type="button" class="lang-btn" data-lang="en" aria-pressed="false"
+			title="Switch to English" data-i18n-title="ui.switchToEn"
+			aria-label="Switch to English" data-i18n-aria="ui.switchToEn">
+			<svg class="lang-flag" viewBox="0 0 60 40" aria-hidden="true" focusable="false">
+				<!-- Contre-changement de l'Union Jack : les bandes rouges des
+				     diagonales sont décalées d'un quadrant à l'autre -->
+				<clipPath id="uk-counterchange">
+					<path d="M30,20 h30 v20 z v20 h-30 z h-30 v-20 z v-20 h30 z"/>
+				</clipPath>
+				<rect width="60" height="40" fill="#012169"/>
+				<path d="M0,0 L60,40 M60,0 L0,40" stroke="#ffffff" stroke-width="8"/>
+				<path d="M0,0 L60,40 M60,0 L0,40" stroke="#c8102e" stroke-width="5" clip-path="url(#uk-counterchange)"/>
+				<path d="M30,0 v40 M0,20 h60" stroke="#ffffff" stroke-width="13"/>
+				<path d="M30,0 v40 M0,20 h60" stroke="#c8102e" stroke-width="8"/>
+			</svg>
+		</button>
+	</div>
 
 	<!-- Header / Sidebar -->
 	<header>
 		<div class="sidebar-profile">
-			<div class="profile-card" id="profileCard">
+			<div class="profile-card" id="profileCard" role="button" tabindex="0" title="Retour à l'accueil" data-i18n-title="profile.home" aria-label="Retour à l'accueil" data-i18n-aria="profile.home">
 				<div class="profile-card-inner">
-					<img src="assets/images/main.png" alt="Photo de profil de Léo Metgy" class="profile-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+					<img src="assets/images/main.png" alt="Photo de profil de Léo Metgy" data-i18n-alt="profile.photoAlt" class="profile-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
 					<div class="profile-placeholder"><i class="fa-solid fa-user"></i></div>
 				</div>
 				<div class="profile-glow"></div>
 			</div>
 			<h2 class="profile-name">Léo ✌️</h2>
-			<p class="profile-title">Étudiant BTS SIO</p>
+			<p class="profile-title" data-i18n="profile.role">Étudiant BTS SIO</p>
 			<div class="sidebar-social">
-				<a href="https://www.linkedin.com/in/l%C3%A9o-metgy-3268a5383/" title="LinkedIn" target="_blank" rel="noopener" class="social-linkedin"><i class="fa-brands fa-linkedin"></i></a>
-				<a href="https://github.com/Goken-0" title="GitHub" target="_blank" rel="noopener" class="social-github"><i class="fa-brands fa-github"></i></a>
-				<a href="#contact" title="Me contacter" class="social-contact"><i class="fa-solid fa-envelope"></i></a>
+				<a href="https://www.linkedin.com/in/l%C3%A9o-metgy-3268a5383/" title="LinkedIn" data-i18n-title="profile.linkedin" target="_blank" rel="noopener" class="social-linkedin"><i class="fa-brands fa-linkedin"></i></a>
+				<a href="https://github.com/Goken-0" title="GitHub" data-i18n-title="profile.github" target="_blank" rel="noopener" class="social-github"><i class="fa-brands fa-github"></i></a>
+				<a href="#contact" title="Me contacter" data-i18n-title="profile.contact" class="social-contact"><i class="fa-solid fa-envelope"></i></a>
 			</div>
 		</div>
 
 		<nav id="main-nav">
-			<a href="#accueil"><i class="fa-solid fa-house"></i><span>Accueil</span></a>
+			<a href="#accueil" data-i18n="nav.home"><i class="fa-solid fa-house"></i><span>Accueil</span></a>
 			<div class="dropdown">
-				<a href="#" class="dropbtn" aria-expanded="false" aria-haspopup="true"><i class="fa-solid fa-user-graduate"></i><span>Parcours</span><i class="fa fa-caret-down caret-icon"></i></a>
+				<a href="#" class="dropbtn" aria-expanded="false" aria-haspopup="true" data-i18n="nav.background"><i class="fa-solid fa-user-graduate"></i><span>Parcours</span><i class="fa fa-caret-down caret-icon"></i></a>
 				<div class="dropdown-content">
-					<a href="#cv"><i class="fa-solid fa-file-lines"></i>CV</a>
-					<a href="#motivation"><i class="fa-solid fa-envelope-open-text"></i>Motivation</a>
+					<a href="#cv" data-i18n="nav.cv"><i class="fa-solid fa-file-lines"></i>CV</a>
+					<a href="#motivation" data-i18n="nav.motivation"><i class="fa-solid fa-envelope-open-text"></i>Motivation</a>
 				</div>
 			</div>
 			<div class="dropdown">
-				<a href="#" class="dropbtn" aria-expanded="false" aria-haspopup="true"><i class="fa-solid fa-layer-group"></i><span>Réalisations</span><i class="fa fa-caret-down caret-icon"></i></a>
+				<a href="#" class="dropbtn" aria-expanded="false" aria-haspopup="true" data-i18n="nav.work"><i class="fa-solid fa-layer-group"></i><span>Réalisations</span><i class="fa fa-caret-down caret-icon"></i></a>
 				<div class="dropdown-content">
-					<a href="#tps"><i class="fa-solid fa-flask"></i>TPs</a>
-					<a href="#projets"><i class="fa-solid fa-diagram-project"></i>Projets</a>
-					<a href="#stages"><i class="fa-solid fa-briefcase"></i>Stages</a>
+					<a href="#tps" data-i18n="nav.tps"><i class="fa-solid fa-flask"></i>TPs</a>
+					<a href="#projets" data-i18n="nav.projects"><i class="fa-solid fa-diagram-project"></i>Projets</a>
+					<a href="#stages" data-i18n="nav.internships"><i class="fa-solid fa-briefcase"></i>Stages</a>
 				</div>
 			</div>
-			<a href="#competences"><i class="fa-solid fa-code"></i><span>Compétences</span></a>
-			<a href="#veille"><i class="fa-solid fa-satellite-dish"></i><span>Veille</span></a>
-			<a href="#contact"><i class="fa-solid fa-envelope"></i><span>Contact</span></a>
+			<a href="#competences" data-i18n="nav.skills"><i class="fa-solid fa-code"></i><span>Compétences</span></a>
+			<a href="#veille" data-i18n="nav.watch"><i class="fa-solid fa-satellite-dish"></i><span>Veille</span></a>
+			<a href="#contact" data-i18n="nav.contact"><i class="fa-solid fa-envelope"></i><span>Contact</span></a>
 		</nav>
 		<div class="sidebar-bottom">
-			<p class="sidebar-footer-credit">Fait avec ❤️ par Léo</p>
+			<p class="sidebar-footer-credit" data-i18n="ui.credit">Fait avec ❤️ par Léo</p>
 		</div>
 	</header>
 
 	<!-- Bouton mobile (Hamburger) -->
+	<!-- aria-label piloté par menu.js : il dépend de l'état ouvert/fermé -->
 	<button class="hamburger-toggle" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="main-nav">
 		<span></span>
 		<span></span>
@@ -113,42 +145,42 @@
 	     CONTENU PRINCIPAL (TOUT SUR UNE PAGE)
 	     ============================================ -->
 	<main id="main-content">
-		
+
 		<!-- Section ACCUEIL -->
 		<section id="accueil" class="home">
 			<div class="home-profile-card profile-card">
 				<div class="profile-card-inner">
-					<img src="assets/images/main.png" alt="Photo de profil de Léo Metgy" class="profile-img">
+					<img src="assets/images/main.png" alt="Photo de profil de Léo Metgy" data-i18n-alt="profile.photoAlt" class="profile-img">
 				</div>
 				<div class="profile-glow"></div>
 			</div>
 			<div class="home-content">
 				<!-- Titre principal avec le prénom en surbrillance -->
-				<h1>Bonjour, je m'appelle <span>Léo</span></h1>
-				
-				<!-- Sous-titre avec animation de rotation de mots -->
+				<h1 data-i18n="home.title">Bonjour, je m'appelle <span>Léo</span></h1>
+
+				<!-- Sous-titre avec animation de rotation de mots (contenu généré par typing.js) -->
 				<h3 class="typing-text">Je suis <span class="rotate-wrap"><span class="word-visible">étudiant en BTS SIO</span></span><span class="typing-cursor"></span></h3>
-				
+
 				<!-- Phrase d'accroche -->
-				<p class="sentence">
+				<p class="sentence" data-i18n="home.sentence">
 					L'informatique m'anime depuis toujours : bienvenue dans mon univers numérique.
 				</p>
 
 				<div class="social-icons">
-					<a href="https://www.linkedin.com/in/l%C3%A9o-metgy-3268a5383/" target="_blank" rel="noopener" aria-label="Profil LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
-					<a href="https://github.com/Goken-0" target="_blank" rel="noopener" aria-label="Profil GitHub"><i class="fa-brands fa-github"></i></a>
+					<a href="https://www.linkedin.com/in/l%C3%A9o-metgy-3268a5383/" target="_blank" rel="noopener" aria-label="Profil LinkedIn" data-i18n-aria="home.linkedin"><i class="fa-brands fa-linkedin"></i></a>
+					<a href="https://github.com/Goken-0" target="_blank" rel="noopener" aria-label="Profil GitHub" data-i18n-aria="home.github"><i class="fa-brands fa-github"></i></a>
 				</div>
-				<a href="#contact" class="btn">Me contacter</a>
+				<a href="#contact" class="btn" data-i18n="home.cta">Me contacter</a>
 			</div>
 		</section>
 
 		<!-- Section CV -->
 		<section id="cv" style="display:none">
 			<div class="cv-container" style="flex-direction: column;">
-				<h1 class="section-title">Mon <span>CV</span></h1>
+				<h1 class="section-title" data-i18n="cv.title">Mon <span>CV</span></h1>
 				<div class="cv-content">
-					<img src="assets/images/cv.jpg" class="cv-img" alt="Aperçu du CV de Léo Metgy">
-					<a href="assets/pdf/cv.pdf" class="btn-cv" download="CV_METGY_LEO">Télécharger</a>
+					<img src="assets/images/cv.jpg" class="cv-img" alt="Aperçu du CV de Léo Metgy" data-i18n-alt="cv.alt">
+					<a href="assets/pdf/cv.pdf" class="btn-cv" download="CV_METGY_LEO" data-i18n="cv.download">Télécharger</a>
 				</div>
 			</div>
 		</section>
@@ -156,10 +188,10 @@
 		<!-- Section MOTIVATION -->
 		<section id="motivation" style="display:none">
 			<div class="cv-container" style="flex-direction: column;">
-				<h1 class="section-title">Ma <span>Lettre de Motivation</span></h1>
+				<h1 class="section-title" data-i18n="motivation.title">Ma <span>Lettre de Motivation</span></h1>
 				<div class="cv-content">
-					<img src="assets/images/lettremotivation.jpg" class="lettre-img" alt="Aperçu de la lettre de motivation">
-					<a href="assets/pdf/lettremotivation.pdf" class="btn-cv" download="LETTRE_MOTIVATION_METGY_LEO">Télécharger</a>
+					<img src="assets/images/lettremotivation.jpg" class="lettre-img" alt="Aperçu de la lettre de motivation" data-i18n-alt="motivation.alt">
+					<a href="assets/pdf/lettremotivation.pdf" class="btn-cv" download="LETTRE_MOTIVATION_METGY_LEO" data-i18n="motivation.download">Télécharger</a>
 				</div>
 			</div>
 		</section>
@@ -168,19 +200,19 @@
 		<section id="tps" style="display:none">
 			<div class="projets-container">
 				<div class="projets-hero">
-					<h1>Mes <span>TPs</span></h1>
-					<p class="subtitle">Travaux pratiques réalisés en BTS SIO</p>
+					<h1 data-i18n="tps.title">Mes <span>TPs</span></h1>
+					<p class="subtitle" data-i18n="tps.subtitle">Travaux pratiques réalisés en BTS SIO</p>
 				</div>
 				<div class="filters" id="tps-filters">
-					<button class="filter-btn active" data-filter="all"><i class="fas fa-th"></i> Tous</button>
-					<button class="filter-btn" data-filter="virtualisation"><i class="fas fa-desktop"></i> Virtualisation</button>
-					<button class="filter-btn" data-filter="linux"><i class="fab fa-linux"></i> Linux</button>
-					<button class="filter-btn" data-filter="scripting"><i class="fas fa-terminal"></i> Scripting</button>
-					<button class="filter-btn" data-filter="reseau"><i class="fas fa-network-wired"></i> Réseau</button>
-					<button class="filter-btn" data-filter="hardware"><i class="fas fa-microchip"></i> Hardware</button>
-					<button class="filter-btn" data-filter="base-de-donnees"><i class="fas fa-database"></i> Base de données</button>
+					<button class="filter-btn active" data-filter="all" data-i18n="tps.filter.all"><i class="fas fa-th"></i> Tous</button>
+					<button class="filter-btn" data-filter="virtualisation" data-i18n="tps.filter.virtualisation"><i class="fas fa-desktop"></i> Virtualisation</button>
+					<button class="filter-btn" data-filter="linux" data-i18n="tps.filter.linux"><i class="fab fa-linux"></i> Linux</button>
+					<button class="filter-btn" data-filter="scripting" data-i18n="tps.filter.scripting"><i class="fas fa-terminal"></i> Scripting</button>
+					<button class="filter-btn" data-filter="reseau" data-i18n="tps.filter.reseau"><i class="fas fa-network-wired"></i> Réseau</button>
+					<button class="filter-btn" data-filter="hardware" data-i18n="tps.filter.hardware"><i class="fas fa-microchip"></i> Hardware</button>
+					<button class="filter-btn" data-filter="base-de-donnees" data-i18n="tps.filter.bdd"><i class="fas fa-database"></i> Base de données</button>
 				</div>
-				<h2 class="section-title"><i class="fas fa-folder-open"></i> Tous les TPs</h2>
+				<h2 class="section-title" data-i18n="tps.sectionTitle"><i class="fas fa-folder-open"></i> Tous les TPs</h2>
 				<div class="projects-grid" id="tps-grid"></div>
 			</div>
 		</section>
@@ -189,122 +221,122 @@
 		<section id="projets" style="display:none">
 			<div class="projets-container">
 				<div class="projets-hero">
-					<h1>Mes <span>Projets</span></h1>
-					<p class="subtitle">Créations personnelles et réalisations techniques</p>
+					<h1 data-i18n="projets.title">Mes <span>Projets</span></h1>
+					<p class="subtitle" data-i18n="projets.subtitle">Créations personnelles et réalisations techniques</p>
 				</div>
 				<div class="filters">
-					<button class="filter-btn active" data-filter="all"><i class="fas fa-th"></i> Tous</button>
-					<button class="filter-btn" data-filter="web"><i class="fas fa-globe"></i> Web</button>
-					<button class="filter-btn" data-filter="reseau"><i class="fas fa-network-wired"></i> Réseau</button>
-					<button class="filter-btn" data-filter="systeme"><i class="fas fa-server"></i> Système</button>
-					<button class="filter-btn" data-filter="securite"><i class="fas fa-shield-alt"></i> Sécurité</button>
-					<button class="filter-btn" data-filter="logiciel"><i class="fas fa-laptop-code"></i> Logiciel</button>
+					<button class="filter-btn active" data-filter="all" data-i18n="projets.filter.all"><i class="fas fa-th"></i> Tous</button>
+					<button class="filter-btn" data-filter="web" data-i18n="projets.filter.web"><i class="fas fa-globe"></i> Web</button>
+					<button class="filter-btn" data-filter="reseau" data-i18n="projets.filter.reseau"><i class="fas fa-network-wired"></i> Réseau</button>
+					<button class="filter-btn" data-filter="systeme" data-i18n="projets.filter.systeme"><i class="fas fa-server"></i> Système</button>
+					<button class="filter-btn" data-filter="securite" data-i18n="projets.filter.securite"><i class="fas fa-shield-alt"></i> Sécurité</button>
+					<button class="filter-btn" data-filter="logiciel" data-i18n="projets.filter.logiciel"><i class="fas fa-laptop-code"></i> Logiciel</button>
 				</div>
 				<div class="featured-project">
 					<div class="featured-grid">
 						<div class="featured-image">
-							<div class="featured-badge"><i class="fas fa-star"></i> Projet Phare</div>
-							<img src="assets/images/nas.jpg" alt="Projet NAS DIY - Network Attached Storage" loading="lazy" decoding="async">
+							<div class="featured-badge" data-i18n="projets.featured.badge"><i class="fas fa-star"></i> Projet Phare</div>
+							<img src="assets/images/nas.jpg" alt="Projet NAS DIY - Network Attached Storage" data-i18n-alt="projets.nas.alt" loading="lazy" decoding="async">
 						</div>
 						<div class="featured-content">
 							<h2>NAS DIY</h2>
-							<p>Serveur NAS réalisé à partir d'un ordinateur de bureau Dell Optiplex 3050, celui-ci tourne sous OpenMediaVault ainsi que CasaOS (pour l'interface)<br><br>Veuillez cliquer sur le bouton <strong>"Voir le PDF"</strong> pour plus de renseignements.</p>
+							<p data-i18n="projets.nas.desc">Serveur NAS réalisé à partir d'un ordinateur de bureau Dell Optiplex 3050, celui-ci tourne sous OpenMediaVault ainsi que CasaOS (pour l'interface)<br><br>Veuillez cliquer sur le bouton <strong>"Voir le PDF"</strong> pour plus de renseignements.</p>
 							<div class="featured-stats">
-								<div class="stat-item"><span class="stat-label">Projet :</span><span class="stat-value">Serveur NAS</span></div>
-								<div class="stat-item"><span class="stat-label">Type :</span><span class="stat-value">Système & Réseau</span></div>
-								<div class="stat-item"><span class="stat-label">Statut :</span><span class="stat-value">Terminé</span></div>
+								<div class="stat-item"><span class="stat-label" data-i18n="projets.nas.statProject">Projet :</span><span class="stat-value" data-i18n="projets.nas.statProjectValue">Serveur NAS</span></div>
+								<div class="stat-item"><span class="stat-label" data-i18n="projets.nas.statType">Type :</span><span class="stat-value" data-i18n="projets.nas.statTypeValue">Système &amp; Réseau</span></div>
+								<div class="stat-item"><span class="stat-label" data-i18n="projets.nas.statStatus">Statut :</span><span class="stat-value" data-i18n="projets.nas.statStatusValue">Terminé</span></div>
 							</div>
 							<div class="featured-tech"><span class="tech-tag">OPENMEDIAVAULT</span><span class="tech-tag">CASAOS</span></div>
-							<div class="featured-actions"><a href="assets/pdf/nas.pdf" class="featured-btn primary"><i class="fas fa-eye"></i> Voir le PDF</a></div>
+							<div class="featured-actions"><a href="assets/pdf/nas.pdf" class="featured-btn primary" data-i18n="projets.nas.viewPdf"><i class="fas fa-eye"></i> Voir le PDF</a></div>
 						</div>
 					</div>
 				</div>
-				<h2 class="section-title"><i class="fas fa-folder-open"></i> Tous les Projets</h2>
+				<h2 class="section-title" data-i18n="projets.sectionTitle"><i class="fas fa-folder-open"></i> Tous les Projets</h2>
 				<div class="projects-grid">
 					<!-- FILECOMPRESSOR -->
 					<div class="project-card" data-category="logiciel">
-						<div class="project-image"><span class="project-badge">Logiciel</span><img src="assets/images/filecompressor_thumb.jpg" alt="FileCompressor - Application de compression" loading="lazy" decoding="async"></div>
+						<div class="project-image"><span class="project-badge" data-i18n="projets.filecompressor.badge">Logiciel</span><img src="assets/images/filecompressor_thumb.jpg" alt="FileCompressor - Application de compression" data-i18n-alt="projets.filecompressor.alt" loading="lazy" decoding="async"></div>
 						<div class="project-content">
 							<div class="project-header"><h3 class="project-title"><i class="fas fa-file-archive"></i> FileCompressor</h3></div>
-							<p class="project-description">Logiciel de compression de fichiers (PDF, Images, Documents)<br>Application desktop performante avec interface moderne</p>
+							<p class="project-description" data-i18n="projets.filecompressor.desc">Logiciel de compression de fichiers (PDF, Images, Documents)<br>Application desktop performante avec interface moderne</p>
 							<div class="project-tech"><span class="tech-tag">RUST</span><span class="tech-tag">TAURI 2</span><span class="tech-tag">REACT</span><span class="tech-tag">TYPESCRIPT</span></div>
 							<div class="project-footer">
-								<span class="project-date"><i class="far fa-calendar"></i> Avril 2026</span>
-								<div class="project-links"><a href="https://github.com/Goken-0/FileCompressor" class="project-link" title="Repo Github"><i class="fab fa-github"></i></a></div>
+								<span class="project-date" data-i18n="projets.filecompressor.date"><i class="far fa-calendar"></i> Avril 2026</span>
+								<div class="project-links"><a href="https://github.com/Goken-0/FileCompressor" class="project-link" title="Repo Github" data-i18n-title="projets.filecompressor.repo"><i class="fab fa-github"></i></a></div>
 							</div>
 						</div>
 					</div>
 					<!-- SECURE_PASS_GEN -->
 					<div class="project-card" data-category="web">
-						<div class="project-image"><span class="project-badge">Web</span><img src="assets/images/securepassgen.jpg" alt="Secure_Pass_Gen - générateur de mot de passe" loading="lazy" decoding="async"></div>
+						<div class="project-image"><span class="project-badge" data-i18n="projets.securepass.badge">Web</span><img src="assets/images/securepassgen.jpg" alt="Secure_Pass_Gen - générateur de mot de passe" data-i18n-alt="projets.securepass.alt" loading="lazy" decoding="async"></div>
 						<div class="project-content">
 							<div class="project-header"><h3 class="project-title"><i class="fas fa-code"></i> Secure_Pass_Gen</h3></div>
-							<p class="project-description">Générateur de mot de passe sécurisé<br>NO LOG (CLIENT SIDE ONLY)</p>
+							<p class="project-description" data-i18n="projets.securepass.desc">Générateur de mot de passe sécurisé<br>NO LOG (CLIENT SIDE ONLY)</p>
 							<div class="project-tech"><span class="tech-tag">HTML5</span><span class="tech-tag">CSS3</span></div>
 							<div class="project-footer">
-								<span class="project-date"><i class="far fa-calendar"></i> Décembre 2025</span>
+								<span class="project-date" data-i18n="projets.securepass.date"><i class="far fa-calendar"></i> Décembre 2025</span>
 								<div class="project-links">
 									<a href="https://goken-0.github.io/secure_pass_gen/" class="project-link" title="Secure_Pass_Gen"><i class="fas fa-external-link-alt"></i></a>
-									<a href="https://github.com/Goken-0/secure_pass_gen" class="project-link" title="Repo Github"><i class="fab fa-github"></i></a>
+									<a href="https://github.com/Goken-0/secure_pass_gen" class="project-link" title="Repo Github" data-i18n-title="projets.filecompressor.repo"><i class="fab fa-github"></i></a>
 								</div>
 							</div>
 						</div>
 					</div>
 					<!-- THE TANGLE -->
 					<div class="project-card" data-category="web">
-						<div class="project-image"><span class="project-badge">Web</span><img src="assets/images/tanglegame.jpg" alt="The Tangle - jeu Snake" loading="lazy" decoding="async"></div>
+						<div class="project-image"><span class="project-badge" data-i18n="projets.tangle.badge">Web</span><img src="assets/images/tanglegame.jpg" alt="The Tangle - jeu Snake" data-i18n-alt="projets.tangle.alt" loading="lazy" decoding="async"></div>
 						<div class="project-content">
 							<div class="project-header"><h3 class="project-title"><i class="fa-solid fa-gamepad"></i> THE TANGLE</h3></div>
-							<p class="project-description">Jeu Snake<br>Réalisé en Javascript, HTML et CSS</p>
+							<p class="project-description" data-i18n="projets.tangle.desc">Jeu Snake<br>Réalisé en Javascript, HTML et CSS</p>
 							<div class="project-tech"><span class="tech-tag">JAVASCRIPT</span><span class="tech-tag">HTML5</span><span class="tech-tag">CSS3</span></div>
 							<div class="project-footer">
-								<span class="project-date"><i class="far fa-calendar"></i> Décembre 2025</span>
+								<span class="project-date" data-i18n="projets.tangle.date"><i class="far fa-calendar"></i> Décembre 2025</span>
 								<div class="project-links">
 									<a href="https://goken-0.github.io/thetangle/" class="project-link" title="The Tangle"><i class="fas fa-external-link-alt"></i></a>
-									<a href="https://github.com/Goken-0/thetangle" class="project-link" title="Repo Github"><i class="fab fa-github"></i></a>
+									<a href="https://github.com/Goken-0/thetangle" class="project-link" title="Repo Github" data-i18n-title="projets.filecompressor.repo"><i class="fab fa-github"></i></a>
 								</div>
 							</div>
 						</div>
 					</div>
 					<!-- SPACEINVADERS -->
 					<div class="project-card" data-category="web">
-						<div class="project-image"><span class="project-badge">Web</span><img src="assets/images/spaceinvaders.jpg" alt="Space Invaders - jeu rétro" loading="lazy" decoding="async"></div>
+						<div class="project-image"><span class="project-badge" data-i18n="projets.spaceinvaders.badge">Web</span><img src="assets/images/spaceinvaders.jpg" alt="Space Invaders - jeu rétro" data-i18n-alt="projets.spaceinvaders.alt" loading="lazy" decoding="async"></div>
 						<div class="project-content">
 							<div class="project-header"><h3 class="project-title"><i class="fa-solid fa-gamepad"></i> SPACE INVADERS</h3></div>
-							<p class="project-description">Jeu Space Invaders<br>Réalisé en Javascript, HTML et CSS</p>
+							<p class="project-description" data-i18n="projets.spaceinvaders.desc">Jeu Space Invaders<br>Réalisé en Javascript, HTML et CSS</p>
 							<div class="project-tech"><span class="tech-tag">JAVASCRIPT</span><span class="tech-tag">HTML5</span><span class="tech-tag">CSS3</span></div>
 							<div class="project-footer">
-								<span class="project-date"><i class="far fa-calendar"></i> Décembre 2025</span>
+								<span class="project-date" data-i18n="projets.spaceinvaders.date"><i class="far fa-calendar"></i> Décembre 2025</span>
 								<div class="project-links">
 									<a href="https://goken-0.github.io/spaceinvaders/" class="project-link" title="SpaceInvaders"><i class="fas fa-external-link-alt"></i></a>
-									<a href="https://github.com/Goken-0/spaceinvaders" class="project-link" title="Repo Github"><i class="fab fa-github"></i></a>
+									<a href="https://github.com/Goken-0/spaceinvaders" class="project-link" title="Repo Github" data-i18n-title="projets.filecompressor.repo"><i class="fab fa-github"></i></a>
 								</div>
 							</div>
 						</div>
 					</div>
 					<!-- NAS DIY (DANS LA GRILLE AUSSI) -->
 					<div class="project-card" data-category="systeme reseau">
-						<div class="project-image"><span class="project-badge">Système & Réseau</span><img src="assets/images/nas.jpg" alt="NAS DIY sous OpenMediaVault" loading="lazy" decoding="async"></div>
+						<div class="project-image"><span class="project-badge" data-i18n="projets.nascard.badge">Système &amp; Réseau</span><img src="assets/images/nas.jpg" alt="NAS DIY sous OpenMediaVault" data-i18n-alt="projets.nascard.alt" loading="lazy" decoding="async"></div>
 						<div class="project-content">
 							<div class="project-header"><h3 class="project-title"><i class="fas fa-server"></i> NAS DIY</h3></div>
-							<p class="project-description">Serveur NAS réalisé à partir d'un ordinateur de bureau Dell Optiplex 3050, celui-ci tourne sous OpenMediaVault ainsi que CasaOS (pour l'interface)<br><br>Veuillez cliquer sur le bouton <strong>"lien externe"</strong> pour plus de renseignements.</p>
+							<p class="project-description" data-i18n="projets.nascard.desc">Serveur NAS réalisé à partir d'un ordinateur de bureau Dell Optiplex 3050, celui-ci tourne sous OpenMediaVault ainsi que CasaOS (pour l'interface)<br><br>Veuillez cliquer sur le bouton <strong>"lien externe"</strong> pour plus de renseignements.</p>
 							<div class="project-tech"><span class="tech-tag">OPENMEDIAVAULT</span><span class="tech-tag">CASAOS</span></div>
 							<div class="project-footer">
-								<span class="project-date"><i class="far fa-calendar"></i> Janvier 2026</span>
-								<div class="project-links"><a href="assets/pdf/nas.pdf" class="project-link" title="Voir le PDF"><i class="fas fa-external-link-alt"></i></a></div>
+								<span class="project-date" data-i18n="projets.nascard.date"><i class="far fa-calendar"></i> Janvier 2026</span>
+								<div class="project-links"><a href="assets/pdf/nas.pdf" class="project-link" title="Voir le PDF" data-i18n-title="ui.viewPdf"><i class="fas fa-external-link-alt"></i></a></div>
 							</div>
 						</div>
 					</div>
 					<!-- THINKPAD T490 -->
 					<div class="project-card" data-category="systeme reseau">
-						<div class="project-image"><span class="project-badge">Système & Réseau</span><img src="assets/images/thinkpad.png" alt="ThinkPad T490 remis à neuf" loading="lazy" decoding="async"></div>
+						<div class="project-image"><span class="project-badge" data-i18n="projets.thinkpad.badge">Système &amp; Réseau</span><img src="assets/images/thinkpad.png" alt="ThinkPad T490 remis à neuf" data-i18n-alt="projets.thinkpad.alt" loading="lazy" decoding="async"></div>
 						<div class="project-content">
 							<div class="project-header"><h3 class="project-title"><i class="fas fa-server"></i> THINKPAD</h3></div>
-							<p class="project-description">Un projet de remise à neuf et de configuration système pour créer mon propre environnement de travail.<br><br>Veuillez cliquer sur le bouton <strong>"lien externe"</strong> pour plus de renseignements.</p>
+							<p class="project-description" data-i18n="projets.thinkpad.desc">Un projet de remise à neuf et de configuration système pour créer mon propre environnement de travail.<br><br>Veuillez cliquer sur le bouton <strong>"lien externe"</strong> pour plus de renseignements.</p>
 							<div class="project-tech"><span class="tech-tag">FEDORA</span><span class="tech-tag">WINDOWS</span><span class="tech-tag">LENOVO</span></div>
 							<div class="project-footer">
-								<span class="project-date"><i class="far fa-calendar"></i> Mai 2026</span>
-								<div class="project-links"><a href="assets/pdf/thinkpad.pdf" class="project-link" title="Voir le PDF"><i class="fas fa-external-link-alt"></i></a></div>
+								<span class="project-date" data-i18n="projets.thinkpad.date"><i class="far fa-calendar"></i> Mai 2026</span>
+								<div class="project-links"><a href="assets/pdf/thinkpad.pdf" class="project-link" title="Voir le PDF" data-i18n-title="ui.viewPdf"><i class="fas fa-external-link-alt"></i></a></div>
 							</div>
 						</div>
 					</div>
@@ -316,8 +348,8 @@
 		<section id="stages" style="display:none">
 			<div class="stages-container">
 				<div class="stages-hero">
-					<h1>Mes <span>Stages</span></h1>
-					<p class="subtitle">Parcours professionnel et expériences enrichissantes</p>
+					<h1 data-i18n="stages.title">Mes <span>Stages</span></h1>
+					<p class="subtitle" data-i18n="stages.subtitle">Parcours professionnel et expériences enrichissantes</p>
 				</div>
 				<div class="timeline">
 					<div class="stage-item">
@@ -331,19 +363,19 @@
 								</div>
 							</div>
 							<div class="stage-content">
-								<p class="stage-description">Stage de 4 semaines à la DSI du Conseil Départemental de la Somme.</p>
+								<p class="stage-description" data-i18n="stages.somme.desc">Stage de 4 semaines à la DSI du Conseil Départemental de la Somme.</p>
 								<div class="stage-missions">
-									<h3><i class="fas fa-tasks"></i> Missions réalisées</h3>
+									<h3 data-i18n="stages.somme.missionsTitle"><i class="fas fa-tasks"></i> Missions réalisées</h3>
 									<ul>
-										<li><i class="fas fa-check-circle"></i> <span>Support et assistance aux utilisateurs</span></li>
-										<li><i class="fas fa-check-circle"></i> <span>Réseau et téléphonie sur IP (VoIP)</span></li>
-										<li><i class="fas fa-check-circle"></i> <span>Sécurité : modèle en tiers et phishing</span></li>
-										<li><i class="fas fa-check-circle"></i> <span>Configuration de switches Cisco et VLAN</span></li>
+										<li><i class="fas fa-check-circle"></i> <span data-i18n="stages.somme.m1">Support et assistance aux utilisateurs</span></li>
+										<li><i class="fas fa-check-circle"></i> <span data-i18n="stages.somme.m2">Réseau et téléphonie sur IP (VoIP)</span></li>
+										<li><i class="fas fa-check-circle"></i> <span data-i18n="stages.somme.m3">Sécurité : modèle en tiers et phishing</span></li>
+										<li><i class="fas fa-check-circle"></i> <span data-i18n="stages.somme.m4">Configuration de switches Cisco et VLAN</span></li>
 									</ul>
 								</div>
-								<div class="stage-tags"><span class="tag">Cisco</span><span class="tag">VLANs</span><span class="tag">TCP/IP</span><span class="tag">VoIP</span><span class="tag">Sécurité</span><span class="tag">Déploiement</span></div>
+								<div class="stage-tags"><span class="tag">Cisco</span><span class="tag">VLANs</span><span class="tag">TCP/IP</span><span class="tag">VoIP</span><span class="tag" data-i18n="stages.somme.tagSecurity">Sécurité</span><span class="tag" data-i18n="stages.somme.tagDeploy">Déploiement</span></div>
 								<div class="stage-actions">
-									<a href="https://goken-0.github.io/Rapport2026/" target="_blank" rel="noopener" class="featured-btn primary"><i class="fas fa-book-open"></i> Consulter le rapport de stage</a>
+									<a href="https://goken-0.github.io/Rapport2026/" target="_blank" rel="noopener" class="featured-btn primary" data-i18n="stages.somme.report"><i class="fas fa-book-open"></i> Consulter le rapport de stage</a>
 								</div>
 							</div>
 						</div>
@@ -382,78 +414,78 @@
 		<section id="competences" style="display:none">
 			<div class="projets-container">
 				<div class="projets-hero">
-					<h1>Mes <span>Compétences</span></h1>
-					<p class="subtitle">Savoir-faire technique et professionnel en BTS SIO</p>
+					<h1 data-i18n="competences.title">Mes <span>Compétences</span></h1>
+					<p class="subtitle" data-i18n="competences.subtitle">Savoir-faire technique et professionnel en BTS SIO</p>
 				</div>
 				<div class="filters">
-					<button class="filter-btn active" data-filter="all"><i class="fas fa-th"></i> Toutes</button>
-					<button class="filter-btn" data-filter="developpement"><i class="fas fa-code"></i> Développement</button>
-					<button class="filter-btn" data-filter="reseau"><i class="fas fa-network-wired"></i> Réseau</button>
-					<button class="filter-btn" data-filter="systeme"><i class="fas fa-server"></i> Système</button>
-					<button class="filter-btn" data-filter="securite"><i class="fas fa-shield-alt"></i> Sécurité</button>
+					<button class="filter-btn active" data-filter="all" data-i18n="competences.filter.all"><i class="fas fa-th"></i> Toutes</button>
+					<button class="filter-btn" data-filter="developpement" data-i18n="competences.filter.dev"><i class="fas fa-code"></i> Développement</button>
+					<button class="filter-btn" data-filter="reseau" data-i18n="competences.filter.reseau"><i class="fas fa-network-wired"></i> Réseau</button>
+					<button class="filter-btn" data-filter="systeme" data-i18n="competences.filter.systeme"><i class="fas fa-server"></i> Système</button>
+					<button class="filter-btn" data-filter="securite" data-i18n="competences.filter.securite"><i class="fas fa-shield-alt"></i> Sécurité</button>
 				</div>
 				<div class="featured-project">
 					<div class="featured-grid">
 						<div class="featured-image">
-							<div class="featured-badge"><i class="fas fa-star"></i> Compétence Principale</div>
-							<img src="assets/images/htmlcss.jpg" alt="Logo HTML5/CSS3">
+							<div class="featured-badge" data-i18n="competences.featured.badge"><i class="fas fa-star"></i> Compétence Principale</div>
+							<img src="assets/images/htmlcss.jpg" alt="Logo HTML5/CSS3" data-i18n-alt="competences.featured.alt">
 						</div>
 						<div class="featured-content">
-							<h2>HTML5 & CSS3</h2>
-							<p>Apprentissage du développement web en première année de BTS SIO. Découverte des technologies front-end et back-end, création de pages web et initiation aux bases de données.</p>
+							<h2>HTML5 &amp; CSS3</h2>
+							<p data-i18n="competences.featured.desc">Apprentissage du développement web en première année de BTS SIO. Découverte des technologies front-end et back-end, création de pages web et initiation aux bases de données.</p>
 							<div class="featured-stats">
-								<div class="stat-item"><span class="stat-value">En cours</span><span class="stat-label">Formation</span></div>
-								<div class="stat-item"><span class="stat-value">1ère année</span><span class="stat-label">BTS SIO</span></div>
-								<div class="stat-item"><span class="stat-value">En progression</span><span class="stat-label">Niveau</span></div>
+								<div class="stat-item"><span class="stat-value" data-i18n="competences.featured.statTrainingValue">En cours</span><span class="stat-label" data-i18n="competences.featured.statTraining">Formation</span></div>
+								<div class="stat-item"><span class="stat-value" data-i18n="competences.featured.statYearValue">1ère année</span><span class="stat-label" data-i18n="competences.featured.statYear">BTS SIO</span></div>
+								<div class="stat-item"><span class="stat-value" data-i18n="competences.featured.statLevelValue">En progression</span><span class="stat-label" data-i18n="competences.featured.statLevel">Niveau</span></div>
 							</div>
-							<div class="featured-tech"><span class="tech-tag">HTML5</span><span class="tech-tag">CSS3</span><span class="tech-tag">Responsive</span></div>
+							<div class="featured-tech"><span class="tech-tag">HTML5</span><span class="tech-tag">CSS3</span><span class="tech-tag" data-i18n="competences.featured.tagResponsive">Responsive</span></div>
 						</div>
 					</div>
 				</div>
-				<h2 class="section-title"><i class="fas fa-toolbox"></i> Toutes mes Compétences</h2>
+				<h2 class="section-title" data-i18n="competences.sectionTitle"><i class="fas fa-toolbox"></i> Toutes mes Compétences</h2>
 				<div class="projects-grid">
 					<div class="project-card" data-category="developpement">
-						<div class="project-image"><span class="project-badge">Développement</span><img src="assets/images/htmlcss.jpg" alt="Logo HTML5/CSS3"></div>
+						<div class="project-image"><span class="project-badge" data-i18n="competences.badge.dev">Développement</span><img src="assets/images/htmlcss.jpg" alt="Logo HTML5/CSS3" data-i18n-alt="competences.featured.alt"></div>
 						<div class="project-content">
-							<div class="project-header"><h3 class="project-title"><i class="fas fa-palette"></i> HTML5 & CSS3</h3></div>
-							<p class="project-description">Apprentissage de la création de pages web structurées. Découverte du responsive design et des bases de CSS.</p>
-							<div class="project-tech"><span class="tech-tag">HTML5</span><span class="tech-tag">CSS3</span><span class="tech-tag">Responsive</span></div>
-							<div class="project-footer"><span class="project-date"><i class="fas fa-signal"></i> En apprentissage</span></div>
+							<div class="project-header"><h3 class="project-title"><i class="fas fa-palette"></i> HTML5 &amp; CSS3</h3></div>
+							<p class="project-description" data-i18n="competences.htmlcss.desc">Apprentissage de la création de pages web structurées. Découverte du responsive design et des bases de CSS.</p>
+							<div class="project-tech"><span class="tech-tag">HTML5</span><span class="tech-tag">CSS3</span><span class="tech-tag" data-i18n="competences.htmlcss.tagResponsive">Responsive</span></div>
+							<div class="project-footer"><span class="project-date" data-i18n="competences.learning"><i class="fas fa-signal"></i> En apprentissage</span></div>
 						</div>
 					</div>
 					<div class="project-card" data-category="developpement">
-						<div class="project-image"><span class="project-badge">Développement</span><img src="assets/images/js.jpg" alt="Logo JavaScript"></div>
+						<div class="project-image"><span class="project-badge" data-i18n="competences.badge.dev">Développement</span><img src="assets/images/js.jpg" alt="Logo JavaScript" data-i18n-alt="competences.js.alt"></div>
 						<div class="project-content">
 							<div class="project-header"><h3 class="project-title"><i class="fas fa-code"></i> JavaScript</h3></div>
-							<p class="project-description">Initiation à la programmation JavaScript, manipulation du DOM et gestion d'événements.</p>
+							<p class="project-description" data-i18n="competences.js.desc">Initiation à la programmation JavaScript, manipulation du DOM et gestion d'événements.</p>
 							<div class="project-tech"><span class="tech-tag">JavaScript</span><span class="tech-tag">DOM</span></div>
-							<div class="project-footer"><span class="project-date"><i class="fas fa-signal"></i> En apprentissage</span></div>
+							<div class="project-footer"><span class="project-date" data-i18n="competences.learning"><i class="fas fa-signal"></i> En apprentissage</span></div>
 						</div>
 					</div>
 					<div class="project-card" data-category="securite">
-						<div class="project-image"><span class="project-badge">Cybersécurité</span><img src="assets/images/secnum.jpg" alt="Logo SecNumAcadémie"></div>
+						<div class="project-image"><span class="project-badge" data-i18n="competences.badge.security">Cybersécurité</span><img src="assets/images/secnum.jpg" alt="Logo SecNumAcadémie" data-i18n-alt="competences.anssi.alt"></div>
 						<div class="project-content">
-							<div class="project-header"><h3 class="project-title"><i class="fas fa-shield-alt"></i> MOOC de l'ANSSI</h3></div>
-							<p class="project-description">Formation certifiante sur les fondamentaux de la sécurité numérique : authentification, sécurité sur Internet, poste de travail et nomadisme.</p>
-							<div class="project-tech"><span class="tech-tag">SecNumAcadémie</span><span class="tech-tag">ANSSI</span><span class="tech-tag">Hygiène Numérique</span></div>
+							<div class="project-header"><h3 class="project-title" data-i18n="competences.anssi.title"><i class="fas fa-shield-alt"></i> MOOC de l'ANSSI</h3></div>
+							<p class="project-description" data-i18n="competences.anssi.desc">Formation certifiante sur les fondamentaux de la sécurité numérique : authentification, sécurité sur Internet, poste de travail et nomadisme.</p>
+							<div class="project-tech"><span class="tech-tag">SecNumAcadémie</span><span class="tech-tag">ANSSI</span><span class="tech-tag" data-i18n="competences.anssi.tagHygiene">Hygiène Numérique</span></div>
 							<div class="project-footer">
-								<span class="project-date"><i class="fas fa-check-circle" style="color: #3caee4;"></i> Attestation obtenue</span>
+								<span class="project-date" data-i18n="competences.anssi.status"><i class="fas fa-check-circle" style="color: #3caee4;"></i> Attestation obtenue</span>
 								<div class="project-links">
-									<a href="assets/pdf/attestation_metgy_leo.pdf" class="project-link" title="Voir l'attestation"><i class="fas fa-file-pdf"></i></a>
-									<a href="https://secnumacademie.gouv.fr/" target="_blank" rel="noopener" class="project-link" title="Site officiel"><i class="fas fa-external-link-alt"></i></a>
+									<a href="assets/pdf/attestation_metgy_leo.pdf" class="project-link" title="Voir l'attestation" data-i18n-title="competences.anssi.viewCert"><i class="fas fa-file-pdf"></i></a>
+									<a href="https://secnumacademie.gouv.fr/" target="_blank" rel="noopener" class="project-link" title="Site officiel" data-i18n-title="competences.anssi.official"><i class="fas fa-external-link-alt"></i></a>
 								</div>
 							</div>
 						</div>
 					</div>
 					<div class="project-card" data-category="reseau">
-						<div class="project-image"><span class="project-badge">Réseau</span><img src="assets/images/cisco2.jpg" alt="Logo Cisco"></div>
+						<div class="project-image"><span class="project-badge" data-i18n="competences.badge.network">Réseau</span><img src="assets/images/cisco2.jpg" alt="Logo Cisco" data-i18n-alt="competences.cisco.alt"></div>
 						<div class="project-content">
 							<div class="project-header"><h3 class="project-title"><i class="fas fa-network-wired"></i> Cisco Networking Academy</h3></div>
-							<p class="project-description">Introduction aux réseaux : architectures, modèles OSI et TCP/IP, adressage IPv4/IPv6 et configuration de base des routeurs et commutateurs.</p>
-							<div class="project-tech"><span class="tech-tag">Cisco</span><span class="tech-tag">Packet Tracer</span><span class="tech-tag">Adressage IP</span></div>
+							<p class="project-description" data-i18n="competences.cisco.desc">Introduction aux réseaux : architectures, modèles OSI et TCP/IP, adressage IPv4/IPv6 et configuration de base des routeurs et commutateurs.</p>
+							<div class="project-tech"><span class="tech-tag">Cisco</span><span class="tech-tag">Packet Tracer</span><span class="tech-tag" data-i18n="competences.cisco.tagAddressing">Adressage IP</span></div>
 							<div class="project-footer">
-								<span class="project-date"><i class="fas fa-spinner fa-spin"></i> En cours</span>
-								<div class="project-links"><a href="https://www.netacad.com/" target="_blank" rel="noopener" class="project-link" title="Site Cisco NetAcad"><i class="fas fa-external-link-alt"></i></a></div>
+								<span class="project-date" data-i18n="competences.cisco.status"><i class="fas fa-spinner fa-spin"></i> En cours</span>
+								<div class="project-links"><a href="https://www.netacad.com/" target="_blank" rel="noopener" class="project-link" title="Site Cisco NetAcad" data-i18n-title="competences.cisco.site"><i class="fas fa-external-link-alt"></i></a></div>
 							</div>
 						</div>
 					</div>
@@ -465,15 +497,15 @@
 		<section id="veille" style="display:none">
 			<section class="veille-hero">
 				<div class="hero-content">
-					<h1 class="hero-title"><span class="title-main">Veille</span><span class="title-accent">Technologique</span></h1>
-					<p class="hero-subtitle">Exploration et analyse des technologies émergentes</p>
+					<h1 class="hero-title" data-i18n="veille.title"><span class="title-main">Veille</span> <span class="title-accent">Technologique</span></h1>
+					<p class="hero-subtitle" data-i18n="veille.subtitle">Exploration et analyse des technologies émergentes</p>
 				</div>
 			</section>
 			<section class="veille-intro-section">
 				<div class="container">
 					<div class="intro-card">
 						<div class="intro-icon"><i class="fas fa-lightbulb"></i></div>
-						<p class="intro-text">Dans le cadre de ma formation, je mène une veille technologique active sur deux domaines clés : <strong>les cartes graphiques</strong> et <strong>l'intelligence artificielle</strong>. Cette démarche me permet de rester à jour sur les innovations et d'analyser les tendances du marché.</p>
+						<p class="intro-text" data-i18n="veille.intro">Dans le cadre de ma formation, je mène une veille technologique active sur deux domaines clés : <strong>les cartes graphiques</strong> et <strong>l'intelligence artificielle</strong>. Cette démarche me permet de rester à jour sur les innovations et d'analyser les tendances du marché.</p>
 					</div>
 				</div>
 			</section>
@@ -482,64 +514,64 @@
 					<article class="comparison-block gpu-block">
 						<div class="block-header">
 							<div class="header-icon"><i class="fas fa-microchip"></i></div>
-							<div class="header-text"><h2>Cartes Graphiques</h2><span class="header-tag">Hardware & Performance</span></div>
+							<div class="header-text"><h2 data-i18n="veille.gpu.heading">Cartes Graphiques</h2><span class="header-tag" data-i18n="veille.gpu.tag">Hardware &amp; Performance</span></div>
 						</div>
 						<div class="block-content">
 							<div class="info-card">
-								<h3><i class="fas fa-info-circle"></i> Contexte</h3>
-								<p>Je surveille régulièrement les sorties GPU de Nvidia et AMD pour analyser les performances, l'efficience énergétique, le ray tracing, les technologies d'upscaling (DLSS/FSR) et le support logiciel.</p>
+								<h3 data-i18n="veille.gpu.contextTitle"><i class="fas fa-info-circle"></i> Contexte</h3>
+								<p data-i18n="veille.gpu.context">Je surveille régulièrement les sorties GPU de Nvidia et AMD pour analyser les performances, l'efficience énergétique, le ray tracing, les technologies d'upscaling (DLSS/FSR) et le support logiciel.</p>
 							</div>
 							<div class="versus-container">
 								<div class="gpu-card nvidia-card">
 									<div class="card-badge nvidia-badge">NVIDIA</div>
-									<h3 class="card-title">Palit GeForce RTX 5060 Ti 16 Go</h3>
+									<h3 class="card-title" data-i18n="veille.gpu.nvidiaName">Palit GeForce RTX 5060 Ti 16 Go</h3>
 									<div class="card-stats">
-										<div class="stat-item"><span class="stat-label">Performance 1080p</span><span class="stat-value">~106 FPS</span><a href="https://www.techpowerup.com/review/palit-geforce-rtx-5060-ti-infinity-3-16-gb/31.html" target="_blank" rel="noopener" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
-										<div class="stat-item"><span class="stat-label">Consommation</span><span class="stat-value">166W</span><a href="https://www.techpowerup.com/review/palit-geforce-rtx-5060-ti-infinity-3-16-gb/42.html" target="_blank" rel="noopener" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
-										<div class="stat-item"><span class="stat-label">Température</span><span class="stat-value">65°C</span><a href="https://www.techpowerup.com/review/palit-geforce-rtx-5060-ti-infinity-3-16-gb/40.html" target="_blank" rel="noopener" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
+										<div class="stat-item"><span class="stat-label" data-i18n="veille.gpu.statPerf">Performance 1080p</span><span class="stat-value">~106 FPS</span><a href="https://www.techpowerup.com/review/palit-geforce-rtx-5060-ti-infinity-3-16-gb/31.html" target="_blank" rel="noopener" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
+										<div class="stat-item"><span class="stat-label" data-i18n="veille.gpu.statPower">Consommation</span><span class="stat-value">166W</span><a href="https://www.techpowerup.com/review/palit-geforce-rtx-5060-ti-infinity-3-16-gb/42.html" target="_blank" rel="noopener" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
+										<div class="stat-item"><span class="stat-label" data-i18n="veille.gpu.statTemp">Température</span><span class="stat-value">65°C</span><a href="https://www.techpowerup.com/review/palit-geforce-rtx-5060-ti-infinity-3-16-gb/40.html" target="_blank" rel="noopener" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
 									</div>
 									<div class="card-features">
-										<h4>Points forts</h4>
+										<h4 data-i18n="veille.gpu.strengths">Points forts</h4>
 										<ul>
-											<li><i class="fas fa-check"></i> DLSS 4 et excellent ray tracing</li>
-											<li><i class="fas fa-check"></i> Encodeurs NVENC récents</li>
-											<li><i class="fas fa-check"></i> Efficience énergétique solide</li>
-											<li><i class="fas fa-check"></i> Bon support création/streaming</li>
+											<li data-i18n="veille.gpu.nv1"><i class="fas fa-check"></i> DLSS 4 et excellent ray tracing</li>
+											<li data-i18n="veille.gpu.nv2"><i class="fas fa-check"></i> Encodeurs NVENC récents</li>
+											<li data-i18n="veille.gpu.nv3"><i class="fas fa-check"></i> Efficience énergétique solide</li>
+											<li data-i18n="veille.gpu.nv4"><i class="fas fa-check"></i> Bon support création/streaming</li>
 										</ul>
-										<h4>Limitations</h4>
-										<ul><li><i class="fas fa-minus"></i> Prix généralement plus élevé</li></ul>
+										<h4 data-i18n="veille.gpu.limits">Limitations</h4>
+										<ul><li data-i18n="veille.gpu.nvLimit"><i class="fas fa-minus"></i> Prix généralement plus élevé</li></ul>
 									</div>
 								</div>
 								<div class="vs-badge"><span class="vs-badge-text">VS</span></div>
 								<div class="gpu-card amd-card">
 									<div class="card-badge amd-badge">AMD</div>
-									<h3 class="card-title">Sapphire Radeon RX 9060 XT 16 Go</h3>
+									<h3 class="card-title" data-i18n="veille.gpu.amdName">Sapphire Radeon RX 9060 XT 16 Go</h3>
 									<div class="card-stats">
-										<div class="stat-item"><span class="stat-label">Performance 1080p</span><span class="stat-value">~96 FPS</span><a href="https://www.techpowerup.com/review/sapphire-radeon-rx-9060-xt-pulse-oc/31.html" target="_blank" rel="noopener" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
-										<div class="stat-item"><span class="stat-label">Consommation</span><span class="stat-value">180W</span><a href="https://www.techpowerup.com/review/sapphire-radeon-rx-9060-xt-pulse-oc/41.html" target="_blank" rel="noopener" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
-										<div class="stat-item"><span class="stat-label">Température</span><span class="stat-value">57°C</span><a href="https://www.techpowerup.com/review/sapphire-radeon-rx-9060-xt-pulse-oc/39.html" target="_blank" rel="noopener" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
+										<div class="stat-item"><span class="stat-label" data-i18n="veille.gpu.statPerf">Performance 1080p</span><span class="stat-value">~96 FPS</span><a href="https://www.techpowerup.com/review/sapphire-radeon-rx-9060-xt-pulse-oc/31.html" target="_blank" rel="noopener" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
+										<div class="stat-item"><span class="stat-label" data-i18n="veille.gpu.statPower">Consommation</span><span class="stat-value">180W</span><a href="https://www.techpowerup.com/review/sapphire-radeon-rx-9060-xt-pulse-oc/41.html" target="_blank" rel="noopener" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
+										<div class="stat-item"><span class="stat-label" data-i18n="veille.gpu.statTemp">Température</span><span class="stat-value">57°C</span><a href="https://www.techpowerup.com/review/sapphire-radeon-rx-9060-xt-pulse-oc/39.html" target="_blank" rel="noopener" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
 									</div>
 									<div class="card-features">
-										<h4>Points forts</h4>
+										<h4 data-i18n="veille.gpu.strengths">Points forts</h4>
 										<ul>
-											<li><i class="fas fa-check"></i> 16 Go VRAM</li>
-											<li><i class="fas fa-check"></i> Excellent en rasterisation</li>
-											<li><i class="fas fa-check"></i> FSR 4 multi-constructeurs</li>
-											<li><i class="fas fa-check"></i> Rapport performance/prix compétitif</li>
+											<li data-i18n="veille.gpu.amd1"><i class="fas fa-check"></i> 16 Go VRAM</li>
+											<li data-i18n="veille.gpu.amd2"><i class="fas fa-check"></i> Excellent en rasterisation</li>
+											<li data-i18n="veille.gpu.amd3"><i class="fas fa-check"></i> FSR 4 multi-constructeurs</li>
+											<li data-i18n="veille.gpu.amd4"><i class="fas fa-check"></i> Rapport performance/prix compétitif</li>
 										</ul>
-										<h4>Limitations</h4>
-										<ul><li><i class="fas fa-minus"></i> Ray tracing en retrait</li></ul>
+										<h4 data-i18n="veille.gpu.limits">Limitations</h4>
+										<ul><li data-i18n="veille.gpu.amdLimit"><i class="fas fa-minus"></i> Ray tracing en retrait</li></ul>
 									</div>
 								</div>
 							</div>
 							<div class="analysis-card">
-								<h3><i class="fas fa-chart-line"></i> Analyse comparative</h3>
-								<p>La RTX 5060 Ti offre environ <strong>10% de performances supplémentaires</strong> avec une consommation légèrement inférieure, mais génère plus de chaleur. La RX 9060 XT se démarque par ses <strong>températures plus basses</strong> et son excellent rapport qualité-prix. Le choix dépendra principalement de l'écosystème logiciel privilégié (DLSS vs FSR) et du budget disponible.</p>
-								<p class="source-credit"><i class="fas fa-database"></i> Données issues de <a href="https://www.techpowerup.com/" target="_blank" rel="noopener">TechPowerUp</a></p>
+								<h3 data-i18n="veille.gpu.analysisTitle"><i class="fas fa-chart-line"></i> Analyse comparative</h3>
+								<p data-i18n="veille.gpu.analysis">La RTX 5060 Ti offre environ <strong>10% de performances supplémentaires</strong> avec une consommation légèrement inférieure, mais génère plus de chaleur. La RX 9060 XT se démarque par ses <strong>températures plus basses</strong> et son excellent rapport qualité-prix. Le choix dépendra principalement de l'écosystème logiciel privilégié (DLSS vs FSR) et du budget disponible.</p>
+								<p class="source-credit" data-i18n="veille.gpu.source"><i class="fas fa-database"></i> Données issues de <a href="https://www.techpowerup.com/" target="_blank" rel="noopener">TechPowerUp</a></p>
 							</div>
 							<div class="visual-row">
-								<div class="visual-section"><img src="assets/images/rtx.jpeg" alt="Architecture GPU NVIDIA RTX" class="block-image"><p class="image-caption">Architecture NVIDIA RTX</p></div>
-								<div class="visual-section"><img src="assets/images/amd.jpg" alt="Architecture GPU AMD RX" class="block-image"><p class="image-caption">Architecture AMD RDNA 4</p></div>
+								<div class="visual-section"><img src="assets/images/rtx.jpeg" alt="Architecture GPU NVIDIA RTX" data-i18n-alt="veille.gpu.nvidiaAlt" class="block-image"><p class="image-caption" data-i18n="veille.gpu.nvidiaCaption">Architecture NVIDIA RTX</p></div>
+								<div class="visual-section"><img src="assets/images/amd.jpg" alt="Architecture GPU AMD RX" data-i18n-alt="veille.gpu.amdAlt" class="block-image"><p class="image-caption" data-i18n="veille.gpu.amdCaption">Architecture AMD RDNA 4</p></div>
 							</div>
 						</div>
 					</article>
@@ -547,117 +579,118 @@
 					<article class="comparison-block ai-block">
 						<div class="block-header">
 							<div class="header-icon"><i class="fas fa-robot"></i></div>
-							<div class="header-text"><h2>Intelligence Artificielle</h2><span class="header-tag">Modèles Conversationnels</span></div>
+							<div class="header-text"><h2 data-i18n="veille.ai.heading">Intelligence Artificielle</h2><span class="header-tag" data-i18n="veille.ai.tag">Modèles Conversationnels</span></div>
 						</div>
 						<div class="block-content">
 							<div class="info-card">
-								<h3><i class="fas fa-info-circle"></i> Contexte</h3>
-								<p>Je suis l'évolution des modèles d'IA conversationnels en analysant la qualité des réponses, les capacités de raisonnement, la vision multimodale et les intégrations possibles pour comparer Claude et GPT-4 selon différents usages.</p>
+								<h3 data-i18n="veille.ai.contextTitle"><i class="fas fa-info-circle"></i> Contexte</h3>
+								<p data-i18n="veille.ai.context">Je suis l'évolution des modèles d'IA conversationnels en analysant la qualité des réponses, les capacités de raisonnement, la vision multimodale et le coût réel à l'usage. Je compare systématiquement des modèles <strong>de paliers équivalents</strong> : opposer un modèle spécialisé à un généraliste, ou un vaisseau amiral à un modèle d'entrée de gamme, ne dit rien d'exploitable.</p>
 							</div>
 							<div class="versus-container">
 								<div class="ai-card claude-card">
 									<div class="card-badge claude-badge">ANTHROPIC</div>
-									<h3 class="card-title">Claude 4.5 Sonnet</h3>
+									<h3 class="card-title">Claude Sonnet 5</h3>
 									<div class="card-stats">
-										<div class="stat-item"><span class="stat-label">Maths (AIME 2025)</span><span class="stat-value">94.6%</span><a href="https://www.anthropic.com/news/claude-sonnet-4-5" target="_blank" rel="noopener" class="stat-source" title="Rapport Technique Anthropic"><i class="fas fa-external-link-alt"></i></a></div>
-										<div class="stat-item"><span class="stat-label">Code (SWE-bench)</span><span class="stat-value">77.2%</span><a href="https://www.anthropic.com/news/claude-sonnet-4-5" target="_blank" rel="noopener" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
-										<div class="stat-item"><span class="stat-label">Fenêtre Contexte</span><span class="stat-value">200K</span><a href="https://www.anthropic.com/claude/sonnet" target="_blank" rel="noopener" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
+										<div class="stat-item"><span class="stat-label" data-i18n="veille.ai.statTerminal">Terminal-Bench 2.1</span><span class="stat-value">80,4 %</span><a href="https://www.anthropic.com/claude-sonnet-5-system-card" target="_blank" rel="noopener" class="stat-source" title="Rapport Technique Anthropic" data-i18n-title="veille.ai.techReportAnthropic"><i class="fas fa-external-link-alt"></i></a></div>
+										<div class="stat-item"><span class="stat-label" data-i18n="veille.ai.statContext">Fenêtre de contexte</span><span class="stat-value">1 M</span><a href="https://www.anthropic.com/claude/sonnet" target="_blank" rel="noopener" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
+										<div class="stat-item"><span class="stat-label" data-i18n="veille.ai.statPrice">Tarif (entrée / sortie)</span><span class="stat-value">3 $ / 15 $</span><a href="https://www.anthropic.com/news/claude-sonnet-5" target="_blank" rel="noopener" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
 									</div>
 									<div class="card-features">
-										<h4>Caractéristiques</h4>
+										<h4 data-i18n="veille.ai.features">Caractéristiques</h4>
 										<ul>
-											<li><i class="fas fa-brain"></i> Raisonnement "Agentic" autonome</li>
-											<li><i class="fas fa-laptop-code"></i> Utilisation d'ordinateur (Computer Use)</li>
-											<li><i class="fas fa-shield-alt"></i> Sécurité ASL-3 certifiée</li>
-											<li><i class="fas fa-code-branch"></i> Maintenance de code complexe</li>
+											<li data-i18n="veille.ai.claude1"><i class="fas fa-brain"></i> Réflexion adaptative activée par défaut</li>
+											<li data-i18n="veille.ai.claude2"><i class="fas fa-sliders-h"></i> Curseur d'effort réglable (low → max)</li>
+											<li data-i18n="veille.ai.claude3"><i class="fas fa-image"></i> Vision haute résolution (2576 px)</li>
+											<li data-i18n="veille.ai.claude4"><i class="fas fa-tags"></i> Niveau proche d'Opus 4.8 au tarif Sonnet</li>
 										</ul>
-										<h4>Idéal pour</h4>
+										<h4 data-i18n="veille.ai.bestFor">Idéal pour</h4>
 										<ul>
-											<li><i class="fas fa-check-circle"></i> Développement logiciel (DevOps)</li>
-											<li><i class="fas fa-check-circle"></i> Tâches autonomes longues</li>
-											<li><i class="fas fa-check-circle"></i> Analyse financière</li>
+											<li data-i18n="veille.ai.claudeUse1"><i class="fas fa-check-circle"></i> Codage agentique et refactorisations multi-fichiers</li>
+											<li data-i18n="veille.ai.claudeUse2"><i class="fas fa-check-circle"></i> Revue de code et recherche de bugs</li>
+											<li data-i18n="veille.ai.claudeUse3"><i class="fas fa-check-circle"></i> Longs contextes sans surcoût</li>
 										</ul>
 									</div>
 								</div>
 								<div class="vs-badge"><span class="vs-badge-text">VS</span></div>
 								<div class="ai-card gpt-card">
 									<div class="card-badge gpt-badge">OPENAI</div>
-									<h3 class="card-title">GPT-5 (v5.2)</h3>
+									<h3 class="card-title">GPT-5.6 Terra</h3>
 									<div class="card-stats">
-										<div class="stat-item"><span class="stat-label">Maths (AIME 2025)</span><span class="stat-value">100%</span><a href="https://openai.com/index/introducing-gpt-5-2/" target="_blank" rel="noopener" class="stat-source" title="Rapport Technique OpenAI"><i class="fas fa-external-link-alt"></i></a></div>
-										<div class="stat-item"><span class="stat-label">Code (SWE-bench)</span><span class="stat-value">80.0%</span><a href="https://openai.com/index/introducing-gpt-5-2/" target="_blank" rel="noopener" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
-										<div class="stat-item"><span class="stat-label">Fenêtre Contexte</span><span class="stat-value">400K</span><a href="https://platform.openai.com/docs/models/gpt-5" target="_blank" rel="noopener" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
+										<div class="stat-item"><span class="stat-label" data-i18n="veille.ai.statTerminal">Terminal-Bench 2.1</span><span class="stat-value">84,3 %</span><a href="https://qcode.cc/en/gpt-5-6-guide" target="_blank" rel="noopener" class="stat-source" title="Rapport Technique OpenAI" data-i18n-title="veille.ai.techReportOpenai"><i class="fas fa-external-link-alt"></i></a></div>
+										<div class="stat-item"><span class="stat-label" data-i18n="veille.ai.statContext">Fenêtre de contexte</span><span class="stat-value">1,05 M</span><a href="https://qcode.cc/en/gpt-5-6-guide" target="_blank" rel="noopener" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
+										<div class="stat-item"><span class="stat-label" data-i18n="veille.ai.statPrice">Tarif (entrée / sortie)</span><span class="stat-value">2,50 $ / 15 $</span><a href="https://openai.com/index/introducing-gpt-5-5/" target="_blank" rel="noopener" class="stat-source"><i class="fas fa-external-link-alt"></i></a></div>
 									</div>
 									<div class="card-features">
-										<h4>Caractéristiques</h4>
+										<h4 data-i18n="veille.ai.features">Caractéristiques</h4>
 										<ul>
-											<li><i class="fas fa-bolt"></i> Raisonnement instantané</li>
-											<li><i class="fas fa-project-diagram"></i> Planification multimodale</li>
-											<li><i class="fas fa-server"></i> Infrastructure massivement scalable</li>
-											<li><i class="fas fa-globe"></i> Agents autonomes profonds</li>
+											<li data-i18n="veille.ai.gpt1"><i class="fas fa-layer-group"></i> Palier « équilibré » entre Sol et Luna</li>
+											<li data-i18n="veille.ai.gpt2"><i class="fas fa-project-diagram"></i> Architecture nativement omnimodale</li>
+											<li data-i18n="veille.ai.gpt3"><i class="fas fa-database"></i> Cache de prompt (−90 % en lecture)</li>
+											<li data-i18n="veille.ai.gpt4"><i class="fas fa-exclamation-triangle"></i> Surcoût au-delà de 272K tokens</li>
 										</ul>
-										<h4>Idéal pour</h4>
+										<h4 data-i18n="veille.ai.bestFor">Idéal pour</h4>
 										<ul>
-											<li><i class="fas fa-check-circle"></i> Recherche scientifique (Ph.D level)</li>
-											<li><i class="fas fa-check-circle"></i> Résolution mathématique pure</li>
-											<li><i class="fas fa-check-circle"></i> Systèmes critiques</li>
+											<li data-i18n="veille.ai.gptUse1"><i class="fas fa-check-circle"></i> Usage généraliste au quotidien</li>
+											<li data-i18n="veille.ai.gptUse2"><i class="fas fa-check-circle"></i> Workflows en ligne de commande</li>
+											<li data-i18n="veille.ai.gptUse3"><i class="fas fa-check-circle"></i> Écosystème et outillage OpenAI</li>
 										</ul>
 									</div>
 								</div>
 							</div>
 							<div class="analysis-card">
-								<h3><i class="fas fa-chart-line"></i> Analyse comparative (2025)</h3>
-								<p>Le paysage a évolué : <strong>GPT-5.2</strong> atteint la perfection théorique en mathématiques (100% sur AIME) et domine sur la fenêtre de contexte (400K), le rendant imbattable pour la recherche scientifique lourde. Cependant, <strong>Claude 4.5 Sonnet</strong> reste la référence pour les développeurs grâce à ses capacités de "Computer Use" (contrôle de l'interface) et une architecture plus "fluide" pour le codage au quotidien, malgré des scores bruts légèrement inférieurs.</p>
+								<h3 data-i18n="veille.ai.analysisTitle"><i class="fas fa-chart-line"></i> Analyse comparative (2026)</h3>
+								<p data-i18n="veille.ai.analysis">J'ai volontairement comparé deux modèles <strong>du même palier</strong> : Sonnet 5 et Terra sont tous deux le modèle « équilibré » de leur famille, à tarif de sortie identique (15 $ le million de tokens). Mettre Sonnet 5 face au vaisseau amiral GPT-5.6 Sol (5 $ / 30 $) n'aurait rien dit d'utile.<br><br><strong>GPT-5.6 Terra</strong> devance Sonnet 5 sur Terminal-Bench 2.1 (84,3 % contre 80,4 %) et affiche une entrée moins chère. <strong>Claude Sonnet 5</strong> reprend l'avantage sur le contexte long : OpenAI applique un surcoût au-delà de 272K tokens, là où Anthropic facture une requête de 900K au même prix qu'une de 9K. Le choix dépend donc surtout de la taille des contextes manipulés.</p>
+								<p class="source-credit" data-i18n="veille.ai.caveat"><i class="fas fa-triangle-exclamation"></i> Réserve méthodologique : ces scores sont publiés par les éditeurs eux-mêmes, sur des harnais de test différents. Ils donnent un ordre de grandeur, pas une mesure strictement comparable.</p>
 							</div>
 							<div class="visual-row">
-								<div class="visual-section"><img src="assets/images/claude.jpg" alt="Claude AI Interface" class="block-image"><p class="image-caption">Claude AI - Raisonnement</p></div>
-								<div class="visual-section"><img src="assets/images/gpt.jpg" alt="GPT-5 Logo" class="block-image"><p class="image-caption">GPT-5 - Créativité & Multimodal</p></div>
+								<div class="visual-section"><img src="assets/images/claude.jpg" alt="Interface de Claude AI" data-i18n-alt="veille.ai.claudeAlt" class="block-image"><p class="image-caption" data-i18n="veille.ai.claudeCaption">Claude Sonnet 5 — Codage agentique</p></div>
+								<div class="visual-section"><img src="assets/images/gpt.jpg" alt="Logo GPT" data-i18n-alt="veille.ai.gptAlt" class="block-image"><p class="image-caption" data-i18n="veille.ai.gptCaption">GPT-5.6 Terra — Généraliste &amp; omnimodal</p></div>
 							</div>
 						</div>
 					</article>
 					<section class="methodology-section">
 						<div class="container">
-							<h2 class="section-title"><i class="fas fa-microscope"></i> Méthodologie de Veille</h2>
+							<h2 class="section-title" data-i18n="veille.method.title"><i class="fas fa-microscope"></i> Méthodologie de Veille</h2>
 							<div class="methodology-grid">
 								<div class="method-card">
 									<div class="method-icon"><i class="fas fa-rss"></i></div>
-									<h3>Sources</h3>
+									<h3 data-i18n="veille.method.sources">Sources</h3>
 									<div class="method-details">
 										<div class="method-group">
-											<h4><i class="fas fa-microchip"></i> Hardware</h4>
-											<p>TechPowerUp, VideoCardz, Tom's Hardware, Chaînes Tech (Gamers Nexus, Hardware Unboxed).</p>
+											<h4 data-i18n="veille.method.hardware"><i class="fas fa-microchip"></i> Hardware</h4>
+											<p data-i18n="veille.method.hardwareText">TechPowerUp, VideoCardz, Tom's Hardware, Chaînes Tech (Gamers Nexus, Hardware Unboxed).</p>
 										</div>
 										<div class="method-group">
-											<h4><i class="fas fa-brain"></i> Intelligence Artificielle</h4>
-											<p>Documentations OpenAI, Anthropic et LMARENA</p>
+											<h4 data-i18n="veille.method.ai"><i class="fas fa-brain"></i> Intelligence Artificielle</h4>
+											<p data-i18n="veille.method.aiText">Documentations OpenAI, Anthropic et LMARENA</p>
 										</div>
 									</div>
 								</div>
 								<div class="method-card">
 									<div class="method-icon"><i class="fas fa-calendar-check"></i></div>
-									<h3>Fréquence</h3>
+									<h3 data-i18n="veille.method.frequency">Fréquence</h3>
 									<div class="method-details">
 										<div class="method-group">
-											<h4><i class="fas fa-sync-alt"></i> Routine Hebdo</h4>
-											<p>Consultation des flux RSS et newsletters techniques chaque lundi matin.</p>
+											<h4 data-i18n="veille.method.weekly"><i class="fas fa-sync-alt"></i> Routine Hebdo</h4>
+											<p data-i18n="veille.method.weeklyText">Consultation des flux RSS et newsletters techniques chaque lundi matin.</p>
 										</div>
 										<div class="method-group">
-											<h4><i class="fas fa-file-alt"></i> Synthèse Mensuelle</h4>
-											<p>Rédaction d'un résumé des tendances majeures et mise à jour du portfolio.</p>
+											<h4 data-i18n="veille.method.monthly"><i class="fas fa-file-alt"></i> Synthèse Mensuelle</h4>
+											<p data-i18n="veille.method.monthlyText">Rédaction d'un résumé des tendances majeures et mise à jour du portfolio.</p>
 										</div>
 									</div>
 								</div>
 								<div class="method-card">
 									<div class="method-icon"><i class="fas fa-tools"></i></div>
-									<h3>Outils</h3>
+									<h3 data-i18n="veille.method.tools">Outils</h3>
 									<div class="method-details">
 										<div class="method-group">
-											<h4><i class="fas fa-tachometer-alt"></i> Benchmarking</h4>
-											<p>3DMark, Cinebench (GPU) et LMSYS Arena.</p>
+											<h4 data-i18n="veille.method.benchmarking"><i class="fas fa-tachometer-alt"></i> Benchmarking</h4>
+											<p data-i18n="veille.method.benchmarkingText">3DMark, Cinebench (GPU) et LMSYS Arena.</p>
 										</div>
 										<div class="method-group">
-											<h4><i class="fas fa-folder-open"></i> Organisation</h4>
-											<p>Feedly, Notion et GitHub.</p>
+											<h4 data-i18n="veille.method.organisation"><i class="fas fa-folder-open"></i> Organisation</h4>
+											<p data-i18n="veille.method.organisationText">Feedly, Notion et GitHub.</p>
 										</div>
 									</div>
 								</div>
@@ -671,15 +704,15 @@
 		<!-- Section CONTACT -->
 		<section id="contact" style="display:none">
 			<div class="contact-wrapper">
-				<h2 class="contact-title">Contactez <span>Moi</span></h2>
+				<h2 class="contact-title" data-i18n="contact.title">Contactez <span>Moi</span></h2>
 				<div class="formulaire-container">
 					<form action="https://formspree.io/f/mpwjegye" method="post" id="contactForm" novalidate>
-						<input type="text" id="name" name="name" placeholder="Nom" aria-label="Nom" required maxlength="100" pattern="[A-Za-zÀ-ÿ\s\-']+" autocomplete="family-name" title="Lettres, espaces, tirets et apostrophes uniquement">
-						<input type="text" id="firstname" name="firstname" placeholder="Prénom" aria-label="Prénom" required maxlength="100" pattern="[A-Za-zÀ-ÿ\s\-']+" autocomplete="given-name" title="Lettres, espaces, tirets et apostrophes uniquement">
-						<input type="email" id="email" name="email" placeholder="Email" aria-label="Adresse email" required maxlength="254" autocomplete="email">
-						<textarea id="message" name="message" placeholder="Votre message" aria-label="Votre message" rows="5" required maxlength="2000"></textarea>
+						<input type="text" id="name" name="name" placeholder="Nom" data-i18n-placeholder="contact.name" aria-label="Nom" data-i18n-aria="contact.name" required maxlength="100" pattern="[A-Za-zÀ-ÿ\s\-']+" autocomplete="family-name" title="Lettres, espaces, tirets et apostrophes uniquement" data-i18n-title="contact.namePattern">
+						<input type="text" id="firstname" name="firstname" placeholder="Prénom" data-i18n-placeholder="contact.firstname" aria-label="Prénom" data-i18n-aria="contact.firstname" required maxlength="100" pattern="[A-Za-zÀ-ÿ\s\-']+" autocomplete="given-name" title="Lettres, espaces, tirets et apostrophes uniquement" data-i18n-title="contact.namePattern">
+						<input type="email" id="email" name="email" placeholder="Email" data-i18n-placeholder="contact.email" aria-label="Adresse email" data-i18n-aria="contact.emailAria" required maxlength="254" autocomplete="email">
+						<textarea id="message" name="message" placeholder="Votre message" data-i18n-placeholder="contact.message" aria-label="Votre message" data-i18n-aria="contact.message" rows="5" required maxlength="2000"></textarea>
 						<input type="text" name="_gotcha" style="display:none !important" tabindex="-1" autocomplete="off">
-						<button type="submit" id="submitBtn">Envoyer</button>
+						<button type="submit" id="submitBtn" data-i18n="contact.submit">Envoyer</button>
 						<p id="formStatus" class="form-status" role="status" aria-live="polite"></p>
 					</form>
 				</div>
@@ -689,11 +722,12 @@
 	</main>
 
 	<!-- Bouton retour en haut -->
-	<button id="backToTop" class="back-to-top" aria-label="Retour en haut de page"><i class="fas fa-chevron-up"></i></button>
+	<button id="backToTop" class="back-to-top" aria-label="Retour en haut de page" data-i18n-aria="ui.backToTop"><i class="fas fa-chevron-up"></i></button>
 
 	<!-- Scripts de fin de page -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+	<!-- Le fond étoilé est en canvas 2D natif : plus de dépendance à Three.js -->
 	<script src="js/stars.js"></script>
+	<script src="js/i18n.js"></script>
 	<script src="js/menu.js"></script>
 	<script src="js/animation-modal.js"></script>
 	<script src="js/music-player.js"></script>
@@ -709,6 +743,12 @@
 	<script>
 		(function() {
 			'use strict';
+
+			// Raccourci de traduction : le texte français reste la valeur de repli
+			// si i18n.js n'a pas pu se charger.
+			function t(key, fr) {
+				return (window.i18n && window.i18n.t) ? window.i18n.t(key, fr) : fr;
+			}
 
 			function initContactForm() {
 				const form = document.getElementById('contactForm');
@@ -734,13 +774,13 @@
 					}
 					const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 					if (!emailRegex.test(email.value.trim())) {
-						email.setCustomValidity('Veuillez entrer une adresse email valide');
+						email.setCustomValidity(t('contact.invalidEmail', 'Veuillez entrer une adresse email valide'));
 						email.reportValidity();
 						return;
 					}
 
 					submitBtn.disabled = true;
-					submitBtn.textContent = 'Envoi en cours...';
+					submitBtn.textContent = t('contact.sending', 'Envoi en cours...');
 					showStatus('', '');
 
 					fetch(form.action, {
@@ -750,17 +790,17 @@
 					}).then(function(res) {
 						if (res.ok) {
 							form.reset();
-							showStatus('success', 'Message envoyé, merci !');
+							showStatus('success', t('contact.success', 'Message envoyé, merci !'));
 						} else if (res.status === 429) {
-							showStatus('error', 'Trop de messages envoyés en peu de temps. Patientez quelques minutes avant de réessayer.');
+							showStatus('error', t('contact.rateLimit', 'Trop de messages envoyés en peu de temps. Patientez quelques minutes avant de réessayer.'));
 						} else {
-							showStatus('error', 'Une erreur est survenue. Réessayez ou contactez-moi via LinkedIn.');
+							showStatus('error', t('contact.error', 'Une erreur est survenue. Réessayez ou contactez-moi via LinkedIn.'));
 						}
 					}).catch(function() {
-						showStatus('error', 'Impossible d\'envoyer le message. Vérifiez votre connexion.');
+						showStatus('error', t('contact.network', 'Impossible d\'envoyer le message. Vérifiez votre connexion.'));
 					}).finally(function() {
 						submitBtn.disabled = false;
-						submitBtn.textContent = 'Envoyer';
+						submitBtn.textContent = t('contact.submit', 'Envoyer');
 					});
 				});
 			}
