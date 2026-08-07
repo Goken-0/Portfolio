@@ -16,7 +16,8 @@
         'stages': { id: 'stages', class: 'stages-page', display: 'block' },
         'competences': { id: 'competences', class: 'projets-page', display: 'block' },
         'veille': { id: 'veille', class: 'veille-page', display: 'block' },
-        'contact': { id: 'contact', class: 'contact-page', display: 'block' }
+        'contact': { id: 'contact', class: 'contact-page', display: 'block' },
+        'mentions': { id: 'mentions', class: 'legal-page', display: 'block' }
     };
 
     function navigateTo(hash) {

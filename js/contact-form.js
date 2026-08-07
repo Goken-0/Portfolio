@@ -11,9 +11,8 @@
 
 	// Délai minimum entre deux envois depuis le même navigateur.
 	// Le captcha Formspree casse l'envoi AJAX (il impose une redirection),
-	// on garde donc une limite côté client. Elle ne remplace pas la
-	// restriction de domaine à activer dans le tableau de bord Formspree :
-	// c'est elle qui bloque réellement les POST directs vers l'endpoint.
+	// on garde donc une limite côté client. Elle ne remplace pas Formshield,
+	// qui est la seule protection agissant côté serveur.
 	const THROTTLE_MS = 60 * 1000;
 	const THROTTLE_KEY = 'contactLastSent';
 
@@ -22,6 +21,10 @@
 	function t(key, fr) {
 		return (window.i18n && window.i18n.t) ? window.i18n.t(key, fr) : fr;
 	}
+
+	// ============================================
+	// LIMITATION DE FRÉQUENCE
+	// ============================================
 
 	/** Millisecondes restantes avant le prochain envoi autorisé, 0 si libre. */
 	function throttleRemaining() {
@@ -48,11 +51,176 @@
 		}
 	}
 
+	// ============================================
+	// QUALITÉ DES SAISIES
+	// ============================================
+	// On ne peut pas vérifier qu'un nom est « vrai » : « Ng », « Åsa »,
+	// « O'Brien » sont réels, « Jean Dupont » est plausible et faux. Un filtre
+	// agressif rejetterait de vraies personnes — un coût bien pire que de
+	// recevoir un message bidon qu'on supprime en deux secondes.
+	//
+	// On vise donc uniquement le pianotage évident (« eaeaeaea », « aaaa »),
+	// avec des règles volontairement prudentes, et surtout la faute de frappe
+	// dans le domaine du mail : c'est le cas fréquent et réellement coûteux,
+	// puisqu'un « gmial.com » rend toute réponse impossible.
+
+	const VOWELS = 'aeiouyàâäåéèêëïîíìôöòóøùûüúÿæœ';
+
+	/** Retire accents et casse pour analyser la forme du mot. */
+	function normalize(value) {
+		// ̀-ͯ = diacritiques combinants, isolés par la décomposition
+		// NFD. Écrits en échappements plutôt qu'en caractères bruts : ils sont
+		// invisibles dans un éditeur et survivent mal aux conversions d'encodage.
+		return value
+			.normalize('NFD')
+			.replace(/[\u0300-\u036f]/g, '')
+			.toLowerCase();
+	}
+
+	// Rangées de touches AZERTY et QWERTY. Une suite de 5 touches voisines
+	// dans l'ordre (« qwert », « asdfg ») ne se rencontre dans aucun
+	// patronyme réel, mais trahit immédiatement un doigt glissé sur le clavier.
+	const KEYBOARD_ROWS = [
+		'azertyuiop', 'qsdfghjklm', 'wxcvbn',
+		'qwertyuiop', 'asdfghjkl', 'zxcvbnm'
+	];
+	const KEYBOARD_RUN = 5;
+
+	function hasKeyboardRun(word) {
+		for (let i = 0; i + KEYBOARD_RUN <= word.length; i++) {
+			const chunk = word.slice(i, i + KEYBOARD_RUN);
+			for (let r = 0; r < KEYBOARD_ROWS.length; r++) {
+				const row = KEYBOARD_ROWS[r];
+				if (row.indexOf(chunk) !== -1) return true;
+				// même chose en sens inverse (« poiuy »)
+				if (row.indexOf(chunk.split('').reverse().join('')) !== -1) return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Détecte un mot tapé au hasard sur le clavier.
+	 * Quatre signaux, chacun choisi pour ne toucher aucun vrai patronyme :
+	 *   - une même lettre répétée 4 fois de suite  (« aaaa »)
+	 *   - un même couple de lettres répété 3 fois  (« eaeaea », « azazaz »)
+	 *   - aucune voyelle dans un mot de 4 lettres ou plus
+	 *   - 5 touches consécutives d'une rangée de clavier  (« qwert »)
+	 * « Anna », « Aaron », « Nana », « Ng », « Krzysztof », « Łukasz »,
+	 * « Nguyễn », « Mbappé » passent tous — vérifié par test_validation.js.
+	 */
+	function looksLikeMashing(value) {
+		const word = normalize(value).replace(/[^a-z]/g, '');
+		if (word.length < 4) return false;
+
+		if (/(.)\1{3,}/.test(word)) return true;
+		if (/(..)\1{2,}/.test(word)) return true;
+		if (hasKeyboardRun(word)) return true;
+
+		for (const char of word) {
+			if (VOWELS.indexOf(char) !== -1) return false;
+		}
+		return true;
+	}
+
+	// Domaines les plus courants chez les particuliers en France : sert
+	// uniquement à proposer une correction, jamais à bloquer.
+	const COMMON_DOMAINS = [
+		'gmail.com', 'hotmail.com', 'hotmail.fr', 'outlook.com', 'outlook.fr',
+		'yahoo.com', 'yahoo.fr', 'orange.fr', 'wanadoo.fr', 'free.fr',
+		'sfr.fr', 'laposte.net', 'live.fr', 'icloud.com', 'proton.me',
+		'protonmail.com', 'bbox.fr', 'numericable.fr', 'aol.com'
+	];
+
+	/** Distance de Levenshtein, bornée : au-delà de `max` on abandonne. */
+	function editDistance(a, b, max) {
+		if (Math.abs(a.length - b.length) > max) return max + 1;
+		let previous = Array.from({ length: b.length + 1 }, function (_, i) { return i; });
+		for (let i = 1; i <= a.length; i++) {
+			const current = [i];
+			let best = i;
+			for (let j = 1; j <= b.length; j++) {
+				const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+				current[j] = Math.min(
+					previous[j] + 1,
+					current[j - 1] + 1,
+					previous[j - 1] + cost
+				);
+				if (current[j] < best) best = current[j];
+			}
+			if (best > max) return max + 1;   // toute la ligne dépasse : inutile de continuer
+			previous = current;
+		}
+		return previous[b.length];
+	}
+
+	/** Renvoie le domaine probablement voulu, ou null si rien de suspect. */
+	function suggestDomain(email) {
+		const at = email.lastIndexOf('@');
+		if (at === -1) return null;
+		const domain = email.slice(at + 1).toLowerCase();
+		if (!domain || COMMON_DOMAINS.indexOf(domain) !== -1) return null;
+
+		let best = null;
+		let bestDistance = 3;
+		for (let i = 0; i < COMMON_DOMAINS.length; i++) {
+			const distance = editDistance(domain, COMMON_DOMAINS[i], 2);
+			if (distance > 0 && distance < bestDistance) {
+				bestDistance = distance;
+				best = COMMON_DOMAINS[i];
+			}
+		}
+		return best;
+	}
+
+	/**
+	 * Validation stricte de la syntaxe d'une adresse.
+	 * Plus exigeante que l'ancien `[^\s@]+@[^\s@]+\.[^\s@]+` : impose une
+	 * extension d'au moins deux lettres et interdit points en début/fin et
+	 * points consécutifs, invalides et presque toujours signe d'une faute.
+	 */
+	function isValidEmail(email) {
+		if (email.length > 254) return false;
+		if (!/^[^\s@]+@[^\s@]+$/.test(email)) return false;
+
+		const at = email.lastIndexOf('@');
+		const local = email.slice(0, at);
+		const domain = email.slice(at + 1);
+
+		if (local.length > 64) return false;
+		if (/^\.|\.$|\.\./.test(local)) return false;
+		if (/^[.-]|[.-]$|\.\./.test(domain)) return false;
+		return /^[a-z0-9.-]+\.[a-z]{2,}$/i.test(domain);
+	}
+
+	// ============================================
+	// FORMULAIRE
+	// ============================================
+
 	function initContactForm() {
 		const form = document.getElementById('contactForm');
 		const submitBtn = document.getElementById('submitBtn');
 		const status = document.getElementById('formStatus');
 		if (!form || !submitBtn) return;
+
+		const email = document.getElementById('email');
+		const name = document.getElementById('name');
+		const firstname = document.getElementById('firstname');
+
+		// La suggestion de domaine n'est qu'un avertissement : au second envoi
+		// sans modification, on laisse passer. L'utilisateur reste maître de
+		// son adresse — il peut très bien avoir un domaine perso proche d'un
+		// domaine courant.
+		let warnedFor = null;
+
+		if (email) {
+			email.addEventListener('input', function () {
+				if (warnedFor !== null && email.value.trim() !== warnedFor) {
+					warnedFor = null;
+					showStatus('', '');
+				}
+			});
+		}
 
 		function showStatus(type, text) {
 			if (!status) return;
@@ -60,27 +228,62 @@
 			status.textContent = text;
 		}
 
+		function rejectField(field, message) {
+			field.setCustomValidity(message);
+			field.reportValidity();
+		}
+
 		form.addEventListener('submit', function (e) {
 			// Toujours bloquer l'envoi natif : jamais de redirection vers Formspree
 			e.preventDefault();
 
-			const email = document.getElementById('email');
-			email.setCustomValidity('');
+			[name, firstname, email].forEach(function (field) {
+				if (field) field.setCustomValidity('');
+			});
+
+			// 1. Contraintes HTML natives (required, maxlength, pattern)
 			if (!form.checkValidity()) {
 				form.reportValidity();
 				return;
 			}
-			const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-			if (!emailRegex.test(email.value.trim())) {
-				email.setCustomValidity(t('contact.invalidEmail', 'Veuillez entrer une adresse email valide'));
-				email.reportValidity();
+
+			// 2. Nom et prénom : pianotage manifeste
+			const mashed = [name, firstname].filter(function (field) {
+				return field && looksLikeMashing(field.value.trim());
+			});
+			if (mashed.length > 0) {
+				rejectField(mashed[0], t('contact.invalidName',
+					'Merci d\'indiquer un nom réel : cette saisie ne semble pas en être un.'));
 				return;
 			}
 
+			// 3. Adresse e-mail : syntaxe
+			const address = email.value.trim();
+			if (!isValidEmail(address)) {
+				rejectField(email, t('contact.invalidEmail',
+					'Veuillez entrer une adresse email valide'));
+				return;
+			}
+
+			// 4. Adresse e-mail : faute de frappe probable sur le domaine.
+			//    Bloque une seule fois, puis laisse passer si rien n'a changé.
+			const suggestion = suggestDomain(address);
+			if (suggestion && warnedFor !== address) {
+				warnedFor = address;
+				const corrected = address.slice(0, address.lastIndexOf('@') + 1) + suggestion;
+				showStatus('error', t('contact.emailTypo',
+					'Vouliez-vous dire {s} ? Corrigez, ou renvoyez pour confirmer votre adresse.')
+					.replace('{s}', corrected));
+				email.focus();
+				return;
+			}
+
+			// 5. Fréquence d'envoi
 			const remaining = throttleRemaining();
 			if (remaining > 0) {
 				const seconds = Math.ceil(remaining / 1000);
-				showStatus('error', t('contact.throttle', 'Patientez encore {s} secondes avant de renvoyer un message.')
+				showStatus('error', t('contact.throttle',
+					'Patientez encore {s} secondes avant de renvoyer un message.')
 					.replace('{s}', seconds));
 				return;
 			}
@@ -97,6 +300,7 @@
 				if (res.ok) {
 					markSent();
 					form.reset();
+					warnedFor = null;
 					showStatus('success', t('contact.success', 'Message envoyé, merci !'));
 				} else if (res.status === 429) {
 					markSent();

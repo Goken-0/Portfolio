@@ -3,36 +3,16 @@
  * INITIALISATION PRÉCOCE (remplace les handlers inline)
  * ============================================
  * Ce fichier existe uniquement pour que la CSP puisse interdire le script
- * inline (`script-src 'self'`). Tout ce qui était écrit dans un attribut
- * onload= / onerror= du HTML a été déplacé ici.
+ * inline (`script-src 'self'`). Ce qui était écrit dans un attribut
+ * onerror= du HTML a été déplacé ici.
  *
- * Chargé dans <head>, juste après les <link>, sans defer : les éléments
- * qu'il cible en <head> sont déjà analysés, et la partie <body> attend
- * DOMContentLoaded.
+ * La bascule des feuilles de style asynchrones a disparu : Poppins et Font
+ * Awesome sont désormais auto-hébergés et chargés normalement, il n'y a plus
+ * de media="print" à repasser en "all".
  */
 
 (function () {
 	'use strict';
-
-	/**
-	 * Feuilles de style non bloquantes.
-	 * Le HTML les déclare en media="print" pour que le navigateur les
-	 * télécharge sans retarder le premier rendu ; on repasse en media="all"
-	 * une fois chargées. Remplace onload="this.media='all'".
-	 */
-	function activateAsyncStyles() {
-		document.querySelectorAll('link[data-async-style]').forEach(function (link) {
-			// Déjà chargée avant l'exécution de ce script : l'événement 'load'
-			// est passé, on bascule directement.
-			if (link.sheet) {
-				link.media = 'all';
-				return;
-			}
-			link.addEventListener('load', function () {
-				link.media = 'all';
-			}, { once: true });
-		});
-	}
 
 	/**
 	 * Photo de profil : si le fichier est absent ou bloqué, on masque l'image
@@ -54,8 +34,6 @@
 		if (img.complete && img.naturalWidth === 0) showPlaceholder();
 		else img.addEventListener('error', showPlaceholder, { once: true });
 	}
-
-	activateAsyncStyles();
 
 	if (document.readyState === 'loading') {
 		document.addEventListener('DOMContentLoaded', initProfileImageFallback);
