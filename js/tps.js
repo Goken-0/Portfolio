@@ -312,9 +312,15 @@
         const header = document.createElement('div');
         header.className = 'project-header';
 
+        // Icône et titre montés séparément : le titre passe par textContent,
+        // pour qu'il reste sûr même si `projets` venait un jour d'un JSON
+        // externe plutôt que du tableau statique de ce fichier.
         const titre = document.createElement('h3');
         titre.className = 'project-title';
-        titre.innerHTML = `<i class="fas fa-file-alt"></i> ${titreOf(projet)}`;
+        const titreIcon = document.createElement('i');
+        titreIcon.className = 'fas fa-file-alt';
+        titre.appendChild(titreIcon);
+        titre.appendChild(document.createTextNode(' ' + titreOf(projet)));
 
         header.appendChild(titre);
 

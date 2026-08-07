@@ -256,7 +256,11 @@ class MusicPlayer {
      */
     defaultVolume(savedVolume) {
         if (MusicPlayer.isVolumeSliderHidden()) return 1;
-        return savedVolume !== undefined ? savedVolume : 0.3;
+        // HTMLMediaElement.volume n'accepte que [0, 1] : toute autre valeur
+        // lève une IndexSizeError. Comme savedVolume sort de localStorage,
+        // on ne lui fait pas confiance.
+        const vol = Number(savedVolume);
+        return (Number.isFinite(vol) && vol >= 0 && vol <= 1) ? vol : 0.3;
     }
 
     restoreState() {
@@ -264,17 +268,30 @@ class MusicPlayer {
         if (saved) {
             try {
                 const state = JSON.parse(saved);
-                this.currentSongIndex = state.index || 0;
-                this.isLooping = state.loop || false;
+                // L'état vient de localStorage : il peut avoir été édité à la
+                // main, ou dater d'une playlist plus longue. Un index hors
+                // bornes rendrait `song` undefined et ferait planter la ligne
+                // `song.src` plus bas, laissant le lecteur mort.
+                const index = Number(state.index);
+                this.currentSongIndex =
+                    (Number.isInteger(index) && index >= 0 && index < this.playlist.length)
+                        ? index
+                        : 0;
+                this.isLooping = state.loop === true;
                 this.audio.volume = this.defaultVolume(state.vol);
-                
+
                 // Pré-charger la source mais ne pas lancer sans interaction
                 const song = this.playlist[this.currentSongIndex];
                 this.audio.src = song.src;
                 
-                // Tenter de restaurer le temps après chargement
+                // Tenter de restaurer le temps après chargement. On borne à la
+                // durée réelle du morceau : un currentTime négatif ou au-delà
+                // de la fin lève aussi une exception sur certains navigateurs.
                 this.audio.addEventListener('loadedmetadata', () => {
-                    this.audio.currentTime = state.time || 0;
+                    const time = Number(state.time);
+                    const max = Number.isFinite(this.audio.duration) ? this.audio.duration : 0;
+                    this.audio.currentTime =
+                        (Number.isFinite(time) && time > 0) ? Math.min(time, max) : 0;
                 }, { once: true });
 
             } catch (e) {

@@ -9,7 +9,7 @@
 
     const SECTIONS = {
         'accueil': { id: 'accueil', class: 'home-page', display: 'flex' },
-        'cv': { id: 'cv', class: 'cv-page', display: 'block' },
+        'experiences': { id: 'experiences', class: 'experiences-page', display: 'block' },
         'motivation': { id: 'motivation', class: 'motivation-page', display: 'block' },
         'tps': { id: 'tps', class: 'projets-page', display: 'block' },
         'projets': { id: 'projets', class: 'projets-page', display: 'block' },
