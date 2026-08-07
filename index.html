@@ -6,6 +6,20 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+	<!-- Politique de sécurité du contenu.
+	     GitHub Pages ne permet pas d'envoyer d'en-têtes HTTP : la balise meta
+	     est le seul vecteur disponible. Conséquence, frame-ancestors,
+	     report-uri et sandbox y sont ignorés par le navigateur — il faudrait
+	     un hébergeur avec en-têtes (Cloudflare Pages, Netlify) pour les poser.
+
+	     'unsafe-inline' n'est présent que sur style-src : le HTML utilise une
+	     douzaine d'attributs style= et les fragments injectés en JS aussi.
+	     script-src reste strict ('self'), c'est là qu'est le vrai risque. -->
+	<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; font-src 'self' https://cdnjs.cloudflare.com; img-src 'self'; media-src 'self'; connect-src 'self' https://formspree.io; form-action https://formspree.io; base-uri 'self'; frame-src 'none'; object-src 'none'">
+
+	<!-- Ne pas divulguer l'URL complète aux sites tiers vers lesquels on pointe -->
+	<meta name="referrer" content="strict-origin-when-cross-origin">
+
 	<!-- SEO -->
 	<meta name="description" content="Portfolio de Léo Metgy, étudiant en BTS SIO. Découvrez mes projets, compétences et parcours professionnel.">
 	<meta name="robots" content="index, follow">
@@ -38,20 +52,34 @@
 	<link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
 	<link rel="manifest" href="assets/icons/site.webmanifest">
 
-	<!-- Polices et Font Awesome : chargement non bloquant -->
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" media="print" onload="this.media='all'">
-	<link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" media="print" onload="this.media='all'">
+	<!-- Poppins est auto-hébergé (voir css/fonts.css) : plus aucune requête
+	     vers fonts.googleapis.com / fonts.gstatic.com, donc plus de fuite de
+	     l'IP des visiteurs vers Google, et une CSP qui peut rester en 'self'.
+	     Bonus : l'URL Google « css2 » varie selon le navigateur, elle ne
+	     pouvait de toute façon pas porter de hash SRI. -->
+	<link rel="preload" as="font" type="font/woff2" href="assets/fonts/poppins-400-latin.woff2" crossorigin>
+	<link rel="preload" as="font" type="font/woff2" href="assets/fonts/poppins-600-latin.woff2" crossorigin>
+	<link rel="stylesheet" href="css/fonts.css">
+
+	<!-- Font Awesome : chargement non bloquant (media="print" basculé en "all"
+	     par js/head-init.js une fois chargé) et vérifié par SRI — si le CDN
+	     sert un fichier altéré, le navigateur le rejette. -->
+	<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+		integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" media="print" data-async-style>
 	<noscript>
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+			integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+			crossorigin="anonymous" referrerpolicy="no-referrer">
 	</noscript>
 
 	<!-- CSS du site -->
 	<link rel="stylesheet" href="css/style.css">
+
+	<!-- Bascule des styles asynchrones + repli de la photo de profil.
+	     Remplace les anciens attributs onload= / onerror= inline. -->
+	<script src="js/head-init.js"></script>
 
 	<title>Portfolio - Léo Metgy</title>
 </head>
@@ -95,7 +123,8 @@
 		<div class="sidebar-profile">
 			<div class="profile-card" id="profileCard" role="button" tabindex="0" title="Retour à l'accueil" data-i18n-title="profile.home" aria-label="Retour à l'accueil" data-i18n-aria="profile.home">
 				<div class="profile-card-inner">
-					<img src="assets/images/main.png" alt="Photo de profil de Léo Metgy" data-i18n-alt="profile.photoAlt" class="profile-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+					<!-- Repli en cas d'image manquante : géré par js/head-init.js -->
+					<img src="assets/images/main.png" alt="Photo de profil de Léo Metgy" data-i18n-alt="profile.photoAlt" class="profile-img">
 					<div class="profile-placeholder"><i class="fa-solid fa-user"></i></div>
 				</div>
 				<div class="profile-glow"></div>
@@ -114,7 +143,7 @@
 			<div class="dropdown">
 				<a href="#" class="dropbtn" aria-expanded="false" aria-haspopup="true" data-i18n="nav.background"><i class="fa-solid fa-user-graduate"></i><span>Parcours</span><i class="fa fa-caret-down caret-icon"></i></a>
 				<div class="dropdown-content">
-					<a href="#cv" data-i18n="nav.cv"><i class="fa-solid fa-file-lines"></i>CV</a>
+					<a href="#experiences" data-i18n="nav.experiences"><i class="fa-solid fa-briefcase"></i>Expériences</a>
 					<a href="#motivation" data-i18n="nav.motivation"><i class="fa-solid fa-envelope-open-text"></i>Motivation</a>
 				</div>
 			</div>
@@ -180,23 +209,162 @@
 		</section>
 
 		<!-- Section CV -->
-		<section id="cv" style="display:none">
-			<div class="cv-container" style="flex-direction: column;">
-				<h1 class="section-title" data-i18n="cv.title">Mon <span>CV</span></h1>
-				<div class="cv-content">
-					<img src="assets/images/cv.jpg" class="cv-img" alt="Aperçu du CV de Léo Metgy" data-i18n-alt="cv.alt">
-					<a href="assets/pdf/cv.pdf" class="btn-cv" download="CV_METGY_LEO" data-i18n="cv.download">Télécharger</a>
+		<!-- Parcours en HTML plutôt qu'en image/PDF : le document d'origine
+		     portait le numéro de téléphone et l'adresse postale, moissonnables
+		     par n'importe quel bot. Ces deux champs ne figurent plus nulle part,
+		     et aucun mail n'est affiché en clair : le formulaire de contact est
+		     le seul point d'entrée. -->
+		<section id="experiences" style="display:none">
+			<div class="cv-wrapper">
+				<h1 class="section-title" data-i18n="cv.title">Mes <span>Expériences</span></h1>
+
+				<p class="cv-lede" data-i18n="cv.lede">Étudiant en 2<sup>e</sup> année de BTS SIO option SISR au lycée Saint-Rémi (Amiens).</p>
+				<p class="cv-lede cv-lede-sub" data-i18n="cv.lede2">Orienté administration réseau et sécurité des systèmes d'information.</p>
+
+				<div class="cv-layout">
+
+					<section class="cv-block">
+						<h2 class="cv-block-title" data-i18n="cv.formations">Formations</h2>
+						<ul class="cv-timeline">
+							<li class="cv-timeline-item">
+								<span class="cv-timeline-dot cv-timeline-dot-live" aria-hidden="true"></span>
+								<h3 class="cv-timeline-title" data-i18n="cv.form.bts.title">BTS SIO — option SISR</h3>
+								<p class="cv-timeline-meta">
+									<span data-i18n="cv.form.bts.period">Depuis 2025</span>
+									<span class="cv-timeline-meta-sep" aria-hidden="true">·</span>
+									<span class="cv-timeline-org">Lycée Privé Saint-Rémi</span>
+									<span class="cv-timeline-meta-sep" aria-hidden="true">·</span>
+									<span>Amiens</span>
+								</p>
+							</li>
+							<li class="cv-timeline-item">
+								<span class="cv-timeline-dot" aria-hidden="true"></span>
+								<h3 class="cv-timeline-title" data-i18n="cv.form.psc1.title">PSC1 — Prévention et Secours Civiques niveau 1</h3>
+								<p class="cv-timeline-meta"><span>2025</span></p>
+							</li>
+							<li class="cv-timeline-item">
+								<span class="cv-timeline-dot" aria-hidden="true"></span>
+								<h3 class="cv-timeline-title" data-i18n="cv.form.pix.title">Certification PIX — 206 points</h3>
+								<p class="cv-timeline-meta"><span>2023</span></p>
+							</li>
+							<li class="cv-timeline-item">
+								<span class="cv-timeline-dot" aria-hidden="true"></span>
+								<h3 class="cv-timeline-title" data-i18n="cv.form.bac.title">BAC STI2D</h3>
+								<p class="cv-timeline-meta">
+									<span>2023</span>
+									<span class="cv-timeline-meta-sep" aria-hidden="true">·</span>
+									<span class="cv-timeline-org">Lycée de l'Authie</span>
+								</p>
+							</li>
+						</ul>
+					</section>
+
+					<section class="cv-block">
+						<h2 class="cv-block-title" data-i18n="cv.experiences">Expériences professionnelles</h2>
+						<ul class="cv-timeline">
+							<li class="cv-timeline-item">
+								<span class="cv-timeline-dot cv-timeline-dot-live" aria-hidden="true"></span>
+								<h3 class="cv-timeline-title" data-i18n="cv.exp.somme.title">Stage — Administration réseau</h3>
+								<p class="cv-timeline-meta">
+									<span data-i18n="cv.exp.somme.period">Juin 2026</span>
+									<span class="cv-timeline-meta-sep" aria-hidden="true">·</span>
+									<span class="cv-timeline-org">Conseil Départemental de la Somme (DSI)</span>
+									<span class="cv-timeline-meta-sep" aria-hidden="true">·</span>
+									<span data-i18n="cv.exp.somme.city">Amiens</span>
+								</p>
+								<ul class="cv-timeline-bullets">
+									<li data-i18n="cv.exp.somme.b1">Configuration de switches Cisco Catalyst 9200 / C1000 : VLANs, ports access &amp; trunk, voice VLAN, route par défaut, SNMP, mise à jour IOS.</li>
+									<li data-i18n="cv.exp.somme.b2">Sécurisation des équipements : DHCP Snooping, Dynamic ARP Inspection, hardening des ports inutilisés.</li>
+									<li data-i18n="cv.exp.somme.b3">Téléphonie IP Alcatel (Omnivista 8770) : passage de postes en IP fixe sur plusieurs sites.</li>
+									<li data-i18n="cv.exp.somme.b4">Déploiement de bornes WiFi Cisco via Catalyst Center, tirage de fibres 10G, diagnostic et dépannage terrain.</li>
+								</ul>
+							</li>
+
+							<li class="cv-timeline-item">
+								<span class="cv-timeline-dot" aria-hidden="true"></span>
+								<h3 class="cv-timeline-title" data-i18n="cv.exp.civique.title">Service Civique — Accompagnement numérique</h3>
+								<p class="cv-timeline-meta">
+									<span data-i18n="cv.exp.civique.period">Avril – Août 2025</span>
+									<span class="cv-timeline-meta-sep" aria-hidden="true">·</span>
+									<span class="cv-timeline-org">France Travail</span>
+									<span class="cv-timeline-meta-sep" aria-hidden="true">·</span>
+									<span data-i18n="cv.exp.civique.city">Doullens</span>
+								</p>
+								<ul class="cv-timeline-bullets">
+									<li data-i18n="cv.exp.civique.b1">Accompagnement de demandeurs d'emploi dans l'usage des outils numériques.</li>
+									<li data-i18n="cv.exp.civique.b2">Vulgarisation technique, pédagogie et sens du contact auprès d'un public non initié.</li>
+								</ul>
+							</li>
+
+							<li class="cv-timeline-item">
+								<span class="cv-timeline-dot" aria-hidden="true"></span>
+								<h3 class="cv-timeline-title" data-i18n="cv.exp.bigard.title">Technicien de maintenance industrielle</h3>
+								<p class="cv-timeline-meta">
+									<span data-i18n="cv.exp.bigard.period">Août – Octobre 2024</span>
+									<span class="cv-timeline-meta-sep" aria-hidden="true">·</span>
+									<span class="cv-timeline-org">Bigard</span>
+									<span class="cv-timeline-meta-sep" aria-hidden="true">·</span>
+									<span data-i18n="cv.exp.bigard.city">Flixecourt</span>
+								</p>
+								<ul class="cv-timeline-bullets">
+									<li data-i18n="cv.exp.bigard.b1">Intervention sur machines de production et dépannage de pannes simples.</li>
+									<li data-i18n="cv.exp.bigard.b2">Découverte du travail en équipe et de l'environnement industriel.</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+
+					<div class="cv-actions cv-block-last">
+						<a href="#contact" class="btn-cv" data-i18n="cv.contact"><i class="fas fa-envelope" aria-hidden="true"></i> Me contacter</a>
+					</div>
+
 				</div>
 			</div>
 		</section>
 
-		<!-- Section MOTIVATION -->
+		<!-- Lettre en HTML : la version PDF d'origine affichait téléphone et
+		     adresse postale en en-tête. Ils ont été retirés, le renvoi se fait
+		     vers le formulaire de contact. -->
 		<section id="motivation" style="display:none">
-			<div class="cv-container" style="flex-direction: column;">
+			<div class="cv-wrapper">
 				<h1 class="section-title" data-i18n="motivation.title">Ma <span>Lettre de Motivation</span></h1>
-				<div class="cv-content">
-					<img src="assets/images/lettremotivation.jpg" class="lettre-img" alt="Aperçu de la lettre de motivation" data-i18n-alt="motivation.alt">
-					<a href="assets/pdf/lettremotivation.pdf" class="btn-cv" download="LETTRE_MOTIVATION_METGY_LEO" data-i18n="motivation.download">Télécharger</a>
+
+				<article class="letter">
+					<header class="letter-header">
+						<p class="letter-kicker" data-i18n="motivation.kicker">Recherche de stage BTS SIO</p>
+						<p class="letter-period" data-i18n="motivation.period">Du 11 janvier au 19 février 2027</p>
+					</header>
+
+					<p class="letter-subject"><strong data-i18n="motivation.objectLabel">Objet :</strong> <span data-i18n="motivation.object">Candidature spontanée pour un stage — BTS SIO</span></p>
+
+					<div class="letter-body">
+						<p data-i18n="motivation.p0">Madame, Monsieur,</p>
+
+						<p data-i18n="motivation.p1">Actuellement en 2<sup>e</sup> année de BTS SIO option SISR au lycée Saint-Rémi à Amiens, je suis à la recherche d'une entreprise pouvant m'accueillir en stage du 11 janvier au 19 février 2027, et je vous adresse ma candidature.</p>
+
+						<p data-i18n="motivation.p2">L'an dernier, j'ai effectué mon stage de première année au service informatique du Conseil Départemental de la Somme, dans l'équipe support et réseau. J'ai principalement configuré des switches Cisco, installé des bornes WiFi et travaillé sur la téléphonie IP. J'ai aussi participé aux dépannages sur les différents sites du département.</p>
+
+						<p data-i18n="motivation.p3">Ce stage m'a beaucoup appris, sur la technique mais aussi sur la façon de travailler : chercher une panne dans l'ordre, et faire attention à ne pas couper le service quand on intervient. Cela m'a conforté dans mon choix de l'option SISR et dans mon envie de travailler dans l'administration réseau et la sécurité informatique.</p>
+
+						<p data-i18n="motivation.p4">Avant cela, j'avais appris seul à installer Windows, différentes distributions Linux, monter des PC et configurer les logiciels courants. J'ai aussi effectué un service civique où j'accompagnais des demandeurs d'emploi dans leurs démarches en ligne, ce qui m'a appris à expliquer les choses simplement.</p>
+
+						<p data-i18n="motivation.p5">Aujourd'hui, je souhaiterais continuer à progresser sur une vraie infrastructure et me rendre utile sur vos projets. Je suis sérieux, curieux et motivé, et je m'investirai pleinement dans les missions qui me seront confiées.</p>
+
+						<p data-i18n="motivation.p6">Je reste à votre disposition pour un entretien et vous remercie de l'attention portée à ma candidature.</p>
+
+						<p data-i18n="motivation.p7">Dans l'attente de votre retour, veuillez agréer, Madame, Monsieur, l'expression de mes salutations distinguées.</p>
+					</div>
+
+					<footer class="letter-signature">
+						<div class="letter-signature-name">
+							<p class="letter-name">Léo Metgy</p>
+							<p class="letter-role" data-i18n="motivation.role">Étudiant en BTS SIO — option SISR</p>
+						</div>
+					</footer>
+				</article>
+
+				<div class="cv-actions">
+					<a href="#contact" class="btn-cv" data-i18n="motivation.contact"><i class="fas fa-envelope" aria-hidden="true"></i> Me contacter</a>
 				</div>
 			</div>
 		</section>
@@ -734,7 +902,8 @@
 	<script src="js/stars.js"></script>
 	<script src="js/i18n.js"></script>
 	<script src="js/menu.js"></script>
-	<script src="js/animation-modal.js"></script>
+	<!-- animation-modal.js supprimé : il ne servait qu'au zoom sur les images
+	     du CV et de la lettre, désormais rendus en HTML. -->
 	<script src="js/music-player.js"></script>
 	<script src="js/inject-music-player.js"></script>
 	<script src="js/navigation.js"></script>
@@ -744,79 +913,8 @@
 	<script src="js/typing.js"></script>
 	<script src="js/back-to-top.js"></script>
 
-	<!-- Script de validation et d'envoi AJAX du formulaire contact -->
-	<script>
-		(function() {
-			'use strict';
+	<script src="js/contact-form.js"></script>
 
-			// Raccourci de traduction : le texte français reste la valeur de repli
-			// si i18n.js n'a pas pu se charger.
-			function t(key, fr) {
-				return (window.i18n && window.i18n.t) ? window.i18n.t(key, fr) : fr;
-			}
-
-			function initContactForm() {
-				const form = document.getElementById('contactForm');
-				const submitBtn = document.getElementById('submitBtn');
-				const status = document.getElementById('formStatus');
-				if (!form || !submitBtn) return;
-
-				function showStatus(type, text) {
-					if (!status) return;
-					status.className = 'form-status ' + type;
-					status.textContent = text;
-				}
-
-				form.addEventListener('submit', function(e) {
-					// Toujours bloquer l'envoi natif : jamais de redirection vers Formspree
-					e.preventDefault();
-
-					const email = document.getElementById('email');
-					email.setCustomValidity('');
-					if (!form.checkValidity()) {
-						form.reportValidity();
-						return;
-					}
-					const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-					if (!emailRegex.test(email.value.trim())) {
-						email.setCustomValidity(t('contact.invalidEmail', 'Veuillez entrer une adresse email valide'));
-						email.reportValidity();
-						return;
-					}
-
-					submitBtn.disabled = true;
-					submitBtn.textContent = t('contact.sending', 'Envoi en cours...');
-					showStatus('', '');
-
-					fetch(form.action, {
-						method: 'POST',
-						body: new FormData(form),
-						headers: { 'Accept': 'application/json' }
-					}).then(function(res) {
-						if (res.ok) {
-							form.reset();
-							showStatus('success', t('contact.success', 'Message envoyé, merci !'));
-						} else if (res.status === 429) {
-							showStatus('error', t('contact.rateLimit', 'Trop de messages envoyés en peu de temps. Patientez quelques minutes avant de réessayer.'));
-						} else {
-							showStatus('error', t('contact.error', 'Une erreur est survenue. Réessayez ou contactez-moi via LinkedIn.'));
-						}
-					}).catch(function() {
-						showStatus('error', t('contact.network', 'Impossible d\'envoyer le message. Vérifiez votre connexion.'));
-					}).finally(function() {
-						submitBtn.disabled = false;
-						submitBtn.textContent = t('contact.submit', 'Envoyer');
-					});
-				});
-			}
-
-			if (document.readyState === 'loading') {
-				document.addEventListener('DOMContentLoaded', initContactForm);
-			} else {
-				initContactForm();
-			}
-		})();
-	</script>
 </body>
 
 </html>
