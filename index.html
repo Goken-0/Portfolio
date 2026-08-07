@@ -61,10 +61,12 @@
 	<link rel="preload" as="font" type="font/woff2" href="assets/fonts/poppins-600-latin.woff2" crossorigin>
 	<link rel="stylesheet" href="css/fonts.css">
 
-	<!-- Font Awesome auto-hébergé et sous-ensemblé : seules les 71 icônes
-	     réellement utilisées sont embarquées (8,9 Ko de polices au lieu de
-	     ~400 Ko). Plus aucune requête vers cdnjs, donc plus aucun tiers ne
-	     reçoit l'IP des visiteurs — voir css/fontawesome.css. -->
+	<!-- Font Awesome 6.7.2 auto-hébergé, bibliothèque complète : toutes les
+	     icônes Solid / Regular / Brands sont disponibles, donc ajouter du
+	     contenu ne demande aucune regénération. Plus aucune requête vers
+	     cdnjs, donc plus aucun tiers ne reçoit l'IP des visiteurs — voir
+	     css/fontawesome.css. Seule fa-solid-900 est préchargée : c'est la
+	     seule police utilisée au-dessus de la ligne de flottaison. -->
 	<link rel="preload" as="font" type="font/woff2" href="assets/fontawesome/fa-solid-900.woff2" crossorigin>
 	<link rel="stylesheet" href="css/fontawesome.css">
 
