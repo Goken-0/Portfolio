@@ -1,5 +1,5 @@
 /* Style principal - Portfolio Léo Metgy */
-/* Police Poppins chargée via <link> dans le <head> (perf : parallèle, non bloquant) */
+/* Police Poppins auto-hébergée : voir css/fonts.css (chargé avant ce fichier) */
 
 /* ============================================
    VARIABLES CSS GLOBALES
@@ -102,34 +102,70 @@ textarea::-moz-selection {
     color: inherit;
 }
 
-/* Cacher la barre de scroll tout en gardant le défilement */
+/* ATTENTION : 62.5% fixe 1rem = 10px (et non 16px). Tout le fichier suit
+   cette convention — corps de texte entre 1.4rem et 1.8rem, titres entre
+   2.2rem et 3rem. Une valeur autour de 1rem serait illisible. */
 html {
     font-size: 62.5%;
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE / Edge */
+}
+
+/* Barre de défilement : discrète, dans les tons du site.
+
+   `color-scheme: dark` est indispensable — sans lui le navigateur dessine
+   les barres et les contrôles natifs en thème clair, d'où une barre blanche
+   sur un site noir.
+
+   Deux syntaxes coexistent volontairement. Chrome 121+, Firefox et Safari
+   18.2+ appliquent les propriétés standard (scrollbar-width / scrollbar-color)
+   et ignorent alors totalement les pseudo-éléments ::-webkit-scrollbar. Les
+   versions plus anciennes font l'inverse. Les couleurs des deux blocs sont
+   donc tenues identiques : sinon l'apparence change d'un navigateur à l'autre. */
+html {
+    color-scheme: dark;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(60, 174, 228, 0.5) #0c0c11;
 }
 
 html::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera */
+    width: 8px;
+    height: 8px;
+}
+
+html::-webkit-scrollbar-track {
+    background: #0c0c11;
+}
+
+html::-webkit-scrollbar-thumb {
+    background: rgba(60, 174, 228, 0.5);
+    border-radius: 10px;
+}
+
+html::-webkit-scrollbar-thumb:hover {
+    background: rgba(60, 174, 228, 0.85);
 }
 
 /* Page body */
 body {
     width: 100%;
-    height: 100vh;
+    /* min-height et non height : avec une hauteur fixe, `overflow-x: hidden`
+       force `overflow-y` à `auto` (règle CSS : si un axe n'est pas `visible`,
+       l'autre non plus). <body> redevenait alors un conteneur de défilement
+       en plus de <html>, et deux barres s'affichaient. */
+    min-height: 100vh;
     overflow-x: hidden;
     background-color: transparent;
     color: white;
     position: relative;
 }
 
-/* Désactiver le scroll horizontal sur les pages CV, lettre de motivation et contact */
-/* Permettre le scroll vertical si nécessaire pour accéder au contenu */
-body:has(.cv-container),
+/* Désactiver le scroll horizontal sur les pages document et contact.
+   Pas de `height: 100vh; overflow-y: auto` ici : ça ferait de <body> un
+   second conteneur de défilement en plus de <html>, et le navigateur
+   affichait alors deux barres côte à côte. Le document défile sur <html>,
+   c'est tout. */
+body:has(.cv-wrapper),
 body:has(.contact-wrapper) {
     overflow-x: hidden;
-    overflow-y: auto;
-    height: 100vh;
 }
 
 
@@ -148,7 +184,7 @@ main {
 }
 
 /* Autres pages : Flux normal (Block) */
-.cv-page main,
+.experiences-page main,
 .motivation-page main,
 .projets-page main,
 .stages-page main,
@@ -976,11 +1012,6 @@ h1 span, h2 span {
         min-height: auto;
     }
 
-    .cv-img,
-    .lettre-img {
-        width: 50vw;
-        max-width: 400px;
-    }
 }
 
 @media (max-width: 768px) {
@@ -1020,16 +1051,6 @@ h1 span, h2 span {
         padding: 0.9rem 2.4rem;
     }
 
-    .cv-img,
-    .lettre-img {
-        width: 70vw;
-        max-width: 100%;
-        min-width: 240px;
-    }
-
-    .cv-content {
-        gap: 1.5rem;
-    }
 
     .btn-cv {
         font-size: 1.4rem;
@@ -1075,122 +1096,371 @@ h1 span, h2 span {
         max-width: 250px !important;
     }
 
-    .cv-img,
-    .lettre-img {
-        width: 85vw;
-    }
 }
 
-/* CV and Motivation Letter Images */
-.cv-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: calc(100vh - 8rem);
-    padding: 2rem 0;
-    box-sizing: border-box;
+/* ============================================
+   CV & LETTRE DE MOTIVATION (rendu HTML)
+   ============================================
+   Remplace l'ancien affichage en image + téléchargement PDF. Le document
+   d'origine portait le numéro de téléphone et l'adresse postale : ils ont
+   été retirés, et l'HTML est de toute façon lisible par les lecteurs
+   d'écran et indexable, contrairement à un JPG.
+
+   Structure inspirée du portfolio de Sonny : titre de section centré,
+   puis timeline verticale (ligne dégradée + points + titre / méta / puces).
+
+   ATTENTION À L'ÉCHELLE : `html { font-size: 62.5% }` plus haut dans ce
+   fichier fixe 1rem = 10px, et non 16px. Le reste du site écrit le corps
+   de texte entre 1.4rem et 1.8rem. Une valeur autour de 1rem serait
+   illisible.
+
+   Les classes sont préfixées `cv-` parce que la page Stages utilise déjà
+   `.timeline` (ligne verticale centrée) : sans préfixe, sa règle, déclarée
+   plus bas dans ce fichier, écraserait celle-ci.
+
+   CONTRAINTE DE HAUTEUR : les deux pages doivent tenir dans un écran 1080p
+   sans défilement. Le CV passe donc en deux colonnes (comme le CV papier
+   d'origine) et les interlignes sont resserrés. `main` consomme déjà
+   4rem de padding en haut et en bas, ce qui laisse environ 88rem utiles.
+*/
+
+.cv-wrapper {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 2rem 2rem;
 }
 
-/* Réduction du vide au-dessus du titre pour CV et Lettre de motivation */
-body:has(.cv-container) .section-title {
-    margin-top: 2rem;
+/* Titre de page resserré : chaque rem gagné ici sert au contenu */
+body:has(.cv-wrapper) .section-title {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+}
+
+.cv-lede {
+    max-width: 82rem;
+    margin: 0 auto 0.4rem;
+    text-align: center;
+    font-size: 1.6rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+}
+
+/* Seconde ligne de l'accroche : un peu plus petite et plus sourde, elle se
+   lit comme une précision. C'est elle qui porte la marge vers le contenu,
+   pour éviter une marge négative dépendante de la ligne du dessus. */
+.cv-lede-sub {
+    margin-bottom: 3.2rem;
+    font-size: 1.4rem;
+    color: rgba(255, 255, 255, 0.58);
+}
+
+/* ---------- Colonne unique centree ---------- */
+
+/* Les deux blocs s'empilent dans une colonne centree. La largeur est
+   bornee : au-dela, les lignes de puces deviennent trop longues a lire. */
+.cv-layout {
+    max-width: 76rem;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.cv-block {
+    min-height: 0;
+    padding: 0;
+    margin-bottom: 2.6rem;
+}
+
+/* Dernier bloc de chaque colonne : pas de marge résiduelle en bas, elle
+   ajouterait du défilement pour rien. */
+.cv-block-last {
+    margin-bottom: 0;
+}
+
+/* Titre de bloc : centré, capitales espacées, souligné lumineux court */
+.cv-block-title {
+    position: relative;
+    margin: 0 0 1.8rem;
+    padding-bottom: 0.8rem;
+    text-align: center;
+    font-size: 1.7rem;
+    font-weight: 600;
+    letter-spacing: 0.28rem;
+    text-transform: uppercase;
+    color: var(--text);
+}
+
+.cv-block-title::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 3rem;
+    height: 2px;
+    transform: translateX(-50%);
+    border-radius: 2px;
+    background: var(--accent);
+    box-shadow: 0 0 8px 1px rgba(60, 174, 228, 0.7);
+}
+
+/* ---------- Timeline verticale ---------- */
+
+.cv-timeline {
+    position: relative;
+    list-style: none;
+    margin: 0;
+    padding-left: 2.4rem;
+}
+
+/* Le trait vertical s'estompe vers le bas : il marque un début net
+   (le plus récent) et se fond dans le passé. */
+.cv-timeline::before {
+    content: '';
+    position: absolute;
+    top: 0.55em;
+    bottom: 0.55em;
+    left: 0;
+    width: 2px;
+    background: linear-gradient(to bottom,
+        rgba(60, 174, 228, 0.6),
+        rgba(60, 174, 228, 0.2),
+        transparent);
+    pointer-events: none;
+}
+
+.cv-timeline-item {
+    position: relative;
     margin-bottom: 2rem;
 }
 
-.cv-img {
-    width: 22vw;
-    max-width: 500px;
-    min-width: 280px;
-    border: 5px solid #3caee4;
+.cv-timeline-item:last-child {
+    margin-bottom: 0;
 }
 
-.lettre-img {
-    width: 22vw;
-    max-width: 500px;
-    min-width: 280px;
-    border: 5px solid #3caee4;
+.cv-timeline-dot {
+    position: absolute;
+    top: 0.5em;
+    left: -2.4rem;
+    width: 9px;
+    height: 9px;
+    margin-left: -3.5px;
+    border-radius: 50%;
+    background: rgba(60, 174, 228, 0.5);
 }
 
-/* Download CV button */
-.btn-cv {
-    display: inline-block;
-    padding: 1rem 2.8rem;
-    background-color: black;
-    border-radius: 4rem;
+/* Point de l'entrée la plus récente : pulsé, pour situer « où on en est » */
+.cv-timeline-dot-live {
+    background: var(--accent);
+    box-shadow: 0 0 10px 2px rgba(60, 174, 228, 0.8);
+    animation: cv-timeline-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes cv-timeline-pulse {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.45; }
+}
+
+.cv-timeline-title {
+    margin: 0;
     font-size: 1.6rem;
-    color: #3caee4;
-    letter-spacing: 0.3px;
     font-weight: 600;
-    border: 2px solid #3caee4;
-    transition: 0.3s ease;
-    cursor: pointer;
+    line-height: 1.35;
+    color: var(--text);
+}
+
+.cv-timeline-meta {
+    margin: 0.5rem 0 0;
+    font-size: 1.35rem;
+    line-height: 1.5;
+    color: var(--text-muted);
+}
+
+.cv-timeline-meta-sep {
+    margin: 0 0.6rem;
+    opacity: 0.5;
+}
+
+.cv-timeline-org {
+    color: var(--text);
+}
+
+.cv-timeline-bullets {
+    list-style: none;
+    margin: 1.1rem 0 0;
+    padding: 0;
+}
+
+.cv-timeline-bullets li {
+    position: relative;
+    margin-bottom: 0.7rem;
+    padding-left: 1.8rem;
+    font-size: 1.4rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.78);
+}
+
+.cv-timeline-bullets li::before {
+    content: '';
+    position: absolute;
+    top: 0.62em;
+    left: 0;
+    width: 7px;
+    height: 7px;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    opacity: 0.7;
+}
+
+/* ---------- Bouton "Me contacter" ---------- */
+
+/* Ni mail ni LinkedIn en clair sur ces deux pages : le formulaire est le
+   seul point d'entree, donc rien a moissonner pour un robot. */
+.cv-actions {
+    display: flex;
+    flex-wrap: wrap;
     justify-content: center;
-    align-items: flex-start;
+    gap: 1.6rem;
+    margin-top: 2.5rem;
+}
+
+.btn-cv {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1.1rem 2.8rem;
+    border: 2px solid var(--accent);
+    border-radius: var(--radius-full);
+    background-color: black;
+    color: var(--accent);
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    transition: var(--transition-medium);
+    cursor: pointer;
 }
 
 .btn-cv:hover {
     transform: scale(1.03);
-    background-color: #3caee4;
+    background-color: var(--accent);
     color: black;
     box-shadow: 0 10px 28px rgba(60, 174, 228, 0.35);
 }
 
-.cv-content {
+/* ---------- Lettre de motivation ---------- */
+
+.letter {
+    max-width: 100rem;
+    margin: 0 auto;
+    padding: 3rem 3.5rem;
+    border: 1px solid rgba(60, 174, 228, 0.2);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    text-align: left;
+}
+
+.letter-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1.6rem;
+    text-align: center;
+    border-bottom: 1px solid rgba(60, 174, 228, 0.2);
+}
+
+.letter-kicker {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 0.18rem;
+    text-transform: uppercase;
+    color: var(--text);
+}
+
+.letter-period {
+    margin: 0.6rem 0 0;
+    font-size: 1.4rem;
+    color: var(--accent);
+}
+
+.letter-subject {
+    margin: 0 0 2rem;
+    font-size: 1.45rem;
+    color: var(--text-muted);
+}
+
+.letter-subject strong {
+    color: var(--text);
+}
+
+.letter-body p {
+    margin: 0 0 1.3rem;
+    font-size: 1.45rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.8);
+    text-align: justify;
+}
+
+.letter-signature {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
     gap: 2rem;
-    padding: 1rem 0;
-    max-width: 100%;
+    margin-top: 2.2rem;
+    padding-top: 1.6rem;
+    border-top: 1px solid rgba(60, 174, 228, 0.2);
 }
 
-/* Ajustements responsive pour les écrans 1080p et moins */
-@media (max-height: 1080px) {
-    .cv-container {
-        min-height: auto;
-        padding: 1rem 0;
-    }
-    
-    .cv-content {
-        gap: 1.5rem;
-        padding: 0.5rem 0;
-    }
-    
-    .cv-img,
-    .lettre-img {
-        max-width: 450px;
-        width: 28vw;
-    }
-    
-    main {
-        padding: 40px 100px 20px;
-    }
+.letter-signature-name {
+    margin-left: auto;
+    text-align: right;
 }
 
-/* Ajustements pour les écrans encore plus petits */
-@media (max-height: 900px) {
-    .cv-container {
-        padding: 1rem 0;
-    }
-    
-    .cv-img,
-    .lettre-img {
-        max-width: 400px;
-        width: 30vw;
-    }
-    
-    main {
-        padding: 30px 90px 20px;
-    }
-    
-    .btn-cv {
-        padding: 0.8rem 2.2rem;
-        font-size: 1.4rem;
-    }
+.letter-name {
+    margin: 0;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--text);
 }
 
-/* .credit supprimé — footer maintenant intégré dans la sidebar */
+.letter-role {
+    margin: 0.3rem 0 0;
+    font-size: 1.3rem;
+    color: var(--text-muted);
+}
 
+/* ---------- Responsive ---------- */
+
+/* En dessous de deux colonnes confortables, on empile : la contrainte de
+   hauteur ne vaut que pour un écran de bureau. */
+@media (max-width: 768px) {
+    .cv-wrapper {
+        padding: 0 1rem 3rem;
+    }
+
+    .cv-lede { font-size: 1.5rem; }
+    .cv-lede-sub { font-size: 1.35rem; }
+    .cv-block-title { font-size: 1.6rem; letter-spacing: 0.22rem; }
+    .cv-timeline-title { font-size: 1.5rem; }
+
+    .letter {
+        padding: 2.2rem 1.8rem;
+    }
+
+    .letter-kicker { font-size: 1.7rem; }
+
+    .letter-body p {
+        text-align: left;
+    }
+
+    .letter-signature {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .letter-signature-name {
+        margin-left: 0;
+        text-align: left;
+    }
+}
 
 /* Conteneur principal centré */
 .contact-wrapper {
@@ -1358,246 +1628,6 @@ button:hover {
     form {
         gap: 15px;
     }
-}
-
-/* =====================
-   ANIMATIONS CV SOBRES ET PROFESSIONNELLES
-   ===================== */
-
-/* Animation d'apparition douce */
-.cv-img,
-.lettre-img {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
-    box-shadow: 0 5px 15px rgba(60, 174, 228, 0.1);
-    border-radius: 8px;
-    overflow: hidden;
-    position: relative;
-}
-
-.cv-img.animate-in,
-.lettre-img.animate-in {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* Loader subtil */
-.image-loader {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: rgba(0, 0, 0, 0.8);
-    color: #3caee4;
-    padding: 15px;
-    border-radius: 50%;
-    font-size: 18px;
-    transition: opacity 0.3s ease;
-}
-
-/* =====================
-   MODAL PROFESSIONNEL
-   ===================== */
-
-.image-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 9999999 !important; 
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-.image-modal.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-.image-modal.closing {
-    opacity: 0;
-    transform: scale(0.95);
-}
-
-.modal-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.95);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    backdrop-filter: blur(15px);
-    padding: 40px; 
-    box-sizing: border-box;
-}
-
-.modal-content {
-    background: #000; 
-    border-radius: 20px;
-    width: 100%;
-    max-width: 1200px; 
-    height: 90vh; 
-    display: flex;
-    flex-direction: column;
-    border: 1px solid #3caee4; 
-    box-shadow: 0 0 50px rgba(60, 174, 228, 0.15); 
-    overflow: hidden;
-    position: relative;
-}
-
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 30px;
-    background: rgba(60, 174, 228, 0.1);
-    border-bottom: 1px solid rgba(60, 174, 228, 0.3);
-    flex-shrink: 0; 
-}
-
-.modal-title {
-    color: white;
-    margin: 0;
-    font-size: 1.8rem;
-    font-weight: 600;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-}
-
-.modal-close {
-    background: transparent;
-    border: none;
-    color: #3caee4;
-    font-size: 24px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-}
-
-.modal-close:hover {
-    background: rgba(60, 174, 228, 0.2);
-    transform: rotate(90deg);
-}
-
-.modal-image-container {
-    flex: 1; 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: auto; 
-    position: relative;
-    background-color: #050505;
-    padding: 20px;
-    width: 100%;
-    min-height: 0; 
-}
-
-
-.modal-image {
-    display: block;
-    margin: auto; 
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-    transition: width 0.3s ease; 
-    box-shadow: 0 0 20px rgba(0,0,0,0.5);
-}
-
-/* --- NOUVEAU DESIGN DES BOUTONS --- */
-.modal-controls {
-    display: flex;
-    gap: 20px;
-    padding: 20px 30px;
-    justify-content: center;
-    background: rgba(0, 0, 0, 0.8);
-    border-top: 1px solid rgba(60, 174, 228, 0.3);
-    flex-shrink: 0;
-    flex-wrap: wrap;
-}
-
-.modal-btn {
-    background: transparent;
-    color: #3caee4;
-    border: 2px solid #3caee4;
-    padding: 10px 25px;
-    border-radius: 50px; 
-    cursor: pointer;
-    font-size: 1.4rem;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-family: 'Poppins', sans-serif;
-    text-transform: uppercase;
-    min-width: 140px;
-    justify-content: center;
-}
-
-.modal-btn:hover {
-    background: #3caee4;
-    border-color: #3caee4;
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(60, 174, 228, 0.4);
-    color: #000000 !important; 
-}
-
-.modal-btn:hover i,
-.modal-btn:hover span {
-    color: #000000 !important;
-}
-
-.modal-btn.modal-download:hover {
-    background: #3caee4;
-    box-shadow: 0 5px 15px rgba(60, 174, 228, 0.4);
-    color: #000000 !important;
-}
-
-.modal-btn.modal-download:hover i,
-.modal-btn.modal-download:hover span {
-    color: #000000 !important;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .modal-overlay { padding: 5px; }
-    .modal-content { height: 100%; max-height: 100vh; border-radius: 0; }
-    .modal-header { padding: 10px 15px; }
-    .modal-title { font-size: 1.4rem; }
-    .modal-image-container {
-        padding: 10px;
-        overflow: auto;
-        -webkit-overflow-scrolling: touch;
-        touch-action: none;
-    }
-    .modal-controls { gap: 8px; padding: 10px 15px; }
-    .modal-btn { 
-        padding: 8px 12px; 
-        font-size: 1.2rem; 
-        min-width: auto;
-        flex: 1; 
-    }
-    .modal-btn span { display: none; } 
-    .modal-btn i { margin: 0; }
-}
-
-@media (max-width: 480px) {
-    .modal-overlay { padding: 0; }
-    .modal-image-container { padding: 5px; }
-    .modal-controls { padding: 8px 10px; gap: 6px; }
-    .modal-btn { padding: 6px 10px; font-size: 1.1rem; }
 }
 
 /* =====================================================
