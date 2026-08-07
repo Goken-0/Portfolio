@@ -34,6 +34,8 @@ Projet réalisé avec les technologies fondamentales du web :
 | <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" /> | **Design**, mise en page responsive et animations |
 | <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" /> | **Logique** (Interactions DOM, animations) |
 
+Aucun framework, aucune dépendance à charger depuis un CDN : les polices (Poppins, Font Awesome) sont auto-hébergées, donc aucun tiers ne reçoit l'adresse IP des visiteurs.
+
 ## ✨ Contenu du Portfolio
 En explorant ce dépôt, vous trouverez :
 
@@ -49,12 +51,32 @@ Voici l'organisation actuelle des fichiers :
 ```bash
 Portfolio/
 ├── assets/                     # Ressources du site
-│   ├── icons/                  # Favicons et fichiers manifest
-│   ├── images/                 # Illustrations et captures d'écran
+│   ├── fontawesome/            # Polices Font Awesome 6.7.2 auto-hébergées (woff2)
+│   ├── fonts/                  # Poppins auto-hébergée (woff2, latin + latin-ext)
+│   ├── icons/                  # Favicons et manifest PWA
+│   ├── images/                 # Illustrations, captures d'écran, image Open Graph
 │   ├── music/                  # Pistes audio pour le lecteur intégré
 │   └── pdf/                    # Documents (CV, Lettre, rapports de TPs)
-├── css/                        # Styles CSS
-├── js/                         # Logique JavaScript (SPA, animations, etc.)
+│
+├── css/                        # Feuilles de style
+│   ├── fontawesome.css         # Déclarations des icônes (bibliothèque complète)
+│   ├── fonts.css               # Déclarations @font-face de Poppins
+│   └── style.css               # Design, responsive et animations du site
+│
+├── js/                         # Logique JavaScript
+│   ├── head-init.js            # Initialisation exécutée avant le rendu
+│   ├── spa-router.js           # Navigation entre sections sans rechargement
+│   ├── navigation.js           # Liens actifs et défilement
+│   ├── menu.js                 # Menu déroulant et version mobile
+│   ├── i18n.js                 # Traduction FR / EN de l'interface
+│   ├── typing.js               # Effet de frappe de la page d'accueil
+│   ├── stars.js                # Fond animé en canvas
+│   ├── filters.js              # Filtres des projets et de la veille
+│   ├── tps.js                  # Affichage des travaux pratiques
+│   ├── contact-form.js         # Formulaire de contact et validation
+│   ├── inject-music-player.js  # Injection du lecteur dans la page
+│   ├── music-player.js         # Lecture, playlist et contrôles audio
+│   └── back-to-top.js          # Bouton de retour en haut de page
 │
 ├── index.html                  # Point d'entrée unique (Architecture SPA)
 ├── .gitignore                  # Fichiers exclus du versionnage
@@ -64,7 +86,7 @@ Portfolio/
 ## 📫 Me contacter
 Je suis ouvert à toutes opportunités.
 
-* 📧 Email : leogoken@gmail.com
+* 📧 Email : leo.mtg@proton.me
 
 * 💼 LinkedIn : www.linkedin.com/in/léo-metgy-3268a5383
 
