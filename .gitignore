@@ -19,3 +19,6 @@ Thumbs.db
 .idea/
 *.swp
 *.swo
+
+# Config locale d'outils (ne concerne que cette machine)
+.claude/
