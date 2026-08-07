@@ -594,12 +594,7 @@ nav a.active {
     letter-spacing: 0.3px;
     padding-bottom: 0.5rem;
     font-style: italic;
-    transition: color var(--transition-fast);
     opacity: 0.8;
-}
-
-.sidebar-footer-credit:hover {
-    color: var(--accent) !important;
 }
 
 /* =============================================
