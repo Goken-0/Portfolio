@@ -15,7 +15,7 @@
 	     'unsafe-inline' n'est présent que sur style-src : le HTML utilise une
 	     douzaine d'attributs style= et les fragments injectés en JS aussi.
 	     script-src reste strict ('self'), c'est là qu'est le vrai risque. -->
-	<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; font-src 'self' https://cdnjs.cloudflare.com; img-src 'self'; media-src 'self'; connect-src 'self' https://formspree.io; form-action https://formspree.io; base-uri 'self'; frame-src 'none'; object-src 'none'">
+	<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self'; media-src 'self'; connect-src 'self' https://formspree.io; form-action https://formspree.io; base-uri 'self'; frame-src 'none'; object-src 'none'">
 
 	<!-- Ne pas divulguer l'URL complète aux sites tiers vers lesquels on pointe -->
 	<meta name="referrer" content="strict-origin-when-cross-origin">
@@ -61,18 +61,12 @@
 	<link rel="preload" as="font" type="font/woff2" href="assets/fonts/poppins-600-latin.woff2" crossorigin>
 	<link rel="stylesheet" href="css/fonts.css">
 
-	<!-- Font Awesome : chargement non bloquant (media="print" basculé en "all"
-	     par js/head-init.js une fois chargé) et vérifié par SRI — si le CDN
-	     sert un fichier altéré, le navigateur le rejette. -->
-	<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-		integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
-		crossorigin="anonymous" referrerpolicy="no-referrer" media="print" data-async-style>
-	<noscript>
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-			integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
-			crossorigin="anonymous" referrerpolicy="no-referrer">
-	</noscript>
+	<!-- Font Awesome auto-hébergé et sous-ensemblé : seules les 71 icônes
+	     réellement utilisées sont embarquées (8,9 Ko de polices au lieu de
+	     ~400 Ko). Plus aucune requête vers cdnjs, donc plus aucun tiers ne
+	     reçoit l'IP des visiteurs — voir css/fontawesome.css. -->
+	<link rel="preload" as="font" type="font/woff2" href="assets/fontawesome/fa-solid-900.woff2" crossorigin>
+	<link rel="stylesheet" href="css/fontawesome.css">
 
 	<!-- CSS du site -->
 	<link rel="stylesheet" href="css/style.css">
@@ -161,6 +155,7 @@
 		</nav>
 		<div class="sidebar-bottom">
 			<p class="sidebar-footer-credit" data-i18n="ui.credit">Fait avec ❤️ par Léo</p>
+			<a class="sidebar-footer-legal" href="#mentions" data-i18n="ui.legal">Mentions légales</a>
 		</div>
 	</header>
 
@@ -880,14 +875,76 @@
 				<h2 class="contact-title" data-i18n="contact.title">Contactez <span>Moi</span></h2>
 				<div class="formulaire-container">
 					<form action="https://formspree.io/f/mpwjegye" method="post" id="contactForm" novalidate>
-						<input type="text" id="name" name="name" placeholder="Nom" data-i18n-placeholder="contact.name" aria-label="Nom" data-i18n-aria="contact.name" required maxlength="100" pattern="[A-Za-zÀ-ÿ\s\-']+" autocomplete="family-name" title="Lettres, espaces, tirets et apostrophes uniquement" data-i18n-title="contact.namePattern">
-						<input type="text" id="firstname" name="firstname" placeholder="Prénom" data-i18n-placeholder="contact.firstname" aria-label="Prénom" data-i18n-aria="contact.firstname" required maxlength="100" pattern="[A-Za-zÀ-ÿ\s\-']+" autocomplete="given-name" title="Lettres, espaces, tirets et apostrophes uniquement" data-i18n-title="contact.namePattern">
+						<input type="text" id="name" name="name" placeholder="Nom" data-i18n-placeholder="contact.name" aria-label="Nom" data-i18n-aria="contact.name" required maxlength="100" pattern="[A-Za-zÀ-ÖØ-öø-ÿĀ-ſ\s\-'’.]+" autocomplete="family-name" title="Lettres, espaces, tirets et apostrophes uniquement" data-i18n-title="contact.namePattern">
+						<input type="text" id="firstname" name="firstname" placeholder="Prénom" data-i18n-placeholder="contact.firstname" aria-label="Prénom" data-i18n-aria="contact.firstname" required maxlength="100" pattern="[A-Za-zÀ-ÖØ-öø-ÿĀ-ſ\s\-'’.]+" autocomplete="given-name" title="Lettres, espaces, tirets et apostrophes uniquement" data-i18n-title="contact.namePattern">
 						<input type="email" id="email" name="email" placeholder="Email" data-i18n-placeholder="contact.email" aria-label="Adresse email" data-i18n-aria="contact.emailAria" required maxlength="254" autocomplete="email">
 						<textarea id="message" name="message" placeholder="Votre message" data-i18n-placeholder="contact.message" aria-label="Votre message" data-i18n-aria="contact.message" rows="5" required maxlength="2000"></textarea>
 						<input type="text" name="_gotcha" style="display:none !important" tabindex="-1" autocomplete="off">
 						<button type="submit" id="submitBtn" data-i18n="contact.submit">Envoyer</button>
 						<p id="formStatus" class="form-status" role="status" aria-live="polite"></p>
+						<!-- Mention d'information RGPD (art. 13). Pas de case à cocher :
+						     le traitement repose sur l'intérêt légitime, pas sur le
+						     consentement — c'est vous qui initiez le contact. -->
+						<p class="form-privacy" data-i18n="contact.privacy">Vos informations servent uniquement à répondre à votre message et ne sont ni revendues ni utilisées à des fins publicitaires. Détail des traitements et de vos droits dans les <a href="#mentions">mentions légales</a>.</p>
 					</form>
+				</div>
+			</div>
+		</section>
+
+		<!-- Section MENTIONS LÉGALES -->
+		<!-- La LCEN (art. 6-III-2) autorise un particulier éditant un site à
+		     titre non professionnel à ne pas publier son nom ni son adresse,
+		     à condition de n'afficher que les coordonnées de l'hébergeur et
+		     d'avoir communiqué son identité à celui-ci — ce que fait le compte
+		     GitHub. D'où l'absence volontaire d'adresse postale ici. -->
+		<section id="mentions" style="display:none">
+			<div class="cv-wrapper">
+				<h1 class="section-title" data-i18n="legal.title">Mentions <span>Légales</span></h1>
+
+				<div class="legal">
+
+					<section class="legal-block">
+						<h2 class="legal-title" data-i18n="legal.editor.title">Éditeur du site</h2>
+						<p data-i18n="legal.editor.body">Ce site est un portfolio personnel édité à titre non professionnel par un particulier, étudiant en BTS SIO. Conformément à l'article 6-III-2 de la loi n°2004-575 pour la confiance dans l'économie numérique, l'éditeur a choisi de conserver l'anonymat auprès du public ; son identité a été communiquée à l'hébergeur, qui la tient à disposition de l'autorité judiciaire.</p>
+						<p data-i18n="legal.editor.contact">Pour toute demande, utilisez le <a href="#contact">formulaire de contact</a>.</p>
+					</section>
+
+					<section class="legal-block">
+						<h2 class="legal-title" data-i18n="legal.host.title">Hébergeur</h2>
+						<p>
+							GitHub, Inc.<br>
+							88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, <span data-i18n="legal.host.country">États-Unis</span><br>
+							<a href="https://github.com" target="_blank" rel="noopener">github.com</a>
+						</p>
+						<p data-i18n="legal.host.note">Le site est publié via GitHub Pages.</p>
+					</section>
+
+					<section class="legal-block">
+						<h2 class="legal-title" data-i18n="legal.data.title">Données personnelles</h2>
+						<p data-i18n="legal.data.purpose"><strong>Finalité.</strong> Les seules données collectées le sont via le formulaire de contact (nom, prénom, adresse e-mail, message), dans l'unique but de répondre à votre demande. Aucune prospection, aucune revente, aucun profilage.</p>
+						<p data-i18n="legal.data.basis"><strong>Base légale.</strong> Intérêt légitime de l'éditeur à répondre aux sollicitations qui lui sont adressées (article 6.1.f du RGPD). Aucun consentement n'est requis puisque c'est vous qui initiez le contact.</p>
+						<p data-i18n="legal.data.recipient"><strong>Destinataires.</strong> Les messages transitent par Formspree, Inc. (États-Unis), sous-traitant assurant l'acheminement des formulaires, puis parviennent à l'éditeur par courrier électronique. Aucun autre tiers n'y a accès.</p>
+						<p data-i18n="legal.data.retention"><strong>Conservation.</strong> Les messages sont conservés le temps nécessaire au traitement de la demande, et au maximum douze mois après le dernier échange.</p>
+						<p data-i18n="legal.data.rights"><strong>Vos droits.</strong> Vous disposez d'un droit d'accès, de rectification, d'effacement, de limitation et d'opposition sur vos données. Pour l'exercer, écrivez via le <a href="#contact">formulaire de contact</a>. Vous pouvez également introduire une réclamation auprès de la CNIL (<a href="https://www.cnil.fr" target="_blank" rel="noopener">cnil.fr</a>).</p>
+					</section>
+
+					<section class="legal-block">
+						<h2 class="legal-title" data-i18n="legal.cookies.title">Cookies et traceurs</h2>
+						<p data-i18n="legal.cookies.body"><strong>Ce site ne dépose aucun cookie</strong> et n'utilise aucun outil de mesure d'audience, aucun réseau publicitaire, aucun bouton de partage tiers.</p>
+						<p data-i18n="legal.cookies.storage">Trois informations sont enregistrées dans le stockage local de votre navigateur, uniquement pour faire fonctionner le site : la langue que vous avez choisie, l'état du lecteur audio, et l'horodatage de votre dernier envoi de message (pour limiter les envois répétés). Ces données ne quittent jamais votre appareil et ne permettent aucun suivi. À ce titre, elles sont exemptées de consentement.</p>
+						<p data-i18n="legal.cookies.thirdparty">Aucune ressource externe n'est chargée : polices de caractères et icônes sont hébergées sur ce site. Aucun tiers ne reçoit votre adresse IP lors de la consultation.</p>
+					</section>
+
+					<section class="legal-block">
+						<h2 class="legal-title" data-i18n="legal.ip.title">Propriété intellectuelle</h2>
+						<p data-i18n="legal.ip.body">Le code et les contenus rédactionnels de ce site sont la propriété de son éditeur. La police Poppins et les icônes Font Awesome sont utilisées sous licence SIL Open Font License 1.1. Les documents de travaux pratiques sont publiés à titre pédagogique.</p>
+					</section>
+
+					<section class="legal-block legal-block-last">
+						<h2 class="legal-title" data-i18n="legal.liability.title">Responsabilité</h2>
+						<p data-i18n="legal.liability.body">Les informations publiées le sont à titre indicatif et peuvent évoluer. Les liens vers des sites tiers sont fournis pour référence ; l'éditeur n'exerce aucun contrôle sur leur contenu et ne saurait en être tenu responsable.</p>
+					</section>
+
 				</div>
 			</div>
 		</section>
