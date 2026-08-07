@@ -217,16 +217,37 @@
 			email.addEventListener('input', function () {
 				if (warnedFor !== null && email.value.trim() !== warnedFor) {
 					warnedFor = null;
-					showStatus('', '');
+					showStatus('', null);
 				}
 			});
 		}
 
-		function showStatus(type, text) {
-			if (!status) return;
-			status.className = 'form-status ' + type;
-			status.textContent = text;
+		// Le message de statut est écrit par JS, il n'est donc pas annoté
+		// `data-i18n` et i18n.js ne peut pas le retrouver. On mémorise sa clé
+		// pour le réafficher soi-même quand le visiteur change de drapeau.
+		let lastStatus = null;
+
+		function renderStatus(entry) {
+			const text = t(entry.key, entry.fr);
+			return entry.param === undefined ? text : text.replace('{s}', entry.param);
 		}
+
+		/**
+		 * @param {string} type  '', 'success' ou 'error'
+		 * @param {string|null} key  clé i18n, ou null pour effacer le message
+		 * @param {string} [fr]  texte français de repli
+		 * @param {string|number} [param]  valeur substituée à {s}
+		 */
+		function showStatus(type, key, fr, param) {
+			if (!status) return;
+			lastStatus = key ? { key: key, fr: fr, param: param } : null;
+			status.className = 'form-status ' + type;
+			status.textContent = lastStatus ? renderStatus(lastStatus) : '';
+		}
+
+		document.addEventListener('i18n:changed', function () {
+			if (status && lastStatus) status.textContent = renderStatus(lastStatus);
+		});
 
 		function rejectField(field, message) {
 			field.setCustomValidity(message);
@@ -271,9 +292,9 @@
 			if (suggestion && warnedFor !== address) {
 				warnedFor = address;
 				const corrected = address.slice(0, address.lastIndexOf('@') + 1) + suggestion;
-				showStatus('error', t('contact.emailTypo',
-					'Vouliez-vous dire {s} ? Corrigez, ou renvoyez pour confirmer votre adresse.')
-					.replace('{s}', corrected));
+				showStatus('error', 'contact.emailTypo',
+					'Vouliez-vous dire {s} ? Corrigez, ou renvoyez pour confirmer votre adresse.',
+					corrected);
 				email.focus();
 				return;
 			}
@@ -282,15 +303,15 @@
 			const remaining = throttleRemaining();
 			if (remaining > 0) {
 				const seconds = Math.ceil(remaining / 1000);
-				showStatus('error', t('contact.throttle',
-					'Patientez encore {s} secondes avant de renvoyer un message.')
-					.replace('{s}', seconds));
+				showStatus('error', 'contact.throttle',
+					'Patientez encore {s} secondes avant de renvoyer un message.',
+					seconds);
 				return;
 			}
 
 			submitBtn.disabled = true;
 			submitBtn.textContent = t('contact.sending', 'Envoi en cours...');
-			showStatus('', '');
+			showStatus('', null);
 
 			fetch(form.action, {
 				method: 'POST',
@@ -301,15 +322,15 @@
 					markSent();
 					form.reset();
 					warnedFor = null;
-					showStatus('success', t('contact.success', 'Message envoyé, merci !'));
+					showStatus('success', 'contact.success', 'Message envoyé, merci !');
 				} else if (res.status === 429) {
 					markSent();
-					showStatus('error', t('contact.rateLimit', 'Trop de messages envoyés en peu de temps. Patientez quelques minutes avant de réessayer.'));
+					showStatus('error', 'contact.rateLimit', 'Trop de messages envoyés en peu de temps. Patientez quelques minutes avant de réessayer.');
 				} else {
-					showStatus('error', t('contact.error', 'Une erreur est survenue. Réessayez ou contactez-moi via LinkedIn.'));
+					showStatus('error', 'contact.error', 'Une erreur est survenue. Réessayez ou contactez-moi via LinkedIn.');
 				}
 			}).catch(function () {
-				showStatus('error', t('contact.network', 'Impossible d\'envoyer le message. Vérifiez votre connexion.'));
+				showStatus('error', 'contact.network', 'Impossible d\'envoyer le message. Vérifiez votre connexion.');
 			}).finally(function () {
 				submitBtn.disabled = false;
 				submitBtn.textContent = t('contact.submit', 'Envoyer');
