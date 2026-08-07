@@ -1,0 +1,137 @@
+/**
+ * ============================================
+ * FONT AWESOME 6.5.2 - AUTO-HEBERGE ET SOUS-ENSEMBLE
+ * ============================================
+ * Genere depuis le paquet officiel (licence : polices SIL OFL 1.1,
+ * CSS MIT). Seules les 71 icones reellement employees par le site sont
+ * conservees : les woff2 completes pesent ~400 Ko, celles-ci 10 Ko.
+ *
+ * Pourquoi auto-heberger : supprime la derniere requete vers un tiers
+ * (cdnjs / Cloudflare recevait l'adresse IP de chaque visiteur), et permet
+ * une CSP sans aucun hote externe.
+ *
+ * Ne pas editer a la main. Pour ajouter une icone, ajoutez-la au HTML puis
+ * relancez le script de generation.
+ */
+
+@font-face {
+    font-family: 'Font Awesome 6 Solid';
+    font-style: normal;
+    font-weight: 900;
+    font-display: block;
+    src: url('../assets/fontawesome/fa-solid-900.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Font Awesome 6 Regular';
+    font-style: normal;
+    font-weight: 400;
+    font-display: block;
+    src: url('../assets/fontawesome/fa-regular-400.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Font Awesome 6 Brands';
+    font-style: normal;
+    font-weight: 400;
+    font-display: block;
+    src: url('../assets/fontawesome/fa-brands-400.woff2') format('woff2');
+}
+
+.fa,
+.fas, .fa-solid,
+.far, .fa-regular,
+.fab, .fa-brands {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    display: var(--fa-display, inline-block);
+    font-style: normal;
+    font-variant: normal;
+    line-height: 1;
+    text-rendering: auto;
+}
+
+.fa, .fas, .fa-solid   { font-family: 'Font Awesome 6 Solid';   font-weight: 900; }
+.far, .fa-regular      { font-family: 'Font Awesome 6 Regular'; font-weight: 400; }
+.fab, .fa-brands       { font-family: 'Font Awesome 6 Brands';  font-weight: 400; }
+
+/* Animation utilisee par le loader */
+.fa-spin {
+    animation: fa-spin 2s infinite linear;
+}
+
+@keyframes fa-spin {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ---------- Glyphes ---------- */
+.fa-backward::before { content: "\f04a"; }
+.fa-book-open::before { content: "\f518"; }
+.fa-brain::before { content: "\f5dc"; }
+.fa-briefcase::before { content: "\f0b1"; }
+.fa-building::before { content: "\f1ad"; }
+.fa-calendar::before { content: "\f133"; }
+.fa-calendar-check::before { content: "\f274"; }
+.fa-caret-down::before { content: "\f0d7"; }
+.fa-chart-line::before { content: "\f201"; }
+.fa-check::before { content: "\f00c"; }
+.fa-check-circle::before { content: "\f058"; }
+.fa-chevron-up::before { content: "\f077"; }
+.fa-code::before { content: "\f121"; }
+.fa-database::before { content: "\f1c0"; }
+.fa-desktop::before { content: "\f390"; }
+.fa-diagram-project::before { content: "\f542"; }
+.fa-envelope::before { content: "\f0e0"; }
+.fa-envelope-open-text::before { content: "\f658"; }
+.fa-exclamation-triangle::before { content: "\f071"; }
+.fa-external-link-alt::before { content: "\f35d"; }
+.fa-eye::before { content: "\f06e"; }
+.fa-file-alt::before { content: "\f15c"; }
+.fa-file-archive::before { content: "\f1c6"; }
+.fa-file-pdf::before { content: "\f1c1"; }
+.fa-file-powerpoint::before { content: "\f1c4"; }
+.fa-file-word::before { content: "\f1c2"; }
+.fa-flask::before { content: "\f0c3"; }
+.fa-folder-open::before { content: "\f07c"; }
+.fa-forward::before { content: "\f04e"; }
+.fa-gamepad::before { content: "\f11b"; }
+.fa-github::before { content: "\f09b"; }
+.fa-globe::before { content: "\f0ac"; }
+.fa-house::before { content: "\f015"; }
+.fa-image::before { content: "\f03e"; }
+.fa-info-circle::before { content: "\f05a"; }
+.fa-laptop-code::before { content: "\f5fc"; }
+.fa-layer-group::before { content: "\f5fd"; }
+.fa-lightbulb::before { content: "\f0eb"; }
+.fa-linkedin::before { content: "\f08c"; }
+.fa-linux::before { content: "\f17c"; }
+.fa-microchip::before { content: "\f2db"; }
+.fa-microscope::before { content: "\f610"; }
+.fa-minus::before { content: "\f068"; }
+.fa-music::before { content: "\f001"; }
+.fa-network-wired::before { content: "\f6ff"; }
+.fa-palette::before { content: "\f53f"; }
+.fa-play::before { content: "\f04b"; }
+.fa-project-diagram::before { content: "\f542"; }
+.fa-repeat::before { content: "\f363"; }
+.fa-robot::before { content: "\f544"; }
+.fa-rss::before { content: "\f09e"; }
+.fa-satellite-dish::before { content: "\f7c0"; }
+.fa-search::before { content: "\f002"; }
+.fa-server::before { content: "\f233"; }
+.fa-shield-alt::before { content: "\f3ed"; }
+.fa-signal::before { content: "\f012"; }
+.fa-sliders-h::before { content: "\f1de"; }
+.fa-spinner::before { content: "\f110"; }
+.fa-star::before { content: "\f005"; }
+.fa-sync-alt::before { content: "\f2f1"; }
+.fa-tachometer-alt::before { content: "\f625"; }
+.fa-tags::before { content: "\f02c"; }
+.fa-tasks::before { content: "\f0ae"; }
+.fa-terminal::before { content: "\f120"; }
+.fa-th::before { content: "\f00a"; }
+.fa-toolbox::before { content: "\f552"; }
+.fa-tools::before { content: "\f7d9"; }
+.fa-triangle-exclamation::before { content: "\f071"; }
+.fa-user::before { content: "\f007"; }
+.fa-user-graduate::before { content: "\f501"; }
+.fa-volume-up::before { content: "\f028"; }
