@@ -250,6 +250,16 @@
             badge: "Réseau",
             categories: ["reseau"]
         },
+        {
+            titre: "TP 21 - Révision Commandes Linux",
+            titre_en: "Lab 21 - Linux Commands Review",
+            description: "Commandes fondamentales Linux",
+            description_en: "Linux Fundamental Commands",
+            fichier: "assets/pdf/TP_revisioncommandeslinux.pdf",
+            image: "assets/images/revisioncommandeslinux.jpg",
+            badge: "Linux",
+            categories: ["linux"]
+        },
     ];
 
     // ============================================
