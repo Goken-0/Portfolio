@@ -240,6 +240,16 @@
             badge: "Linux",
             categories: ["linux"]
         },
+        {
+            titre: "TP 20 - Révision LAB1 Cisco Packet Tracer",
+            titre_en: "Lab 20 - Review: Cisco Packet Tracer Lab 1",
+            description: "Fondations, Sécurité de Base, VLAN et SSH précoce",
+            description_en: "Foundations, Basic Security, VLANs, and Early SSH",
+            fichier: "assets/pdf/TP_revisionlab1.pdf",
+            image: "assets/images/revisionlab1.jpg",
+            badge: "Réseau",
+            categories: ["reseau"]
+        },
     ];
 
     // ============================================
