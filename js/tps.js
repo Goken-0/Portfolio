@@ -270,6 +270,17 @@
             badge: "Linux",
             categories: ["linux"]
         },
+        /**{
+            titre: "TP 23 - Linux, Utilisateurs, Groupes",
+            titre_en: "Lab 23 - Linux, Users, Group",
+            description: "Gestion des utilisateurs et des groupes Linux",
+            description_en: "Linux user and group management",
+            fichier: "assets/pdf/TP_Linuxutilisateursgroupes.pdf",
+            image: "assets/images/linuxutilisateursgroupes.jpg",
+            badge: "Linux",
+            categories: ["linux"]
+        },**/
+        
     ];
 
     // ============================================
