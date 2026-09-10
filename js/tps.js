@@ -260,6 +260,16 @@
             badge: "Linux",
             categories: ["linux"]
         },
+        {
+            titre: "TP 22 - Proxmox",
+            titre_en: "Lab 22 - Proxmox",
+            description: "Installation et configuration de l'hyperviseur Proxmox",
+            description_en: "Installing and configuring the Proxmox hypervisor",
+            fichier: "assets/pdf/TP_Proxmox.pdf",
+            image: "assets/images/proxmox.jpg",
+            badge: "Linux",
+            categories: ["linux"]
+        },
     ];
 
     // ============================================
