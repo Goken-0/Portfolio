@@ -280,7 +280,50 @@
             badge: "Linux",
             categories: ["linux"]
         },
-        
+        {
+            titre: "TP 24 - Filtrage réseau avec les ACL Cisco",
+            titre_en: "Lab 24 - Network filtering with Cisco ACLs",
+            description: "Traduire une politique de sécurité en ACL standard et étendues, puis les tester sur routeurs Cisco",
+            description_en: "Translating a security policy into standard and extended ACLs, then testing them on Cisco routers",
+            fichier: "assets/pdf/TP_ACL.pdf",
+            image: "assets/images/filtrageacl.png",
+            badge: "Réseau",
+            categories: ["reseau"]
+        },
+        {
+            titre: "TP 25 - Windows 11 sur Proxmox VE",
+            titre_en: "Lab 25 - Windows 11 on Proxmox VE",
+            description: "Déploiement d'une VM Windows 11 : UEFI, TPM 2.0, pilotes VirtIO et agent QEMU",
+            description_en: "Deploying a Windows 11 VM: UEFI, TPM 2.0, VirtIO drivers and the QEMU agent",
+            fichier: "assets/pdf/TP_Windows11Proxmox.pdf",
+            image: "assets/images/windows11proxmox.png",
+            badge: "Virtualisation",
+            categories: ["virtualisation"]
+        },
+        {
+            titre: "TP 26 - Lab Nmap : cartographie et audit réseau",
+            titre_en: "Lab 26 - Nmap lab: network mapping and auditing",
+            description: "Scan de ports, détection de services et recherche de vulnérabilités avec Nmap",
+            description_en: "Port scanning, service detection and vulnerability hunting with Nmap",
+            fichiers: [
+                { url: "assets/pdf/TP_NmapDiaporama.pdf", titleKey: 'ui.viewSlides', title: "Voir le Diaporama", icon: '<i class="fas fa-file-powerpoint"></i>' },
+                { url: "assets/pdf/TP_Nmap.pdf", titleKey: 'ui.viewPdf', title: "Voir le Lab complet", icon: '<i class="fas fa-file-pdf"></i>' }
+            ],
+            image: "assets/images/nmap.png",
+            badge: "Réseau",
+            categories: ["reseau"]
+        },
+        {
+            titre: "TP 27 - VM Debian 13 sur Proxmox",
+            titre_en: "Lab 27 - Debian 13 VM on Proxmox",
+            description: "Création et configuration d'une machine virtuelle Debian 13 sous Proxmox",
+            description_en: "Creating and configuring a Debian 13 virtual machine on Proxmox",
+            fichier: "assets/pdf/TP_VMDebianProxmox.pdf",
+            image: "assets/images/vmdebian13.png",
+            badge: "Virtualisation",
+            categories: ["virtualisation", "linux"]
+        },
+
     ];
 
     // ============================================
