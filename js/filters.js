@@ -1,6 +1,6 @@
 /**
  * ============================================
- * GESTION DES FILTRES (PROJETS & COMPÉTENCES)
+ * GESTION DES FILTRES (TPS & PROJETS)
  * ============================================
  */
 
@@ -68,7 +68,6 @@
     function init() {
         setupSectionFilters('tps');
         setupSectionFilters('projets');
-        setupSectionFilters('competences');
     }
 
     // Exposer pour réinitialisation si nécessaire
