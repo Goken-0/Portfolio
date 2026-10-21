@@ -120,7 +120,7 @@
 			<div class="profile-card" id="profileCard" role="button" tabindex="0" title="Retour à l'accueil" data-i18n-title="profile.home" aria-label="Retour à l'accueil" data-i18n-aria="profile.home">
 				<div class="profile-card-inner">
 					<!-- Repli en cas d'image manquante : géré par js/head-init.js -->
-					<img src="assets/images/main.png" alt="Photo de profil de Léo Metgy" data-i18n-alt="profile.photoAlt" class="profile-img">
+					<img src="assets/images/main.jpg" alt="Photo de profil de Léo Metgy" data-i18n-alt="profile.photoAlt" class="profile-img">
 					<div class="profile-placeholder"><i class="fa-solid fa-user"></i></div>
 				</div>
 				<div class="profile-glow"></div>
@@ -181,7 +181,7 @@
 		<section id="accueil" class="home">
 			<div class="home-profile-card profile-card">
 				<div class="profile-card-inner">
-					<img src="assets/images/main.png" alt="Photo de profil de Léo Metgy" data-i18n-alt="profile.photoAlt" class="profile-img">
+					<img src="assets/images/main.jpg" alt="Photo de profil de Léo Metgy" data-i18n-alt="profile.photoAlt" class="profile-img">
 				</div>
 				<div class="profile-glow"></div>
 			</div>
@@ -423,6 +423,19 @@
 				</div>
 				<h2 class="section-title" data-i18n="projets.sectionTitle"><i class="fas fa-folder-open"></i> Tous les Projets</h2>
 				<div class="projects-grid">
+					<!-- XIAOMI TV DEBLOAT -->
+					<div class="project-card" data-category="systeme">
+						<div class="project-image"><span class="project-badge" data-i18n="projets.xiaomi.badge">Système</span><img src="assets/images/xiaomitv.jpg" alt="Xiaomi TV A 32 sous LTvLauncher après debloat" data-i18n-alt="projets.xiaomi.alt" loading="lazy" decoding="async"></div>
+						<div class="project-content">
+							<div class="project-header"><h3 class="project-title"><i class="fas fa-tv"></i> XIAOMI TV A 32</h3></div>
+							<p class="project-description" data-i18n="projets.xiaomi.desc">Suppression des trackers Xiaomi, des pubs et du bloatware via ADB sans fil, sans root et de façon réversible, puis remplacement de Google TV par LTvLauncher.<br><br>Veuillez cliquer sur le bouton <strong>"lien externe"</strong> pour plus de renseignements.</p>
+							<div class="project-tech"><span class="tech-tag">ADB</span><span class="tech-tag">ANDROID TV</span><span class="tech-tag">LTVLAUNCHER</span></div>
+							<div class="project-footer">
+								<span class="project-date" data-i18n="projets.xiaomi.date"><i class="far fa-calendar"></i> Octobre 2026</span>
+								<div class="project-links"><a href="assets/pdf/xiaomi.pdf" class="project-link" title="Voir le PDF" data-i18n-title="ui.viewPdf"><i class="fas fa-external-link-alt"></i></a></div>
+							</div>
+						</div>
+					</div>
 					<!-- FILECOMPRESSOR -->
 					<div class="project-card" data-category="logiciel">
 						<div class="project-image"><span class="project-badge" data-i18n="projets.filecompressor.badge">Logiciel</span><img src="assets/images/filecompressor_thumb.jpg" alt="FileCompressor - Application de compression" data-i18n-alt="projets.filecompressor.alt" loading="lazy" decoding="async"></div>
@@ -499,7 +512,7 @@
 					</div>
 					<!-- THINKPAD T490 -->
 					<div class="project-card" data-category="systeme reseau">
-						<div class="project-image"><span class="project-badge" data-i18n="projets.thinkpad.badge">Système &amp; Réseau</span><img src="assets/images/thinkpad.png" alt="ThinkPad T490 remis à neuf" data-i18n-alt="projets.thinkpad.alt" loading="lazy" decoding="async"></div>
+						<div class="project-image"><span class="project-badge" data-i18n="projets.thinkpad.badge">Système &amp; Réseau</span><img src="assets/images/thinkpad.webp" alt="ThinkPad T490 remis à neuf" data-i18n-alt="projets.thinkpad.alt" loading="lazy" decoding="async"></div>
 						<div class="project-content">
 							<div class="project-header"><h3 class="project-title"><i class="fas fa-server"></i> THINKPAD</h3></div>
 							<p class="project-description" data-i18n="projets.thinkpad.desc">Un projet de remise à neuf et de configuration système pour créer mon propre environnement de travail.<br><br>Veuillez cliquer sur le bouton <strong>"lien externe"</strong> pour plus de renseignements.</p>
@@ -881,7 +894,7 @@
 								<p class="source-credit" data-i18n="veille.gpu.source"><i class="fas fa-database"></i> <span>Tests : <a href="https://www.techpowerup.com/" target="_blank" rel="noopener">TechPowerUp</a> · Prix : <a href="https://thepcenthusiast.com/gpu-prices-2026-rtx-50-rx-9000-price-increase/" target="_blank" rel="noopener">The PC Enthusiast</a> (août 2026, prix US) · Feuille de route : <a href="https://www.thefpsreview.com/2026/03/23/no-new-rtx-gaming-gpus-in-2026-rtx-60-series-pushed-to-2028/" target="_blank" rel="noopener">The FPS Review</a></span></p>
 							</div>
 							<div class="visual-row">
-								<div class="visual-section"><img src="assets/images/rtx.jpeg" alt="Architecture GPU NVIDIA RTX" data-i18n-alt="veille.gpu.nvidiaAlt" class="block-image"><p class="image-caption" data-i18n="veille.gpu.nvidiaCaption">Architecture NVIDIA RTX</p></div>
+								<div class="visual-section"><img src="assets/images/rtx.jpg" alt="Architecture GPU NVIDIA RTX" data-i18n-alt="veille.gpu.nvidiaAlt" class="block-image"><p class="image-caption" data-i18n="veille.gpu.nvidiaCaption">Architecture NVIDIA RTX</p></div>
 								<div class="visual-section"><img src="assets/images/amd.jpg" alt="Architecture GPU AMD RX" data-i18n-alt="veille.gpu.amdAlt" class="block-image"><p class="image-caption" data-i18n="veille.gpu.amdCaption">Architecture AMD RDNA 4</p></div>
 							</div>
 						</div>
@@ -956,8 +969,8 @@
 								<p class="source-credit" data-i18n="veille.ai.caveat"><i class="fas fa-triangle-exclamation"></i> <span>Réserve méthodologique : les scores d'index viennent d'<a href="https://artificialanalysis.ai/" target="_blank" rel="noopener">Artificial Analysis</a> (mesure indépendante, effort max). Les autres chiffres sont publiés par les éditeurs eux-mêmes et n'ont pas été reproduits de façon indépendante.</span></p>
 							</div>
 							<div class="visual-row">
-								<div class="visual-section"><img src="assets/images/claude.jpg" alt="Interface de Claude AI" data-i18n-alt="veille.ai.claudeAlt" class="block-image"><p class="image-caption" data-i18n="veille.ai.claudeCaption">Claude Sonnet 5.5 — Qualité &amp; longs contextes</p></div>
-								<div class="visual-section"><img src="assets/images/gpt.jpg" alt="Logo GPT" data-i18n-alt="veille.ai.gptAlt" class="block-image"><p class="image-caption" data-i18n="veille.ai.gptCaption">GPT-6.1 Sol — Efficacité &amp; coût par tâche</p></div>
+								<div class="visual-section"><img src="assets/images/claude.webp" alt="Interface de Claude AI" data-i18n-alt="veille.ai.claudeAlt" class="block-image"><p class="image-caption" data-i18n="veille.ai.claudeCaption">Claude Sonnet 5.5 — Qualité &amp; longs contextes</p></div>
+								<div class="visual-section"><img src="assets/images/gpt.webp" alt="Logo GPT" data-i18n-alt="veille.ai.gptAlt" class="block-image"><p class="image-caption" data-i18n="veille.ai.gptCaption">GPT-6.1 Sol — Efficacité &amp; coût par tâche</p></div>
 							</div>
 						</div>
 					</article>
