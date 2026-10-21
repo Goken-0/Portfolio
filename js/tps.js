@@ -246,7 +246,7 @@
             description: "Fondations, Sécurité de Base, VLAN et SSH précoce",
             description_en: "Foundations, Basic Security, VLANs, and Early SSH",
             fichier: "assets/pdf/TP_revisionlab1.pdf",
-            image: "assets/images/revisionlab1.jpg",
+            image: "assets/images/revisionlab1.webp",
             badge: "Réseau",
             categories: ["reseau"]
         },
@@ -256,7 +256,7 @@
             description: "Commandes fondamentales Linux",
             description_en: "Linux Fundamental Commands",
             fichier: "assets/pdf/TP_revisioncommandeslinux.pdf",
-            image: "assets/images/revisioncommandeslinux.jpg",
+            image: "assets/images/revisioncommandeslinux.webp",
             badge: "Linux",
             categories: ["linux"]
         },
@@ -266,7 +266,7 @@
             description: "Installation et configuration de l'hyperviseur Proxmox",
             description_en: "Installing and configuring the Proxmox hypervisor",
             fichier: "assets/pdf/TP_Proxmox.pdf",
-            image: "assets/images/proxmox.jpg",
+            image: "assets/images/proxmox.webp",
             badge: "Linux",
             categories: ["linux"]
         },
@@ -276,7 +276,7 @@
             description: "Gestion des utilisateurs et des groupes Linux",
             description_en: "Linux user and group management",
             fichier: "assets/pdf/TP_Linuxutilisateursgroupes.pdf",
-            image: "assets/images/linuxutilisateursgroupes.jpg",
+            image: "assets/images/linuxutilisateursgroupes.webp",
             badge: "Linux",
             categories: ["linux"]
         },
@@ -286,7 +286,7 @@
             description: "Traduire une politique de sécurité en ACL standard et étendues, puis les tester sur routeurs Cisco",
             description_en: "Translating a security policy into standard and extended ACLs, then testing them on Cisco routers",
             fichier: "assets/pdf/TP_ACL.pdf",
-            image: "assets/images/filtrageacl.png",
+            image: "assets/images/filtrageacl.webp",
             badge: "Réseau",
             categories: ["reseau"]
         },
@@ -296,7 +296,7 @@
             description: "Déploiement d'une VM Windows 11 : UEFI, TPM 2.0, pilotes VirtIO et agent QEMU",
             description_en: "Deploying a Windows 11 VM: UEFI, TPM 2.0, VirtIO drivers and the QEMU agent",
             fichier: "assets/pdf/TP_Windows11Proxmox.pdf",
-            image: "assets/images/windows11proxmox.png",
+            image: "assets/images/windows11proxmox.webp",
             badge: "Virtualisation",
             categories: ["virtualisation"]
         },
@@ -309,7 +309,7 @@
                 { url: "assets/pdf/TP_NmapDiaporama.pdf", titleKey: 'ui.viewSlides', title: "Voir le Diaporama", icon: '<i class="fas fa-file-powerpoint"></i>' },
                 { url: "assets/pdf/TP_Nmap.pdf", titleKey: 'ui.viewPdf', title: "Voir le Lab complet", icon: '<i class="fas fa-file-pdf"></i>' }
             ],
-            image: "assets/images/nmap.png",
+            image: "assets/images/nmap.webp",
             badge: "Réseau",
             categories: ["reseau"]
         },
@@ -319,7 +319,7 @@
             description: "Création et configuration d'une machine virtuelle Debian 13 sous Proxmox",
             description_en: "Creating and configuring a Debian 13 virtual machine on Proxmox",
             fichier: "assets/pdf/TP_VMDebianProxmox.pdf",
-            image: "assets/images/vmdebian13.png",
+            image: "assets/images/vmdebian13.webp",
             badge: "Virtualisation",
             categories: ["virtualisation", "linux"]
         },
