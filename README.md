@@ -54,9 +54,9 @@ Portfolio/
 │   ├── fontawesome/            # Polices Font Awesome 6.7.2 auto-hébergées (woff2)
 │   ├── fonts/                  # Poppins auto-hébergée (woff2, latin + latin-ext)
 │   ├── icons/                  # Favicons et manifest PWA
-│   ├── images/                 # Illustrations, captures d'écran, image Open Graph
+│   ├── images/                 # Illustrations, captures d'écran (WebP sans perte), image Open Graph
 │   ├── music/                  # Pistes audio pour le lecteur intégré
-│   └── pdf/                    # Documents (CV, Lettre, rapports de TPs)
+│   └── pdf/                    # Documents (attestation, rapports de TPs et de projets)
 │
 ├── css/                        # Feuilles de style
 │   ├── fontawesome.css         # Déclarations des icônes (bibliothèque complète)
