@@ -54,6 +54,7 @@ Portfolio/
 │   ├── fontawesome/            # Polices Font Awesome 6.7.2 auto-hébergées (woff2)
 │   ├── fonts/                  # Poppins auto-hébergée (woff2, latin + latin-ext)
 │   ├── icons/                  # Favicons et manifest PWA
+│   ├── logos/                  # Logos des sites cités dans la veille (PNG locaux)
 │   ├── images/                 # Illustrations, captures d'écran (WebP sans perte), image Open Graph
 │   ├── music/                  # Pistes audio pour le lecteur intégré
 │   └── pdf/                    # Documents (attestation, rapports de TPs et de projets)
@@ -71,7 +72,7 @@ Portfolio/
 │   ├── i18n.js                 # Traduction FR / EN de l'interface
 │   ├── typing.js               # Effet de frappe de la page d'accueil
 │   ├── stars.js                # Fond animé en canvas
-│   ├── filters.js              # Filtres des projets et de la veille
+│   ├── filters.js              # Filtres des TPs et des projets
 │   ├── tps.js                  # Affichage des travaux pratiques
 │   ├── contact-form.js         # Formulaire de contact et validation
 │   ├── inject-music-player.js  # Injection du lecteur dans la page
@@ -92,4 +93,4 @@ Je suis ouvert à toutes opportunités.
 
 * 🐙 GitHub : https://github.com/Goken-0
 
-<div align="center"> <small>Fait avec ❤️ par Goken-0 - 2025</small> </div>
+<div align="center"> <small>Fait avec ❤️ par Goken-0 - 2025-2026</small> </div>
