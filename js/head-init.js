@@ -15,6 +15,22 @@
 	'use strict';
 
 	/**
+	 * Mode allégé (voir .perf-lite dans css/style.css) : posé avant le premier
+	 * rendu pour éviter de peindre les flous puis de les retirer.
+	 * Tactile (téléphone, tablette), 4 cœurs ou moins, ou 4 Go de mémoire ou
+	 * moins. js/stars.js peut aussi l'activer en cours de route si la cadence
+	 * du fond décroche.
+	 */
+	(function detectLowPower() {
+		var coarse = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+		var cores = navigator.hardwareConcurrency || 8;
+		var memory = navigator.deviceMemory || 8;
+		if (coarse || cores <= 4 || memory <= 4) {
+			document.documentElement.classList.add('perf-lite');
+		}
+	})();
+
+	/**
 	 * Photo de profil : si le fichier est absent ou bloqué, on masque l'image
 	 * et on révèle l'icône de repli placée juste après.
 	 * Remplace onerror="this.style.display='none';this.nextElementSibling..."

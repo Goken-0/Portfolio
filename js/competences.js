@@ -113,13 +113,31 @@
         });
     }
 
+    /** Liens vers chaque TP : libellé « TP 8 » / « Lab 8 » selon la langue,
+     *  et nom complet du TP en infobulle (lu dans tps.js). */
+    function labelTpChips() {
+        const en = !!(window.i18n && window.i18n.lang === 'en');
+        document.querySelectorAll('#competences .skills-chip[data-tp]').forEach(function (chip) {
+            const num = chip.dataset.tp;
+            const name = window.tpName ? window.tpName(num) : '';
+            chip.textContent = (en ? 'Lab ' : 'TP ') + num;
+            if (name) {
+                chip.title = name;
+                chip.setAttribute('aria-label', chip.textContent + ' : ' + name);
+            }
+        });
+    }
+
     function init() {
         const root = document.querySelector('#competences .skills');
         if (!root) return;
         root.classList.add('skills-js');
         setDelays(root);
+        labelTpChips();
         arm();
     }
+
+    document.addEventListener('i18n:changed', labelTpChips);
 
     // Retour sur la page : spa-router.js (chargé avant) vient d'afficher la
     // section, on rejoue les apparitions.

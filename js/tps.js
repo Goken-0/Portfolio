@@ -347,6 +347,17 @@
         return isEnglish() && projet.description_en ? projet.description_en : projet.description;
     }
 
+    /** Numéro du TP lu dans son titre (« TP 8 - … » → "8"). */
+    function numeroOf(projet) {
+        const m = /^TP\s*(\d+)/i.exec(projet.titre);
+        return m ? m[1] : null;
+    }
+
+    /** Titre sans le préfixe « TP 8 - » / « Lab 8 - ». */
+    function nomOf(projet) {
+        return titreOf(projet).replace(/^(TP|Lab)\s*\d+\s*-\s*/i, '');
+    }
+
     function badgeOf(projet) {
         const key = badgeToKey[projet.badge];
         return key ? t(key, projet.badge) : (projet.badge || 'TP');
@@ -365,6 +376,9 @@
         // Créer la carte principale
         const carte = document.createElement('div');
         carte.className = 'project-card';
+        // Ancre « #tp-8 » : cible des liens de la page Compétences
+        const num = numeroOf(projet);
+        if (num) carte.id = 'tp-' + num;
         // On gère le cas tableau (plusieurs) ou string (une seule, pour compatibilité)
         let cats = projet.categories || [projet.category || badgeToCategory[projet.badge]];
         // On transforme le tableau en une chaîne séparée par des espaces (ex: "linux virtualisation")
@@ -487,6 +501,13 @@
 
     // Exposé pour permettre un redessin manuel si besoin
     window.renderTps = genererCartes;
+
+    /** Nom d'un TP dans la langue courante, d'après son numéro
+     *  (utilisé par competences.js pour les infobulles des liens). */
+    window.tpName = function (num) {
+        const projet = projets.find(p => numeroOf(p) === String(num));
+        return projet ? nomOf(projet) : '';
+    };
 
     // Les cartes portent leur texte en dur : on les régénère à chaque bascule.
     // Le filtre actif est réappliqué par filters.js au clic suivant ; on remet

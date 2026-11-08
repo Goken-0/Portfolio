@@ -188,6 +188,11 @@
         'projets.nas.statStatusValue': 'Completed',
         'projets.nas.viewPdf': '<i class="fas fa-eye"></i> View PDF',
 
+        'projets.xiaomi.badge': 'Systems',
+        'projets.xiaomi.alt': 'Xiaomi TV A 32 running LTvLauncher after debloating',
+        'projets.xiaomi.desc': 'Removal of Xiaomi trackers, ads and bloatware over wireless ADB, without root and fully reversible, then replacement of Google TV with LTvLauncher.<br><br>Click the <strong>"external link"</strong> button for more details.',
+        'projets.xiaomi.date': '<i class="far fa-calendar"></i> October 2026',
+
         'projets.filecompressor.badge': 'Software',
         'projets.filecompressor.alt': 'FileCompressor - compression application',
         'projets.filecompressor.desc': 'File compression software (PDF, images, documents)<br>High-performance desktop app with a modern interface',
@@ -258,6 +263,7 @@
         'competences.dev.title': 'Development',
         'competences.dev.tps': '1 lab',
         'competences.dev.projects': 'Personal projects',
+        'competences.systeme.projects': 'Projects',
 
         'competences.stage.label': 'In the field',
         'competences.stage.meta': 'June 2026 · 4 weeks · Amiens',
@@ -360,14 +366,32 @@
         'veille.ai.gptUse2': '<i class="fas fa-check-circle"></i> Codex and command-line workflows',
         'veille.ai.gptUse3': '<i class="fas fa-check-circle"></i> OpenAI ecosystem and tooling',
         'veille.ai.analysisTitle': '<i class="fas fa-chart-line"></i> Comparative analysis (2026)',
-        'veille.ai.analysis': 'Sonnet 5.5 and GPT-6.1 Sol are both the <strong>mid-tier model</strong> of their family, released one day apart in late September 2026 at exactly the same price ($2 / $10 per million tokens).<br><br>On Artificial Analysis\'s Intelligence Index, an independent measurement, <strong>Claude Sonnet 5.5</strong> beats Sol at max effort (56 vs 52). But <strong>GPT-6.1 Sol</strong> is more than 7 times cheaper per task ($0.72 vs $5.46), because it uses far fewer tokens. On long context, Anthropic bills a 900K request at the same rate as a 9K one, whereas OpenAI doubles the input price beyond 272K. In short: Sonnet 5.5 for maximum quality and long documents, Sol for high volumes on a tight budget.',
+        'veille.ai.analysis': 'Sonnet 5.5 and GPT-6.1 Sol are both the <strong>mid-tier model</strong> of their family, released one day apart in late September 2026 at exactly the same price ($2 / $10 per million tokens).<br><br>On Artificial Analysis\'s Intelligence Index, an independent measurement, the two models are now <strong>tied</strong> at max effort (55 each). The difference is cost: <strong>GPT-6.1 Sol</strong> is about 8 times cheaper per task ($1.27 vs $10.02), because it uses far fewer tokens. On long context, Anthropic bills a 900K request at the same rate as a 9K one, whereas OpenAI doubles the input price beyond 272K. In short: Sonnet 5.5 for long documents and agentic coding, Sol for high volumes on a tight budget.',
         'veille.ai.caveat': '<i class="fas fa-triangle-exclamation"></i> <span>Methodological caveat: index scores come from <a href="https://artificialanalysis.ai/" target="_blank" rel="noopener">Artificial Analysis</a> (independent measurement, max effort). The other figures are published by the vendors themselves and have not been independently reproduced.</span>',
         'veille.ai.claudeAlt': 'Claude AI interface',
         'veille.ai.claudeCaption': 'Claude Sonnet 5.5 — Quality &amp; long contexts',
-        'veille.ai.gptAlt': 'GPT logo',
+        'veille.ai.gptAlt': 'OpenAI GPT logo',
         'veille.ai.gptCaption': 'GPT-6.1 Sol — Efficiency &amp; cost per task',
         'veille.ai.techReportAnthropic': 'Artificial Analysis measurement',
         'veille.ai.techReportOpenai': 'Artificial Analysis measurement',
+
+        // Articles lus (titres d'origine laissés en anglais dans le HTML)
+        'veille.reading.title': '<i class="fas fa-book-open"></i> Articles read',
+        'veille.reading.live': 'Live data',
+        'veille.reading.gpu1Date': 'April 2025',
+        'veille.reading.gpu1': 'Full review of the RTX 5060 Ti 16 GB: +13% at 1440p over the RTX 4060 Ti, 65°C under load, a strong 1080p card. Source of my FPS, power and temperature figures.',
+        'veille.reading.gpu2Date': 'June 2025',
+        'veille.reading.gpu2': 'Rated 5/5: a whisper-quiet card sold close to MSRP with a factory overclock. Source of my AMD-side measurements.',
+        'veille.reading.gpu3Date': 'March 2026',
+        'veille.reading.gpu3': 'According to The Information, NVIDIA would launch no gaming card in 2026 and push the RTX 60 series back to 2028 because of the memory shortage.',
+        'veille.reading.gpu4Date': 'August 2026',
+        'veille.reading.gpu4': 'Where RTX 50 and RX 9000 prices stand in 2026: a surge driven by memory costs and AI demand, more contained on the AMD side.',
+        'veille.reading.ai1Date': 'September 2026',
+        'veille.reading.ai1': 'Official Sonnet 5.5 announcement: faster and cheaper than Sonnet 5, big coding gains, results close to Opus 5.5 on several tests.',
+        'veille.reading.ai2Date': 'September 2026',
+        'veille.reading.ai2': 'Overview of GPT-6.1 Sol, OpenAI\'s mid-tier model: benchmarks, pricing and access, with noted regressions in persistence and coding honesty.',
+        'veille.reading.ai3': 'Independent profile: Intelligence Index, speed, cost per task and pricing. Source of my index and cost figures for Claude.',
+        'veille.reading.ai4': 'Same independent measurement for Sol: index score, token usage, latency and API pricing.',
 
         'veille.method.title': '<i class="fas fa-microscope"></i> Watch Methodology',
         'veille.method.sources': 'Sources',
@@ -422,6 +446,8 @@
         'music.next': 'Next track',
         'music.volume': 'Volume',
         'music.loop': 'Repeat',
+        'music.seek': 'Position in the track',
+        'music.of': 'of',
 
         // Le texte rotatif de l'accueil vit dans js/typing.js : il lui faut
         // un tableau de mots complet plutôt que des clés isolées.
@@ -543,7 +569,11 @@
         document.title = lang === 'en' ? EN['meta.title'] : 'Portfolio - Léo Metgy';
 
         const description = document.querySelector('meta[name="description"]');
-        if (description && lang === 'en') description.content = EN['meta.description'];
+        if (description) {
+            // Garder la version française d'origine pour pouvoir la restaurer
+            if (!description.dataset.fr) description.dataset.fr = description.content;
+            description.content = lang === 'en' ? EN['meta.description'] : description.dataset.fr;
+        }
 
         const ogLocale = document.querySelector('meta[property="og:locale"]');
         if (ogLocale) ogLocale.content = lang === 'en' ? EN['meta.locale'] : 'fr_FR';

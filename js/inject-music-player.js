@@ -25,11 +25,19 @@
             <div class="song-artist" id="songArtist">The Weeknd</div>
         </div>
 
-        <div class="progress-container" id="progressContainer">
-            <div class="progress-bar" id="progressBar"></div>
+        <!-- Barre d'avancement : zone de saisie haute (doigt), piste fine.
+             role="slider" : utilisable au clavier et annoncée par les
+             lecteurs d'écran (voir music-player.js). -->
+        <div class="progress-container" id="progressContainer" role="slider" tabindex="0"
+             aria-label="Position dans le morceau" data-i18n-aria="music.seek"
+             aria-valuemin="0" aria-valuemax="0" aria-valuenow="0" aria-valuetext="0:00">
+            <div class="progress-track">
+                <div class="progress-bar" id="progressBar"></div>
+                <div class="progress-thumb" id="progressThumb"></div>
+            </div>
         </div>
 
-        <div class="time-row">
+        <div class="time-row" aria-hidden="true">
             <span id="currentTime">0:00</span>
             <span id="totalTime">0:00</span>
         </div>

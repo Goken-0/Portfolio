@@ -65,8 +65,10 @@ const STREAK_VISIBILITY_SPEED_THRESHOLD = IDLE_WARP_SPEED * 2;
 
 // ---- Cadence de rendu ----
 const REFRESH_SAMPLE_FRAME_COUNT = 10;
-const HIGH_REFRESH_HZ_THRESHOLD = 90;
 const MID_REFRESH_HZ_THRESHOLD = 50;
+// Écrans 60 Hz : 60 images/s. Le dessin groupé (voir « Performances ») est
+// assez léger pour ça ; une machine qui ne suit pas redescend d'elle-même à
+// 30 (voir « Qualité adaptative »).
 const HIGH_TIER_FRAMES_PER_SECOND = 60;
 const MID_TIER_FRAMES_PER_SECOND = 30;
 const LOW_TIER_FRAMES_PER_SECOND = 24;
@@ -131,11 +133,25 @@ canvas.setAttribute('aria-hidden', 'true');
 const context = canvas.getContext('2d');
 if (!context) return;
 
+// Le tampon suit la taille CSS du canvas, qui vaut 100lvh en hauteur (voir
+// css/style.css) : la « grande » hauteur d'écran, celle qui ne change pas quand
+// la barre d'adresse mobile apparaît ou disparaît au défilement. Avant, chaque
+// mouvement de cette barre déclenchait un resize, donc une réallocation
+// complète du canvas en plein scroll : c'était la principale saccade sur
+// téléphone.
+function fitCanvasToCss() {
+    const width = canvas.clientWidth || window.innerWidth;
+    const height = canvas.clientHeight || window.innerHeight;
+    if (canvas.width !== width) canvas.width = width;
+    if (canvas.height !== height) canvas.height = height;
+}
+
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 function attachCanvas() {
     if (!canvas.isConnected) document.body.appendChild(canvas);
+    fitCanvasToCss();
 }
 if (document.body) {
     attachCanvas();
@@ -143,10 +159,16 @@ if (document.body) {
     document.addEventListener('DOMContentLoaded', attachCanvas);
 }
 
+// Regroupé sur une image : une rafale de resize ne coûte qu'un seul recalcul
+let resizeQueued = false;
 window.addEventListener('resize', function () {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-});
+    if (resizeQueued) return;
+    resizeQueued = true;
+    requestAnimationFrame(function () {
+        resizeQueued = false;
+        fitCanvasToCss();
+    });
+}, { passive: true });
 
 // ============================================
 // ÉTOILES
@@ -318,81 +340,178 @@ window.triggerWarp = triggerWarp;
 // PROJECTION & DESSIN
 // ============================================
 
-function projectStar(star, uTime, viewport) {
-    const depthPosition = Math.min(-wrapDepth(star.zPhase + uTime), -NEAR_DISTANCE);
-    const distance = -depthPosition;
-    const scale = (viewport.focalLength / distance) * viewport.halfHeight;
+// ---- Performances ----
+//
+// Dessiner 700 étoiles une par une, c'est 700 beginPath/fill par image, plus
+// 700 chaînes 'rgba(…)' recréées : c'était l'essentiel du coût sur les petites
+// machines. Les étoiles sont maintenant regroupées par niveau d'opacité (et
+// d'épaisseur pour les traînées) : un seul tracé et un seul fill par groupe,
+// soit quelques dizaines d'appels au lieu de 700. 48 niveaux d'opacité, c'est
+// un écart de moins de 2 % entre deux niveaux : invisible à l'œil.
+const ALPHA_LEVELS = 48;
+const STREAK_WIDTH_STEP_PX = 0.25;
+const STREAK_WIDTH_LEVELS = Math.ceil((MAX_POINT_RADIUS * STREAK_WIDTH_FACTOR) / STREAK_WIDTH_STEP_PX) + 1;
 
-    return {
-        screenX: viewport.centerX + Math.cos(star.angle) * star.radius * scale,
-        screenY: viewport.centerY - Math.sin(star.angle) * star.radius * scale,
-        pointRadius: clamp(POINT_RADIUS_FALLOFF / distance, MIN_POINT_RADIUS, MAX_POINT_RADIUS),
-        alpha: clamp(1 - distance / DEPTH, MIN_ALPHA, MAX_ALPHA)
-    };
+function alphaLevelOf(alpha) {
+    return Math.round(((alpha - MIN_ALPHA) / (MAX_ALPHA - MIN_ALPHA)) * (ALPHA_LEVELS - 1));
+}
+
+function alphaOfLevel(level) {
+    return MIN_ALPHA + (level / (ALPHA_LEVELS - 1)) * (MAX_ALPHA - MIN_ALPHA);
+}
+
+// Couleurs pré-calculées une fois pour toutes (têtes, puis traînées)
+const HEAD_COLORS = [];
+const STREAK_COLORS = [];
+for (let level = 0; level < ALPHA_LEVELS; level++) {
+    const alpha = alphaOfLevel(level);
+    HEAD_COLORS.push('rgba(' + STAR_COLOR_RGB + ', ' + alpha.toFixed(3) + ')');
+    STREAK_COLORS.push('rgba(' + STAR_COLOR_RGB + ', ' + (alpha * STREAK_ALPHA_FACTOR).toFixed(3) + ')');
+}
+
+// Tampons réutilisés d'une image à l'autre : aucune allocation par frame,
+// donc pas de pauses du ramasse-miettes (les « micro-saccades »).
+const headX = new Float32Array(STAR_COUNT);
+const headY = new Float32Array(STAR_COUNT);
+const headRadius = new Float32Array(STAR_COUNT);
+const tailX = new Float32Array(STAR_COUNT);
+const tailY = new Float32Array(STAR_COUNT);
+const groupOf = new Uint16Array(STAR_COUNT);
+const savedAlphaLevels = new Uint16Array(STAR_COUNT);
+const sortedStars = new Uint16Array(STAR_COUNT);
+const HEAD_GROUPS = ALPHA_LEVELS;
+const STREAK_GROUPS = ALPHA_LEVELS * STREAK_WIDTH_LEVELS;
+const groupStart = new Uint16Array(STREAK_GROUPS + 1);
+const groupFill = new Uint16Array(STREAK_GROUPS + 1);
+
+// Pré-calculs constants par étoile (cos/sin ne changent jamais)
+const starCos = new Float32Array(STAR_COUNT);
+const starSin = new Float32Array(STAR_COUNT);
+for (let i = 0; i < STAR_COUNT; i++) {
+    starCos[i] = Math.cos(stars[i].angle) * stars[i].radius;
+    starSin[i] = Math.sin(stars[i].angle) * stars[i].radius;
+}
+
+function distanceOf(star, uTime) {
+    return Math.max(wrapDepth(star.zPhase + uTime), NEAR_DISTANCE);
 }
 
 /**
- * Limite l'éloignement de la queue par rapport à la tête, en pixels écran.
- * Sans ce plafond, les étoiles proches du point de fuite (distance minuscule,
- * échelle énorme) tracent des traînées bien plus longues que tout le reste :
- * borner la longueur garde une intensité homogène quelle que soit la profondeur.
+ * Tri par comptage des étoiles selon leur groupe : les étoiles d'un même
+ * groupe deviennent contiguës dans sortedStars, entre groupStart[g] et
+ * groupStart[g + 1]. Linéaire, sans allocation.
  */
-function clampStreakTail(head, tail) {
-    const deltaX = head.screenX - tail.screenX;
-    const deltaY = head.screenY - tail.screenY;
-    const length = Math.hypot(deltaX, deltaY);
-    if (length <= STREAK_MAX_LENGTH_PX) return tail;
-
-    const lengthScale = STREAK_MAX_LENGTH_PX / length;
-    return {
-        screenX: head.screenX - deltaX * lengthScale,
-        screenY: head.screenY - deltaY * lengthScale
-    };
+function sortByGroup(groupCount) {
+    groupStart.fill(0, 0, groupCount + 1);
+    for (let i = 0; i < STAR_COUNT; i++) groupStart[groupOf[i] + 1]++;
+    for (let g = 0; g < groupCount; g++) groupStart[g + 1] += groupStart[g];
+    groupFill.set(groupStart.subarray(0, groupCount));
+    for (let i = 0; i < STAR_COUNT; i++) sortedStars[groupFill[groupOf[i]]++] = i;
 }
 
-function drawStreak(star, head, uTime, warpSpeed, viewport) {
+/**
+ * Traînées : segment remontant vers la position de l'étoile il y a
+ * STREAK_DURATION_SECONDS, plafonné à STREAK_MAX_LENGTH_PX. Sans ce plafond,
+ * les étoiles proches du point de fuite (distance minuscule, échelle énorme)
+ * tracent des traînées bien plus longues que tout le reste.
+ */
+function drawStreaks(uTime, warpSpeed, viewport) {
     const trailUTime = uTime - warpSpeed * STREAK_DURATION_SECONDS;
-    const tail = clampStreakTail(head, projectStar(star, trailUTime, viewport));
 
-    context.beginPath();
-    context.moveTo(tail.screenX, tail.screenY);
-    context.lineTo(head.screenX, head.screenY);
-    context.lineWidth = head.pointRadius * STREAK_WIDTH_FACTOR;
-    context.lineCap = 'round';
-    context.strokeStyle = 'rgba(' + STAR_COLOR_RGB + ', ' + (head.alpha * STREAK_ALPHA_FACTOR) + ')';
-    context.stroke();
-}
+    for (let i = 0; i < STAR_COUNT; i++) {
+        const distance = distanceOf(stars[i], trailUTime);
+        const scale = (viewport.focalLength / distance) * viewport.halfHeight;
+        let tx = viewport.centerX + starCos[i] * scale;
+        let ty = viewport.centerY - starSin[i] * scale;
 
-function drawStarHead(head) {
-    context.beginPath();
-    context.fillStyle = 'rgba(' + STAR_COLOR_RGB + ', ' + head.alpha + ')';
-    context.arc(head.screenX, head.screenY, head.pointRadius, 0, FULL_TURN_RADIANS);
-    context.fill();
-}
+        const deltaX = headX[i] - tx;
+        const deltaY = headY[i] - ty;
+        const length = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+        if (length > STREAK_MAX_LENGTH_PX) {
+            const lengthScale = STREAK_MAX_LENGTH_PX / length;
+            tx = headX[i] - deltaX * lengthScale;
+            ty = headY[i] - deltaY * lengthScale;
+        }
+        tailX[i] = tx;
+        tailY[i] = ty;
 
-/**
- * Dessine chaque étoile comme une tête lumineuse, plus — uniquement quand la
- * vitesse dépasse la dérive de repos (donc pendant une navigation ou la
- * plongée d'arrivée) — une traînée sombre remontant vers sa position d'il y a
- * STREAK_DURATION_SECONDS. À vitesse de repos, c'est toujours un simple point.
- */
-function drawStar(star, uTime, warpSpeed, viewport) {
-    const head = projectStar(star, uTime, viewport);
-
-    if (warpSpeed > STREAK_VISIBILITY_SPEED_THRESHOLD) {
-        drawStreak(star, head, uTime, warpSpeed, viewport);
+        const widthLevel = Math.round((headRadius[i] * STREAK_WIDTH_FACTOR) / STREAK_WIDTH_STEP_PX);
+        groupOf[i] = groupOf[i] * STREAK_WIDTH_LEVELS + widthLevel;
     }
 
-    drawStarHead(head);
+    sortByGroup(STREAK_GROUPS);
+    context.lineCap = 'round';
+
+    for (let g = 0; g < STREAK_GROUPS; g++) {
+        const start = groupStart[g];
+        const end = groupStart[g + 1];
+        if (start === end) continue;
+
+        context.beginPath();
+        for (let k = start; k < end; k++) {
+            const i = sortedStars[k];
+            context.moveTo(tailX[i], tailY[i]);
+            context.lineTo(headX[i], headY[i]);
+        }
+        context.lineWidth = (g % STREAK_WIDTH_LEVELS) * STREAK_WIDTH_STEP_PX;
+        context.strokeStyle = STREAK_COLORS[Math.floor(g / STREAK_WIDTH_LEVELS)];
+        context.stroke();
+    }
 }
 
+function drawHeads() {
+    sortByGroup(HEAD_GROUPS);
+
+    for (let g = 0; g < HEAD_GROUPS; g++) {
+        const start = groupStart[g];
+        const end = groupStart[g + 1];
+        if (start === end) continue;
+
+        context.beginPath();
+        for (let k = start; k < end; k++) {
+            const i = sortedStars[k];
+            const r = headRadius[i];
+            // moveTo : sans lui, arc() relierait chaque disque au précédent
+            context.moveTo(headX[i] + r, headY[i]);
+            context.arc(headX[i], headY[i], r, 0, FULL_TURN_RADIANS);
+        }
+        context.fillStyle = HEAD_COLORS[g];
+        context.fill();
+    }
+}
+
+/**
+ * Chaque étoile est une tête lumineuse, plus — uniquement quand la vitesse
+ * dépasse la dérive de repos (navigation ou plongée d'arrivée) — une traînée
+ * plus sombre. À vitesse de repos, c'est toujours un simple point. Les
+ * traînées sont tracées d'abord, les têtes par-dessus.
+ */
 function drawFrame(viewport) {
     context.fillStyle = BACKGROUND_COLOR;
     context.fillRect(0, 0, canvas.width, canvas.height);
 
-    for (let i = 0; i < stars.length; i++) {
-        drawStar(stars[i], warpState.accumulatedTime, warpState.currentSpeed, viewport);
+    const uTime = warpState.accumulatedTime;
+    const warpSpeed = warpState.currentSpeed;
+
+    // 1. Projection des têtes dans les tampons
+    for (let i = 0; i < STAR_COUNT; i++) {
+        const distance = distanceOf(stars[i], uTime);
+        const scale = (viewport.focalLength / distance) * viewport.halfHeight;
+        headX[i] = viewport.centerX + starCos[i] * scale;
+        headY[i] = viewport.centerY - starSin[i] * scale;
+        headRadius[i] = clamp(POINT_RADIUS_FALLOFF / distance, MIN_POINT_RADIUS, MAX_POINT_RADIUS);
+        groupOf[i] = alphaLevelOf(clamp(1 - distance / DEPTH, MIN_ALPHA, MAX_ALPHA));
     }
+
+    // 2. Traînées (elles réutilisent groupOf, d'où la sauvegarde des niveaux)
+    if (warpSpeed > STREAK_VISIBILITY_SPEED_THRESHOLD) {
+        savedAlphaLevels.set(groupOf);
+        drawStreaks(uTime, warpSpeed, viewport);
+        groupOf.set(savedAlphaLevels);
+    }
+
+    // 3. Têtes
+    drawHeads();
 
     // Par-dessus le champ : c'est l'élément le plus proche du spectateur
     drawShootingStar();
@@ -428,10 +547,18 @@ function measureRefreshRate(onMeasured) {
 }
 
 function pickTargetFramesPerSecond(measuredHz) {
-    if (measuredHz >= HIGH_REFRESH_HZ_THRESHOLD) return HIGH_TIER_FRAMES_PER_SECOND;
-    if (measuredHz >= MID_REFRESH_HZ_THRESHOLD) return MID_TIER_FRAMES_PER_SECOND;
+    if (measuredHz >= MID_REFRESH_HZ_THRESHOLD) return HIGH_TIER_FRAMES_PER_SECOND;
     return LOW_TIER_FRAMES_PER_SECOND;
 }
+
+// ---- Qualité adaptative ----
+// Si la machine n'arrive pas à tenir la cadence visée (images qui arrivent
+// nettement en retard, de façon répétée), on descend d'un palier plutôt que
+// de saccader. Le rendu reste identique, seule la cadence change.
+const SLOW_FRAME_RATIO = 1.6;          // retard toléré par rapport à l'intervalle visé
+const SLOW_FRAME_WINDOW = 45;          // nombre d'images observées par fenêtre
+const SLOW_FRAME_SHARE_TO_DEGRADE = 0.4;
+const ADAPTIVE_WARMUP_MS = 2500;       // ignorer le démarrage (chargement de la page)
 
 // ============================================
 // BOUCLE D'ANIMATION
@@ -461,18 +588,43 @@ function runAnimationLoop(frameIntervalMs) {
     // au lieu de le redimensionner. Avec une hauteur lue en direct, toutes les
     // étoiles sauteraient à l'instant où la fenêtre change de hauteur.
     const scaleReferenceHalfHeight = canvas.height / 2;
+    const startedAt = performance.now();
+    let observedFrames = 0;
+    let slowFrames = 0;
 
     startArrivalDive();
+
+    function watchCadence(timestamp, elapsedMs) {
+        if (timestamp - startedAt < ADAPTIVE_WARMUP_MS) return;
+        // Un très gros trou = onglet en arrière-plan, pas une machine lente
+        if (elapsedMs > 1000) return;
+        observedFrames++;
+        if (elapsedMs > frameIntervalMs * SLOW_FRAME_RATIO) slowFrames++;
+        if (observedFrames < SLOW_FRAME_WINDOW) return;
+
+        if (slowFrames / observedFrames > SLOW_FRAME_SHARE_TO_DEGRADE) {
+            if (frameIntervalMs < MILLISECONDS_PER_SECOND / MID_TIER_FRAMES_PER_SECOND) {
+                frameIntervalMs = MILLISECONDS_PER_SECOND / MID_TIER_FRAMES_PER_SECOND;
+            }
+            // Machine juste : on allège aussi les effets CSS coûteux (flous)
+            document.documentElement.classList.add('perf-lite');
+        }
+        observedFrames = 0;
+        slowFrames = 0;
+    }
 
     function renderFrame(timestamp) {
         requestAnimationFrame(renderFrame);
 
-        if (timestamp - warpState.lastRenderTimestamp < frameIntervalMs) return;
+        const elapsedMs = timestamp - warpState.lastRenderTimestamp;
+        // Marge de 3 ms : sans elle, une image à 33,2 ms au lieu de 33,3 ms
+        // était sautée et la suivante tombait à 50 ms — une saccade
+        // irrégulière bien plus visible qu'une cadence simplement plus basse.
+        if (elapsedMs < frameIntervalMs - 3) return;
 
-        const deltaSeconds = Math.min(
-            (timestamp - warpState.lastRenderTimestamp) / MILLISECONDS_PER_SECOND,
-            MAX_DELTA_SECONDS
-        );
+        watchCadence(timestamp, elapsedMs);
+
+        const deltaSeconds = Math.min(elapsedMs / MILLISECONDS_PER_SECOND, MAX_DELTA_SECONDS);
         warpState.lastRenderTimestamp = timestamp;
         advanceWarpState(timestamp, deltaSeconds);
         updateShootingStar(deltaSeconds);
