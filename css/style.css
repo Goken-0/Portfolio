@@ -201,11 +201,63 @@ canvas.background {
     /* top:0; right:0; bottom:0; left:0 */
     width: 100%;
     height: 100%;
+    /* Grande hauteur d'écran (barre d'adresse mobile masquée) : elle ne bouge
+       pas au défilement, donc le canvas n'est jamais réalloué en plein scroll.
+       Le surplus éventuel dépasse simplement sous la barre. */
+    height: 100lvh;
+    bottom: auto;
     z-index: 0;
     /* en arrière-plan */
     pointer-events: none;
     /* clics passent à travers */
     display: block;
+}
+
+/* ----- MODE ALLÉGÉ (téléphones, petites machines) -----
+   Classe .perf-lite posée par js/head-init.js (écran tactile, peu de cœurs ou
+   de mémoire) ou par js/stars.js si la cadence décroche.
+   Un backdrop-filter au-dessus d'un canvas animé est recalculé à chaque image
+   du fond, pour chaque carte visible : c'est très lourd pour un GPU modeste.
+   Or un flou de 10 px étale des étoiles de 1 à 3 px jusqu'à les rendre
+   invisibles : sous une carte floutée, on ne voit en pratique que du noir
+   teinté. On remplace donc le flou par ce fond opaque équivalent — même
+   rendu, sans le coût. */
+.perf-lite .intro-card,
+.perf-lite .info-card,
+.perf-lite .gpu-card,
+.perf-lite .ai-card,
+.perf-lite .article-card,
+.perf-lite .stage-card,
+.perf-lite .project-card,
+.perf-lite .featured-project {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    /* noir + 3 % de blanc = la teinte de --bg-card posée sur le fond noir */
+    background-color: #080808;
+}
+
+/* Dégradé bleuté conservé (couche image), le noir passe dessous */
+.perf-lite .analysis-card {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background-color: #000000;
+}
+
+.perf-lite .lang-switcher,
+.perf-lite .hamburger-toggle,
+.perf-lite .back-to-top,
+.perf-lite .project-badge {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: rgba(0, 0, 0, 0.92);
+}
+
+.perf-lite header {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    /* Opaque : sans flou, une transparence laisserait voir le texte de la
+       page en net derrière le menu */
+    background: #050505 !important;
 }
 
 /* Tous les éléments HTML sauf le canvas passent au-dessus */
@@ -612,6 +664,16 @@ nav a.active {
 
     header.sidebar-open {
         transform: translateX(0) !important;
+    }
+
+    /* 100vh sur téléphone = hauteur barre d'adresse MASQUÉE : quand elle est
+       affichée, le bas de la sidebar (lecteur, mentions) passait dessous.
+       100dvh suit la hauteur réellement visible. La marge basse respecte la
+       barre de geste des iPhone. */
+    header {
+        height: 100vh !important;
+        height: 100dvh !important;
+        padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0px)) !important;
     }
 
     /* Bouton hamburger visible */
@@ -2057,9 +2119,9 @@ button:hover {
     border: 0;
     /* Définit la hauteur de la ligne (similaire à l'épaisseur de vos soulignements h2) */
     height: 2px;
-    /* Crée un dégradé horizontal : transparent -> orange -> transparent */
+    /* Crée un dégradé horizontal : transparent -> bleu d'accent -> transparent */
     /* Cela donne un effet de ligne lumineuse qui s'estompe sur les côtés */
-    background-image: linear-gradient(to right, rgba(255, 102, 0, 0), #3caee4, rgba(255, 102, 0, 0));
+    background-image: linear-gradient(to right, rgba(60, 174, 228, 0), #3caee4, rgba(60, 174, 228, 0));
     /* Ajoute un grand espace au-dessus et en dessous pour bien aérer les sections */
     margin: 150px 0;
     /* Optionnel : réduit légèrement la largeur pour qu'elle ne touche pas les bords du conteneur */
@@ -2701,6 +2763,140 @@ button:hover {
 }
 
 /* =====================================================
+   ARTICLES LUS (un bloc par thème, grille 2 × 2)
+   ===================================================== */
+.reading-list {
+    margin-top: 1rem;
+}
+
+.reading-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    font-size: 2.2rem;
+    color: var(--text-primary);
+    margin-bottom: 2.5rem;
+    text-align: center;
+}
+
+.reading-title i {
+    color: var(--accent-color);
+}
+
+/* Deux colonnes de même largeur, lignes de même hauteur : la grille
+   reste symétrique quelle que soit la longueur des résumés */
+.reading-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: 1fr;
+    gap: 2rem;
+}
+
+.article-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    padding: 2.2rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 1.2rem;
+    color: var(--text-primary);
+    backdrop-filter: blur(10px);
+    transition: transform var(--transition-medium), border-color var(--transition-medium), box-shadow var(--transition-medium);
+}
+
+.article-card:hover,
+.article-card:focus-visible {
+    transform: translateY(-4px);
+    border-color: var(--accent-color);
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.35), 0 0 24px rgba(60, 174, 228, 0.12);
+}
+
+.article-head {
+    display: flex;
+    align-items: center;
+    gap: 1.4rem;
+}
+
+/* Logo du site : tuile carrée arrondie, même taille pour tous */
+.article-logo {
+    width: 4.8rem;
+    height: 4.8rem;
+    flex-shrink: 0;
+    border-radius: 1rem;
+    object-fit: cover;
+    background: #ffffff;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12);
+}
+
+.article-meta {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    flex: 1;
+}
+
+.article-site {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.article-date {
+    font-size: 1.25rem;
+    color: var(--accent-color);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.article-ext {
+    font-size: 1.4rem;
+    color: var(--text-secondary);
+    opacity: 0.6;
+    transition: opacity var(--transition-fast), color var(--transition-fast);
+}
+
+.article-card:hover .article-ext {
+    opacity: 1;
+    color: var(--accent-color);
+}
+
+.article-title {
+    font-size: 1.65rem;
+    line-height: 1.45;
+    font-weight: 600;
+    margin: 0;
+}
+
+.article-summary {
+    font-size: 1.4rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .reading-grid {
+        grid-template-columns: 1fr;
+        grid-auto-rows: auto;
+    }
+
+    .article-card {
+        padding: 1.8rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .article-card,
+    .article-card:hover,
+    .article-card:focus-visible {
+        transition: none;
+        transform: none;
+    }
+}
+
+/* =====================================================
    RESPONSIVE DESIGN
    ===================================================== */
 
@@ -2946,12 +3142,28 @@ button:hover {
     text-overflow: ellipsis !important;
 }
 
+/* Zone de saisie de 18 px de haut (24 px au doigt) autour d'une piste fine :
+   la piste garde son allure discrète, mais on l'attrape sans viser. */
 .progress-container {
-    background: rgba(255, 255, 255, 0.1);
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 18px;
+    margin: -0.6rem 0 0.4rem;
+    cursor: pointer;
+    touch-action: none; /* le glissement ne fait pas défiler la sidebar */
+    -webkit-user-select: none;
+    user-select: none;
+    border-radius: 4px;
+}
+
+.progress-track {
+    position: relative;
+    width: 100%;
     height: 3px;
     border-radius: 2px;
-    cursor: pointer;
-    margin-bottom: 1.4rem;
+    background: rgba(255, 255, 255, 0.1);
+    transition: height 0.15s ease;
 }
 
 .progress-bar {
@@ -2959,6 +3171,65 @@ button:hover {
     height: 100%;
     border-radius: 2px;
     width: 0%;
+}
+
+/* Pastille : apparaît au survol, au focus clavier et pendant le glissement */
+.progress-thumb {
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(60, 174, 228, 0.35), 0 0 8px rgba(60, 174, 228, 0.6);
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 0.15s ease;
+    pointer-events: none;
+}
+
+.progress-container:hover .progress-track,
+.progress-container:focus-visible .progress-track,
+.progress-container.is-seeking .progress-track {
+    height: 5px;
+}
+
+.progress-container:hover .progress-thumb,
+.progress-container:focus-visible .progress-thumb,
+.progress-container.is-seeking .progress-thumb {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.progress-container.is-seeking .progress-thumb {
+    transform: translate(-50%, -50%) scale(1.25);
+}
+
+/* Anneau de focus collé à la zone, pour ne pas mordre sur les temps */
+.progress-container:focus-visible {
+    outline-offset: 0;
+}
+
+/* Au doigt : zone plus haute, pastille toujours visible (pas de survol) */
+@media (pointer: coarse) {
+    .progress-container {
+        height: 24px;
+        margin: -0.8rem 0 0.2rem;
+    }
+
+    .progress-track {
+        height: 4px;
+    }
+
+    .progress-thumb {
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .progress-track,
+    .progress-thumb {
+        transition: none;
+    }
 }
 
 /* Trois boutons seulement (prev / play / next) : le play est
@@ -4844,6 +5115,55 @@ button:hover {
 .skills-source a:hover {
     color: var(--accent);
     border-bottom-color: currentColor;
+}
+
+/* Un groupe par type de source (TPs, projets) : libellé puis un lien par élément */
+.skills-source-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem;
+    width: 100%;
+}
+
+.skills-source-label {
+    margin-right: 0.4rem;
+    font-size: 1.15rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.skills-chips {
+    display: contents;
+}
+
+.skills-source a.skills-chip {
+    display: inline-block;
+    padding: 0.25rem 0.9rem;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 999px;
+    font-size: 1.2rem;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.75);
+    background: rgba(255, 255, 255, 0.03);
+    transition: color var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast);
+}
+
+.skills-source a.skills-chip:hover,
+.skills-source a.skills-chip:focus-visible {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: rgba(60, 174, 228, 0.1);
+}
+
+/* Carte visée depuis la page Compétences : halo bref pour la repérer.
+   Passe par la transition déjà posée sur .project-card (et non par une
+   animation, qui écraserait l'apparition projectAppear de la carte). */
+.project-card.is-targeted {
+    opacity: 1;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px var(--accent), 0 0 40px rgba(60, 174, 228, 0.5);
 }
 
 .skills-source-stage {
