@@ -323,6 +323,32 @@
             badge: "Virtualisation",
             categories: ["virtualisation", "linux"]
         },
+        {
+            titre: "TP 28 - pfSense : pare-feu et routeur central",
+            titre_en: "Lab 28 - pfSense: central firewall and router",
+            description: "Projet 1 – Étape 1 : installation de pfSense sous Proxmox, interfaces WAN/LAN/OPT1, règles de filtrage et NAT",
+            description_en: "Project 1 – Step 1: installing pfSense on Proxmox, WAN/LAN/OPT1 interfaces, filtering rules and NAT",
+            fichiers: [
+                { url: "assets/pdf/pfsensepartie1.pdf", titleKey: 'ui.viewSlides', title: "Voir le Diaporama", icon: '<i class="fas fa-file-powerpoint"></i>' },
+                { url: "assets/pdf/pfsensepartie1word.pdf", titleKey: 'ui.viewWord', title: "Voir le fichier Brut Word", icon: '<i class="fas fa-file-word"></i>' }
+            ],
+            image: "assets/images/pfsense.webp",
+            badge: "Réseau",
+            categories: ["reseau", "virtualisation"]
+        },
+        {
+            titre: "TP 29 - Active Directory, DNS & DHCP",
+            titre_en: "Lab 29 - Active Directory, DNS & DHCP",
+            description: "Projet 1 – Étape 2 : déploiement d'un contrôleur de domaine Windows Server 2022 (AD DS, DNS intégré, DHCP)",
+            description_en: "Project 1 – Step 2: deploying a Windows Server 2022 domain controller (AD DS, integrated DNS, DHCP)",
+            fichiers: [
+                { url: "assets/pdf/pfsensepartie2.pdf", titleKey: 'ui.viewSlides', title: "Voir le Diaporama", icon: '<i class="fas fa-file-powerpoint"></i>' },
+                { url: "assets/pdf/pfsensepartie2word.pdf", titleKey: 'ui.viewWord', title: "Voir le fichier Brut Word", icon: '<i class="fas fa-file-word"></i>' }
+            ],
+            image: "assets/images/pfsense2.webp",
+            badge: "Réseau",
+            categories: ["reseau"]
+        },
 
     ];
 
