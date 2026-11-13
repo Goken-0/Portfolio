@@ -349,6 +349,19 @@
             badge: "Réseau",
             categories: ["reseau"]
         },
+        {
+            titre: "TP 30 - Groupes AD, DFS & permissions NTFS",
+            titre_en: "Lab 30 - AD groups, DFS & NTFS permissions",
+            description: "Projet 1 – Étape 3 : groupes de sécurité AD, espace de noms DFS et permissions NTFS sur le serveur de fichiers",
+            description_en: "Project 1 – Step 3: AD security groups, DFS namespace and NTFS permissions on the file server",
+            fichiers: [
+                { url: "assets/pdf/pfsensepartie3.pdf", titleKey: 'ui.viewSlides', title: "Voir le Diaporama", icon: '<i class="fas fa-file-powerpoint"></i>' },
+                { url: "assets/pdf/pfsensepartie3word.pdf", titleKey: 'ui.viewWord', title: "Voir le fichier Brut Word", icon: '<i class="fas fa-file-word"></i>' }
+            ],
+            image: "assets/images/pfsense3.webp",
+            badge: "Réseau",
+            categories: ["reseau"]
+        },
 
     ];
 
