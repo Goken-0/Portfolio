@@ -221,15 +221,22 @@
 
         'projets.pfsense.badge': 'Networking &amp; Systems',
         'projets.pfsense.alt': 'pfSense, Active Directory and GLPI infrastructure',
-        'projets.pfsense.desc': 'A five-step end-to-end project: a pfSense firewall, an Active Directory domain (DNS, DHCP), DFS shares with NTFS permissions, deployment through GPOs, and finally GLPI authenticating against the directory over LDAP.<br><br>Every step has its own <strong>slideshow</strong>: click the matching number.',
+        'projets.pfsense.desc': 'A five-step end-to-end project: a pfSense firewall, an Active Directory domain (DNS, DHCP), DFS shares with NTFS permissions, deployment through GPOs, and finally GLPI authenticating against the directory over LDAP.<br><br>Every step comes both as a <strong>slideshow</strong> and as a <strong>Word document</strong>: click the step number.',
         'projets.pfsense.date': '<i class="far fa-calendar"></i> November 2026',
-        'projets.pfsense.step1': 'Step 1 — pfSense: central firewall and router',
-        // Ces cinq clés alimentent des attributs `title` (setAttribute) :
+        'projets.pfsense.slides': '<i class="fas fa-file-powerpoint"></i> Slideshow',
+        'projets.pfsense.word': '<i class="fas fa-file-word"></i> Word',
+        // Les dix clés suivantes alimentent des attributs `title` (setAttribute) :
         // elles portent donc un « & » littéral, et non l'entité &amp;.
-        'projets.pfsense.step2': 'Step 2 — Active Directory, DNS & DHCP',
-        'projets.pfsense.step3': 'Step 3 — AD groups, DFS & NTFS permissions',
-        'projets.pfsense.step4': 'Step 4 — Group policies & network drive mapping',
-        'projets.pfsense.step5': 'Step 5 — GLPI on Debian & LDAP integration',
+        'projets.pfsense.step1s': 'Slideshow — Step 1: pfSense, central firewall and router',
+        'projets.pfsense.step2s': 'Slideshow — Step 2: Active Directory, DNS & DHCP',
+        'projets.pfsense.step3s': 'Slideshow — Step 3: AD groups, DFS & NTFS permissions',
+        'projets.pfsense.step4s': 'Slideshow — Step 4: Group policies & network drive mapping',
+        'projets.pfsense.step5s': 'Slideshow — Step 5: GLPI on Debian & LDAP integration',
+        'projets.pfsense.step1w': 'Word document — Step 1: pfSense, central firewall and router',
+        'projets.pfsense.step2w': 'Word document — Step 2: Active Directory, DNS & DHCP',
+        'projets.pfsense.step3w': 'Word document — Step 3: AD groups, DFS & NTFS permissions',
+        'projets.pfsense.step4w': 'Word document — Step 4: Group policies & network drive mapping',
+        'projets.pfsense.step5w': 'Word document — Step 5: GLPI on Debian & LDAP integration',
 
         'projets.thinkpad.badge': 'Systems &amp; Networking',
         'projets.thinkpad.alt': 'Refurbished ThinkPad T490',
