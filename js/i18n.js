@@ -219,6 +219,18 @@
         'projets.nascard.desc': 'NAS server built from a Dell Optiplex 3050 desktop, running OpenMediaVault together with CasaOS (for the interface).<br><br>Click the <strong>"external link"</strong> button for more details.',
         'projets.nascard.date': '<i class="far fa-calendar"></i> January 2026',
 
+        'projets.pfsense.badge': 'Networking &amp; Systems',
+        'projets.pfsense.alt': 'pfSense, Active Directory and GLPI infrastructure',
+        'projets.pfsense.desc': 'A five-step end-to-end project: a pfSense firewall, an Active Directory domain (DNS, DHCP), DFS shares with NTFS permissions, deployment through GPOs, and finally GLPI authenticating against the directory over LDAP.<br><br>Every step has its own <strong>slideshow</strong>: click the matching number.',
+        'projets.pfsense.date': '<i class="far fa-calendar"></i> November 2026',
+        'projets.pfsense.step1': 'Step 1 — pfSense: central firewall and router',
+        // Ces cinq clés alimentent des attributs `title` (setAttribute) :
+        // elles portent donc un « & » littéral, et non l'entité &amp;.
+        'projets.pfsense.step2': 'Step 2 — Active Directory, DNS & DHCP',
+        'projets.pfsense.step3': 'Step 3 — AD groups, DFS & NTFS permissions',
+        'projets.pfsense.step4': 'Step 4 — Group policies & network drive mapping',
+        'projets.pfsense.step5': 'Step 5 — GLPI on Debian & LDAP integration',
+
         'projets.thinkpad.badge': 'Systems &amp; Networking',
         'projets.thinkpad.alt': 'Refurbished ThinkPad T490',
         'projets.thinkpad.desc': 'A refurbishing and system configuration project to build my own working environment.<br><br>Click the <strong>"external link"</strong> button for more details.',
