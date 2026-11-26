@@ -4203,22 +4203,44 @@ button:hover {
     gap: 1rem;
 }
 
-/* Projet en plusieurs étapes : une pastille numérotée par étape.
-   Les 5 pastilles ne tiennent pas sur la ligne de la date : le footer
-   passe à la ligne et les pastilles restent alignées à droite. */
+/* Projet en plusieurs étapes : une pastille numérotée par étape, et une
+   rangée par type de document (diaporama, Word). Les rangées passent sous
+   la date, qui garde sa place habituelle en haut à gauche du footer. */
 #projet-pfsense .project-footer {
     flex-wrap: wrap;
-    gap: 1.5rem;
+    gap: 1.6rem;
+}
+
+.project-steps {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.project-steps-row {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+}
+
+.project-steps-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-width: 11.5rem;
+    font-size: 1.3rem;
+    color: rgba(255, 255, 255, 0.5);
 }
 
 .project-links-steps {
     flex-wrap: wrap;
-    justify-content: flex-end;
-    margin-left: auto;
 }
 
 .project-links-steps .project-link {
-    font-size: 1.5rem;
+    width: 34px;
+    height: 34px;
+    font-size: 1.4rem;
     font-weight: 700;
 }
 
